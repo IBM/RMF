@@ -1,0 +1,294 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Storage Memory Objects",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "35036b16-3f54-4417-9905-c5644da37dd5",
+          "selectedQuery": "MVS_IMAGE.REPORT.STORM{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=STORM&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=STORM&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "STORM",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "1 MB Frames Page-Fixed": true,
+              "ASID (dec)": false,
+              "Bytes Private": true,
+              "Channel Measurement Group": true,
+              "Common HWM": true,
+              "FICON Deferred Operation Rate": true,
+              "Header::1 MB Frames Fixed": true,
+              "Header::1 MB Frames Fixed Common Unowned": true,
+              "Header::1 MB Frames Fixed for 1 MB Pageable Requests": true,
+              "Header::1 MB Frames Fixed for 4K Requests": true,
+              "Header::1 MB Frames Pageable Converted to 4K": true,
+              "Header::1 MB Frames Pageable Failed": true,
+              "Header::1 MB Frames Pageable Initial": true,
+              "Header::1 MB Frames Pageable for 4K Requests": true,
+              "Header::1 MB LFAREA Maximum Used %": true,
+              "Header::1 MB LFAREA Maximum Used for 1 MB Fixed Pages %": false,
+              "Header::1 MB MemObjs Common": false,
+              "Header::1 MB MemObjs Common Unowned": true,
+              "Header::1 MB MemObjs Fixed": false,
+              "Header::2 GB Frames Fixed": true,
+              "Header::2 GB LFAREA Maximum Used %": false,
+              "Header::AUX Slots Common": true,
+              "Header::AUX Slots Shared": true,
+              "Header::Frames Shared Used %": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "MemObjs 1 MB Fixed": true,
+              "MemObjs 1 MB Shared": true,
+              "MemObjs 2 GB Fixed": true,
+              "MemObjs Private": true,
+              "Memory Limit": true,
+              "Period": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Shared HWM": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "1 MB Frames Fixed": 11,
+              "1 MB Frames Page-Fixed": 10,
+              "1 MB Frames Pageable": 12,
+              "2 GB Frames Fixed": 13,
+              "ASID (dec)": 4,
+              "Bytes Common": 15,
+              "Bytes Private": 17,
+              "Bytes Shared": 16,
+              "Bytes Total": 14,
+              "Class": 1,
+              "Common HWM": 18,
+              "Header::1 MB Frames Fixed": 36,
+              "Header::1 MB Frames Fixed Common": 39,
+              "Header::1 MB Frames Fixed Common Unowned": 41,
+              "Header::1 MB Frames Fixed Maximum": 37,
+              "Header::1 MB Frames Fixed for 1 MB Pageable Requests": 45,
+              "Header::1 MB Frames Fixed for 4K Requests": 38,
+              "Header::1 MB Frames Pageable Converted to 4K": 47,
+              "Header::1 MB Frames Pageable Failed": 46,
+              "Header::1 MB Frames Pageable Initial": 43,
+              "Header::1 MB Frames Pageable Used %": 35,
+              "Header::1 MB Frames Pageable for 4K Requests": 44,
+              "Header::1 MB Frames Total": 33,
+              "Header::1 MB Frames Used %": 34,
+              "Header::1 MB LFAREA Maximum Used %": 42,
+              "Header::1 MB LFAREA Maximum Used for 1 MB Fixed Pages %": 40,
+              "Header::1 MB MemObjs Common": 51,
+              "Header::1 MB MemObjs Common Unowned": 32,
+              "Header::1 MB MemObjs Fixed": 49,
+              "Header::1 MB MemObjs Shared": 50,
+              "Header::2 GB Frames Fixed": 48,
+              "Header::2 GB Frames Fixed Maximum": 53,
+              "Header::2 GB LFAREA Maximum Used %": 54,
+              "Header::2 GB MemObjs Fixed": 52,
+              "Header::AUX Slots Common": 31,
+              "Header::AUX Slots Shared": 30,
+              "Header::Frames Common": 24,
+              "Header::Frames Common Fixed": 29,
+              "Header::Frames Common Used %": 25,
+              "Header::Frames Shared": 23,
+              "Header::Frames Shared Used %": 28,
+              "Header::MemObjs Common": 27,
+              "Header::MemObjs Shared": 26,
+              "Job Name": 0,
+              "MemObjs 1 MB Fixed": 9,
+              "MemObjs 1 MB Shared": 20,
+              "MemObjs 2 GB Fixed": 22,
+              "MemObjs Common": 6,
+              "MemObjs Private": 8,
+              "MemObjs Shared": 7,
+              "MemObjs Total": 5,
+              "Memory Limit": 19,
+              "Period": 3,
+              "Service Class": 2,
+              "Shared HWM": 21
+            },
+            "renameByName": {
+              "Class": "Job Class",
+              "Header::1 MB LFAREA Maximum Used for 1 MB Fixed Pages %": "Fixed 1MB Frames out of Max %",
+              "Header::2 GB LFAREA Maximum Used %": "2 GB Frames Fixed Used %"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "STORM",
+  "uid": "7sNsLhxVk",
+  "version": 1,
+  "weekStart": ""
+}

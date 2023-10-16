@@ -1,0 +1,494 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using",
+              "value": "8D04A0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using",
+          "selectedResource": {
+            "label": "id=8D04A0&resource=,,SYSPLEX",
+            "value": "id=8D04A0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using for processor",
+              "value": "8D1DB0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using for processor",
+          "selectedResource": {
+            "label": "id=8D1DB0&resource=,,SYSPLEX",
+            "value": "id=8D1DB0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "C",
+          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using for i/o",
+              "value": "8D1D40"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using for i/o",
+          "selectedResource": {
+            "label": "id=8D1D40&resource=,,SYSPLEX",
+            "value": "id=8D1D40&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Using",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay",
+              "value": "8D0160"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay",
+          "selectedResource": {
+            "label": "id=8D0160&resource=,,SYSPLEX",
+            "value": "id=8D0160&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for processor",
+              "value": "8D1B40"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for processor",
+          "selectedResource": {
+            "label": "id=8D1B40&resource=,,SYSPLEX",
+            "value": "id=8D1B40&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "C",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for i/o",
+              "value": "8D1A80"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for i/o",
+          "selectedResource": {
+            "label": "id=8D1A80&resource=,,SYSPLEX",
+            "value": "id=8D1A80&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "D",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for storage",
+              "value": "8D1BA0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for storage",
+          "selectedResource": {
+            "label": "id=8D1BA0&resource=,,SYSPLEX",
+            "value": "id=8D1BA0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "E",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for enqueue",
+              "value": "8D1A20"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for enqueue",
+          "selectedResource": {
+            "label": "id=8D1A20&resource=,,SYSPLEX",
+            "value": "id=8D1A20&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "F",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for swsub",
+              "value": "8D1C00"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for swsub",
+          "selectedResource": {
+            "label": "id=8D1C00&resource=,,SYSPLEX",
+            "value": "id=8D1C00&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "G",
+          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for operator",
+              "value": "8D1AE0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for operator",
+          "selectedResource": {
+            "label": "id=8D1AE0&resource=,,SYSPLEX",
+            "value": "id=8D1AE0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Delay",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "TIMELINE"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Using & Delays (Timeline)",
+  "uid": "JTSL7kaVz",
+  "version": 1,
+  "weekStart": ""
+}

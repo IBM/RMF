@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "Report for IBM RMF for z/OS",
+  "id": "ibm-rmf-report",
+
+  "info": {
+    "description": "Report for IBM RMF for z/OS",
+    "author": {
+      "name": "IBM"
+    },
+    "keywords": ["panel", "template"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {"name": "Website", "url": "https://www.ibm.com/docs/en/zos/2.5.0?topic=zos-rmf"},
+      {"name": "License", "url": "https://www.ibm.com/docs/en/zos/2.5.0?topic=zos-rmf"}
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+
+  "dependencies": {
+    "grafanaDependency": ">=7.0.0",
+    "plugins": []
+  }
+}

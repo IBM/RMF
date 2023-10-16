@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "datasource",
+  "name": "IBM RMF for z/OS",
+  "id": "ibm-rmf-datasource",
+  "metrics": true,
+  "backend": true,
+  "executable": "gpx_ibm-rmf-datasource",
+  "alerting": true,
+  "routes": [
+    {
+    "path": "proxy",
+    "method":"GET",
+    "url": "http://{{ .JsonData.path }}:{{ .JsonData.port }}/"
+  }],
+  "info": {
+    "description": "IBM",
+    "author": {
+      "name": "IBM",
+      "url": "http://www.ibm.com"
+    },
+    "keywords": [
+      "rmf"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/rmf-datasource"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/rmf-datasource/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=9.2.5",
+    "plugins": []
+  }
+}

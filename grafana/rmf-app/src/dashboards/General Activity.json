@@ -1,0 +1,667 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.5.1"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "# active users "
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#005d5d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "# users "
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "a396411d-dfdb-4025-9086-2eb94e561016",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "# active users by MVS image",
+              "value": "8D0630"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.# active users by MVS image",
+          "selectedResource": {
+            "label": "id=8D0630&resource=,,SYSPLEX",
+            "value": "id=8D0630&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "a396411d-dfdb-4025-9086-2eb94e561016",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "# users by MVS image",
+              "value": "8D0D60"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.# users by MVS image",
+          "selectedResource": {
+            "label": "id=8D0D60&resource=,,SYSPLEX",
+            "value": "id=8D0D60&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "Users",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "MVS image",
+            "mode": "inner"
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 40
+              },
+              {
+                "color": "green",
+                "value": 60
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "333c7f37-7c4d-4ca5-ac04-25dbbce2bed2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% workflow",
+              "value": "8D0550"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% workflow",
+          "selectedResource": {
+            "label": "id=8D0550&resource=,,SYSPLEX",
+            "value": "id=8D0550&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "333c7f37-7c4d-4ca5-ac04-25dbbce2bed2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% workflow for processor",
+              "value": "8D1F30"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% workflow for processor",
+          "selectedResource": {
+            "label": "id=8D1F30&resource=,,SYSPLEX",
+            "value": "id=8D1F30&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "C",
+          "rmfPanelGuid": "333c7f37-7c4d-4ca5-ac04-25dbbce2bed2",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% workflow for i/o",
+              "value": "8D1ED0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% workflow for i/o",
+          "selectedResource": {
+            "label": "id=8D1ED0&resource=,,SYSPLEX",
+            "value": "id=8D1ED0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "Workflow",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "transaction ended rate"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#005d5d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "98f3d0b2-3679-4977-a94a-f984b7aadbf1",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "transaction ended rate",
+              "value": "8D1200"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.transaction ended rate",
+          "selectedResource": {
+            "label": "id=8D1200&resource=,,SYSPLEX",
+            "value": "id=8D1200&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "Transactions",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "i/o activity rate"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#005d5d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 4,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 1,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "2132e046-9da2-4218-92f3-93482d5f110c",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "i/o activity rate",
+              "value": "8D0E90"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.i/o activity rate",
+          "selectedResource": {
+            "label": "id=8D0E90&resource=,,SYSPLEX",
+            "value": "id=8D0E90&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "I/O Activity",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "RMF",
+    "BARCHART"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "https_data",
+          "value": "https_data"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "General Activity",
+  "uid": "R2bf1g-Vk",
+  "version": 2,
+  "weekStart": ""
+}

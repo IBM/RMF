@@ -1,0 +1,287 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Storage Resource Delays",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "7eb3af2b-4fd9-4751-982a-05a7faa388b1",
+          "selectedQuery": "MVS_IMAGE.REPORT.STORR{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=STORR&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=STORR&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "STORR",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "% Delay": true,
+              "% Delay CMR": true,
+              "% Delay DB": true,
+              "% Using": true,
+              "Channel Measurement Group": true,
+              "FICON Deferred Operation Rate": true,
+              "Header::# Fixed Frames": true,
+              "Header::# Fixed Frames Below 16 MB": true,
+              "Header::# Frames and Slots Available": true,
+              "Header::# Slots Available": true,
+              "Header::% Active Frames Expanded": true,
+              "Header::% Available Frames Expanded": true,
+              "Header::% CSA Frames Expanded": true,
+              "Header::% Idle Frames Expanded": true,
+              "Header::% LPA Frames Expanded": true,
+              "Header::% SQA Frames Expanded": true,
+              "Header::1 MB Frames Fixed": true,
+              "Header::1 MB MemObjs Fixed": true,
+              "Header::2 GB Frames Fixed": true,
+              "Header::2 GB MemObjs Fixed": true,
+              "Header::Expanded Storage Frames": true,
+              "Header::Freemained Frames": true,
+              "Header::LSQA/SWA Pages Above 16 MB": true,
+              "Header::LSQA/SWA Pages Below 16 MB": true,
+              "Header::Migration Age": true,
+              "Header::Pagein Rate": true,
+              "Header::SQA Overflow": true,
+              "Header::User Region Pages Above 16 MB": true,
+              "Header::User Region Pages Below 16 MB": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "% Active": 5,
+              "% Connect": 6,
+              "% Delay": 10,
+              "% Delay CMR": 12,
+              "% Delay DB": 11,
+              "% Disconnect": 7,
+              "% Pending": 8,
+              "% Using": 4,
+              "Active Users Comm": 17,
+              "Active Users Local": 15,
+              "Active Users Swap": 16,
+              "Active Users Total": 14,
+              "Control Unit Type": 2,
+              "Delay Reasons": 9,
+              "Device Type": 1,
+              "Header::# Fixed Frames": 47,
+              "Header::# Fixed Frames Below 16 MB": 48,
+              "Header::# Frames Available": 20,
+              "Header::# Frames and Slots Available": 44,
+              "Header::# Slots Available": 43,
+              "Header::% Active Frames": 25,
+              "Header::% Active Frames Expanded": 34,
+              "Header::% Available Frames": 27,
+              "Header::% Available Frames Expanded": 36,
+              "Header::% CSA Frames": 23,
+              "Header::% CSA Frames Expanded": 32,
+              "Header::% Idle Frames": 26,
+              "Header::% Idle Frames Expanded": 35,
+              "Header::% LPA Frames": 24,
+              "Header::% LPA Frames Expanded": 33,
+              "Header::% Nucleus Frames": 21,
+              "Header::% SQA Frames": 22,
+              "Header::% SQA Frames Expanded": 31,
+              "Header::% Shared Frames": 28,
+              "Header::1 MB Frames Fixed": 46,
+              "Header::1 MB MemObjs Fixed": 45,
+              "Header::2 GB Frames Fixed": 51,
+              "Header::2 GB MemObjs Fixed": 50,
+              "Header::Expanded Storage Frames": 30,
+              "Header::Freemained Frames": 49,
+              "Header::LSQA/SWA Pages Above 16 MB": 41,
+              "Header::LSQA/SWA Pages Below 16 MB": 39,
+              "Header::Migration Age": 29,
+              "Header::Pagein Rate": 42,
+              "Header::Real Storage Frames": 19,
+              "Header::SQA Overflow": 37,
+              "Header::System UIC": 18,
+              "Header::User Region Pages Above 16 MB": 40,
+              "Header::User Region Pages Below 16 MB": 38,
+              "Number of Exposures": 3,
+              "Space Type": 13,
+              "Volume Serial": 0
+            },
+            "renameByName": {
+              "Number of Exposures": "PAV"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "STORR",
+  "uid": "fFv0s2bVz",
+  "version": 1,
+  "weekStart": ""
+}

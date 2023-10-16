@@ -1,0 +1,28 @@
+QUERY LANGUAGE
+
+query ::= restype , “.” , metric, [qualifications]
+restype ::= “the text of a <restype> element from the contained.xml DDS query, see resource model”
+metric ::= “the text of a <description> element from the listmetrics.xml query for the restype with spaces changed to underscores”
+qualifications ::= “{“ , qualification , [}}{{}}{{
+
+{ “,” qualification }
+
+}}{{}}{
+
+{] , “}
+
+“}}
+qualification ::= “ulq=” , resource ulq | “name=” , resource name | “filter=” , filters | “workscope=” , workscope
+resource ulq ::= “name of resource type upper level qualifier”
+resource name ::= “characters” | “*”
+range ::= range {?, ?}
+filters ::= filter , [ “;” , filter ]
+filter ::= “PAT=” , pattrern | “LB=” , number | “UB=” , number | “HI=” , integer | “LO=” , integer | “ORD=” , ( ”NA”| “ND” | ”VA” | ”VD” )
+workscope ::= [ workscope ulq ] , “,” , workscope name , “,” , ( “G” | “W” | “S” | “P” | “R” | “J” )
+
+Examples
+SYSPLEX.%CPU_utilization(CP)_by_MVS_image -> Id=8D0450&resource=,,SYSPLEX
+MVS_IMAGE.%_cpu_by_job{ulq=ULQ123, name=RS2*, filter=PAT=RS*, ORD=NA, workscope=,,G} -> Id=8d0ddd&resource=NAME123,RS2*,MVS_IMAGE&filter=PAT=RS*,ORD=NA&workscope,,G
+
+SYSPLEX.REPORT.<report name>
+MVS_IMAGE.REPORT.<report name>
