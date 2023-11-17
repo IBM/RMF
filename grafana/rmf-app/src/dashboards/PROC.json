@@ -1,0 +1,248 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Processor Delays",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "271e34ff-d57f-43d4-a897-6b8053983d24",
+          "selectedQuery": "MVS_IMAGE.REPORT.PROC{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=PROC&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=PROC&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "PROC",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "% Delay for Processor Type": false,
+              "% Using for Processor Type": false,
+              "% Workflow": true,
+              "AAP on CP % Using": true,
+              "ASID (dec)": true,
+              "Appl % for Processor Type": true,
+              "CBP on CP % Using": true,
+              "Capping Delay %": true,
+              "Channel Measurement Group": true,
+              "FICON Deferred Operation Rate": true,
+              "IIP on CP % Using": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Total % Delay": true,
+              "Total % Using": true,
+              "Total Appl %": true,
+              "Total CPU Time in mSec": true,
+              "Total EAppl %": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "% Delay for Processor Type": 5,
+              "% Using for Processor Type": 6,
+              "% Workflow": 14,
+              "1st Holding Job %": 18,
+              "1st Holding Job Name": 19,
+              "2nd Holding Job %": 20,
+              "2nd Holding Job Name": 21,
+              "3rd Holding Job %": 22,
+              "3rd Holding Job Name": 23,
+              "AAP on CP % Using": 15,
+              "ASID (dec)": 1,
+              "Appl % for Processor Type": 12,
+              "CBP on CP % Using": 16,
+              "Capping Delay %": 10,
+              "EAppl % for Processor Type": 13,
+              "IIP on CP % Using": 17,
+              "Job Class Ext": 2,
+              "Job Name": 0,
+              "Processor Type": 4,
+              "Service Class": 3,
+              "Total % Delay": 7,
+              "Total % Using": 8,
+              "Total Appl %": 9,
+              "Total CPU Time in mSec": 24,
+              "Total EAppl %": 11
+            },
+            "renameByName": {
+              "ASID (dec)": "",
+              "Job Class Ext": "Job Class"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PROC",
+  "uid": "UU2_phbVk",
+  "version": 1,
+  "weekStart": ""
+}

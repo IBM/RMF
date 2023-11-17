@@ -1,0 +1,513 @@
+{
+  "dependencies": {
+    "grafanaDependency": ">=9.5.1",
+    "plugins": []
+  },
+  "id": "ibm-rmf",
+  "includes": [
+    {
+      "type": "datasource",
+      "name": "IBM RMF for z/OS"
+    },
+    {
+      "type": "panel",
+      "name": "Report for IBM RMF for z/OS"
+    },
+    {
+      "addToNav": true,
+      "defaultNav": true,
+      "icon": "home-alt",
+      "name": "Data Sources",
+      "path": "/a/ibm-rmf/",
+      "role": "Admin",
+      "type": "page"
+    },
+    {
+      "addToNav": true,
+      "name": "Dashboards",
+      "path": "dashboards/Dashboards.json",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CACHDET.json",
+      "name": "Cache Detail Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CACHSUM.json",
+      "name": "Cache Summary Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CFACT.json",
+      "name": "Coupling Facility Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CFOVER.json",
+      "name": "Coupling Facility Overview Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CFSYS.json",
+      "name": "Coupling Facility Systems Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CHANNEL.json",
+      "name": "Channel Path Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Common Storage Activity.json",
+      "name": "Common Storage Activity",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Common Storage Activity (Timeline).json",
+      "name": "Common Storage Activity (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Coupling Facility Overview.json",
+      "name": "Coupling Facility Overview",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Coupling Facility Overview (Timeline).json",
+      "name": "Coupling Facility Overview (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CPC.json",
+      "name": "CPC Capacity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/CRYOVW.json",
+      "name": "Crypto Hardware Overview Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/DELAY.json",
+      "name": "Delay Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/DEV.json",
+      "name": "Device Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/DEVR.json",
+      "name": "Device Resource Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/DSND.json",
+      "name": "Data Set Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/EADM.json",
+      "name": "Extended Asynchronous Data Mover (EADM) Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/ENCLAVE.json",
+      "name": "Enclave Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/ENQ.json",
+      "name": "Enqueue Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Execution Velocity.json",
+      "name": "Execution Velocity",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Execution Velocity (Timeline).json",
+      "name": "Execution Velocity (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/General Activity.json",
+      "name": "General Activity",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/General Activity (Timeline).json",
+      "name": "General Activity (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/HSM.json",
+      "name": "Hierarchical Storage Manager Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/IOQ.json",
+      "name": "I/O Queuing Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/JES.json",
+      "name": "Job Entry Subsystem Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/LOCKSP.json",
+      "name": "Spin Lock Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/LOCKSU.json",
+      "name": "Suspend Lock Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/OPD.json",
+      "name": "OMVS Process Data Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Overall Image Activity.json",
+      "name": "Overall Image Activity",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Overall Image Activity (Timeline).json",
+      "name": "Overall Image Activity (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/PCIE.json",
+      "name": "PCIE Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Performance Index.json",
+      "name": "Performance Index",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Performance Index (Timeline).json",
+      "name": "Performance Index (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/PROC.json",
+      "name": "Processor Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/PROCU.json",
+      "name": "Processor Usage Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Response Time.json",
+      "name": "Response Time",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Response Time (Timeline).json",
+      "name": "Response Time (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/SPACED.json",
+      "name": "Disk Space Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/SPACEG.json",
+      "name": "Storage Space Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORC.json",
+      "name": "Common Storage Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORCR.json",
+      "name": "Common Storage Remaining Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORF.json",
+      "name": "Storage Frames Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STOR.json",
+      "name": "Storage Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORM.json",
+      "name": "Storage Memory Objects Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORR.json",
+      "name": "Storage Resource Delays Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/STORS.json",
+      "name": "Storage Delay Summary Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/SYSINFO.json",
+      "name": "System Information Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/SYSRG.json",
+      "name": "Resource Group Activity Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/SYSSUM.json",
+      "name": "Sysplex Summary report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/USAGE.json",
+      "name": "Job Usage Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Using & Delays.json",
+      "name": "Using & Delays",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/Using & Delays (Timeline).json",
+      "name": "Using & Delays (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCF Activity.json",
+      "name": "Cross-System Coupling Facility (XCF) Activity",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCF Activity (Timeline).json",
+      "name": "Cross-System Coupling Facility (XCF) Activity (Timeline)",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCFGROUP.json",
+      "name": "Cross-System Coupling Facility (XCF) Group Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCFOVW.json",
+      "name": "Cross-System Coupling Facility (XCF) Systems Overview Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCFPATH.json",
+      "name": "Cross-System Coupling Facility (XCF) Path Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/XCFSYS.json",
+      "name": "Cross-System Coupling Facility (XCF) Systems Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/ZFSFS.json",
+      "name": "zFS File System",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/ZFSKN.json",
+      "name": "zFS Kernel Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "path": "dashboards/ZFSOVW.json",
+      "name": "zFS Overview Report",
+      "role": "Admin",
+      "type": "dashboard"
+    },
+    {
+      "addToNav": true,
+      "icon": "monitor",
+      "name": "Dashboards",
+      "path": "/d/kCJN4Vh4z",
+      "role": "Admin",
+      "type": "page"
+    }
+  ],
+  "info": {
+    "author": {
+      "name": "IBM",
+      "url": "https://github.com/IBM/RMF"
+    },
+    "description": "IBM RMF for z/OS Grafana Plugin",
+    "keywords": [
+      "ibm",
+      "rmf"
+    ],
+    "links": [
+      {
+        "name": "RMF",
+        "url": "http://www.ibm.com/systems/z/os/zos/features/rmf/"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/IBM/RMF"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/IBM/RMF/blob/main/LICENSE"
+      },
+      {
+        "name": "Notice",
+        "url": "https://github.com/IBM/RMF/blob/main/NOTICES"
+      }
+    ],
+    "logos": {
+      "large": "img/logo.svg",
+      "small": "img/logo.svg"
+    },
+    "screenshots": [],
+    "updated": "%TODAY%",
+    "version": "%VERSION%"
+  },
+  "name": "IBM RMF",
+  "type": "app"
+}

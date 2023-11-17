@@ -1,0 +1,200 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" data-whc_version="24.1">
+    <head><link rel="shortcut icon" href=" "/><link rel="icon" href=" "/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="DC.rights.owner" content="(C) Copyright 2023"/><meta name="copyright" content="(C) Copyright 2023"/><meta name="generator" content="DITA-OT"/><meta name="DC.type" content="reference"/><meta name="description" content="In Grafana, you can collect historical data using absolute and relative time ranges."/><meta name="DC.relation" content="alerts.html"/><meta name="DC.relation" content="error_reports.html"/><meta name="DC.format" content="HTML5"/><meta name="DC.identifier" content="historical_data"/><meta name="DC.language" content="en-us"/>        
+      <title>Historical data collection</title><!--  Generated with Oxygen version 24.1, build number 2022110310.  --><meta name="wh-path2root" content=""/><meta name="wh-toc-id" content="historical_data-d290e133"/><meta name="wh-source-relpath" content="historical_data.dita"/><meta name="wh-out-relpath" content="historical_data.html"/>
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/lib/bootstrap/css/bootstrap.min.css"/>
+    
+    <link rel="stylesheet" href="./oxygen-webhelp/lib/jquery-ui/jquery-ui.min.css"/>
+    
+    <!-- Template default styles  -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/app/topic-page.css?buildId=2022110310"/>
+    
+    
+    <script src="./oxygen-webhelp/lib/jquery/jquery-3.5.1.min.js"></script>
+    
+    <script data-main="./oxygen-webhelp/app/topic-page.js" src="./oxygen-webhelp/lib/requirejs/require.js"></script>
+<link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/oxygen-gray.css?buildId=2022110310"/><link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/notes.css?buildId=2022110310"/></head>
+
+    <body id="historical_data" class="wh_topic_page frmBody">
+        <a href="#wh_topic_body" class="sr-only sr-only-focusable">
+            Jump to main content
+        </a>
+        
+        
+        
+        
+        <header class="navbar navbar-default wh_header">
+    <div class="container-fluid">
+        <div class="wh_header_flex_container navbar-nav navbar-expand-md navbar-dark">
+            <div class="wh_logo_and_publication_title_container">
+                <div class="wh_logo_and_publication_title">
+                    
+                    
+                    <div class=" wh_publication_title "><a href="index.html"><span class="title">IBM RMF for z/OS Grafana Plugin</span></a></div>
+                    
+                </div>
+                
+                
+            </div>
+
+            <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse" id="wh_top_menu_and_indexterms_link">
+                
+                
+                
+                
+   </div>
+   <!--<div id="navbarGitHub" class="external-link" <a href="https://github.com/IBM/RMF">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg">
+  </div>
+   <div id="navbarRMFdocs" class="external-link" <a href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg">
+        </div>-->
+  
+  <div class="external-link" id="navbarGitHub">
+  <ul class="navbar-nav">
+   <!-- <li <p class="nav-item">
+    <a class="nav-link" style="color:#ffffff;" href="https://github.com/IBM/RMF"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg" width="25" height="25"> </p>
+   </li> -->
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf" target="_blank"> <input type="button" value="RMF for z/OS"/> </a></p>
+   </li>
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://github.com/IBM/RMF" target="_blank"> <input type="button" value="GitHub"/> </a></p>
+   </li>
+   <!-- <li <p class="nav-item">
+                <a class="nav-link" style="color:#ffffff;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg"> </p>
+            </li> -->
+  </ul>
+ </div>
+    </div>
+    </div>
+</header>
+
+        
+        
+         
+        
+        <div class=" wh_search_input navbar-form wh_topic_page_search search " role="form">
+            
+            
+            
+            <form id="searchForm" method="get" role="search" action="search.html"><div><input type="search" placeholder="Search " class="wh_search_textfield" id="textToSearch" name="searchQuery" aria-label="Search query" required="required"/><button type="submit" class="wh_search_button" aria-label="Search"><span class="search_input_text">Search</span></button></div></form>
+            
+            
+            
+        </div>
+        
+        <div class="container-fluid" id="wh_topic_container">
+            <div class="row">
+
+                <nav class="wh_tools d-print-none navbar-expand-md" aria-label="Tools">
+                    
+                    <div data-tooltip-position="bottom" class=" wh_breadcrumb "><ol class="d-print-none"><li><span class="home"><a href="index.html"><span>Home</span></a></span></li><li class="active"><div class="topicref" data-id="historical_data"><div class="title"><a href="historical_data.html">Historical data</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, you can collect historical data using absolute and relative time         ranges.</p></div></div></div></li></ol></div>
+                    
+                    
+                    
+                    <div class="wh_right_tools">
+                        <button class="wh_hide_highlight" aria-label="Toggle search highlights" title="Toggle search highlights"></button>
+                        <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" aria-label="Collapse sections" title="Collapse sections"></button>
+                        <div class=" wh_navigation_links "><span id="topic_navigation_links" class="navheader">
+<span class="navprev"><a class="- topic/link link" href="alerts.html" title="Introduction to Alerts" aria-label="Previous topic: Introduction to Alerts" rel="prev"></a></span>  
+<span class="navnext"><a class="- topic/link link" href="error_reports.html" title="Error reporting in the plugin" aria-label="Next topic: Error reporting in the plugin" rel="next"></a></span>  </span></div>
+                        
+                        
+                        
+                        <div class=" wh_print_link print d-none d-md-inline-block "><button onClick="window.print()" title="Print this page" aria-label="Print this page"></button></div>
+                        
+                        <button type="button" id="wh_toc_button" class="custom-toggler navbar-toggler collapsed wh_toggle_button navbar-light" aria-expanded="false" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    
+                </nav>
+            </div>
+            
+            
+            
+            
+            <div class="wh_content_area">
+                <div class="row">
+                    
+                        <nav id="wh_publication_toc" class="col-lg-3 col-md-3 col-sm-12 d-md-block d-none d-print-none" aria-label="Table of Contents Container">
+                            <div id="wh_publication_toc_content">
+		                        
+                            	<div class=" wh_publication_toc " data-tooltip-position="right"><span class="expand-button-action-labels"><span id="button-expand-action" role="button" aria-label="Expand"></span><span id="button-collapse-action" role="button" aria-label="Collapse"></span><span id="button-pending-action" role="button" aria-label="Pending"></span></span><ul role="tree" aria-label="Table of Contents"><li role="treeitem"><div data-tocid="visual_grafana-d290e14" class="topicref" data-id="visual_grafana" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="visual_grafana.html" id="visual_grafana-d290e14-link">Overview</a><div class="wh-tooltip"><p class="shortdesc">Grafana is a platform for monitoring and visualizing data. It enables users to         create, explore, and share dashboards that are interactive and customizable. The IBM® RMF for z/OS Grafana plugin provides effortless analysis and         visualization of <span class="ph">Resource Measurement Facility for z/OS</span> (<span class="ph">RMF for z/OS</span>) Monitor III metrics and reports within the         Grafana platform. Thereby, you can monitor and analyze the health and performance of         applications.</p></div></div></div></li><li role="treeitem"><div data-tocid="rn-d290e34" class="topicref" data-id="rn" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="rn.html" id="rn-d290e34-link">Release notes</a><div class="wh-tooltip"><p class="shortdesc">This article covers the new features, system requirements, and known issues of the             IBM® RMF for z/OS Grafana plugin.</p></div></div></div></li><li role="treeitem"><div data-tocid="query_lang-d290e48" class="topicref" data-id="query_lang" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="query_lang.html" id="query_lang-d290e48-link">IBM RMF query languages</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, queries are essential for fetching and transforming data from RMF data         sources.</p></div></div></div></li><li role="treeitem"><div data-tocid="install_grafana_plugin-d290e59" class="topicref" data-id="install_grafana_plugin" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_grafana_plugin.html" id="install_grafana_plugin-d290e59-link">Installing the plugin</a><div class="wh-tooltip"><p class="shortdesc">You must install the IBM® RMF for z/OS Grafana plugin to analyze         and visualize RMF Monitor III metrics and reports.</p></div></div></div></li><li role="treeitem"><div data-tocid="create_datasources-d290e73" class="topicref" data-id="create_datasources" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="create_datasources.html" id="create_datasources-d290e73-link">Creating RMF data sources</a><div class="wh-tooltip"><p class="shortdesc">To access RMF Monitor III metrics in Grafana, you need to connect to the <span class="ph">Distributed Data Server</span>s by adding an RMF data source.</p></div></div></div></li><li role="treeitem"><div data-tocid="db_ovw-d290e87" class="topicref" data-id="db_ovw" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="db_ovw.html" id="db_ovw-d290e87-link">RMF master dashboard</a><div class="wh-tooltip"><p class="shortdesc">IBM® RMF for z/OS Grafana is a plugin provides custom panels for         the RMF data source and master dashboard that consists of RMF Charts, RMF Reporting, and RMF         Time Series dashboards.</p></div></div></div></li><li role="treeitem"><div data-tocid="apply_visualize-d290e100" class="topicref" data-id="apply_visualize" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="apply_visualize.html" id="apply_visualize-d290e100-link">Applying visualization to RMF data</a><div class="wh-tooltip"><p class="shortdesc">By adding panels to dashboards, you can effectively present your RMF data in a visual         format. Each panel must require at least one query to display a significant         visualization.</p></div></div></div></li><li role="treeitem"><div data-tocid="variables-d290e111" class="topicref" data-id="variables" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="variables.html" id="variables-d290e111-link">Variables</a><div class="wh-tooltip"><p class="shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They         offer a way to replace hard-coded values in metric queries and panel titles with         placeholders for values.</p></div></div></div></li><li role="treeitem"><div data-tocid="alerts-d290e122" class="topicref" data-id="alerts" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="alerts.html" id="alerts-d290e122-link">Alerts</a><div class="wh-tooltip"><p class="shortdesc">Grafana Alerting feature provides a reliable solution to detect and respond to system         issues in real time.</p></div></div></div></li><li role="treeitem" class="active"><div data-tocid="historical_data-d290e133" class="topicref" data-id="historical_data" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="historical_data.html" id="historical_data-d290e133-link">Historical data</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, you can collect historical data using absolute and relative time         ranges.</p></div></div></div></li><li role="treeitem"><div data-tocid="error_reports-d290e145" class="topicref" data-id="error_reports" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="error_reports.html" id="error_reports-d290e145-link">Error types</a><div class="wh-tooltip"><p class="shortdesc">Whenever you encounter issues while using the <span class="ph">IBM RMF for z/OS Grafana</span> plugin, you can view detailed error messages         that contain sufficient information to help you identify and troubleshoot the         problem.</p></div></div></div></li><li role="treeitem" aria-expanded="false"><div data-tocid="grafana_via_zosmf-d290e159" class="topicref" data-id="grafana_via_zosmf" data-state="not-ready"><span role="button" tabindex="0" aria-labelledby="button-expand-action grafana_via_zosmf-d290e159-link" class="wh-expand-btn"></span><div class="title"><a href="grafana_via_zosmf.html" id="grafana_via_zosmf-d290e159-link"><span class="ph">z/OSMF</span></a><div class="wh-tooltip"><p class="shortdesc">When you use IBM® z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <span class="ph">z/OSMF</span>.</p></div></div></div></li></ul></div>
+		                        
+                            </div>
+                        </nav>
+                    
+                    
+                    <div class="col-lg-9 col-md-9 col-sm-12" id="wh_topic_body">
+                        <button id="wh_close_publication_toc_button" class="close-toc-button d-none" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc" aria-expanded="true">
+                            <span class="close-toc-icon-container">
+                                <span class="close-toc-icon"></span>     
+                            </span>
+                        </button>
+                        
+                        
+                        <div class=" wh_topic_content body "><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1">Historical data collection</h1>
+    
+    
+    <div class="- topic/body reference/refbody body refbody"><p class="- topic/shortdesc shortdesc">In Grafana, you can collect historical data using absolute and relative time
+        ranges.</p>
+        <section class="- topic/section section" id="historical_data__section_n33_prq_syb" data-ofbid="historical_data__section_n33_prq_syb">
+            <p class="- topic/p p">Collecting historical data is a common practice across organizations for various
+                purposes. The importance and use of historical data are significant in
+                decision-making, research, analysis, and planning. Analyzing historical data
+                provides valuable insights into the status, usage, performance, and health of
+                various resources.</p>
+            <p class="- topic/p p">You can also access cached metric data for queries, data sources, and timestamp
+                combinations that have already viewed by other user on Grafana. This means that if
+                any user requests metrics data for the same query, datasource, and timestamp, the
+                cached data can be displayed faster than a service call from DDS. If data for a
+                particular timestamp is not found in the cache, it will be fetched by a service call
+                from DDS. This feature can save you time and provide a faster experience accessing
+                metric data.</p>
+            <p class="- topic/p p">The following example shows the percentage of time during the report interval that
+                the system job or enclave was waiting for a processor by specifying absolute
+                time:</p>
+            <p class="- topic/p p"><div class="embed-responsive embed-responsive-16by9"><video class="video embed-responsive-item" controls="controls"><source src="images/historical_data_absolute_time.mp4"/></video></div></p>
+            <p class="- topic/p p">Similarly, you can collect the data for the percentage of time delay for a processor
+                by specifying the relative time range:</p>
+            <p class="- topic/p p"><div class="embed-responsive embed-responsive-16by9"><video class="video embed-responsive-item" controls="controls"><source src="images/historical_data_relative_time.mp4"/></video></div></p>
+        </section>
+    </div>
+</article></main></div>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+        </div> 
+        <footer class="navbar navbar-default wh_footer">
+  <div class=" footer-container mx-auto ">
+    
+  </div>
+</footer>
+        
+        <div id="go2top" class="d-print-none">
+            <span class="oxy-icon oxy-icon-up"></span>
+        </div>
+        
+        <div id="modal_img_large" class="modal">
+            <span class="close oxy-icon oxy-icon-remove"></span>
+            <div id="modal_img_container"></div>
+            <div id="caption"></div>
+        </div>
+        
+        
+        
+    </body>
+</html>

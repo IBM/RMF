@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+   <appContext helpID="visual_grafana" path="visual_grafana.html"/>
+   <appContext helpID="rn" path="rn.html"/>
+   <appContext helpID="query_lang" path="query_lang.html"/>
+   <appContext helpID="install_grafana_plugin" path="install_grafana_plugin.html"/>
+   <appContext helpID="create_datasources" path="create_datasources.html"/>
+   <appContext helpID="db_ovw" path="db_ovw.html"/>
+   <appContext helpID="apply_visualize" path="apply_visualize.html"/>
+   <appContext helpID="variables" path="variables.html"/>
+   <appContext helpID="alerts" path="alerts.html"/>
+   <appContext helpID="historical_data" path="historical_data.html"/>
+   <appContext helpID="error_reports" path="error_reports.html"/>
+   <appContext helpID="grafana_via_zosmf" path="grafana_via_zosmf.html"/>
+   <appContext helpID="define_grafana_zosmf" path="define_grafana_zosmf.html"/>
+   <appContext helpID="access_grafana_zosmf" path="access_grafana_zosmf.html"/>
+</map>

@@ -1,0 +1,7 @@
+logging:
+  trace_errors: true
+  trace_calls: false
+cache_settings:
+  metrics_cache_size_mb: 512
+  query_model_cache_size_mb: 512
+  interval_offset_cache_size_mb: 64

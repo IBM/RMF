@@ -1,0 +1,348 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Coupling Facility Overview",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "interval": "1m",
+      "maxDataPoints": 1,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "0c882408-b619-4f60-a8a3-37be2c38af18",
+          "selectedQuery": "SYSPLEX.REPORT.CFOVER",
+          "selectedResource": {
+            "label": "report=CFOVER&resource=,,SYSPLEX",
+            "value": "report=CFOVER&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "CFOVER",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "% Utilized Augmented Space": true,
+              "% Utilized Storage Class Memory": true,
+              "Active Time (sec)": true,
+              "Async Request %": true,
+              "Async Request Count": true,
+              "Augmented Space Available": true,
+              "Augmented Space Maximum": true,
+              "Avg Failed Operation Time": true,
+              "Avg Synchronous Operation Delay": true,
+              "CF Name 2": true,
+              "CF Storage Volatile": true,
+              "Capacity Actual": true,
+              "Capacity Def": true,
+              "Capacity Max": true,
+              "Capacity Min": true,
+              "Connected MVS System Count": true,
+              "Conv Time (ms)": true,
+              "Conv Time (sec)": true,
+              "Dump Table Space": true,
+              "Dump Table in Use": true,
+              "Duration": true,
+              "Free Control Space": true,
+              "Goaltype": true,
+              "Group Name (DDS)": true,
+              "Header::Policy Reformat Required": true,
+              "Honor Priority": true,
+              "Include Specialty Processors": true,
+              "Ineligible Queue Time (ms)": true,
+              "Ineligible Queue Time (sec)": true,
+              "Maintenance Mode": true,
+              "Memory Limit": true,
+              "Number of Dedicated Processors": false,
+              "Path1 Adapter ID": true,
+              "Path1 Adapter Port Number": true,
+              "Path1 CHID": true,
+              "Path1 Degraded": true,
+              "Path1 Distance": true,
+              "Path1 ID": true,
+              "Path1 IOP IDs": true,
+              "Path1 Operation Mode": true,
+              "Path1 Type": true,
+              "Path2 Adapter ID": true,
+              "Path2 Adapter Port Number": true,
+              "Path2 CHID": true,
+              "Path2 Degraded": true,
+              "Path2 Distance": true,
+              "Path2 ID": true,
+              "Path2 IOP IDs": true,
+              "Path2 Operation Mode": true,
+              "Path2 Type": true,
+              "Path3 Adapter ID": true,
+              "Path3 Adapter Port Number": true,
+              "Path3 CHID": true,
+              "Path3 Degraded": true,
+              "Path3 Distance": true,
+              "Path3 ID": true,
+              "Path3 IOP IDs": true,
+              "Path3 Operation Mode": true,
+              "Path3 Type": true,
+              "Path4 Adapter ID": true,
+              "Path4 Adapter Port Number": true,
+              "Path4 CHID": true,
+              "Path4 Degraded": true,
+              "Path4 Distance": true,
+              "Path4 ID": true,
+              "Path4 IOP IDs": true,
+              "Path4 Operation Mode": true,
+              "Path4 Type": true,
+              "Path5 Adapter ID": true,
+              "Path5 Adapter Port Number": true,
+              "Path5 CHID": true,
+              "Path5 Degraded": true,
+              "Path5 Distance": true,
+              "Path5 ID": true,
+              "Path5 IOP IDs": true,
+              "Path5 Operation Mode": true,
+              "Path5 Type": true,
+              "Path6 Adapter ID": true,
+              "Path6 Adapter Port Number": true,
+              "Path6 CHID": true,
+              "Path6 Degraded": true,
+              "Path6 Distance": true,
+              "Path6 ID": true,
+              "Path6 IOP IDs": true,
+              "Path6 Operation Mode": true,
+              "Path6 Type": true,
+              "Path7 Adapter ID": true,
+              "Path7 Adapter Port Number": true,
+              "Path7 CHID": true,
+              "Path7 Degraded": true,
+              "Path7 Distance": true,
+              "Path7 ID": true,
+              "Path7 IOP IDs": true,
+              "Path7 Operation Mode": true,
+              "Path7 Type": true,
+              "Path8 Adapter ID": true,
+              "Path8 Adapter Port Number": true,
+              "Path8 CHID": true,
+              "Path8 Degraded": true,
+              "Path8 Distance": true,
+              "Path8 ID": true,
+              "Path8 IOP IDs": true,
+              "Path8 Operation Mode": true,
+              "Path8 Type": true,
+              "Period (DDS)": true,
+              "Queue Time (ms)": true,
+              "Queue Time (sec)": true,
+              "RT Actual (sec)": true,
+              "RT Goal (sec)": true,
+              "Recovery Mode": true,
+              "Res/Sys Affinity Time (ms)": true,
+              "Res/Sys Affinity Time (sec)": true,
+              "Resource Group": true,
+              "Status of CF": true,
+              "Storage/CPU Critical": true,
+              "Structure Count in Policy": true,
+              "Structure Count out Policy": true,
+              "Subchannels Generated": true,
+              "Subchannels Max": true,
+              "Subchannels in Use": true,
+              "Sum of maximum Storage Class Memory": true,
+              "Sync Request %": true,
+              "Sync Request Count": true,
+              "Sync to Async Conversion Count": true,
+              "Tenant Report Class": true,
+              "Total Control Space": true,
+              "Total Request Count": true,
+              "Total Time (sec)": true,
+              "Type (DDS)": true,
+              "Utilized Storage %": true,
+              "Wait Time (sec)": true
+            },
+            "indexByName": {
+              "% Utilized Augmented Space": 32,
+              "% Utilized Storage Class Memory": 28,
+              "Augmented Space Available": 31,
+              "Augmented Space Maximum": 30,
+              "Average Weighting of Shared Processors": 11,
+              "CF Dynamic Dispatching": 4,
+              "CF Level": 3,
+              "CF Name": 0,
+              "CF Storage Volatile": 6,
+              "Connected MVS System Count": 21,
+              "Dump Table Space": 19,
+              "Dump Table in Use": 20,
+              "Free Control Space": 18,
+              "Header::Policy Activation Date": 34,
+              "Header::Policy Activation Time": 35,
+              "Header::Policy Name": 33,
+              "Header::Policy Reformat Required": 36,
+              "Maintenance Mode": 24,
+              "Model": 1,
+              "Number of Dedicated Processors": 9,
+              "Number of Shared Processors": 10,
+              "Proc Util %": 7,
+              "Processors defined": 8,
+              "Processors effective": 12,
+              "Recovery Mode": 25,
+              "Request Rate": 13,
+              "Status of CF": 5,
+              "Storage Avail (in Bytes)": 15,
+              "Storage Class Memory Available": 27,
+              "Storage Class Memory Size": 26,
+              "Storage Size (in Bytes)": 14,
+              "Structure Count in Policy": 22,
+              "Structure Count out Policy": 23,
+              "Sum of maximum Storage Class Memory": 29,
+              "Total Control Space": 17,
+              "Utilized Storage %": 16,
+              "Version": 2
+            },
+            "renameByName": {
+              "Active Time (ms)": "Execution Time (ms)",
+              "CF Name 1": "CF Name"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "description": "Sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CFOVER",
+  "uid": "x7n6kMx4z",
+  "version": 1,
+  "weekStart": ""
+}
