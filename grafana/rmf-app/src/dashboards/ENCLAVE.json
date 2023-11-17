@@ -1,0 +1,368 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Enclaves",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "87fa8279-0f6c-425e-835d-652e59e29ed9",
+          "selectedQuery": "MVS_IMAGE.REPORT.ENCLAVE{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=ENCLAVE&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=ENCLAVE&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "ENCLAVE",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "AAP Delay %": true,
+              "AAP Using %": true,
+              "AAP on CP Using %": true,
+              "Att: Account": true,
+              "Att: CNCTN": true,
+              "Att: Client Accounting Information": true,
+              "Att: Client IP Address": true,
+              "Att: Client Transaction Name": true,
+              "Att: Client User ID": true,
+              "Att: Client Workstation/Host Name": true,
+              "Att: Collection": true,
+              "Att: Correlation": true,
+              "Att: LU": true,
+              "Att: NetID": true,
+              "Att: Package": true,
+              "Att: Planname": true,
+              "Att: Priority": true,
+              "Att: Procedure": true,
+              "Att: Process": true,
+              "Att: SSPM": true,
+              "Att: Sched Env": true,
+              "Att: Subsys Collection": true,
+              "Att: Subsys Name": true,
+              "Att: Subsys Type": true,
+              "Att: Trx Class": true,
+              "Att: Trx Name": true,
+              "Att: User": true,
+              "Attribute": true,
+              "CBP Delay %": true,
+              "CBP Using %": true,
+              "CBP on CP Using %": true,
+              "CPU Capping %": true,
+              "CPU Delay %": true,
+              "CPU Using %": true,
+              "Channel Measurement Group": true,
+              "Delta AAP %": true,
+              "Delta AAP Time": true,
+              "Delta AAP on CP %": true,
+              "Delta AAP on CP Time": true,
+              "Delta CBP %": true,
+              "Delta CBP Time": true,
+              "Delta CBP on CP %": true,
+              "Delta CBP on CP Time": true,
+              "Delta CPU %": false,
+              "Delta CPU Time": true,
+              "Delta IIP %": true,
+              "Delta IIP Time": true,
+              "Delta IIP on CP %": true,
+              "Delta IIP on CP Time": true,
+              "Enclave Token": true,
+              "Export Token": true,
+              "FICON Deferred Operation Rate": true,
+              "Header::AAP Appl %": true,
+              "Header::CBP Appl %": true,
+              "Header::Class/Group": true,
+              "Header::Enclave Owner": true,
+              "Header::IIP Appl %": true,
+              "I/O Delay %": true,
+              "I/O Using %": true,
+              "IIP Delay %": true,
+              "IIP Using %": true,
+              "IIP on CP Using %": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Number of Attributes": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Queue Delay %": true,
+              "Storage Delay %": true,
+              "Subsystem Type": true,
+              "Total AAP Time": true,
+              "Total AAP on CP Time": true,
+              "Total CBP Time": true,
+              "Total CBP on CP Time": true,
+              "Total IIP Time": true,
+              "Total IIP on CP Time": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "Unknown Delay %": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "AAP Delay %": 40,
+              "AAP Using %": 33,
+              "AAP on CP Using %": 34,
+              "Att: Account": 56,
+              "Att: CNCTN": 58,
+              "Att: Client Accounting Information": 79,
+              "Att: Client IP Address": 75,
+              "Att: Client Transaction Name": 77,
+              "Att: Client User ID": 76,
+              "Att: Client Workstation/Host Name": 78,
+              "Att: Collection": 57,
+              "Att: Correlation": 59,
+              "Att: LU": 60,
+              "Att: NetID": 61,
+              "Att: Package": 62,
+              "Att: Planname": 63,
+              "Att: Priority": 74,
+              "Att: Procedure": 64,
+              "Att: Process": 65,
+              "Att: SSPM": 69,
+              "Att: Sched Env": 66,
+              "Att: Subsys Collection": 67,
+              "Att: Subsys Name": 68,
+              "Att: Subsys Type": 70,
+              "Att: Trx Class": 71,
+              "Att: Trx Name": 72,
+              "Att: User": 73,
+              "Attribute": 55,
+              "CBP Delay %": 41,
+              "CBP Using %": 35,
+              "CBP on CP Using %": 36,
+              "CLS/GRP": 1,
+              "CPU Capping %": 45,
+              "CPU Delay %": 39,
+              "CPU Using %": 32,
+              "Delta AAP %": 22,
+              "Delta AAP Time": 15,
+              "Delta AAP on CP %": 23,
+              "Delta AAP on CP Time": 16,
+              "Delta CBP %": 24,
+              "Delta CBP Time": 17,
+              "Delta CBP on CP %": 25,
+              "Delta CBP on CP Time": 18,
+              "Delta CPU %": 21,
+              "Delta CPU Time": 14,
+              "Delta IIP %": 26,
+              "Delta IIP Time": 19,
+              "Delta IIP on CP %": 27,
+              "Delta IIP on CP Time": 20,
+              "Dependent": 5,
+              "Enclave Name": 0,
+              "Enclave Token": 52,
+              "Export Token": 53,
+              "Goal": 3,
+              "Goal %": 4,
+              "Header::AAP Appl %": 85,
+              "Header::CBP Appl %": 86,
+              "Header::CP Appl %": 83,
+              "Header::Class/Group": 82,
+              "Header::EAppl %": 84,
+              "Header::Enclave Owner": 81,
+              "Header::IIP Appl %": 87,
+              "Header::Subsystem Type": 80,
+              "I/O Delay %": 44,
+              "I/O Using %": 43,
+              "IIP Delay %": 42,
+              "IIP Using %": 37,
+              "IIP on CP Using %": 38,
+              "Multi System": 6,
+              "Number of Attributes": 54,
+              "Owner": 50,
+              "Owner System": 51,
+              "Period": 2,
+              "Queue Delay %": 48,
+              "Storage Delay %": 46,
+              "Subsystem Type": 49,
+              "Total AAP Time": 8,
+              "Total AAP on CP Time": 9,
+              "Total CBP Time": 10,
+              "Total CBP on CP Time": 11,
+              "Total CPU Time": 7,
+              "Total Delay %": 30,
+              "Total IIP Time": 12,
+              "Total IIP on CP Time": 13,
+              "Total Idle %": 31,
+              "Total Samples": 28,
+              "Total Using %": 29,
+              "Unknown Delay %": 47
+            },
+            "renameByName": {
+              "Att: Client Transaction Name": "",
+              "Delta CPU %": "EAppl %"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "ENCLAVE",
+  "uid": "gdR6Mcb4k",
+  "version": 1,
+  "weekStart": ""
+}

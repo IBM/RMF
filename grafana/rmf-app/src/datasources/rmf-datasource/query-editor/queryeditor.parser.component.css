@@ -1,0 +1,150 @@
+/**
+* (C) Copyright IBM Corp. 2023.
+* (C) Copyright Rocket Software, Inc. 2023.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+/* @import '../../node_modules/carbon-components/css/carbon-components.css'; */
+/* @import 'carbon-components/css/carbon-components.css'; */
+
+.localgridstyle {
+  width: 60%;
+}
+
+/* Remove default bullets */
+ul,
+#myUL {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret_tree {
+  cursor: pointer;
+  user-select: none;
+  /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret_tree::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+}
+
+.treeviewsection {
+  /* position: absolute; */
+  width: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: inline-block;
+  float: left;
+  border: ridge;
+  height: 50vh;
+  overflow: auto;
+  display: none;
+}
+
+.metrics {
+  width: 47%;
+  background: rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: ridge;
+  height: 50vh;
+  display: none;
+}
+
+.metrics-lable {
+  min-width: 100%;
+  padding: 10px 10px 10px 5px;
+  font-size: initial;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.05);
+  float: left;
+  border: ridge;
+  text-align: -webkit-center;
+}
+
+.searchtext {
+  float: left;
+  width: -webkit-fill-available;
+}
+
+.metricsdiv {
+  overflow: auto;
+  display: -webkit-inline-box;
+  height: 70%;
+  width: -webkit-fill-available;
+}
+
+.select-options {
+  padding-right: 25px;
+  padding-top: 5px;
+}
+
+.autotext-spinner {
+  display: inherit;
+  padding-left: 10px;
+}
+
+.autotext-error {
+  display: flex;
+  padding: 10px 0px 10px 0px;
+  color: red;
+}
+
+.hide-display {
+  display: none;
+}
+
+.filltext {
+  width: -webkit-fill-available !important;
+}
+
+.rmf-switch {
+  width: -webkit-fill-available !important;
+  padding-top: 5px;
+  padding-right: 10px;
+}
+
+.rmf-form {
+  display: inline-flex;
+  padding-top: 5px;
+}
+
+.rmf-form-resource {
+  display: inline-flex;
+  padding-top: 5px;
+  width: 81%;
+  position: absolute;
+}

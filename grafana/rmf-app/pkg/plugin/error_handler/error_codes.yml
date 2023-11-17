@@ -1,0 +1,5 @@
+ERR_INTERNAL_ERROR:  An internal error occurred in the IBM RMF Datasource plugin. Please contact your administrator and check the error logs
+ERR_INVALID_INPUT: The input provided is invalid
+ERR_UNABLE_TO_FETCH_DATA: Unable to fetch data from server. Please ensure that the datasource is available
+ERR_DATASRC_CONNECTION_FAILED: Datasource connection failed
+ERR_DDS_ERROR: <No message required>

@@ -1,0 +1,244 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "RMF Dashboards",
+      "tooltip": "RMF Dashboards",
+      "type": "link",
+      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "PCIE Activity",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "refId": "A",
+          "rmfPanelGuid": "caaae81f-5211-4ff1-b8e2-e9350465da39",
+          "selectedQuery": "MVS_IMAGE.REPORT.PCIE{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=PCIE&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=PCIE&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "PCIE",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "# DMA AS": true,
+              "Adapter Utilization": true,
+              "Allocation Date": true,
+              "Allocation Time": true,
+              "Buffer Pool % Utilization": true,
+              "Buffer Pool Memory Size": true,
+              "Channel Measurement Group": true,
+              "Compression Ratio": true,
+              "Compression Request Rate": true,
+              "Compression Throughput": true,
+              "Decompression Ratio": true,
+              "Decompression Request Rate": true,
+              "Decompression Throughput": true,
+              "FICON Deferred Operation Rate": true,
+              "HWA Time % Busy": true,
+              "HWA Transfer Rate": true,
+              "HWA Type": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Port ID": true,
+              "Received Packets Rate": true,
+              "Request Execution Time": true,
+              "Request Execution Time StdDev": true,
+              "Request Queue Time": true,
+              "Request Queue Time StdDev": true,
+              "Request Size": true,
+              "Synchronous I/O Link ID": true,
+              "Synchronous I/O Link Serial Number": true,
+              "Synchronous I/O Link Type-Model": true,
+              "Synchronous I/O Request Rate": true,
+              "Synchronous I/O Request Rate (CPC)": true,
+              "Synchronous I/O Request Success %": true,
+              "Synchronous I/O Request Success % (CPC)": true,
+              "Synchronous I/O Time % Busy (CPC)": true,
+              "Synchronous I/O Transfer Read Rate (CPC)": true,
+              "Synchronous I/O Transfer Read Ratio": true,
+              "Synchronous I/O Transfer Read Ratio (CPC)": true,
+              "Synchronous I/O Transfer Write Rate (CPC)": true,
+              "Synchronous I/O Transfer Write Ratio": true,
+              "Synchronous I/O Transfer Write Ratio (CPC)": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "Transmitted Packets Rate": true,
+              "Work Unit Rate": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PCIE",
+  "uid": "EDKBt2b4z",
+  "version": 1,
+  "weekStart": ""
+}

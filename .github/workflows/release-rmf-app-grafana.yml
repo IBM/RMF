@@ -1,0 +1,97 @@
+name: Release Grafana RMF App
+
+on:
+   push:
+     tags:
+       - ibm-rmf-grafana/v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: grafana/rmf-app
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: grafana/rmf-app/.nvmrc
+          cache: 'yarn'
+          cache-dependency-path: 'grafana/rmf-app/yarn.lock'
+
+      - name: Setup Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: grafana/rmf-app/go.mod
+          cache-dependency-path: grafana/rmf-app/go.sum
+
+      - name: Build
+        run: make all
+
+      - name: Fetch Release Notes
+        id: changelog
+        run: |
+          awk '/^## / {s++} s == 1 {print}' CHANGELOG.md > RELEASE_NOTES.md
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: rmf-app-grafana
+          path: |
+            grafana/rmf-app/RELEASE_NOTES.md
+            grafana/rmf-app/build/ibm-rmf-grafana-*
+
+  sign:
+    runs-on: code-sign
+    needs: build
+
+    steps:
+      - name: Download Build
+        uses: actions/download-artifact@v3
+        with:
+          name: rmf-app-grafana
+
+      - name: Sign
+        run: |
+          $env:Path = 'C:\Program Files (x86)\Garantir\GRS;' + $env:Path
+          gpg-agent
+          gpg --detach-sign -a build/ibm-rmf-grafana-*.zip
+
+      - name: Upload Signature
+        uses: actions/upload-artifact@v3
+        with:
+          name: rmf-app-grafana-signature
+          path: build/ibm-rmf-grafana-*.zip.asc
+
+      - name: Clean up
+        run: rm -r -force *
+
+  release:
+    runs-on: ubuntu-latest
+    needs: sign
+
+    steps:
+      - name: Download Build
+        uses: actions/download-artifact@v3
+        with:
+          name: rmf-app-grafana
+
+      - name: Download Signature
+        uses: actions/download-artifact@v3
+        with:
+          name: rmf-app-grafana-signature
+
+      - name: Release Draft
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: false
+          draft: true
+          files: |
+            build/ibm-rmf-grafana-*
+            ibm-rmf-grafana-*.zip.asc
+          body_path: RELEASE_NOTES.md

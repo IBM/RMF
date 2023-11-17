@@ -1,0 +1,267 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" data-whc_version="24.1">
+    <head><link rel="shortcut icon" href=" "/><link rel="icon" href=" "/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="DC.rights.owner" content="(C) Copyright 2023"/><meta name="copyright" content="(C) Copyright 2023"/><meta name="generator" content="DITA-OT"/><meta name="DC.type" content="concept"/><meta name="description" content="Variables are a powerful tool to create more interactive and dynamic dashboards. They offer a way to replace hard-coded values in metric queries and panel titles with placeholders for values."/><meta name="DC.relation" content="query_lang.html"/><meta name="DC.relation" content="alerts.html"/><meta name="DC.format" content="HTML5"/><meta name="DC.identifier" content="variables"/><meta name="DC.language" content="en-us"/>        
+      <title>Variables</title><!--  Generated with Oxygen version 24.1, build number 2022110310.  --><meta name="wh-path2root" content=""/><meta name="wh-toc-id" content="variables-d290e111"/><meta name="wh-source-relpath" content="variables.dita"/><meta name="wh-out-relpath" content="variables.html"/>
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/lib/bootstrap/css/bootstrap.min.css"/>
+    
+    <link rel="stylesheet" href="./oxygen-webhelp/lib/jquery-ui/jquery-ui.min.css"/>
+    
+    <!-- Template default styles  -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/app/topic-page.css?buildId=2022110310"/>
+    
+    
+    <script src="./oxygen-webhelp/lib/jquery/jquery-3.5.1.min.js"></script>
+    
+    <script data-main="./oxygen-webhelp/app/topic-page.js" src="./oxygen-webhelp/lib/requirejs/require.js"></script>
+<link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/oxygen-gray.css?buildId=2022110310"/><link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/notes.css?buildId=2022110310"/></head>
+
+    <body id="variables" class="wh_topic_page frmBody">
+        <a href="#wh_topic_body" class="sr-only sr-only-focusable">
+            Jump to main content
+        </a>
+        
+        
+        
+        
+        <header class="navbar navbar-default wh_header">
+    <div class="container-fluid">
+        <div class="wh_header_flex_container navbar-nav navbar-expand-md navbar-dark">
+            <div class="wh_logo_and_publication_title_container">
+                <div class="wh_logo_and_publication_title">
+                    
+                    
+                    <div class=" wh_publication_title "><a href="index.html"><span class="title">IBM RMF for z/OS Grafana Plugin</span></a></div>
+                    
+                </div>
+                
+                
+            </div>
+
+            <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse" id="wh_top_menu_and_indexterms_link">
+                
+                
+                
+                
+   </div>
+   <!--<div id="navbarGitHub" class="external-link" <a href="https://github.com/IBM/RMF">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg">
+  </div>
+   <div id="navbarRMFdocs" class="external-link" <a href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg">
+        </div>-->
+  
+  <div class="external-link" id="navbarGitHub">
+  <ul class="navbar-nav">
+   <!-- <li <p class="nav-item">
+    <a class="nav-link" style="color:#ffffff;" href="https://github.com/IBM/RMF"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg" width="25" height="25"> </p>
+   </li> -->
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf" target="_blank"> <input type="button" value="RMF for z/OS"/> </a></p>
+   </li>
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://github.com/IBM/RMF" target="_blank"> <input type="button" value="GitHub"/> </a></p>
+   </li>
+   <!-- <li <p class="nav-item">
+                <a class="nav-link" style="color:#ffffff;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg"> </p>
+            </li> -->
+  </ul>
+ </div>
+    </div>
+    </div>
+</header>
+
+        
+        
+         
+        
+        <div class=" wh_search_input navbar-form wh_topic_page_search search " role="form">
+            
+            
+            
+            <form id="searchForm" method="get" role="search" action="search.html"><div><input type="search" placeholder="Search " class="wh_search_textfield" id="textToSearch" name="searchQuery" aria-label="Search query" required="required"/><button type="submit" class="wh_search_button" aria-label="Search"><span class="search_input_text">Search</span></button></div></form>
+            
+            
+            
+        </div>
+        
+        <div class="container-fluid" id="wh_topic_container">
+            <div class="row">
+
+                <nav class="wh_tools d-print-none navbar-expand-md" aria-label="Tools">
+                    
+                    <div data-tooltip-position="bottom" class=" wh_breadcrumb "><ol class="d-print-none"><li><span class="home"><a href="index.html"><span>Home</span></a></span></li><li class="active"><div class="topicref" data-id="variables"><div class="title"><a href="variables.html">Variables</a><div class="wh-tooltip"><p class="shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They         offer a way to replace hard-coded values in metric queries and panel titles with         placeholders for values.</p></div></div></div></li></ol></div>
+                    
+                    
+                    
+                    <div class="wh_right_tools">
+                        <button class="wh_hide_highlight" aria-label="Toggle search highlights" title="Toggle search highlights"></button>
+                        <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" aria-label="Collapse sections" title="Collapse sections"></button>
+                        <div class=" wh_navigation_links "><span id="topic_navigation_links" class="navheader">
+<span class="navprev"><a class="- topic/link link" href="query_lang.html" title="IBM RMF query languages" aria-label="Previous topic: IBM RMF query languages" rel="prev"></a></span>  
+<span class="navnext"><a class="- topic/link link" href="alerts.html" title="Introduction to Alerts" aria-label="Next topic: Introduction to Alerts" rel="next"></a></span>  </span></div>
+                        
+                        
+                        
+                        <div class=" wh_print_link print d-none d-md-inline-block "><button onClick="window.print()" title="Print this page" aria-label="Print this page"></button></div>
+                        
+                        <button type="button" id="wh_toc_button" class="custom-toggler navbar-toggler collapsed wh_toggle_button navbar-light" aria-expanded="false" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    
+                </nav>
+            </div>
+            
+            
+            
+            
+            <div class="wh_content_area">
+                <div class="row">
+                    
+                        <nav id="wh_publication_toc" class="col-lg-3 col-md-3 col-sm-12 d-md-block d-none d-print-none" aria-label="Table of Contents Container">
+                            <div id="wh_publication_toc_content">
+		                        
+                            	<div class=" wh_publication_toc " data-tooltip-position="right"><span class="expand-button-action-labels"><span id="button-expand-action" role="button" aria-label="Expand"></span><span id="button-collapse-action" role="button" aria-label="Collapse"></span><span id="button-pending-action" role="button" aria-label="Pending"></span></span><ul role="tree" aria-label="Table of Contents"><li role="treeitem"><div data-tocid="visual_grafana-d290e14" class="topicref" data-id="visual_grafana" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="visual_grafana.html" id="visual_grafana-d290e14-link">Overview</a><div class="wh-tooltip"><p class="shortdesc">Grafana is a platform for monitoring and visualizing data. It enables users to         create, explore, and share dashboards that are interactive and customizable. The IBM® RMF for z/OS Grafana plugin provides effortless analysis and         visualization of <span class="ph">Resource Measurement Facility for z/OS</span> (<span class="ph">RMF for z/OS</span>) Monitor III metrics and reports within the         Grafana platform. Thereby, you can monitor and analyze the health and performance of         applications.</p></div></div></div></li><li role="treeitem"><div data-tocid="rn-d290e34" class="topicref" data-id="rn" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="rn.html" id="rn-d290e34-link">Release notes</a><div class="wh-tooltip"><p class="shortdesc">This article covers the new features, system requirements, and known issues of the             IBM® RMF for z/OS Grafana plugin.</p></div></div></div></li><li role="treeitem"><div data-tocid="install_grafana_plugin-d290e48" class="topicref" data-id="install_grafana_plugin" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_grafana_plugin.html" id="install_grafana_plugin-d290e48-link">Installing the plugin</a><div class="wh-tooltip"><p class="shortdesc">You must install the IBM® RMF for z/OS Grafana plugin to analyze         and visualize RMF Monitor III metrics and reports.</p></div></div></div></li><li role="treeitem"><div data-tocid="create_datasources-d290e62" class="topicref" data-id="create_datasources" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="create_datasources.html" id="create_datasources-d290e62-link">Creating RMF data sources</a><div class="wh-tooltip"><p class="shortdesc">To access RMF Monitor III metrics in Grafana, you need to connect to the <span class="ph">Distributed Data Server</span>s by adding an RMF data source.</p></div></div></div></li><li role="treeitem"><div data-tocid="db_ovw-d290e76" class="topicref" data-id="db_ovw" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="db_ovw.html" id="db_ovw-d290e76-link">RMF master dashboard</a><div class="wh-tooltip"><p class="shortdesc">IBM® RMF for z/OS Grafana is a plugin provides custom panels for         the RMF data source and master dashboard that consists of RMF Charts, RMF Reporting, and RMF         Time Series dashboards.</p></div></div></div></li><li role="treeitem"><div data-tocid="apply_visualize-d290e89" class="topicref" data-id="apply_visualize" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="apply_visualize.html" id="apply_visualize-d290e89-link">Applying visualization to RMF data</a><div class="wh-tooltip"><p class="shortdesc">By adding panels to dashboards, you can effectively present your RMF data in a visual         format. Each panel must require at least one query to display a significant         visualization.</p></div></div></div></li><li role="treeitem"><div data-tocid="query_lang-d290e100" class="topicref" data-id="query_lang" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="query_lang.html" id="query_lang-d290e100-link">IBM RMF query languages</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, queries are essential for fetching and transforming data from RMF data         sources.</p></div></div></div></li><li role="treeitem" class="active"><div data-tocid="variables-d290e111" class="topicref" data-id="variables" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="variables.html" id="variables-d290e111-link">Variables</a><div class="wh-tooltip"><p class="shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They         offer a way to replace hard-coded values in metric queries and panel titles with         placeholders for values.</p></div></div></div></li><li role="treeitem"><div data-tocid="alerts-d290e122" class="topicref" data-id="alerts" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="alerts.html" id="alerts-d290e122-link">Alerts</a><div class="wh-tooltip"><p class="shortdesc">Grafana Alerting feature provides a reliable solution to detect and respond to system         issues in real time.</p></div></div></div></li><li role="treeitem"><div data-tocid="historical_data-d290e133" class="topicref" data-id="historical_data" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="historical_data.html" id="historical_data-d290e133-link">Historical data</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, you can collect historical data using absolute and relative time         ranges.</p></div></div></div></li><li role="treeitem"><div data-tocid="error_reports-d290e145" class="topicref" data-id="error_reports" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="error_reports.html" id="error_reports-d290e145-link">Error types</a><div class="wh-tooltip"><p class="shortdesc">Whenever you encounter issues while using the <span class="ph">IBM RMF for z/OS Grafana</span> plugin, you can view detailed error messages         that contain sufficient information to help you identify and troubleshoot the         problem.</p></div></div></div></li><li role="treeitem" aria-expanded="false"><div data-tocid="grafana_via_zosmf-d290e159" class="topicref" data-id="grafana_via_zosmf" data-state="not-ready"><span role="button" tabindex="0" aria-labelledby="button-expand-action grafana_via_zosmf-d290e159-link" class="wh-expand-btn"></span><div class="title"><a href="grafana_via_zosmf.html" id="grafana_via_zosmf-d290e159-link"><span class="ph">z/OSMF</span></a><div class="wh-tooltip"><p class="shortdesc">When you use IBM® z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <span class="ph">z/OSMF</span>.</p></div></div></div></li></ul></div>
+		                        
+                            </div>
+                        </nav>
+                    
+                    
+                    <div class="col-lg-7 col-md-9 col-sm-12" id="wh_topic_body">
+                        <button id="wh_close_publication_toc_button" class="close-toc-button d-none" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc" aria-expanded="true">
+                            <span class="close-toc-icon-container">
+                                <span class="close-toc-icon"></span>     
+                            </span>
+                        </button>
+                        <button id="wh_close_topic_toc_button" class="close-toc-button d-none" aria-label="Toggle topic table of content" aria-controls="wh_topic_toc" aria-expanded="true">
+                            <span class="close-toc-icon-container">
+                                <span class="close-toc-icon"></span>     
+                            </span>
+                        </button>
+                        
+                        <div class=" wh_topic_content body "><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1">Variables</h1>
+    
+    <div class="- topic/body concept/conbody body conbody"><p class="- topic/shortdesc shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They
+        offer a way to replace hard-coded values in metric queries and panel titles with
+        placeholders for values.</p>
+        <div class="- topic/p p">Variables make it easy to change the data displayed in your dashboard simply by selecting
+            a value from the drop-down list at the top. Using variables in your dashboard simplifies
+            maintenance, particularly if you have multiple identical data sources. Instead of
+            creating separate dashboards for each data source, you can create one dashboard and use
+            variables to change what you are viewing.<div class="- topic/note note important note_important" id="variables__note_ux2_qgc_fzb" data-ofbid="variables__note_ux2_qgc_fzb"><span class="note__title">Important:</span> It's important to note that variables don't have a default value. Each variable
+                drop-down list in Dashboard settings displays the variable list in the order it
+                appears.</div></div>
+        <p class="- topic/p p">You can define a dashboard variable in <span class="+ topic/ph ui-d/menucascade ph menucascade"><span class="+ topic/ph ui-d/uicontrol ph uicontrol">Dashboard Settings</span><abbr title="and then"> &gt; </abbr><span class="+ topic/ph ui-d/uicontrol ph uicontrol">Variables</span></span> using Grafana's RMF Variable Query syntax with and without a filter.</p>
+        <section class="- topic/section section" id="variables__section_ttx_pjc_fzb" data-ofbid="variables__section_ttx_pjc_fzb"><h2 class="- topic/title title sectiontitle">Syntax of the query without a filter</h2><p class="- topic/p p">The
+                general syntax of the query without a filter is as follows:</p><p class="- topic/p p"><code class="+ topic/ph pr-d/codeph ph codeph">SELECT
+                    &lt;COLUMN_NAME&gt; FROM RESOURCE WHERE <var class="+ topic/keyword sw-d/varname keyword varname">condition1</var> or
+                        <var class="+ topic/keyword sw-d/varname keyword varname">condition2</var> or
+                <var class="+ topic/keyword sw-d/varname keyword varname">condition3</var></code></p><div class="- topic/note note note note_note" id="variables__note_otd_vhc_fzb" data-ofbid="variables__note_otd_vhc_fzb"><span class="note__title">Note:</span> The
+                    <code class="+ topic/ph pr-d/codeph ph codeph">&lt;COLUMN_NAME&gt;</code> is limited to <q class="- topic/q q">label</q> and
+                    <code class="+ topic/ph pr-d/codeph ph codeph">RESOURCE</code> is limited to <q class="- topic/q q">resource</q> only and cannot be used
+                for other purposes.</div><div class="- topic/p p">Where:<ul class="- topic/ul ul" id="variables__ul_prm_ygc_fzb" data-ofbid="variables__ul_prm_ygc_fzb">
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph"><var class="+ topic/keyword sw-d/varname keyword varname">condition1</var></code>:
+                                <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">ULQ</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span>
+                            <span class="+ topic/ph pr-d/sep ph sep">and</span>
+                            <span class="+ topic/keyword pr-d/parmname keyword parmname">TYPE</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span></span></li>
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph"><var class="+ topic/keyword sw-d/varname keyword varname">condition2</var></code>:
+                                <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">Name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span>
+                            <span class="+ topic/ph pr-d/sep ph sep">and</span>
+                            <span class="+ topic/keyword pr-d/parmname keyword parmname">TYPE</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span></span></li>
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph"><var class="+ topic/keyword sw-d/varname keyword varname">condition3</var></code>:
+                                <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">Name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span>
+                            <span class="+ topic/ph pr-d/sep ph sep">and</span>
+                            <span class="+ topic/keyword pr-d/parmname keyword parmname">ULQ</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span>
+                            <span class="+ topic/ph pr-d/sep ph sep">and</span>
+                            <span class="+ topic/keyword pr-d/parmname keyword parmname">TYPE</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span></span></li>
+                </ul></div><div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Examples for <var class="+ topic/keyword sw-d/varname keyword varname">condition1</var>:</strong><ul class="- topic/ul ul" id="variables__ul_pfr_23c_fzb" data-ofbid="variables__ul_pfr_23c_fzb">
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph">select label from resource where
+                                    <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">ulq</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"hostname of the
+                                    DDS"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"CHANNEL_PATH"</span></span></code></li>
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph">select label from resource where
+                                    <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">ulq</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"hostname of the
+                                    DDS"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"ALL_CHANNELS"</span></span></code></li>
+                </ul></div><p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Examples for <var class="+ topic/keyword sw-d/varname keyword varname">condition2</var>:</strong></p><code class="+ topic/ph pr-d/codeph ph codeph">select
+                label from resource where
+                        <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"resource_name"</span> and
+                        <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"SYSPLEX"</span></span></code><div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Examples
+                    for <var class="+ topic/keyword sw-d/varname keyword varname">condition3</var>:</strong><ul class="- topic/ul ul" id="variables__ul_ow2_w3c_fzb" data-ofbid="variables__ul_ow2_w3c_fzb">
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph">select label from resource where
+                                    <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">ulq</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"hostname of the
+                                    DDS"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"*"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"CHANNEL_PATH"</span></span></code></li>
+                    <li class="- topic/li li"><code class="+ topic/ph pr-d/codeph ph codeph">select label from resource where
+                                    <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">ulq</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"hostname of the
+                                    DDS"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"*"</span> and
+                                    <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"ALL_CHANNELS"</span></span></code></li>
+                </ul></div></section>
+        <section class="- topic/section section" id="variables__section_wh3_dkc_fzb" data-ofbid="variables__section_wh3_dkc_fzb"><h2 class="- topic/title title sectiontitle">Syntax of the query with a filter</h2>
+            
+            <p class="- topic/p p">The general syntax of the RMF query with a filter is as follows:</p>
+            <p class="- topic/p p"><code class="+ topic/ph pr-d/codeph ph codeph">SELECT &lt;COLUMN_NAME&gt; FROM RESOURCE WHERE
+                    <var class="+ topic/keyword sw-d/varname keyword varname">condition</var></code></p>
+            <p class="- topic/p p">Where <code class="+ topic/ph pr-d/codeph ph codeph"><var class="+ topic/keyword sw-d/varname keyword varname">condition</var></code> is
+                        <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">Name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span> and
+                        <span class="+ topic/keyword pr-d/parmname keyword parmname">ULQ</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span> and
+                        <span class="+ topic/keyword pr-d/parmname keyword parmname">TYPE</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">Value</span> and
+                        <span class="+ topic/keyword pr-d/parmname keyword parmname">Filter</span><span class="+ topic/ph pr-d/sep ph sep">=</span>
+                    <span class="+ topic/ph pr-d/var ph var">Value</span></span></p>
+            <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Examples for <var class="+ topic/keyword sw-d/varname keyword varname">condition</var>:</strong></p>
+            <p class="- topic/p p"><code class="+ topic/ph pr-d/codeph ph codeph">select label from resource where
+                            <span class="+ topic/ph pr-d/synph ph synph"><span class="+ topic/keyword pr-d/parmname keyword parmname">name</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"resource_name"</span>
+                        and <span class="+ topic/keyword pr-d/parmname keyword parmname">type</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"SYSPLEX"</span> and
+                            <span class="+ topic/keyword pr-d/parmname keyword parmname">filter</span><span class="+ topic/ph pr-d/sep ph sep">=</span><span class="+ topic/ph pr-d/var ph var">"MVS_IMAGE"</span></span></code></p>
+        </section>
+        <div class="- topic/example example" id="variables__example_bck_5kc_fzb" data-ofbid="variables__example_bck_5kc_fzb">
+            <p class="- topic/p p">To learn how to effectively add and manage variables of your choice in Grafana, you
+                can refer to the <a class="- topic/xref xref" href="https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/" target="_blank" rel="external noopener">Grafana</a> documentation.</p>
+        </div>
+    </div>
+</article></main></div>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                    
+                        <nav role="navigation" id="wh_topic_toc" aria-label="On this page" class="col-lg-2 d-none d-lg-block navbar d-print-none"> 
+                            <div id="wh_topic_toc_content">
+		                        
+	                            <div class=" wh_topic_toc "><div class="wh_topic_label">On this page</div><ul><li class="section-item"><div class="section-title"><a href="#variables__section_ttx_pjc_fzb" data-tocid="variables__section_ttx_pjc_fzb">Syntax of the query without a filter</a></div></li><li class="section-item"><div class="section-title"><a href="#variables__section_wh3_dkc_fzb" data-tocid="variables__section_wh3_dkc_fzb">Syntax of the query with a filter</a></div></li></ul></div>
+	                        	
+                        	</div>
+                        </nav>
+                    
+                </div>
+            </div>
+            
+            
+            
+        </div> 
+        <footer class="navbar navbar-default wh_footer">
+  <div class=" footer-container mx-auto ">
+    
+  </div>
+</footer>
+        
+        <div id="go2top" class="d-print-none">
+            <span class="oxy-icon oxy-icon-up"></span>
+        </div>
+        
+        <div id="modal_img_large" class="modal">
+            <span class="close oxy-icon oxy-icon-remove"></span>
+            <div id="modal_img_container"></div>
+            <div id="caption"></div>
+        </div>
+        
+        
+        
+    </body>
+</html>
