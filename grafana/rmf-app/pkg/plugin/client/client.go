@@ -405,6 +405,7 @@ func (d *RMFClient) streamDataAbsolute(ctx context.Context, req *backend.RunStre
 			err := ctx.Err()
 			d.ErrHandler.LogStatus("**Stream closed: Reason: ", err, ": path", req.Path)
 			pnlfuncs.SaveQueryModelInCache(d.Cache, matchedQueryModel)
+			histTicker.Stop()
 			return err
 		case <-histTicker.C:
 			if matchedQueryModel.TimeSeriesTimeRangeTo.After(matchedQueryModel.TimeRangeTo) {
