@@ -19,7 +19,7 @@ package http_helper
 import (
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -104,7 +104,7 @@ func (h *HttpHelper) GetXslFileContents(queryURL string, em *typ.DatasourceEndpo
 		return "", fmt.Errorf("status error in GetXslFileContents(): %v", resp.StatusCode)
 	}
 
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", fmt.Errorf("read body in GetXslFileContents(): %v", err)
 	}
