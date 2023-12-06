@@ -18,10 +18,8 @@ package unmarshal_functions
 
 import (
 	"encoding/json"
-	"strings"
 
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
-	guuid "github.com/google/uuid"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
@@ -77,10 +75,4 @@ func (u *UnmarshalFunctions) UnmarshalQueryAndEndpointModel(query backend.DataQu
 
 func attachOtherQueryFields(pCtx backend.PluginContext, qm *typ.QueryModel, query backend.DataQuery) {
 	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
-}
-
-func getGuidString() string {
-	guidStr := guuid.New().String()
-	guidStr = strings.ReplaceAll(guidStr, "-", "")
-	return guidStr
 }

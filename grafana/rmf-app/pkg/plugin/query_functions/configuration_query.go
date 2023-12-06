@@ -19,7 +19,7 @@ package query_functions
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 
 	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
@@ -44,9 +44,9 @@ func (c *ConfigurationQuery) FetchRootInfo(
 	if responseData.StatusCode == 401 { // Unauthorized
 		return false, fmt.Errorf("authentication failed in FetchRootInfo(). possible invalid username/password combination")
 	}
-	response, err := ioutil.ReadAll(responseData.Body)
+	response, err := io.ReadAll(responseData.Body)
 	if err != nil {
-		return false, fmt.Errorf("could in ioutil.ReadAll() in FetchRootInfo() - error=%v", err)
+		return false, fmt.Errorf("could in io.ReadAll() in FetchRootInfo() - error=%v", err)
 	}
 
 	jsonStr := string(response[:])
@@ -75,9 +75,9 @@ func (c *ConfigurationQuery) FetchMetricsFromIndex(em *typ.DatasourceEndpointMod
 		return nil, fmt.Errorf("could not fetch metrics from index, url= %s in FetchMetricsFromIndex() - error= %v", url, err)
 	}
 	defer responseData.Body.Close()
-	response, err := ioutil.ReadAll(responseData.Body)
+	response, err := io.ReadAll(responseData.Body)
 	if err != nil {
-		return nil, fmt.Errorf("error in ioutil.ReadAll() in FetchMetricsFromIndex() - error=%v", err)
+		return nil, fmt.Errorf("error in io.ReadAll() in FetchMetricsFromIndex() - error=%v", err)
 	}
 	return response, nil
 }
@@ -101,7 +101,7 @@ func (c *ConfigurationQuery) FetchIntervalAndOffset(em *typ.DatasourceEndpointMo
 	defer response.Body.Close()
 
 	// read the response body
-	responseData, err := ioutil.ReadAll(response.Body)
+	responseData, err := io.ReadAll(response.Body)
 	if err != nil {
 		return resultTimeData, fmt.Errorf("could not read http repsonse body in FetchServerTimeConfiguration(). error:=%v", err)
 	}
