@@ -18,8 +18,6 @@ package xml_functions
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"regexp"
 	"strings"
 
@@ -84,25 +82,6 @@ func (x *XmlFunctions) GetDataFormat(inputXml string) (string, error) {
 		return innerText, nil
 	}
 	return "", fmt.Errorf("the result data xml is invalid in GetDataFormat() - error=%v", err)
-}
-
-func readXSLFileFromUrl(xslFileUrl string) (string, error) {
-	resp, err := http.Get(xslFileUrl)
-	if err != nil {
-		return "", fmt.Errorf("GET error in readXSLFileFromUrl(): %v", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("status error in readXSLFileFromUrl(): %v", resp.StatusCode)
-	}
-
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("read body in readXSLFileFromUrl(): %v", err)
-	}
-
-	return string(data), nil
 }
 
 func getHeaderInfoSlice(doc *xmlquery.Node, xPath string) []typ.ColHeaderXslMap {
