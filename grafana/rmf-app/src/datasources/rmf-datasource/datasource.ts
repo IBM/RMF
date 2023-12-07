@@ -80,7 +80,7 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     }
 
     let resourceString = getTemplateSrv().replace(queryResult.resourceCommand, options.scopedVars);
-    let urlPathLoader = ConfigSettings.UrlSettings.END_TAG + resourceString + ConfigSettings.UrlSettings.END_TAG;
+    let urlPathLoader = ConfigSettings.UrlSettings.END_TAG + encodeURIComponent(resourceString) + ConfigSettings.UrlSettings.END_TAG;
     let id = this.id;
 
     return new Promise((resolve) => {
