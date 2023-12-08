@@ -18,7 +18,7 @@ package repository
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	httphelpr "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/http_helper"
@@ -42,7 +42,7 @@ func (r *Repository) ExecuteQueryAndGetResponse(queryModel *typ.QueryModel,
 	defer httpResponse.Body.Close()
 
 	// read the response body
-	responseData, err := ioutil.ReadAll(httpResponse.Body)
+	responseData, err := io.ReadAll(httpResponse.Body)
 	if responseData == nil && err != nil {
 		return nil, fmt.Errorf("could not read http repsonse body in ExecuteQueryAndGetResponse(). error:=%v", err)
 	}
@@ -76,7 +76,7 @@ func (r *Repository) ExecuteForVariableQuery(query string, em *typ.DatasourceEnd
 	defer httpResponse.Body.Close()
 
 	// read the response body
-	responseData, err := ioutil.ReadAll(httpResponse.Body)
+	responseData, err := io.ReadAll(httpResponse.Body)
 	return responseData, err
 }
 

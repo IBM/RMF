@@ -188,9 +188,6 @@ func (c *RMFCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*d
 				qm.ServerTimeData = matchedCacheItem.ServerTimeData
 				resultframe = &matchedCacheItem.Value
 			}
-			// if resultframe, err = c.getFrameFromNearestDate(filteredCacheItemValues, qm.TimeRangeFrom); err != nil {
-			// 	return nil, fmt.Errorf("frame not found in cache in GetFrame()")
-			// }
 		}
 	} else {
 		return nil, fmt.Errorf("frame not found in cache in GetFrame()")
@@ -267,26 +264,7 @@ func (c *RMFCache) SaveIntervalAndOffset(cacheKey string, intervalOffset typ.Int
 	return nil
 }
 
-func (c *RMFCache) formatDateTime(sourceTime time.Time) string {
-	const DATETIMELAYOUT = "20060102150405"
-	return sourceTime.Format(DATETIMELAYOUT)
-}
-
 func (c *RMFCache) getFrameCacheKey(qm *typ.QueryModel) string {
 	resultCacheKey := qm.SelectedResource.Value + "/" + qm.Datasource.Uid // + "/" + c.formatTime(qm.TimeSeriesTimeRangeFrom)
 	return resultCacheKey
-}
-
-func (c *RMFCache) getFrameFromNearestDate(cacheItemValues []typ.CacheItemValue, currentDate time.Time) (*data.Frame, error) {
-	var minDiff int64 = -1
-	currentTime := currentDate.UnixNano()
-	var minCacheItemValue typ.CacheItemValue
-	for _, itemValue := range cacheItemValues {
-		diff := currentTime - itemValue.ValueKey.UnixNano()
-		if minDiff == -1 || diff < minDiff {
-			minDiff = diff
-			minCacheItemValue = itemValue
-		}
-	}
-	return &minCacheItemValue.Value, nil
 }
