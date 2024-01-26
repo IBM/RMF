@@ -497,7 +497,7 @@
       },
       {
         "name": "Notice",
-        "url": "https://github.com/IBM/RMF/blob/main/NOTICES"
+        "url": "https://github.com/IBM/RMF/blob/main/grafana/rmf-app/NOTICES"
       }
     ],
     "logos": {

@@ -1,7 +1,7 @@
 {
   "author": "IBM",
   "name": "ibm-rmf",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "IBM RMF for z/OS",
   "license": "Apache-2.0",
   "scripts": {
