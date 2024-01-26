@@ -62,7 +62,7 @@ func NewRMFBackendDatasource(ctx context.Context, settings models.Settings) (ins
 }
 
 // NewRMFDataSourceInstance creates a new instance
-func NewRMFDataSourceInstance(settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func NewRMFDataSourceInstance(_ context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	datasourceSettings, err := models.LoadSettings(settings)
 	if err != nil {
 		return nil, err
