@@ -211,10 +211,11 @@ export const prepareCaptionListToDisplay = (data: DataFrame[]): DataListItem[] =
 
   if (removeHeadersIndex && removeHeadersIndex.length > 0) {
     removeHeadersIndex.map((field: any) => {
+      let fieldValue = (field.values ? (field.values.buffer ? field.values.buffer[0] : field.values[0]) : "<NA>")
       if (field && field.config && field.config.displayName && field.config.displayName.length > 0) {
-        captionList.push({ name: field.config.displayName, value: field.values.buffer[0] });
+        captionList.push({ name: field.config.displayName, value: fieldValue });
       } else {
-        captionList.push({ name: field.name.replace(headerSplitKey, ''), value: field.values.buffer[0] });
+        captionList.push({ name: field.name.replace(headerSplitKey, ''), value: fieldValue });
       }
     });
   }
