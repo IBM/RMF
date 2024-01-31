@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package json_functions
 
 import (
@@ -23,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	framef "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame_functions"
+	ffns "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame_functions"
 	httphlpr "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/http_helper"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	xmlf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/xml_functions"
@@ -32,12 +33,9 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-type JsonFunctions struct {
-}
-
 var _headerXslMap map[string][]typ.ColHeaderXslMap = nil
 
-func (jf *JsonFunctions) GetJsonObject(jsonStr string) (map[string]interface{}, error) {
+func GetJsonObject(jsonStr string) (map[string]interface{}, error) {
 	var result map[string]interface{}
 	err := json.Unmarshal([]byte(jsonStr), &result)
 	if err != nil {
@@ -46,23 +44,23 @@ func (jf *JsonFunctions) GetJsonObject(jsonStr string) (map[string]interface{}, 
 	return result, nil
 }
 
-func (jf *JsonFunctions) GetJsonPropertyValue(jsonStr string, propertyPath string) interface{} {
+func GetJsonPropertyValue(jsonStr string, propertyPath string) interface{} {
 	jval := gjson.Get(jsonStr, propertyPath)
 	return jval.Value()
 }
 
-func (jf *JsonFunctions) GetJsonPropertyValueAsNumber(jsonStr string, propertyPath string) float64 {
+func GetJsonPropertyValueAsNumber(jsonStr string, propertyPath string) float64 {
 	return gjson.Get(jsonStr, propertyPath).Num
 }
 
-func (jf *JsonFunctions) GetDataFormat(jsonStr string) (string, error) {
+func GetDataFormat(jsonStr string) (string, error) {
 	resultFormat := gjson.Get(jsonStr, "report.0.metric.format").String()
 	// result formats can be single, report, report_single, list, list_single
 	if resultFormat != "" {
 		if resultFormat == "single" {
 			return resultFormat, nil
 		} else if resultFormat == "report" || resultFormat == "list" {
-			rowElementCount := jf.GetJsonPropertyValue(jsonStr, "report.0.row.#")
+			rowElementCount := GetJsonPropertyValue(jsonStr, "report.0.row.#")
 			if rowElementCount == 1 {
 				if resultFormat == "report" {
 					resultFormat = "report_single"
@@ -77,9 +75,9 @@ func (jf *JsonFunctions) GetDataFormat(jsonStr string) (string, error) {
 	return resultFormat, nil
 }
 
-func (jf *JsonFunctions) GetErrorInResponse(jsonStr string) string {
+func GetErrorInResponse(jsonStr string) string {
 	var returnResult string
-	messageNode := jf.GetJsonPropertyValue(jsonStr, "report.0.message")
+	messageNode := GetJsonPropertyValue(jsonStr, "report.0.message")
 	if messageNode != nil {
 		messageItem := messageNode.(map[string]interface{})
 		if messageItem != nil {
@@ -97,67 +95,67 @@ func (jf *JsonFunctions) GetErrorInResponse(jsonStr string) string {
 	return returnResult
 }
 
-func (jf *JsonFunctions) FetchIntervalAndOffset(jsonStr string) (typ.IntervalOffset, error) {
+func FetchIntervalAndOffset(jsonStr string) (typ.IntervalOffset, error) {
 	var (
 		resultTimeData typ.IntervalOffset
 		err            error
 	)
 
-	localStartTime, err := time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.localStart").(string))
+	localStartTime, err := time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localStart").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	UTCStartTime, err := time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.utcStart").(string))
+	UTCStartTime, err := time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.utcStart").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
 	resultTimeData.ServerTimezoneOffset = localStartTime.Sub(UTCStartTime)
-	resultTimeData.ServiceCallInterval = float64(jf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
+	resultTimeData.ServiceCallInterval = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 
 	return resultTimeData, nil
 }
 
-func (jf *JsonFunctions) FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
+func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 	var (
 		resultTimeData typ.DDSTimeData
 		err            error
 	)
 
-	resultTimeData.LocalStartTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.localStart").(string))
+	resultTimeData.LocalStartTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localStart").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalEndTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.localEnd").(string))
+	resultTimeData.LocalEndTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localEnd").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalPrevTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.localPrev").(string))
+	resultTimeData.LocalPrevTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localPrev").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalNextTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.localNext").(string))
+	resultTimeData.LocalNextTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localNext").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.UTCStartTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.utcStart").(string))
+	resultTimeData.UTCStartTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.utcStart").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.UTCEndTime, err = time.Parse("20060102150405", jf.GetJsonPropertyValue(jsonStr, "report.0.timeData.utcEnd").(string))
+	resultTimeData.UTCEndTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.utcEnd").(string))
 	if err != nil {
 		return resultTimeData, err
 	}
 
 	resultTimeData.ServerTimezoneOffset = resultTimeData.LocalStartTime.Sub(resultTimeData.UTCStartTime)
 
-	resultTimeData.ServiceCallInterval = float64(jf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
+	resultTimeData.ServiceCallInterval = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 
 	// Convert all to UTC times.
 	resultTimeData.LocalStartTime = resultTimeData.LocalStartTime.Add(-1 * resultTimeData.ServerTimezoneOffset)
@@ -167,9 +165,8 @@ func (jf *JsonFunctions) FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData,
 	return resultTimeData, nil
 }
 
-func (jf *JsonFunctions) ConstructSingleValueFrameFromJson(jsonStr string,
+func ConstructSingleValueFrameFromJson(jsonStr string,
 	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var ffns framef.FrameFunctions
 	var timestampList []time.Time
 	var fieldList []string
 	var valueList []float64
@@ -177,7 +174,7 @@ func (jf *JsonFunctions) ConstructSingleValueFrameFromJson(jsonStr string,
 
 	resultFrame := data.NewFrame("")
 
-	cols := jf.GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
+	cols := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
 	for colIndex := 0; colIndex < len(cols); colIndex++ {
 		// var newField *data.Field
 		currentCols := cols[colIndex].(map[string]interface{})["col"].([]interface{})
@@ -217,12 +214,9 @@ func (jf *JsonFunctions) ConstructSingleValueFrameFromJson(jsonStr string,
 	return resultFrame, nil
 }
 
-func (jf *JsonFunctions) ConstructTimeSeriesSingleValueFrameFromJson(jsonStr string,
+func ConstructTimeSeriesSingleValueFrameFromJson(jsonStr string,
 	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var (
-		ffns              framef.FrameFunctions
-		plottingTimeStamp time.Time // Stores the timestamp that is plotted in the timeline plugin.
-	)
+	var plottingTimeStamp time.Time // Stores the timestamp that is plotted in the timeline plugin.
 
 	resultFrame := data.NewFrame("")
 
@@ -240,7 +234,7 @@ func (jf *JsonFunctions) ConstructTimeSeriesSingleValueFrameFromJson(jsonStr str
 
 	// Add the regular metrics values as fields (either float64 or string values)
 	var fieldName string
-	rows := jf.GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
+	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
 	cols := rows[0].(map[string]interface{})["col"].([]interface{})
 	fieldName = cols[0].(string)
 	if fieldName == "" { // For single values fieldName can come blank. Then set it to frame name.
@@ -259,13 +253,10 @@ func (jf *JsonFunctions) ConstructTimeSeriesSingleValueFrameFromJson(jsonStr str
 	return resultFrame, nil
 }
 
-func (jf *JsonFunctions) ConstructTimeSeriesListFrameFromJson(jsonStr string,
+func ConstructTimeSeriesListFrameFromJson(jsonStr string,
 	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
 
-	var (
-		ffns              framef.FrameFunctions
-		plottingTimeStamp time.Time
-	)
+	var plottingTimeStamp time.Time
 	resultFrame := data.NewFrame(ffns.GetFrameName(queryModel))
 
 	// For relative timeseries (forward plotting), the plotting timestamp is the mid-time point of local start and end times
@@ -281,7 +272,7 @@ func (jf *JsonFunctions) ConstructTimeSeriesListFrameFromJson(jsonStr string,
 		data.NewField("time", nil, []time.Time{plottingTimeStamp}))
 
 	// Get the column count from the first row.
-	rows := jf.GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
+	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
 
 	var colCount int
 	if len(rows) > 0 {
@@ -314,16 +305,15 @@ func (jf *JsonFunctions) ConstructTimeSeriesListFrameFromJson(jsonStr string,
 	return resultFrame, nil
 }
 
-func (jf *JsonFunctions) ConstructListFrameFromJson(jsonStr string,
+func ConstructListFrameFromJson(jsonStr string,
 	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var ffns framef.FrameFunctions
 	var timestampList []time.Time
 	var fieldList []string
 	var valueList []float64
 
 	resultFrame := data.NewFrame("")
 
-	rows := jf.GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
+	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
 	for rowIndex := 0; rowIndex < len(rows); rowIndex++ {
 		var fieldName string
 		cols := rows[rowIndex].(map[string]interface{})["col"].([]interface{})
@@ -370,20 +360,19 @@ func (jf *JsonFunctions) ConstructListFrameFromJson(jsonStr string,
 	return resultFrame, nil
 }
 
-func (jf *JsonFunctions) ConstructMetadataFromJson(jsonStr string) map[string]interface{} {
-	metaData := jf.GetJsonPropertyValue(jsonStr, "report.0.timeData").(map[string]interface{})
+func ConstructMetadataFromJson(jsonStr string) map[string]interface{} {
+	metaData := GetJsonPropertyValue(jsonStr, "report.0.timeData").(map[string]interface{})
 	return metaData
 }
 
-func (jf *JsonFunctions) ConstructReportFrameFromJson(jsonStr string,
+func ConstructReportFrameFromJson(jsonStr string,
 	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var ffns framef.FrameFunctions
 
 	// writeToFile(jsonStr)
 	resultFrame := data.NewFrame(ffns.GetFrameName(queryModel))
 
 	// The below function will
-	headerInfoList, err := jf.getUpdatedHeaderInfoList(jsonStr, endpointModel, queryModel.SelectedQuery)
+	headerInfoList, err := getUpdatedHeaderInfoList(jsonStr, endpointModel, queryModel.SelectedQuery)
 	if err != nil {
 		return resultFrame, fmt.Errorf("could not get headerInfoList in ConstructReportFrameFromJson(). Error=%v", err)
 	}
@@ -392,7 +381,7 @@ func (jf *JsonFunctions) ConstructReportFrameFromJson(jsonStr string,
 	var trackingIndexCol, trackingIndexRow int
 
 	// Get a reference to columnHeaders Json property
-	colHeaders := jf.GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").(map[string]interface{})["col"].([]interface{})
+	colHeaders := GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").(map[string]interface{})["col"].([]interface{})
 
 	for colIndex := 0; colIndex < len(colHeaders); colIndex++ {
 		var stringSlice []string
@@ -404,10 +393,10 @@ func (jf *JsonFunctions) ConstructReportFrameFromJson(jsonStr string,
 			headerInfoListDict["Type"] = "T"
 		}
 
-		rows := jf.GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
+		rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
 
 		// Some columns have type="N" (meaning Numeric) but contain "" values. In those cases it will be considered string.
-		treatColumnAsString := jf.shouldColumnBeTreatedAsString(rows, colIndex)
+		treatColumnAsString := shouldColumnBeTreatedAsString(rows, colIndex)
 
 		for rowIndex := 0; rowIndex < len(rows); rowIndex++ {
 			currentValue := rows[rowIndex].(map[string]interface{})["col"].([]interface{})[colIndex].(string)
@@ -436,7 +425,7 @@ func (jf *JsonFunctions) ConstructReportFrameFromJson(jsonStr string,
 	trackingIndexRow++
 
 	var varList []interface{}
-	captionNode := jf.GetJsonPropertyValue(jsonStr, "report.0.caption")
+	captionNode := GetJsonPropertyValue(jsonStr, "report.0.caption")
 	if captionNode != nil {
 		varList = captionNode.((map[string]interface{}))["var"].([]interface{})
 	}
@@ -460,7 +449,7 @@ func (jf *JsonFunctions) ConstructReportFrameFromJson(jsonStr string,
 	return resultFrame, nil
 }
 
-func (jf *JsonFunctions) getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, selectedQuery string) ([]interface{}, error) {
+func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, selectedQuery string) ([]interface{}, error) {
 	var xmlFns xmlf.XmlFunctions
 	var httpHlpr httphlpr.HttpHelper
 	var colHeaderInfoList []interface{}
@@ -480,11 +469,11 @@ func (jf *JsonFunctions) getUpdatedHeaderInfoList(jsonStr string, em *typ.Dataso
 	}
 
 	// Get a reference to columnHeaders Json property
-	colHeaders := jf.GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").((map[string]interface{}))["col"].([]interface{})
+	colHeaders := GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").((map[string]interface{}))["col"].([]interface{})
 
 	// Fetch and update the column header info
 	for _, header := range colHeaders {
-		header = jf.updateHeaderTextWithXslMapValue(selectedQuery, header)
+		header = updateHeaderTextWithXslMapValue(selectedQuery, header)
 		colHeaderInfoList = append(colHeaderInfoList, header)
 	}
 
@@ -493,20 +482,20 @@ func (jf *JsonFunctions) getUpdatedHeaderInfoList(jsonStr string, em *typ.Dataso
 
 	// Get a reference to caption(s) Json property
 	var varList []interface{}
-	captionNode := jf.GetJsonPropertyValue(jsonStr, "report.0.caption")
+	captionNode := GetJsonPropertyValue(jsonStr, "report.0.caption")
 	if captionNode != nil {
 		varList = captionNode.((map[string]interface{}))["var"].([]interface{})
 	}
 
 	// Fetch and update the caption info
 	for indx := 0; indx < len(varList); indx++ {
-		captionInfo := jf.updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
+		captionInfo := updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
 		colHeaderInfoList = append(colHeaderInfoList, captionInfo)
 	}
 	return colHeaderInfoList, nil
 }
 
-func (jf *JsonFunctions) updateHeaderTextWithXslMapValue(selectedQuery string, colHeaderInfo interface{}) interface{} {
+func updateHeaderTextWithXslMapValue(selectedQuery string, colHeaderInfo interface{}) interface{} {
 	reportName := "NA"
 	if strings.Contains(strings.Trim(strings.ToUpper(selectedQuery), ""), "REPORT.STORCR") {
 		reportName = "STORCR"
@@ -536,7 +525,7 @@ func (jf *JsonFunctions) updateHeaderTextWithXslMapValue(selectedQuery string, c
 	return updatedColHeaderInfo
 }
 
-func (jf *JsonFunctions) shouldColumnBeTreatedAsString(rows []interface{}, colIndex int) bool {
+func shouldColumnBeTreatedAsString(rows []interface{}, colIndex int) bool {
 	treatAsString := false
 	for rowIndex := 0; rowIndex < len(rows); rowIndex++ {
 		currentValue := rows[rowIndex].(map[string]interface{})["col"].([]interface{})[colIndex].(string)
@@ -548,34 +537,3 @@ func (jf *JsonFunctions) shouldColumnBeTreatedAsString(rows []interface{}, colIn
 	}
 	return treatAsString
 }
-
-// func writeToFile(jsonStr string) error {
-// 	// Get the current executable's path
-// 	executablePath, err := os.Executable()
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	// Extract the directory from the executable's path
-// 	executableDir := filepath.Dir(executablePath)
-
-// 	file, err := os.Create(executableDir + "/output.json")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer file.Close()
-
-// 	// Write the string to the file
-// 	_, err = file.WriteString(jsonStr)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	// Flush and close the file
-// 	err = file.Sync()
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
