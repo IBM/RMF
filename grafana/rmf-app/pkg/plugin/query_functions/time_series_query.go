@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package query_functions
 
 import (
@@ -36,7 +37,6 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
 	endpointModel *typ.DatasourceEndpointModel,
 	errHandler *errh.ErrHandler) (*data.Frame, error) {
 
-	var jsonf jsonf.JsonFunctions
 	var repos repo.Repository
 
 	// Fetch data from server
