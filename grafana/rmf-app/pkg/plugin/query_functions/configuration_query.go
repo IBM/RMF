@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package query_functions
 
 import (
@@ -54,8 +55,7 @@ func (c *ConfigurationQuery) FetchRootInfo(
 	if jsonStr == "" || jsonStr == "*No Data*" {
 		return false, fmt.Errorf("response json is blank/no data in FetchRootInfo - error=%v", err)
 	} else {
-		var jfuncs jsonf.JsonFunctions
-		jsonObj, err := jfuncs.GetJsonObject(jsonStr)
+		jsonObj, err := jsonf.GetJsonObject(jsonStr)
 		if err != nil {
 			if strings.Contains(jsonStr, "<?xml version=\"1.0\" encoding=\"UTF-8\"?") {
 				return false, typ.NewValueError(100, errors.New("unsupported version of DDS"))
@@ -111,8 +111,7 @@ func (c *ConfigurationQuery) FetchIntervalAndOffset(em *typ.DatasourceEndpointMo
 		return resultTimeData, fmt.Errorf("response json is blank/no data in FetchServerTimeConfiguration")
 	}
 
-	var jfuncs jsonf.JsonFunctions
-	resultTimeData, err = jfuncs.FetchIntervalAndOffset(jsonStr)
+	resultTimeData, err = jsonf.FetchIntervalAndOffset(jsonStr)
 	if err != nil {
 		return resultTimeData, fmt.Errorf("could not fetch server local time and svc call interval in FetchServerTimeConfiguration")
 	}

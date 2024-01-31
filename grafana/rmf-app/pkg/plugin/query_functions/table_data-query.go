@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package query_functions
 
 import (
@@ -36,7 +37,6 @@ func (t *TableDataQuery) QueryForTableData(
 	errHandler *errh.ErrHandler) (*data.Frame, error) {
 
 	var repos repo.Repository
-	var jsonf jsonf.JsonFunctions
 
 	// Get xml data response
 	responseData, err := repos.ExecuteQueryAndGetResponse(queryModel, endpointModel)
@@ -81,7 +81,7 @@ func (t *TableDataQuery) QueryForTableData(
 	if err != nil {
 		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%v", err)
 	}
-	// Get the meta data fro Json. The meta data info like numSamples is displayed on top of the header
+	// Get the metadata from Json. The metadata info like numSamples is displayed on top of the header
 	newFrame.Meta = &data.FrameMeta{
 		Custom: jsonf.ConstructMetadataFromJson(jsonStr),
 	}
