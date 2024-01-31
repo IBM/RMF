@@ -14,20 +14,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package frame_functions
 
 import (
 	"strings"
-	"time"
 
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
-
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-type FrameFunctions struct{}
-
-func (fc *FrameFunctions) GetFrameName(qm *typ.QueryModel) string {
+func GetFrameName(qm *typ.QueryModel) string {
 	var resultFrameName string
 	if strings.Trim(qm.SelectedQuery, "") != "" {
 		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
@@ -45,23 +41,4 @@ func (fc *FrameFunctions) GetFrameName(qm *typ.QueryModel) string {
 		}
 	}
 	return strings.Trim(resultFrameName, " ")
-}
-
-func (fc *FrameFunctions) RemoveOutOfRangeDatapoints(queryModel *typ.QueryModel, newFrame *data.Frame) *data.Frame {
-	timeDifference := queryModel.TimeRangeTo.Sub(queryModel.TimeRangeFrom)
-	earliestTimeToInclude := queryModel.TimeSeriesTimeRangeTo.Add(-timeDifference * 2) // We subtract 2 time differences.
-
-	// Loop through the rows and remove those rows that fall before 'earliestTimeToInclude' value
-	for rowIndex := 0; rowIndex < newFrame.Rows(); rowIndex++ {
-		currentTimeValue := newFrame.At(0, rowIndex)
-		if currentTimeValue.(time.Time).Before(earliestTimeToInclude) {
-			newFrame.DeleteRow(rowIndex)
-		}
-	}
-	// Get the meta data fro Json. The meta data info like numSamples is displayed on top of the header
-	newFrame.Meta = &data.FrameMeta{
-		Custom: earliestTimeToInclude,
-	}
-
-	return newFrame
 }
