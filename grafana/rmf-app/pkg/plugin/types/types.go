@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package types
 
 import (
@@ -58,6 +59,17 @@ type QueryModel struct {
 	Url                       string // Stores the DDS Url invoked to get response data
 }
 
+type DDSResponse struct {
+	Reports []struct {
+		Metric struct {
+			Format string
+		}
+		Rows []struct {
+			Cols []string `json:"col"`
+		} `json:"row"`
+	} `json:"report"`
+}
+
 type DDSTimeData struct {
 	LocalStartTime       time.Time     // The local start time of the DDS Server
 	LocalEndTime         time.Time     // The local end time of the local DDS Server
@@ -90,6 +102,7 @@ type ColHeaderXslMap struct {
 }
 
 // Below structures are used exclusively for caching
+
 type CacheItems struct {
 	CacheItemKey    string
 	CacheItemValues []CacheItemValue

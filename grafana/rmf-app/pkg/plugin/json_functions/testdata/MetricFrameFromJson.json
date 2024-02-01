@@ -1,0 +1,573 @@
+[
+  {
+    "name": "unable_to_parse_json",
+    "description": "Invalid JSON document",
+    "ddsResponse": "",
+    "queryModel": {},
+    "isTimeSeries": true,
+    "expectedFrame": {},
+    "expectedError": "could not parse JSON in MetricFrameFromJson(): Error = json: cannot unmarshal string into Go value of type types.DDSResponse"
+  },
+
+  {
+    "name": "out_of_range",
+    "description": "DDS returns interval different from what we requested for timeseries",
+    "skip": true,
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["*NoData*", "NaN"]}
+          ]
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T02:30:00Z",
+      "timeRangeTo": "2024-01-01T02:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": true,
+    "expectedFrame": {},
+    "expectedError": "unexpected data in MetricFrameFromJson(): Error = requested time range is out of received interval"
+  },
+
+  {
+    "name": "no_report_sections",
+    "description": "No report sections in DDS response",
+    "ddsResponse": {},
+    "queryModel": {},
+    "isTimeSeries": true,
+    "expectedFrame": {},
+    "expectedError": "unexpected data in MetricFrameFromJson(): Error = no report sections"
+  },
+
+  {
+    "name": "positive_timeseries_list",
+    "description": "Positive timeseries scenario for list format metric",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": [
+            {"col": ["ResourceName0", "0"]},
+            {"col": ["ResourceName1", "0.0"]},
+            {"col": ["ResourceName2", "-0.0"]},
+            {"col": ["ResourceName3", "10.3"]},
+            {"col": ["ResourceName4", "-10"]},
+            {"col": ["ResourceName5", "NaN"]},
+            {"col": ["ResourceName6", "Deact"]},
+            {"col": ["ResourceName7", ""]},
+            {"col": ["*NoData*", "NaN"]},
+            {"col": ["*NoData*", "0.0"]}
+          ]
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": true,
+    "expectedFrame": {
+      "schema": {
+        "name": "MetricName",
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "ResourceName0", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName1", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName2", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName3", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName4", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName5", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName6", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}},
+          {"name": "ResourceName7", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000], [0], [0], [-0], [10.3], [-10], [null], [null], [null]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "positive_timeseries_single",
+    "description": "Positive timeseries scenario for single format metric",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["", "42"]}
+          ]
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": true,
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "MetricName", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000], [42]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "no_rows_timeseries_list",
+    "description": "No rows returned for timeseries list format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": []
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": true,
+    "expectedFrame": {
+      "schema": {
+        "name": "MetricName",
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "no_data_timeseries_single",
+    "description": "No data returned for timeseries single format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["*NoData*", "NaN"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": true,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "query_name_with_by_timeseries_list",
+    "description": "Query name with by  for timeseries list format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": [
+            {"col": ["item", "100.100"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": true,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName by XYZ      ",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "name": "MetricName by XYZ",
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "item", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [[1704072600000], [100.1]]}
+    }
+  },
+
+  {
+    "name": "query_name_with_by_timeseries_single",
+    "description": "Query name with by for timeseries single format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["", "100.100"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": true,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName by XYZ      ",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {
+            "name": "MetricName by XYZ",
+            "type": "number", "typeInfo": {"frame": "float64", "nullable": true}
+          }
+        ]
+      },
+      "data": {
+        "values": [[1704072600000], [100.1]]}
+    }
+  },
+
+  {
+    "name": "positive_list",
+    "description": "Positive scenario for list format metric",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": [
+            {"col": ["ResourceName0", "0"]},
+            {"col": ["ResourceName1", "0.0"]},
+            {"col": ["ResourceName2", "-0.0"]},
+            {"col": ["ResourceName3", "10.3"]},
+            {"col": ["ResourceName4", "-10"]},
+            {"col": ["ResourceName5", "NaN"]},
+            {"col": ["ResourceName6", "Deact"]},
+            {"col": ["ResourceName7", ""]},
+            {"col": ["*NoData*", "NaN"]},
+            {"col": ["*NoData*", "0.0"]}
+          ]
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": false,
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "MetricName", "type": "string", "typeInfo": {"frame": "string"}},
+          {"name": "value", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1704072600000, 1704072600000, 1704072600000, 1704072600000, 1704072600000,
+            1704072600000, 1704072600000, 1704072600000
+          ],
+          [
+            "ResourceName0", "ResourceName1", "ResourceName2", "ResourceName3", "ResourceName4",
+            "ResourceName5", "ResourceName6", "ResourceName7"
+          ],
+          [
+            0, 0, -0, 10.3, -10, null, null, null
+          ]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "positive_single",
+    "description": "Positive scenario for single format metric",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["", "42"]}
+          ]
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": false,
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "name", "type": "string", "typeInfo": {"frame": "string"}},
+          {"name": "MetricName", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000],
+          ["MetricName"],
+          [42]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "no_rows_list",
+    "description": "No rows returned for list format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": []
+        }
+      ]
+    },
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "isTimeSeries": false,
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "MetricName", "type": "string", "typeInfo": {"frame": "string"}},
+          {"name": "value", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [],
+          [],
+          []
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "no_data_single",
+    "description": "No data returned for single format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["*NoData*", "NaN"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": false,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "name", "type": "string", "typeInfo": {"frame": "string"}},
+          {"type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [],
+          [],
+          []
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "query_name_with_by_list",
+    "description": "Query name with by  for list format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "list"
+          },
+          "row": [
+            {"col": ["item", "100.100"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": false,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName by XYZ      ",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "XYZ", "type": "string", "typeInfo": {"frame": "string"}},
+          {"name": "MetricName", "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000], ["item"], [100.1]
+        ]
+      }
+    }
+  },
+
+  {
+    "name": "query_name_with_by_single",
+    "description": "Query name with by for single format frame",
+    "ddsResponse": {
+      "report": [
+        {
+          "metric": {
+            "format": "single"
+          },
+          "row": [
+            {"col": ["", "100.100"]}
+          ]
+        }
+      ]
+    },
+    "isTimeSeries": false,
+    "queryModel": {
+      "timeRangeFrom": "2024-01-01T01:30:00Z",
+      "timeRangeTo": "2024-01-01T01:30:00Z",
+      "selectedQuery": "Resource.MetricName by XYZ      ",
+      "ServerTimeData": {
+        "localStartTime": "2024-01-01T01:00:00Z",
+        "localEndTime": "2024-01-01T02:00:00Z"
+      }
+    },
+    "expectedFrame": {
+      "schema": {
+        "fields": [
+          {"name": "timestamp", "type": "time", "typeInfo": {"frame": "time.Time"}},
+          {"name": "name", "type": "string", "typeInfo": {"frame": "string"}},
+          {"name": "MetricName by XYZ",
+            "type": "number", "typeInfo": {"frame": "float64", "nullable": true}}
+        ]
+      },
+      "data": {
+        "values": [
+          [1704072600000], ["MetricName by XYZ"], [100.1]
+        ]
+      }
+    }
+  }
+]

@@ -70,13 +70,11 @@ func (t *TableDataQuery) QueryForTableData(
 
 	// Compose the newFrame
 	// resultDataFormat can be single, report, report_single, list, list_single collectively called table_data
-	var newFrame *data.Frame = new(data.Frame)
-	if resultDataFormat == "list" { // 'list' (ideal for RMF Chart)
-		newFrame, err = jsonf.ConstructListFrameFromJson(jsonStr, queryModel, endpointModel)
-	} else if resultDataFormat == "single" || resultDataFormat == "list_single" { // 'single' or 'list_single' (ideal for Gauge)
-		newFrame, err = jsonf.ConstructSingleValueFrameFromJson(jsonStr, queryModel, endpointModel)
-	} else if resultDataFormat == "report" { // 'report' (for RMF Report)
+	var newFrame *data.Frame
+	if resultDataFormat == "report" {
 		newFrame, err = jsonf.ConstructReportFrameFromJson(jsonStr, queryModel, endpointModel)
+	} else {
+		newFrame, err = jsonf.MetricFrameFromJson(jsonStr, queryModel, false)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%v", err)

@@ -71,12 +71,7 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
 		return nil, fmt.Errorf("could not get ServerTimeData in QueryForTimeseriesDataFrame(): Error=%v", err)
 	}
 
-	var newFrame *data.Frame = new(data.Frame)
-	if resultDataFormat == "single" || resultDataFormat == "list_single" {
-		newFrame, err = jsonf.ConstructTimeSeriesSingleValueFrameFromJson(jsonStr, queryModel, endpointModel)
-	} else if resultDataFormat == "list" {
-		newFrame, err = jsonf.ConstructTimeSeriesListFrameFromJson(jsonStr, queryModel, endpointModel)
-	}
+	newFrame, err := jsonf.MetricFrameFromJson(jsonStr, queryModel, true)
 	if err != nil {
 		return nil, fmt.Errorf("could not obtain frame in QueryForTimeseriesDataFrame(): Error=%v", err)
 	}
