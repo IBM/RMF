@@ -25,7 +25,7 @@ import (
 
 func GetFrameName(qm *typ.QueryModel) string {
 	var resultFrameName string
-	if strings.Trim(qm.SelectedQuery, "") != "" {
+	if strings.Trim(qm.SelectedQuery, " ") != "" {
 		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
 		if len(splitStringSlice) > 1 {
 			vt := splitStringSlice[1]
