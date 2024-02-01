@@ -19,6 +19,7 @@ package json_functions
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -165,199 +166,104 @@ func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 	return resultTimeData, nil
 }
 
-func ConstructSingleValueFrameFromJson(jsonStr string,
-	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var timestampList []time.Time
-	var fieldList []string
-	var valueList []float64
-	var valueStrList []string
-
-	resultFrame := data.NewFrame("")
-
-	cols := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
-	for colIndex := 0; colIndex < len(cols); colIndex++ {
-		// var newField *data.Field
-		currentCols := cols[colIndex].(map[string]interface{})["col"].([]interface{})
-		fieldName := currentCols[0].(string)
-		fieldValue := currentCols[1].(string)
-		// fieldLabels := map[string]string{"name": fieldValue}
-		fieldValueN, err := strconv.ParseFloat(fieldValue, 64)
-
-		if len(fieldName) < 1 {
-			fieldName = ffns.GetFrameName(queryModel)
-		}
-
-		timestampList = append(timestampList, queryModel.TimeRangeFrom)
-		newTimeField := data.NewField("timestamp", nil, timestampList)
-		resultFrame.Fields = append(resultFrame.Fields, newTimeField)
-
-		fieldList = append(fieldList, fieldName)
-		newNameField := data.NewField("Name", nil, fieldList)
-		resultFrame.Fields = append(resultFrame.Fields, newNameField)
-
-		if err != nil {
-			fieldValues := []string{fieldValue}
-			// newField = data.NewField(fieldName, fieldLabels, fieldValues)
-			valueStrList = append(valueStrList, fieldValues[0])
-			newValField := data.NewField(fieldName, nil, valueStrList)
-			resultFrame.Fields = append(resultFrame.Fields, newValField)
-		} else {
-			fieldValues := []float64{fieldValueN}
-			// newField = data.NewField(fieldName, fieldLabels, fieldValues)
-			valueList = append(valueList, fieldValues[0])
-			newValField := data.NewField(fieldName, nil, valueList)
-			resultFrame.Fields = append(resultFrame.Fields, newValField)
-		}
-
-		// resultFrame.Fields = append(resultFrame.Fields, newField)
+// MetricFrameFromJson parses JSON string and create a data frame either for time series or a regular one.
+func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries bool) (*data.Frame, error) {
+	var ddsResponse typ.DDSResponse
+	if err := json.Unmarshal([]byte(jsonStr), &ddsResponse); err != nil {
+		return nil, fmt.Errorf("could not parse JSON in MetricFrameFromJson(): Error = %v", err)
 	}
-	return resultFrame, nil
+	if len(ddsResponse.Reports) == 0 {
+		return nil, errors.New("unexpected data in MetricFrameFromJson(): Error = no report sections")
+	}
+
+	diff := query.ServerTimeData.LocalEndTime.Sub(query.ServerTimeData.LocalStartTime) / 2
+	frameTimestamp := query.ServerTimeData.LocalStartTime.Add(diff)
+	queryName := ffns.GetFrameName(query)
+
+	if isTimeSeries {
+		return ConstructMetricTSFrame(&ddsResponse, queryName, frameTimestamp), nil
+	} else {
+		return ConstructMetricFrame(&ddsResponse, queryName, frameTimestamp), nil
+	}
 }
 
-func ConstructTimeSeriesSingleValueFrameFromJson(jsonStr string,
-	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var plottingTimeStamp time.Time // Stores the timestamp that is plotted in the timeline plugin.
-
-	resultFrame := data.NewFrame("")
-
-	// For relative timeseries (forward plotting), the plotting timestamp is the mid-time point of local start and end times
-	if !queryModel.AbsoluteTimeSelected {
-		diff := (queryModel.ServerTimeData.LocalEndTime.Sub(queryModel.ServerTimeData.LocalStartTime)) / 2
-		plottingTimeStamp = queryModel.ServerTimeData.LocalStartTime.Add(diff)
-	} else { // For absolute  the plotting timestamp is the TimeSeriesTimeRangeFrom timestamp.
-		plottingTimeStamp = queryModel.TimeSeriesTimeRangeFrom
+// ConstructMetricTSFrame creates a timeseries data frame for a metric from pre-parsed DDS response.
+func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
+	frameName := ""
+	if ddsResponse.Reports[0].Metric.Format == "list" {
+		frameName = queryName
 	}
+	resultFrame := data.NewFrame(frameName, data.NewField("timestamp", nil, []time.Time{timestamp}))
 
-	// Add the plotting timestamp field
-	resultFrame.Fields = append(resultFrame.Fields,
-		data.NewField("time", nil, []time.Time{plottingTimeStamp}))
+	IterateMetricRows(ddsResponse, queryName,
+		func(name string, value *float64) {
+			newField := data.NewField(name, nil, []*float64{value})
+			resultFrame.Fields = append(resultFrame.Fields, newField)
+		})
 
-	// Add the regular metrics values as fields (either float64 or string values)
-	var fieldName string
-	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
-	cols := rows[0].(map[string]interface{})["col"].([]interface{})
-	fieldName = cols[0].(string)
-	if fieldName == "" { // For single values fieldName can come blank. Then set it to frame name.
-		fieldName = ffns.GetFrameName(queryModel)
-	}
-	fieldValue := cols[1].(string)
-	fieldValueN, err := strconv.ParseFloat(fieldValue, 64)
-	if err != nil {
-		return nil, fmt.Errorf("could not retrieve float value  in ConstructTimeSeriesSingleValueFrameFromJson(): Error = %v", err)
-	} else if fieldValue == "NaN" {
-		return nil, fmt.Errorf("could not create frame in ConstructTimeSeriesSingleValueFrameFromJson(). DDS returned NaN value")
-	}
-	fieldValues := []float64{fieldValueN}
-	newField := data.NewField(fieldName, nil, fieldValues)
-	resultFrame.Fields = append(resultFrame.Fields, newField)
-	return resultFrame, nil
+	return resultFrame
 }
 
-func ConstructTimeSeriesListFrameFromJson(jsonStr string,
-	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-
-	var plottingTimeStamp time.Time
-	resultFrame := data.NewFrame(ffns.GetFrameName(queryModel))
-
-	// For relative timeseries (forward plotting), the plotting timestamp is the mid-time point of local start and end times
-	if !queryModel.AbsoluteTimeSelected {
-		diff := (queryModel.ServerTimeData.LocalEndTime.Sub(queryModel.ServerTimeData.LocalStartTime)) / 2
-		plottingTimeStamp = queryModel.ServerTimeData.LocalStartTime.Add(diff)
-	} else { // For absolute  the plotting timestamp is the TimeSeriesTimeRangeFrom timestamp.
-		plottingTimeStamp = queryModel.TimeSeriesTimeRangeFrom
-	}
-
-	// Add the plotting timestamp field
-	resultFrame.Fields = append(resultFrame.Fields,
-		data.NewField("time", nil, []time.Time{plottingTimeStamp}))
-
-	// Get the column count from the first row.
-	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
-
-	var colCount int
-	if len(rows) > 0 {
-		colsRef := rows[0].(map[string]interface{})["col"]
-		colCount = len(colsRef.([]interface{}))
-	}
-
-	// Add the regular metrics values as fields (either float64 or string values)
-	for rowIndex := 0; rowIndex < len(rows); rowIndex++ {
-		var fieldName string
-		colsRef := rows[rowIndex].(map[string]interface{})["col"].([]interface{})
-		// Sometimes a third column will actually give the field name with a qualifier
-		if colCount == 3 {
-			fieldName = colsRef[0].(string) + "[" + colsRef[2].(string) + "]"
-		} else {
-			fieldName = colsRef[0].(string)
-		}
-
-		fieldValue := colsRef[1].(string)
-		fieldValueN, err := strconv.ParseFloat(fieldValue, 64)
-		if err != nil {
-			return nil, fmt.Errorf("could not retrieve float value  in ConstructTimeSeriesListFrameFromJson(): Error = %v", err)
-		} else if fieldValue == "NaN" {
-			return nil, fmt.Errorf("could not create frame in ConstructTimeSeriesListFrameFromJson(). DDS returned NaN value")
-		}
-		fieldValues := []float64{fieldValueN}
-		newField := data.NewField(fieldName, nil, fieldValues)
-		resultFrame.Fields = append(resultFrame.Fields, newField)
-	}
-	return resultFrame, nil
-}
-
-func ConstructListFrameFromJson(jsonStr string,
-	queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	var timestampList []time.Time
-	var fieldList []string
-	var valueList []float64
-
-	resultFrame := data.NewFrame("")
-
-	rows := GetJsonPropertyValue(jsonStr, "report.0.row").([]interface{})
-	for rowIndex := 0; rowIndex < len(rows); rowIndex++ {
-		var fieldName string
-		cols := rows[rowIndex].(map[string]interface{})["col"].([]interface{})
-		if len(cols) == 3 {
-			fieldName = cols[0].(string) + "[" + cols[2].(string) + "]"
-		} else {
-			fieldName = cols[0].(string)
-		}
-		fieldValue := cols[1].(string)
-		fieldValueN, err := strconv.ParseFloat(fieldValue, 64)
-		if err != nil {
-			return nil, fmt.Errorf("could not retrieve float value  in ConstructListFrameFromJson(): Error = %v", err)
-		} else if fieldValue == "NaN" {
-			return nil, fmt.Errorf("could not create frame in ConstructListFrameFromJson(). DDS returned NaN value")
-		}
-		fieldValues := []float64{fieldValueN}
-		fieldList = append(fieldList, fieldName)
-		valueList = append(valueList, fieldValues[0])
-		timestampList = append(timestampList, queryModel.TimeRangeFrom)
-	}
-
-	if len(fieldList) > 0 {
-		var queryName string = ffns.GetFrameName(queryModel)
-		var nameField string = queryName
-		var valField string = "Value"
-
-		if strings.Trim(queryName, "") != "" {
+// ConstructMetricFrame creates a non-timeseries data frame for a metric from pre-parsed DDS response.
+func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
+	metricFormat := ddsResponse.Reports[0].Metric.Format
+	nameField := "name"
+	valField := ""
+	if metricFormat == "list" {
+		nameField = queryName
+		valField = "value"
+		if queryName != "" {
 			splitStringSlice := strings.SplitAfter(queryName, "by")
 			if len(splitStringSlice) > 1 {
 				valField = strings.TrimSpace(splitStringSlice[0])
 				valField = strings.TrimRight(valField, "by")
+				valField = strings.TrimSpace(valField)
 				nameField = strings.TrimSpace(splitStringSlice[1])
 			}
 		}
-		newTimeField := data.NewField("timestamp", nil, timestampList)
-		resultFrame.Fields = append(resultFrame.Fields, newTimeField)
-
-		newNameField := data.NewField(nameField, nil, fieldList)
-		resultFrame.Fields = append(resultFrame.Fields, newNameField)
-
-		newValField := data.NewField(valField, nil, valueList)
-		resultFrame.Fields = append(resultFrame.Fields, newValField)
 	}
-	return resultFrame, nil
+
+	resultFrame := data.NewFrame("",
+		data.NewField("timestamp", nil, []time.Time{}),
+		data.NewField(nameField, nil, []string{}),
+		data.NewField(valField, nil, []*float64{}),
+	)
+
+	IterateMetricRows(ddsResponse, queryName,
+		func(name string, value *float64) {
+			resultFrame.Fields[0].Append(timestamp)
+			resultFrame.Fields[1].Append(name)
+			resultFrame.Fields[2].Append(value)
+			if metricFormat == "single" {
+				resultFrame.Fields[2].Name = name
+			}
+		})
+
+	return resultFrame
+}
+
+// IterateMetricRows parses metric key-value pairs and passes them to `process` while iterating over rows.
+func IterateMetricRows(ddsResponse *typ.DDSResponse, defaultName string, process func(name string, value *float64)) {
+	for _, jsonRow := range ddsResponse.Reports[0].Rows {
+		cols := jsonRow.Cols
+		name, rawValue := cols[0], cols[1]
+		if name == "*NoData*" {
+			continue
+		}
+		if len(jsonRow.Cols) == 3 {
+			name += "[" + cols[2] + "]"
+		}
+		if name == "" {
+			name = defaultName
+		}
+		var value *float64
+		floatValue, err := strconv.ParseFloat(rawValue, 64)
+		// rawValue can contain different kinds of text meaning n/a: NaN, blank value, Deact etc.
+		if rawValue != "NaN" && err == nil {
+			value = &floatValue
+		}
+		process(name, value)
+	}
 }
 
 func ConstructMetadataFromJson(jsonStr string) map[string]interface{} {
