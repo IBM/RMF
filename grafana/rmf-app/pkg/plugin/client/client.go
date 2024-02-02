@@ -32,6 +32,7 @@ import (
 
 	cf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache_functions"
 	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
+	framef "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame_functions"
 	pnlf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/panel_functions"
 	plugincnfg "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/plugin_config"
 	qf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/query_functions"
@@ -400,6 +401,7 @@ func (d *RMFClient) streamDataAbsolute(ctx context.Context, req *backend.RunStre
 		err      error
 	)
 	histTicker := time.NewTicker(waitTime)
+	seriesFields := map[string]time.Time{}
 	for {
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
@@ -418,6 +420,7 @@ func (d *RMFClient) streamDataAbsolute(ctx context.Context, req *backend.RunStre
 			if newFrame, err = d.getFrameFromCacheOrServer(matchedQueryModel, d.EndpointModel); err != nil {
 				return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame in streamDataAbsolute(). error=%v", err))
 			}
+			framef.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.TimeSeriesTimeRangeFrom)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
 				return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame in streamDataAbsolute(). error:%v", err))
@@ -437,6 +440,8 @@ func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStre
 	)
 	mainTicker := time.NewTicker(*waitTime)
 	histTicker := time.NewTicker(*histWaitTime)
+	seriesFields := map[string]time.Time{}
+	duration := matchedQueryModel.TimeRangeTo.Sub(matchedQueryModel.TimeRangeFrom)
 
 	for {
 		select {
@@ -462,6 +467,7 @@ func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStre
 					if newFrame, err = d.getFrameFromCacheOrServer(&histQueryModel, d.EndpointModel, true); err != nil {
 						return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame for absolute data (historical) in streamDataRelative(). error=%v", err))
 					}
+					framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
 					err = sender.SendFrame(newFrame, data.IncludeAll)
 					if err != nil {
 						return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame for absolute data (historical, SendFrame) in streamDataRelative(). error:%v", err))
@@ -469,7 +475,7 @@ func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStre
 					pnlfuncs.SaveQueryModelInCache(d.Cache, &histQueryModel)
 				}
 			}
-		case <-mainTicker.C: // Relative Data: Wait for a (usually) larger interval (i.e gathererInterval) and query DDS
+		case <-mainTicker.C: // Relative Data: Wait for a (usually) larger interval (i.e. gathererInterval) and query DDS
 			var numberOfIterations int
 			if numberOfIterations, err = pnlfuncs.GetIterationsForRelativePlotting(matchedQueryModel); err != nil {
 				return false, err
@@ -479,6 +485,8 @@ func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStre
 				if newFrame, err = d.getFrameFromCacheOrServer(matchedQueryModel, d.EndpointModel); err != nil {
 					return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame for relative data in streamDataRelative(). error=%v", err))
 				}
+				framef.RemoveOldFieldNames(seriesFields, matchedQueryModel.TimeSeriesTimeRangeFrom.Add(-duration))
+				framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
 				err = sender.SendFrame(newFrame, data.IncludeAll)
 				if err != nil {
 					return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame for relative data (forward, SendFrame) in streamDataRelative(). error:%v", err))
