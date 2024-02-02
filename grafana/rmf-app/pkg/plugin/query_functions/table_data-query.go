@@ -53,9 +53,9 @@ func (t *TableDataQuery) QueryForTableData(
 	}
 
 	// Check for any error contained in the response
-	errorInResponse := jsonf.GetErrorInResponse(jsonStr)
-	if errorInResponse != "" {
-		return nil, fmt.Errorf("DDSError - " + errorInResponse)
+	message := jsonf.GetMessageInResponse(jsonStr)
+	if message != nil {
+		return nil, fmt.Errorf("DDSError - %s", message)
 	}
 
 	// Get the dataformat
