@@ -14,23 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from 'react';
-import { Table } from '@grafana/ui';
 import { DataFrame, PanelProps } from '@grafana/data';
-import { TableBanner } from '../types';
-import { CaptionsComponent } from '../captions-component/captions.component';
+import { Table } from '@grafana/ui';
+import React, { useRef } from 'react';
 import { BannerComponent } from '../banner-component/banner.component';
+import { CaptionsComponent } from '../captions-component/captions.component';
+import { TableBanner } from '../types';
 import {
+  InitFrameData,
   applyFieldOverridesForBarGauge,
+  applySelectedDefaultsAndOverrides,
+  getPaginationFlagFromFieldConfig,
   prepareBannerToDisplay,
   prepareCaptionListToDisplay,
-  applySelectedDefaultsAndOverrides,
-  InitFrameData,
-  getPaginationFlagFromFieldConfig,
 } from './table.helper';
 require('./table.component.css');
 
-interface Props extends PanelProps<{}> {}
+interface Props extends PanelProps<{}> { }
 
 export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, width, height }) => {
   let bannerItems: TableBanner;
@@ -43,8 +43,19 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
   const finalTableData = applyFieldOverridesForBarGauge(finalData);
   const enablePagination: boolean = getPaginationFlagFromFieldConfig(fieldConfig);
 
-  // TODO: need to finalize later
-  let actTableHeight = (height * 95) / 100;
+  // Setting the scroll properties
+  let divBannerRef = useRef<HTMLInputElement>(null);
+  let divCaptionRef = useRef<HTMLInputElement>(null);
+  let actTableHeight = height - (divBannerRef?.current?.offsetHeight ? divBannerRef?.current?.offsetHeight : 38);
+  if (captionList && captionList.length > 0 && captionList.length > 6) {
+    actTableHeight = actTableHeight - (divCaptionRef?.current?.offsetHeight ? divCaptionRef?.current?.offsetHeight : 110);
+  } else if (captionList && captionList.length > 0 && captionList.length > 3) {
+    actTableHeight = actTableHeight - (divCaptionRef?.current?.offsetHeight ? divCaptionRef?.current?.offsetHeight : 76);
+  } else {
+    actTableHeight = actTableHeight - (divCaptionRef?.current?.offsetHeight ? divCaptionRef?.current?.offsetHeight : 38);
+  }
+
+
   return (
     <div>
       <div className="banner-section ">
@@ -58,7 +69,7 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
         ''
       )}
       <div className="panel-table-container">
-        {(finalData && finalData.length > 0 && finalData[0].fields.length) > 0 ? (
+        {(finalData && finalData.length > 0 && finalData[0].fields && finalData[0].fields.length > 0) ? (
           <Table
             key={'dataTable'}
             data={finalTableData[0]}
