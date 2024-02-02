@@ -19,8 +19,10 @@ package frame_functions
 
 import (
 	"strings"
+	"time"
 
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 func GetFrameName(qm *typ.QueryModel) string {
@@ -41,4 +43,33 @@ func GetFrameName(qm *typ.QueryModel) string {
 		}
 	}
 	return strings.Trim(resultFrameName, " ")
+}
+
+// SyncFieldNames adds Fields having names from the map with `nil` values if they are not present
+// in the current frame.
+// Required for frames streamed as time series.
+// If we send a frame without a field name that was there in previous frames of the same time series,
+// values for the field in those frames will be discarded by frontend.
+func SyncFieldNames(seriesFieldMap map[string]time.Time, frame *data.Frame, frameTime time.Time) {
+	fieldNames := map[string]bool{}
+	for _, field := range frame.Fields {
+		seriesFieldMap[field.Name] = frameTime
+		fieldNames[field.Name] = true
+	}
+	for key := range seriesFieldMap {
+		_, ok := fieldNames[key]
+		if !ok {
+			newField := data.NewField(key, nil, []*float64{nil})
+			frame.Fields = append(frame.Fields, newField)
+		}
+	}
+}
+
+// RemoveOldFieldNames cuts off field names older than the given time.
+func RemoveOldFieldNames(fieldMap map[string]time.Time, cutoffTime time.Time) {
+	for name, timestamp := range fieldMap {
+		if timestamp.Before(cutoffTime) {
+			delete(fieldMap, name)
+		}
+	}
 }
