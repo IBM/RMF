@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
 	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
@@ -30,6 +31,15 @@ import (
 )
 
 type TimeSeriesQuery struct {
+}
+
+var AcceptableMessages = map[string]bool{
+	"GPM0501I": true, // Data may be inconsistent due to a change of the WLM service policy or IPS
+	"GPM0502I": true, // DDS has returned partial data because time gaps have been detected
+	"GPM0504I": true, // The data retrieved by DDS may be inconsistent due to a change of the WLM service policy
+	"GPM0505I": true, // The data retrieved by DDS may be inconsistent due to a change of the RMF cycle time
+	"GPM0506I": true, // IPL/REBOOT detected in the specified time range
+	"GPM0507I": true, // DDS could not retrieve valid data for the specified date and time range
 }
 
 func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
@@ -54,14 +64,14 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
 	}
 
 	// Check for any error contained in the response
-	errorInResponse := jsonf.GetErrorInResponse(jsonStr)
-	if errorInResponse != "" {
-		return nil, fmt.Errorf("DDSError - " + errorInResponse)
-	}
-
-	resultDataFormat, err := jsonf.GetDataFormat(jsonStr)
-	if err != nil {
-		return nil, fmt.Errorf("could not get result dataformat in QueryForTimeseriesDataFrame(): Error=%v", err)
+	message := jsonf.GetMessageInResponse(jsonStr)
+	if message != nil {
+		_, ok := AcceptableMessages[message.Id]
+		if !ok {
+			return nil, fmt.Errorf("DDSError - %s", message)
+		} else {
+			log.DefaultLogger.Warn("DDSError - %s", message)
+		}
 	}
 
 	// GathererInterval is used to wait 'n' secs before streaming a data chunk or while calling service to fetch data.

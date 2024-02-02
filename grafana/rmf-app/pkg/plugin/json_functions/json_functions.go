@@ -76,24 +76,25 @@ func GetDataFormat(jsonStr string) (string, error) {
 	return resultFormat, nil
 }
 
-func GetErrorInResponse(jsonStr string) string {
-	var returnResult string
+func GetMessageInResponse(jsonStr string) *typ.DDSMessage {
+	var message *typ.DDSMessage
 	messageNode := GetJsonPropertyValue(jsonStr, "report.0.message")
 	if messageNode != nil {
 		messageItem := messageNode.(map[string]interface{})
 		if messageItem != nil {
+			message = new(typ.DDSMessage)
 			if messageItem["id"] != nil {
-				returnResult = returnResult + messageItem["id"].(string)
-				if messageItem["severity"] != nil {
-					returnResult = returnResult + " (Sev: " + fmt.Sprintf("%d", int(messageItem["severity"].(float64))) + ") "
-					if messageItem["description"] != nil {
-						returnResult = returnResult + messageItem["description"].(string)
-					}
-				}
+				message.Id = messageItem["id"].(string)
+			}
+			if messageItem["severity"] != nil {
+				message.Severity = int(messageItem["severity"].(float64))
+			}
+			if messageItem["description"] != nil {
+				message.Description = messageItem["description"].(string)
 			}
 		}
 	}
-	return returnResult
+	return message
 }
 
 func FetchIntervalAndOffset(jsonStr string) (typ.IntervalOffset, error) {
