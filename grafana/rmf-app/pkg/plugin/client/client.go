@@ -252,7 +252,7 @@ func (d *RMFClient) query_timeseries(pCtx backend.PluginContext, queryModel *typ
 	)
 
 	if newFrame, err = d.query_timeseries_internal(pCtx, queryModel, endpointModel); err != nil {
-		dataResponse.Error = d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_UNABLE_TO_FETCH_DATA", fmt.Errorf("could not fetch data from server in query_timeseries(): Error=%v", err))
+		dataResponse.Error = d.getErrorInternal(err)
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
@@ -281,7 +281,7 @@ func (d *RMFClient) query_timeseries_internal(pCtx backend.PluginContext, queryM
 
 	newFrame, err = d.fetchTimeseriesData(queryModel, endpointModel)
 	if err != nil {
-		return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error while retrieving new frame in query_timeseries_internal(): Error=%v", err))
+		return nil, d.getErrorInternal(err)
 	}
 	d.createChannelForStreaming(pCtx, queryModel, newFrame)
 
@@ -325,7 +325,7 @@ func (d *RMFClient) fetchTimeseriesData(queryModel *typ.QueryModel, endpointMode
 
 	// If frame exists in cache for the query get it from there else get frame from the server through a service call
 	if newFrame, err = d.getFrameFromCacheOrServer(queryModel, endpointModel); err != nil {
-		return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get frame from cache or server in fetchTimeseriesData(). error=%v", err))
+		return nil, d.getErrorInternal(err)
 	}
 
 	return newFrame, nil
@@ -521,7 +521,7 @@ func (d *RMFClient) getFrameFromCacheOrServer(queryModel *typ.QueryModel, endpoi
 	if (!queryModel.AbsoluteTimeSelected) || frameNotFoundInCache {
 		newFrame, err = timeSeriesQuery.QueryForTimeseriesDataFrame(queryModel, endpointModel, d.ErrHandler)
 		if err != nil {
-			return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not obtain new frame in getFrameFromCacheOrServer(): Error=%v", err))
+			return nil, d.getErrorInternal(err)
 		} else {
 			if err = pnlfuncs.SaveFrameInCache(d.Cache, queryModel, newFrame); err != nil {
 				return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not save frame in getFrameFromCacheOrServer(): Error=%v", err))
@@ -615,13 +615,17 @@ func (d *RMFClient) query_tabledata(queryModel *typ.QueryModel, endpointModel *t
 
 	// Query the table data
 	if newFrame, err := tableDataQuery.QueryForTableData(queryModel, endpointModel, d.ErrHandler); err != nil {
-		if strings.Contains(err.Error(), "DDSError") {
-			dataResponse.Error = d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_DDS_ERROR", fmt.Errorf("%s", err.Error()))
-		} else {
-			dataResponse.Error = d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_UNABLE_TO_FETCH_DATA", fmt.Errorf("could not fetch data from server in query_tabledata(): Error=%v", err))
-		}
+		dataResponse.Error = d.getErrorInternal(err)
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
 	dataResponseChnl <- dataResponse
+}
+
+func (d *RMFClient) getErrorInternal(err error) error {
+	if strings.Contains(err.Error(), "DDSError") {
+		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_DDS_ERROR", err)
+	} else {
+		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error while retrieving new frame in query_timeseries_internal(): Error=%v", err))
+	}
 }
