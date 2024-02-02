@@ -18,6 +18,7 @@
 package types
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -68,6 +69,16 @@ type DDSResponse struct {
 			Cols []string `json:"col"`
 		} `json:"row"`
 	} `json:"report"`
+}
+
+type DDSMessage struct {
+	Id          string
+	Severity    int
+	Description string
+}
+
+func (msg *DDSMessage) String() string {
+	return fmt.Sprintf("%s (Sev: %d) %s", msg.Id, msg.Severity, msg.Description)
 }
 
 type DDSTimeData struct {
