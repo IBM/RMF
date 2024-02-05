@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package cache_functions
 
 import (
@@ -238,8 +239,7 @@ func (c *RMFCache) sortCacheItemValuesSlice(cacheItemValues []typ.CacheItemValue
 
 func (c *RMFCache) DeleteFrame(qm *typ.QueryModel) error {
 	cacheKey := c.getFrameCacheKey(qm)
-	c.Delete(cacheKey, METRICS)
-	return nil
+	return c.Delete(cacheKey, METRICS)
 }
 
 func (c *RMFCache) GetIntervalAndOffset(cacheKey string) (typ.IntervalOffset, error) {

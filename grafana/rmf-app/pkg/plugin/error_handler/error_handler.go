@@ -14,14 +14,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package error_handler
 
 import (
 	"embed"
 	"fmt"
-	"time"
-
 	"runtime/debug"
+	"time"
 
 	idgen "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/id_generator"
 	plugincnfg "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/plugin_config"
@@ -84,7 +84,7 @@ func (e *ErrHandler) LogErrorAndReturnErrorInfo(severity string, errCode string,
 	const ERR_ID_LENGTH = 10
 	var (
 		returnErrorToUser error
-		errDesc           string = "An unexpected error occurred"
+		errDesc           string
 	)
 
 	errUniqueId := e.idGenerator.GenerateUniqueId(ERR_ID_LENGTH)
