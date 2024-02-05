@@ -14,11 +14,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package config_helper
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -50,7 +50,7 @@ func NewPluginConfig() *PluginConfig {
 	executableDir := filepath.Dir(executablePath)
 	yamlFilePath := filepath.Join(executableDir, "rmf-plugin-config.yml")
 
-	if fileContent, err := ioutil.ReadFile(yamlFilePath); err != nil {
+	if fileContent, err := os.ReadFile(yamlFilePath); err != nil {
 		// Provide default values for the pluginConfig props
 		pluginConfig.Logging.TraceErrors = true
 		pluginConfig.Logging.TraceCalls = false

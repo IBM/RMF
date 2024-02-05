@@ -14,6 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
+
 package repository
 
 import (
@@ -30,7 +31,7 @@ type Repository struct {
 
 func (r *Repository) ExecuteQueryAndGetResponse(queryModel *typ.QueryModel,
 	endpointModel *typ.DatasourceEndpointModel) ([]byte, error) {
-	//Get the http Response from service
+	// Get the http Response from service
 	httpResponse, err := fetchDataFromServer(queryModel, endpointModel)
 	if err != nil {
 		return nil, fmt.Errorf("could not fetch data from server in ExecuteQueryAndGetResponse(). error:=%v", err)
@@ -66,7 +67,7 @@ func fetchDataFromServer(qm *typ.QueryModel, em *typ.DatasourceEndpointModel) (*
 }
 
 func (r *Repository) ExecuteForVariableQuery(query string, em *typ.DatasourceEndpointModel) ([]byte, error) {
-	//Get the http Response from service
+	// Get the http Response from service
 	httpResponse, err := fetchDataForVariableQuery(query, em)
 	if err != nil {
 		return nil, fmt.Errorf("could not get httpResponse in ExecuteForVariableQuery(). Error=%v", err)
