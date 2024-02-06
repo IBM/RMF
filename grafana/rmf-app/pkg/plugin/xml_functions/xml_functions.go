@@ -55,36 +55,6 @@ func (x *XmlFunctions) GetColHeaderXslMap(xslContent string) (map[string][]typ.C
 	return resultMap, err
 }
 
-func (x *XmlFunctions) GetDataFormat(inputXml string) (string, error) {
-	doc, err := xmlquery.Parse(strings.NewReader(inputXml))
-	if err != nil || strings.Trim(inputXml, " ") == "" {
-		return "", fmt.Errorf("error parsing xml in GetDataFormat() - error=%v", err)
-	}
-
-	xPath := "//report/metric/format"
-	node := xmlquery.FindOne(doc, xPath)
-	var innerText string
-	if node != nil {
-		innerText = node.InnerText() // possible values: single, report or list
-		if innerText == "report" {
-			xPath = "//report/row"
-		} else if innerText == "list" {
-			xPath = "//row"
-		} else {
-			return innerText, nil
-		}
-
-		nodeList := xmlquery.Find(doc.SelectElement("ddsml"), xPath)
-		if len(nodeList) == 1 && innerText == "report" {
-			return "report_single", nil
-		} else if len(nodeList) == 1 && innerText == "list" {
-			return "list_single", nil
-		}
-		return innerText, nil
-	}
-	return "", fmt.Errorf("the result data xml is invalid in GetDataFormat() - error=%v", err)
-}
-
 func getHeaderInfoSlice(doc *xmlquery.Node, xPath string) []typ.ColHeaderXslMap {
 	var resultList []typ.ColHeaderXslMap
 	nodes := xmlquery.Find(doc, xPath)
