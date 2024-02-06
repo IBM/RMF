@@ -58,7 +58,7 @@ func (t *TableDataQuery) QueryForTableData(
 		return nil, fmt.Errorf("DDSError - %s", message)
 	}
 
-	// Get the dataformat
+	// Get the data format
 	resultDataFormat, err := jsonf.GetDataFormat(jsonStr)
 	if err != nil {
 		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%v", err)
@@ -69,7 +69,7 @@ func (t *TableDataQuery) QueryForTableData(
 	queryModel.ServerTimeData.ServiceCallInterval = float64(jsonf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 
 	// Compose the newFrame
-	// resultDataFormat can be single, report, report_single, list, list_single collectively called table_data
+	// Expected data format is report, list, or single.
 	var newFrame *data.Frame
 	if resultDataFormat == "report" {
 		newFrame, err = jsonf.ConstructReportFrameFromJson(jsonStr, queryModel, endpointModel)
