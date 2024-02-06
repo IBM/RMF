@@ -55,25 +55,11 @@ func GetJsonPropertyValueAsNumber(jsonStr string, propertyPath string) float64 {
 }
 
 func GetDataFormat(jsonStr string) (string, error) {
-	resultFormat := gjson.Get(jsonStr, "report.0.metric.format").String()
-	// result formats can be single, report, report_single, list, list_single
-	if resultFormat != "" {
-		if resultFormat == "single" {
-			return resultFormat, nil
-		} else if resultFormat == "report" || resultFormat == "list" {
-			rowElementCount := GetJsonPropertyValue(jsonStr, "report.0.row.#")
-			if rowElementCount == 1 {
-				if resultFormat == "report" {
-					resultFormat = "report_single"
-				} else {
-					resultFormat = "list_single"
-				}
-			}
-		}
-	} else {
+	dataFormat := gjson.Get(jsonStr, "report.0.metric.format").String()
+	if dataFormat == "" {
 		return "", fmt.Errorf("could not get data format in GetDataFormat()")
 	}
-	return resultFormat, nil
+	return dataFormat, nil
 }
 
 func GetMessageInResponse(jsonStr string) *typ.DDSMessage {
