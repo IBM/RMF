@@ -126,7 +126,6 @@
         "y": 0
       },
       "id": 2,
-      "maxDataPoints": 60,
       "options": {
         "legend": {
           "calcs": [],
