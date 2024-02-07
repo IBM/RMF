@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="conref" xml:lang="en-us">
+    <title>Reused terms</title>
+    <shortdesc/>
+    <conbody>
+        <p><ph id="plugin_name">IBM RMF for z/OS Grafana</ph></p>
+        <p><ph id="rmf_short">RMF for z/OS</ph></p>
+        <p><ph id="rmf_full">Resource Measurement Facility for z/OS</ph></p>
+        <p><ph id="dds_full">Distributed Data Server</ph></p>
+        <p><ph id="dds_short">DDS</ph></p>
+        <p><ph id="v31">3.1</ph></p>
+        <p><uicontrol id="plugin_name_grafana">IBM RMF</uicontrol></p>
+        <p><ph id="zosmf_full">IBM  z/OS Management Facility</ph></p>
+        <p><ph id="zosmf_short">z/OSMF</ph></p>
+        <p><cite id="zos_prgm_guide">z/OS Resource Measurement Facility Programmer's
+            Guide</cite></p>
+        <p><cite id="zos_rpt_anls">z/OS Resource Measurement Facility Report Analysis</cite></p>
+        <p><cite id="zosmf_config">z/OS Management Facility Configuration Guide</cite></p>
+        <p><cite id="zos_msgs">z/OS Resource Measurement Facility Messages and Codes</cite></p>
+        <section>
+            <title>Reused content</title>
+            <p><ph id="ph_n3w_bbm_syb">You must have completed the following tasks:</ph></p>
+            <p><ph id="ph_cyy_4bm_syb">You can perform the following tasks:</ph></p>
+            <p>
+                <ul>
+                    <li id="li_qbm_nw3_ryb">Installed the <ph
+                            conref="conref.dita#conref/plugin_name"/> plugin. See <xref
+                            href="install_grafana_plugin.dita"/>.</li>
+                    <li id="li_kwb_lm3_ryb"><ph id="ph_ukr_nbs_lzb"
+                                    ><codeph><varname>resource_type</varname></codeph> is the type
+                            of resource for which information is requested. You must enter the
+                            appropriate value in the
+                                <codeph><varname>resource_type</varname></codeph> field.</ph><p>The
+                            available resource types are documented in the <xref
+                                href="https://www.ibm.com/docs/en/zos/3.1.0?topic=models-zos-rmf-monitor-iii-resource-model#zosm3"
+                                format="html" scope="external">z/OS RMF Monitor III resource
+                                model</xref> topic in the <cite
+                                conref="conref.dita#conref/zos_prgm_guide"/>.</p></li>
+                    <li id="li_af4_1q3_tyb">Added a RMF data source in Grafana. See <xref
+                            href="create_datasources.dita"/>.</li>
+                    <li id="li_icp_cq3_tyb">Understood query languages of the RMF. See <xref
+                            href="query_lang.dita"/>.</li>
+                </ul>
+            </p>
+            <p><ph id="ph_i51_xbm_syb">Enter the URL of <ph conref="conref.dita#conref/zosmf_short"
+                    /> in a web browser.</ph></p>
+            <p><ph id="ph_pfq_bcm_syb">Log in to <ph conref="conref.dita#conref/zosmf_short"/> if
+                    you are not already logged in.</ph></p>
+            <p><ph id="ph_vxh_mmk_2zb">Click <uicontrol>Save &amp; test</uicontrol>.</ph><ph
+                    id="ph_bfn_mmk_2zb">The <msgph>Data source is working</msgph> message is
+                    displayed if the connection to DDS succeeds.</ph></p>
+            <ol>
+                <li id="li_yyv_vmk_2zb">Set <uicontrol>Use SSL</uicontrol>
+                    <image href="images/toggle-off.png" scale="50"/> to ON to enable the secure connection.<p>
+                        <note type="remember">When you enable SSL, the <uicontrol>Verify the
+                                server’s certificate chain/hostname</uicontrol> option is also
+                                enabled.<p>You can turn OFF the <uicontrol>Verify the server’s
+                                    certificate chain/hostname</uicontrol> option if you are willing
+                                to accept any certificate presented by the DDS and any hostname
+                                listed in that certificate. However, this practice is not considered
+                                secure and is typically used in development or testing
+                                environments.</p><!--<p>You can set <uicontrol>Verify the server’s certificate chain/hostname</uicontrol> <image href="images/toggle-on.png" scale="50"/> to OFF to accept any certificate presented by the <ph conref="conref.dita#conref/dds_short"/> and any hostname in that certificate.</p>--></note>
+                    </p></li>
+            </ol>
+            <note id="note_rr3_txq_pyb">The navigation of the user interface can differ based on the
+                Grafana version that is currently installed.</note>
+        </section>
+    </conbody>
+</concept>

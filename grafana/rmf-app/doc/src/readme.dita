@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="plugin_overview" xml:lang="en-us">
+    <title><tm tmtype="reg">IBM</tm> RMF for z/OS Grafana Plugin</title>
+    <refbody>
+        <section>
+            <title>Introduction</title>
+            <p>The <tm tmtype="reg">IBM</tm> RMF for z/OS Grafana plugin provides effortless
+                analysis and visualization of RMF Monitor III metrics and reports within the Grafana
+                platform.</p>
+        </section>
+        <section>
+            <title>Features</title>
+            <p>The <tm tmtype="reg" tmclass="IGNORE">IBM</tm> RMF for z/OS Grafana plugin provides
+                the following features:<ul id="ul_wzv_trj_5yb">
+                    <li>Analysis of historical Monitor III metrics and reports</li>
+                    <li>Analysis of near real-time Monitor III metrics and reports</li>
+                    <li>Automatic completion of metric names in query builder</li>
+                    <li>Support for Grafana Alerting</li>
+                    <li>RMF resource query language for use as dashboard variables</li>
+                    <li>Sample dashboards</li>
+                </ul></p>
+        </section>
+        <section>
+            <title>Documentation</title>
+            <p>For instructions about installing the plugin, you can refer to <xref
+                    href="https://rmf.github.io/docs/install_grafana_plugin.html" format="html"
+                    scope="external">Installing the plugin on Grafana</xref>.</p>
+            <p>For more information about the usage of the plugin, refer to the <xref
+                    href="https://rmf.github.io/docs/index.html" format="html" scope="external"><tm
+                        tmtype="reg" tmclass="IGNORE">IBM</tm> RMF Grafana plugin</xref>
+                documentation.</p>
+            <p>For more information about <tm tmtype="reg">IBM</tm> RMF for z/OS refer to the <xref
+                    href="https://www.ibm.com/docs/en/zos/latest?topic=zos-rmf" format="html"
+                    scope="external"><tm tmtype="reg" tmclass="IGNORE">IBM</tm> RMF for z/OS</xref>
+                documentation.</p>
+        </section>
+        <section>
+            <title>Feedback</title>
+            <p>We love hearing from our users, developers, and community members who are passionate
+                about our IBM RMF for z/OS Grafana plugin.</p>
+            <p>You can ask a question, request a new feature or report a bug using the <xref
+                    href="https://github.com/IBM/RMF/discussions" format="html" scope="external"
+                    >Discussion</xref> tab in the GitHub repository.</p>
+            <p>You can also demonstrate your support by favoriting our repository. Your support will
+                further help us improve <tm tmtype="reg" tmclass="IGNORE">IBM</tm> RMF for z/OS
+                Grafana plugin and provide more advanced features.</p>
+        </section>
+    </refbody>
+</reference>
