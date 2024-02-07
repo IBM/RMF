@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="confi_contact_points" xml:lang="en-us">
+    <title>Configuring contact points</title>
+    <shortdesc>You can set up contact points to specify how contacts receive notifications when an
+        alert rule is triggered.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_itl_wr3_tyb">You must have created the alert rule. See <xref
+                href="creating_alert_rules.dita"/>.</prereq>
+        <steps>
+            <step>
+                <cmd>Navigate to the left-side menu, and then click <menucascade>
+                        <uicontrol>Alerting</uicontrol>
+                        <uicontrol>Contact points</uicontrol>
+                    </menucascade>.</cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_awy_wlb_fzb"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>+ Add contact points</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Select a value from the <uicontrol>Alertmanager</uicontrol> drop-down
+                    list.</cmd>
+                <info>
+                    <note id="note_nfg_gs3_tyb">The default alert manager selected is
+                            <uicontrol>Grafana</uicontrol>.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Enter a name for the contact point in the <uicontrol>Name</uicontrol>
+                    field.</cmd>
+            </step>
+            <step>
+                <cmd>Select a type from the <uicontrol>Integration</uicontrol> drop-down list based
+                    on your requirements.</cmd>
+                <info>
+                    <note id="note_srq_js3_tyb" type="important">You must complete all mandatory
+                        fields in the <uicontrol>Integration</uicontrol> panel. For instance, if you
+                        select email, you must input the email addresses. If you choose Slack, you
+                        must enter the Slack channel(s) and the users who must be contacted.</note>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>Specify additional settings for the selected contact point integration in the
+                        <wintitle>Optional settings</wintitle> panel.</cmd>
+            </step>
+            <step importance="optional">
+                <cmd>Select the <uicontrol>Disable resolved message</uicontrol> checkbox if you do
+                    not want to be notified when an alert resolves in the <wintitle>Notification
+                        settings</wintitle> panel.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save contact point</uicontrol> to save your changes.</cmd>
+            </step>
+        </steps>
+        <result id="result_cwv_ps3_tyb">You have configured the contact point.</result>
+        <postreq id="postreq_fm5_qs3_tyb">You can edit, delete, or test a contact point that you
+            created. For more information, refer to the <xref
+                href="https://grafana.com/docs/grafana-cloud/alerting-and-irm/alerting/alerting-rules/manage-contact-points/"
+                format="html" scope="external">Grafana</xref> documentation.</postreq>
+    </taskbody>
+</task>

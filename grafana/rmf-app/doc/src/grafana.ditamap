@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<map>
+    <title>IBM RMF for z/OS Grafana Plugin</title>
+    <topichead collection-type="sequence">
+        <topicmeta>
+            <navtitle/>
+        </topicmeta>
+        <topicref href="visual_grafana.dita"/>
+        <topicref href="rn.dita"/>
+        <topicref href="install_grafana_plugin.dita"/>
+        <topicref href="create_datasources.dita"/>
+        <topicref href="db_ovw.dita"/>
+        <topicref href="apply_visualize.dita"/>
+        <topicref href="query_lang.dita"/>
+        <topicref href="variables.dita"/>
+        <topicref href="plugin_config.dita"/>
+        <topicref href="alerts.dita"/>
+        <topicref href="historical_data.dita"/>
+        <topicref href="error_reports.dita"/>
+        <topicref href="ts_issues.dita"/>
+        <topicref href="grafana_via_zosmf.dita" collection-type="sequence">
+            <topicref href="prereq_zosmf.dita">
+                <topicref href="grafana_config_parms.dita"/>
+            </topicref>
+            <topicref href="define_grafana_zosmf.dita"/>
+            <topicref href="access_grafana_zosmf.dita"/>
+        </topicref>
+    </topichead>
+</map>

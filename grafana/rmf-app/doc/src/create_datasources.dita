@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_datasources" xml:lang="en-us">
+    <title>Creating RMF data sources</title>
+    <shortdesc>To access RMF Monitor III metrics in Grafana, you need to connect to the <ph
+            conref="conref.dita#conref/dds_full"/>s by adding an RMF data source.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_ck1_wmd_qyb">
+            <ul id="ul_ngw_hkk_lzb">
+                <li>You must have installed the RMF for z/OS Grafana plugin. See <xref
+                        href="install_grafana_plugin.dita"/>.</li>
+                <li>You must know the hostname and port number of <ph
+                        conref="conref.dita#conref/dds_full"/>.</li>
+            </ul>
+        </prereq>
+        <steps>
+            <step>
+                <cmd>Go to <menucascade>
+                        <uicontrol>Apps</uicontrol>
+                        <uicontrol conref="conref.dita#conref/plugin_name_grafana"/>
+                        <uicontrol>Add RMF Data Source</uicontrol>
+                    </menucascade>.</cmd>
+                <info>Alternatively, you can click <menucascade>
+                        <uicontrol>Administration</uicontrol>
+                        <uicontrol>Data sources</uicontrol>
+                        <uicontrol>+ Add new data source</uicontrol>
+                    </menucascade>, then search for the IBM RMF to choose a data source type.<note
+                        conref="conref.dita#conref/note_rr3_txq_pyb" id="note_ifq_fgb_fzb"/></info>
+            </step>
+            <step>
+                <cmd>Enter a name for the data source in the <uicontrol>Name</uicontrol>
+                    field.</cmd>
+            </step>
+            <step importance="optional">
+                <cmd>Set <uicontrol>Default</uicontrol>
+                    <image href="images/toggle-off.png" id="image_hvn_dpd_qyb" scale="50"/> to ON to
+                    make the added data source the default one.</cmd>
+                <info>
+                    <note id="note_z2w_hpd_qyb">When you create new panels, the default data source
+                        is preselected.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Enter the details for the following fields in the <wintitle>Server
+                        Information</wintitle> section:</cmd>
+                <info>
+                    <simpletable frame="all" id="simpletable_kqy_mhk_2zb" relcolwidth="0.2* 0.5*">
+                        <sthead>
+                            <stentry>Fields</stentry>
+                            <stentry>Action</stentry>
+                        </sthead>
+                        <strow>
+                            <stentry><uicontrol>Server</uicontrol></stentry>
+                            <stentry>Enter the hostname of the <ph
+                                    conref="conref.dita#conref/dds_short"/> in this field.</stentry>
+                        </strow>
+                        <strow>
+                            <stentry><uicontrol>Port</uicontrol></stentry>
+                            <stentry>Enter the port number of the <ph
+                                    conref="conref.dita#conref/dds_short"/> in this field.</stentry>
+                        </strow>
+                    </simpletable>
+                </info>
+            </step>
+            <step>
+                <cmd>Choose one of the following methods to create the data source:</cmd>
+                <info>
+                    <simpletable frame="all" id="simpletable_wd3_sjk_2zb" relcolwidth="0.4* 0.4* 1*">
+                        <sthead>
+                            <stentry>Methods</stentry>
+                            <stentry>Description</stentry>
+                            <stentry>Action</stentry>
+                        </sthead>
+                        <strow>
+                            <stentry>Create the data source with no authentication</stentry>
+                            <stentry>You do not require any credentials to create the data
+                                source.</stentry>
+                            <stentry><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
+                                        conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></stentry>
+                        </strow>
+                        <!--<strow><stentry>Create the data source with SSL only</stentry><stentry>You must select the <uicontrol>Use SSL</uicontrol> radio button, but you are not required to provide a username and password to create the data source.</stentry><stentry><ol id="ol_ogp_rmk_2zb"><li conref="conref.dita#conref/li_yyv_vmk_2zb"/><li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></li></ol></stentry></strow>-->
+                        <strow>
+                            <stentry>Create the data source with SSL and Basic
+                                Authentication</stentry>
+                            <stentry>You must select the <uicontrol>Use SSL</uicontrol> radio
+                                button. Optionally you can provide a username and password to create
+                                the data source.</stentry>
+                            <stentry>
+                                <ol id="ol_fpz_clk_2zb">
+                                    <li conref="conref.dita#conref/li_yyv_vmk_2zb"/>
+                                    <li><b>Optional</b>: Enter the credentials of the <ph
+                                            conref="conref.dita#conref/dds_short"/> in the
+                                            <uicontrol>Username</uicontrol> and
+                                            <uicontrol>Password</uicontrol> fields.</li>
+                                    <li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
+                                                conref="conref.dita#conref/ph_bfn_mmk_2zb"
+                                        /></p></li>
+                                </ol>
+                            </stentry>
+                        </strow>
+                    </simpletable>
+                </info>
+            </step>
+        </steps>
+        <result id="result_ywl_ypd_qyb">You have added the RMF data source.</result>
+        <postreq id="postreq_bcb_zpd_qyb">
+            <p>You can refer to the <xref href="db_ovw.dita"/> topic for information about RMF
+                master dashboard and its features.</p>
+        </postreq>
+    </taskbody>
+</task>

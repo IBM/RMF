@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="apply_transformation" xml:lang="en-us">
+    <title>Applying transformation to data</title>
+    <shortdesc>You can transform your data by renaming fields, joining time series data, and
+        performing mathematical operations across queries.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_a2q_s2p_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                id="ul_sqs_s2p_ryb">
+                <li>Added a RMF data source in Grafana. See <xref href="create_datasources.dita"
+                    />.</li>
+                <li>Created a dashboard in Grafana. See <xref href="create_dashboards.dita"/>.</li>
+            </ul></prereq>
+        <context>You can add multiple transformation to your data. When there are multiple
+            transformations, Grafana applies them sequentially. Each transformation produces a
+            result set that is passed on to the next transformation in the pipeline.<p>Grafana
+                provides several ways that you can transform data. For entire list of
+                transformations, refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/#transformation-functions"
+                    format="html" scope="external"><cite>Grafana</cite></xref>
+            documentation.</p></context>
+        <steps>
+            <step>
+                <cmd>Identify the dashboard for which you want to add the transformation.</cmd>
+            </step>
+            <step>
+                <cmd>Move the mouse pointer over any part of the panel to display the
+                        <uicontrol>Menu</uicontrol>
+                    <image href="images/menu_icon.png" id="image_xmp_cfp_ryb"/> icon.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Menu</uicontrol> icon, and then select
+                        <uicontrol>Edit</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Transformation</uicontrol> tab, and then select a
+                    transformation from the list.</cmd>
+                <info>Upon accessing the transformation options, a dedicated row is presented for
+                        configuration.<note id="note_d55_hfp_ryb">You can click <uicontrol>+ Add
+                            Transformation</uicontrol> to add multiple transformations to
+                        data.</note></info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save</uicontrol> to store the changes made to the
+                    dashboard.</cmd>
+            </step>
+        </steps>
+        <result id="result_ldf_lfp_ryb">You have added the transformation to the data.</result>
+    </taskbody>
+</task>
