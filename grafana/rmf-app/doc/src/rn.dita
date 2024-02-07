@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="rn" xml:lang="en-us">
+    <title>Release notes</title>
+    <shortdesc>This article covers the new features, system requirements, and known issues of the
+            <tm tmtype="reg">IBM</tm> RMF for z/OS Grafana plugin.</shortdesc>
+    <refbody>
+        <section id="section_y2g_rfq_pyb">
+            <title>What's new</title>
+            <dl id="dl_ob2_sfq_pyb">
+                <dlentry>
+                    <dt>February 2024 v1.0.3</dt>
+                    <dd>Fixed specific issues related to the support of Grafana v10.x.x.</dd>
+                    <dd>Fixed internally found defects.</dd>
+                    <dd>The documentation updates for v1.0.3 include the following changes:<ul
+                            id="ul_z4c_r3p_31c">
+                            <li>The <xref href="grafana_via_zosmf.dita">Grafana through IBM z/OS
+                                    Management Facility</xref> topic explains more detailed setup
+                                instructions to access Grafana from the z/OSMF server.</li>
+                            <li>The <xref href="install_grafana_plugin.dita"><ph
+                                        conref="conref.dita#conref/rmf_short"/> plugin
+                                    installation</xref> section is updated to provide clear
+                                information and guidance on installing the <ph
+                                    conref="conref.dita#conref/rmf_short"/> plugin on different
+                                platforms based on specific requirements.</li>
+                            <li>The <xref href="ts_issues.dita">troubleshooting</xref> topic is
+                                provided to help users analyze and resolve common issues that may
+                                occur while using the <ph conref="conref.dita#conref/plugin_name"/>
+                                plugin.</li>
+                        </ul></dd>
+                </dlentry>
+                <dlentry>
+                    <dt>December 2023 v1.0.2</dt>
+                    <dd>Support spaces in Datasource name.</dd>
+                </dlentry>
+                <dlentry>
+                    <dt>November 2023 v1.0.1</dt>
+                    <dd>Resolved security issues in dependencies.</dd>
+                </dlentry>
+                <dlentry>
+                    <dt>November 2023 v1.0.0</dt>
+                    <dd>The first release of the <ph conref="conref.dita#conref/plugin_name"/>
+                        plugin is in the following GitHub repository: <xref
+                            href="https://github.com/IBM/RMF/releases" format="html"
+                            scope="external">https://github.com/IBM/RMF</xref>.</dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_zls_5fq_pyb">
+            <title>Requirements</title>
+            <p>You must have the following software to use the <ph
+                    conref="conref.dita#conref/plugin_name"/> plugin:<ul id="ul_iqp_wfq_pyb">
+                    <li><ph conref="conref.dita#conref/rmf_full"/>
+                        <ph conref="conref.dita#conref/v31"/></li>
+                    <li><ph conref="conref.dita#conref/dds_full"/></li>
+                    <li><ph conref="conref.dita#conref/plugin_name"/> plugin 1.0.x</li>
+                    <li>Grafana 9.5.1 or later</li>
+                </ul></p>
+        </section>
+        <!--<section id="section_llw_3gq_pyb"><title>Known issues</title><p>There are no known issues in this release.</p></section>-->
+    </refbody>
+</reference>

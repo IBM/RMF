@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="plugin_config" xml:lang="en-us">
+    <title>Plugin configuration</title>
+    <shortdesc>If you feel the IBM® RMF for z/OS Grafana plugin consumes too much memory after
+        plotting charts and reports or working with time-series data, you can configure it to
+        optimize its performance.</shortdesc>
+    <conbody>
+        <p>You can modify the <filepath>../datasources/rmf-plugin-config.yaml</filepath> file by
+            changing the cache settings to ensure that the RMF for z/OS plugin is working
+            efficiently and not taking up excessive memory. You must restart the Docker container
+            once the configuration is modified.</p>
+        <p>The following table describes the logging and cache settings in the configuration
+            file:</p>
+        <table frame="all" rowsep="1" colsep="1" id="table_bl4_htt_qzb">
+            <tgroup cols="5" align="left">
+                <colspec colname="c1" colnum="1"/>
+                <colspec colname="c2" colnum="2"/>
+                <colspec colname="c3" colnum="3"/>
+                <colspec colname="c4" colnum="4"/>
+                <colspec colname="newCol5" colnum="5"/>
+                <thead>
+                    <row>
+                        <entry>Sections</entry>
+                        <entry>Parameters</entry>
+                        <entry>Descriptions</entry>
+                        <entry>Default value</entry>
+                        <entry>Note</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry morerows="1">logging</entry>
+                        <entry>trace_errors</entry>
+                        <entry>This parameter logs the errors in the Grafana log file; however,
+                            these logs do not include request and response information.</entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                        <entry/>
+                    </row>
+                    <row>
+                        <entry>trace_calls</entry>
+                        <entry>This parameter logs all errors in the Grafana log file and includes
+                            information about the request and response, if applicable. <p>You can
+                                change the value to <systemoutput>true</systemoutput> to include
+                                request and response details and provide a more comprehensive and
+                                informative log for better analysis and resolution.</p></entry>
+                        <entry><systemoutput>false</systemoutput></entry>
+                        <entry/>
+                    </row>
+                    <row>
+                        <entry morerows="2">cache_settings</entry>
+                        <entry>metrics_cache_size_mb</entry>
+                        <entry>This parameter specifies the size of the metrics cache for the
+                            plugin.</entry>
+                        <entry><systemoutput>512</systemoutput></entry>
+                        <entry/>
+                    </row>
+                    <row>
+                        <entry>query_model_cache_size_mb</entry>
+                        <entry>This parameter specifies the size of the cache (in MB) used to store
+                            request information for streaming timeline data. </entry>
+                        <entry><systemoutput>512</systemoutput></entry>
+                        <entry morerows="1">Usually, the default size is sufficient for the
+                            pre-defined dashboards, and you need to change it only if additional
+                            user-defined dashboards and timeline panels are specified in your
+                            organization that uses the RMF for z/OS plugin.</entry>
+                    </row>
+                    <row>
+                        <entry>interval_offset_cache_size_mb</entry>
+                        <entry>This parameter specifies the size of the cache (in MB) used to store
+                            the data interval and time offset for streaming timeline data.</entry>
+                        <entry><systemoutput>64</systemoutput></entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </conbody>
+</concept>

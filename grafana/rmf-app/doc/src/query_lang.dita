@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="query_lang" xml:lang="en-us">
+    <title>IBM RMF query languages</title>
+    <shortdesc>In Grafana, queries are essential for fetching and transforming data from RMF data
+        sources.</shortdesc>
+    <conbody>
+        <p>Executing a query is a process that involves defining the data source, specifying the
+            desired data to retrieve, and applying relevant filters or transformations. <ph
+                conref="conref.dita#conref/plugin_name"/> plugin provides a user-friendly RMF query
+            editor that maximizes its unique capabilities. Grafana panels retrieve data for
+            visualization from RMF data sources via queries.</p>
+        <p>You can use the following types of queries to retrieve data from the specified RMF data
+            source:</p>
+        <ul id="ul_ihg_2l3_ryb">
+            <li>Metric query – Use this query to retrieve RMF Monitor III metrics.</li>
+            <li>Report query – Use this query to retrieve RMF Monitor III reports.</li>
+        </ul>
+        <section id="section_ass_fl3_ryb">
+            <title>Metric query syntax</title>
+            <p>The syntax of the Metric query is as follows:</p>
+            <p><codeph><varname>resource_type</varname>.<varname>metric_description</varname>
+                        {<varname>qualifications</varname>}</codeph></p>
+            <p>Where:<ul id="ul_exv_jl3_ryb">
+                    <li conref="conref.dita#conref/li_kwb_lm3_ryb"/>
+                    <li><codeph><varname>metric_description</varname></codeph> is the name of the
+                        metric for the selected resource type.<p>After entering the resource type,
+                            you can choose the metric description from the drop-down list.</p></li>
+                    <li><codeph><varname>qualifications</varname></codeph> is an optional parameter
+                        and can contain any or all the following attributes separated by a comma:<ul
+                            id="ul_bqf_rl3_ryb">
+                            <li><codeph><varname>ulq</varname></codeph>: The name of the resource
+                                type at the upper level.</li>
+                            <li><codeph><varname>name</varname></codeph>: The name of the
+                                resource.</li>
+                            <li><codeph><varname>filter</varname></codeph>: The filter helps to
+                                focus on the data of your interest when requesting a list of values.
+                                    <p>You can use one of the following values for the
+                                            <codeph><varname>filter</varname></codeph> attribute:<dl
+                                        id="dl_qgp_sy5_ryb">
+                                        <dlentry>
+                                            <dt>PAT=&lt; pattern></dt>
+                                            <dd>Specifies one or more patterns that must match the
+                                                name part of a list element.</dd>
+                                        </dlentry>
+                                        <dlentry>
+                                            <dt>LB=&lt;number></dt>
+                                            <dd>Specifies a lower bound value. Only list elements
+                                                with values higher than the given lower bound are
+                                                returned.</dd>
+                                        </dlentry>
+                                        <dlentry>
+                                            <dt>UB=&lt;number></dt>
+                                            <dd>Specifies an upper bound value. Only list elements
+                                                with values lower than the established upper bound
+                                                are returned.</dd>
+                                        </dlentry>
+                                        <dlentry>
+                                            <dt>HI=&lt;integer></dt>
+                                            <dd>Only the highest &lt;integer> list elements are
+                                                returned (mutually exclusive with LO).</dd>
+                                        </dlentry>
+                                        <dlentry>
+                                            <dt>LO=&lt;integer></dt>
+                                            <dd>Only the lowest &lt;integer> list elements are
+                                                returned (mutually exclusive with HI).</dd>
+                                        </dlentry>
+                                        <dlentry>
+                                            <dt>ORD=&lt; NA | ND | VA | VD | NN></dt>
+                                            <dd>
+                                                <ul id="ul_z5k_1z5_ryb">
+                                                  <li>NA - Sort the list of names by their names in
+                                                  ascending order.</li>
+                                                  <li>ND – Sort the list of names by their names in
+                                                  descending order.</li>
+                                                  <li>VA – Sort the list of values by their values
+                                                  in ascending order.</li>
+                                                  <li>VD – Sort the list of values by their values
+                                                  in descending order. </li>
+                                                  <li>NN - If you do not want to have any order, you
+                                                  can specify ORD=NN.</li>
+                                                </ul>
+                                            </dd>
+                                        </dlentry>
+                                    </dl></p></li>
+                            <li><codeph><varname>workscope</varname></codeph>: To qualify a request
+                                for performance data in more detail about address spaces and WLM
+                                entities. You can use one of the following values for the workscope
+                                    attribute:<ul id="ul_px1_gz5_ryb">
+                                    <li>G - Global (no workscope required)</li>
+                                    <li>W - WLM workload</li>
+                                    <li>S - WLM service class</li>
+                                    <li>P - WLM service class period</li>
+                                    <li>R - WLM report class</li>
+                                    <li>J - Job</li>
+                                </ul></li>
+                        </ul></li>
+                </ul></p>
+            <p><b>Examples</b>:</p>
+            <codeblock id="codeblock_pfq_1bv_ryb"><varname>SYSPLEX</varname>.<varname>% total physical utilization (AAP) by partition</varname></codeblock>
+            <codeblock id="codeblock_bs5_r3j_lzb"><varname>COUPLING_FACILITY</varname>.<varname>% processor utilization</varname></codeblock>
+            <codeblock id="codeblock_pht_x3j_lzb"><varname>CPC</varname>.<varname>% total physical utilization (shared IIP)</varname></codeblock>
+            <codeblock id="codeblock_f4k_cbv_ryb"><varname>MVS_IMAGE</varname>.<varname>% delay by WLM report class period</varname> {<parmname>name</parmname>=<varname>RS21</varname>}</codeblock>
+            <!--<codeblock id="codeblock_isp_fbv_ryb"><varname>MVS_IMAGE</varname>.<varname>% workflow by WLM report class period</varname> {<parmname>ulq</parmname>=<varname>RS21</varname>,<parmname>name</parmname>=<varname>RS2*</varname>,<parmname>filter</parmname>=<varname>PAT</varname>=<varname>RS*</varname>,<parmname>workscope</parmname>=<varname>,,G</varname>}</codeblock>-->
+            <codeblock id="codeblock_qqh_mbv_ryb"><varname>MVS_IMAGE</varname>.<varname>% workflow by WLM report class period</varname> {<parmname>ulq</parmname>=<varname>RS21</varname>,<parmname>name</parmname>=<varname>RS2*</varname>,<parmname>filter</parmname>=<varname>ORD</varname>=<varname>NA</varname>,<parmname>workscope</parmname>=<varname>,,G</varname>}</codeblock>
+        </section>
+        <section id="section_l5k_fm3_ryb">
+            <title>Report query syntax</title>
+            <p>The syntax of the Report query is as follows:</p>
+            <p><codeph><varname>resource_type</varname>.<parmname>REPORT</parmname>.<varname>report_name</varname></codeph></p>
+            <p>Where:<ul id="ul_r3t_gm3_ryb">
+                    <li><ph conref="conref.dita#conref/ph_ukr_nbs_lzb"/></li>
+                    <li><codeph><varname>report_name</varname></codeph> is the name of the
+                            report.<p>You can find the report names in the <xref
+                                href="https://www.ibm.com/docs/en/zos/3.1.0?topic=analysis-interactive-performance-monitor-iii"
+                                format="html" scope="external">Interactive performance analysis with
+                                Monitor III</xref>, which is documented in the <cite
+                                conref="conref.dita#conref/zos_rpt_anls"/>.</p><note
+                            id="note_b4r_5m3_ryb">You can view reports on the Grafana dashboard only
+                            for the resource types <codeph>SYSPLEX</codeph> and
+                                <codeph>MVS_IMAGE</codeph>.</note></li>
+                </ul></p>
+            <p><b>Examples</b>:</p>
+            <codeblock id="codeblock_int_pbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CACHSUM</varname></codeblock>
+            <codeblock id="codeblock_l5g_rbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CPC</varname></codeblock>
+        </section>
+    </conbody>
+</concept>

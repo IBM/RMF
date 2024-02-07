@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="alerts" xml:lang="en-us">
+    <title>Introduction to Alerts</title>
+    <titlealts>
+        <navtitle>Alerts</navtitle>
+    </titlealts>
+    <shortdesc>Grafana Alerting feature provides a reliable solution to detect and respond to system
+        issues in real time.</shortdesc>
+    <conbody>
+        <p>Through Grafana monitoring capabilities, you can keep track of incoming metrics data and
+            configure the alerting system to detect specific events or circumstances. When the
+            system identifies any issues, it automatically sends notifications to ensure that you
+            are up to date. With Grafana Alerting, you can eliminate the need for manual monitoring
+            and control system outages that could lead to significant incidents.</p>
+        <p>For more information about configuration of alerts and contact points, refer to the <xref
+                href="https://grafana.com/docs/grafana-cloud/alerting-and-irm/alerting/alerting-rules/create-grafana-managed-rule/"
+                format="html" scope="external">Grafana</xref> documentation.</p>
+        <!--<note id="note_lvz_2q3_tyb">Currently, you can configure alerts only on RMF Time Series dashboards.</note>-->
+    </conbody>
+</concept>

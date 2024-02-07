@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="prereq_zosmf" xml:lang="en-us">
+    <title>Prerequisites for accessing Grafana dashboards on <ph
+            conref="conref.dita#conref/zosmf_short"/></title>
+    <titlealts>
+        <navtitle>Prerequisites</navtitle>
+    </titlealts>
+    <shortdesc>Before you can start working with Grafana dashboards through <ph
+            conref="conref.dita#conref/zosmf_short"/>, there are some prerequisites that you need to
+        complete.</shortdesc>
+    <body>
+        <p>The following sections describe each prerequisite in detail:</p>
+        <section id="section_lcl_zvl_h1c">
+            <title>Configure <ph conref="conref.dita#conref/zosmf_short"/></title>
+            <p>When installing z/OS, <ph conref="conref.dita#conref/zosmf_short"/> is automatically
+                installed as a fundamental component of the operating system. However, to use its
+                features, you must configure the <ph conref="conref.dita#conref/zosmf_short"/>
+                nucleus on your system and add core and optional services. This enables you to take
+                advantage of the many benefits that <ph conref="conref.dita#conref/zosmf_short"/>
+                offers. For more information, refer to the <xref
+                    href="https://www.ibm.com/docs/en/zos/3.1.0?topic=facility-zos-management-configuration-guide"
+                    format="html" scope="external"><cite conref="conref.dita#conref/zosmf_config"
+                    /></xref>.</p>
+        </section>
+        <section id="section_u1d_2dh_h1c">
+            <title>Install Grafana</title>
+            <p>You must install Grafana v9.5.1 or later.</p>
+            <p>For more information, refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/setup-grafana/installation/"
+                    format="html" scope="external">Grafana</xref> documentation for detailed
+                instructions on installing Grafana and its dependencies and starting the Grafana
+                server on your system.</p>
+        </section>
+        <section id="section_xjc_hdh_h1c">
+            <title>User administration</title>
+            <p>You must review the default user management settings provided by the Grafana server
+                to determine if you need any additional permissions to be added for the users.</p>
+            <!--<p>Also, to access the Grafana server from the <ph conref="conref.dita#conref/zosmf_short"/>, you must create a user profile with the necessary role assigned by using the <systemoutput>TSO ID</systemoutput> of the <ph conref="conref.dita#conref/zosmf_short"/> user in lowercase format in the Grafana server.</p>-->
+            <p>For more information, refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/administration/user-management/"
+                    format="html" scope="external">User Management</xref> section of the Grafana
+                documentation.</p>
+        </section>
+        <section id="section_a2x_kdh_h1c">
+            <title>Configure JSON Web Token (JWT) support on <ph
+                    conref="conref.dita#conref/zosmf_short"/></title>
+            <p>You must configure the <ph conref="conref.dita#conref/zosmf_short"/> server to build
+                and use JSON Web Token (JWT) tokens. Because, by default, the JWT function is turned
+                off on the <ph conref="conref.dita#conref/zosmf_short"/> server. You can turn on the
+                JWT authentication by modifying the server's configuration files directly. Once
+                enabled, the JWT function allows you to use JWT tokens to authenticate and authorize
+                user access to the Grafana through the <ph conref="conref.dita#conref/zosmf_short"/>
+                server.</p>
+            <p>When configuring <ph conref="conref.dita#conref/zosmf_short"/> JWK files, it is
+                essential to use the <parmname>jwksUri</parmname> parameter. This parameter
+                specifies a URL for the JSON Web Key service, which is necessary for building the
+                JWK files.</p>
+            <p>The format of the <parmname>jwksUri</parmname> parameter is as follows:</p>
+            <p><filepath>https://${hostname}:${port}/jwt/ibm/api/zOSMFBuilder/jwk</filepath></p>
+            <p>For example, if your <ph conref="conref.dita#conref/zosmf_short"/> server is running
+                on <xref href="https://abc.com:12345" format="html" scope="external"
+                    >https://abc.com:12345</xref>, then the value of <parmname>jwksUri</parmname>
+                is:</p>
+            <p><filepath>https://abc.com:12345/jwt/ibm/api/zOSMFBuilder/jwk</filepath></p>
+            <p>Where,<ul id="ul_ads_b2h_h1c">
+                    <li><filepath>abc</filepath> is the hostname where the <ph
+                            conref="conref.dita#conref/zosmf_short"/> server runs.</li>
+                    <li><filepath>12345</filepath> is the port number.</li>
+                </ul></p>
+            <p>You must save the content of <parmname>jwksUri</parmname> as the
+                    <filepath>jwks.json</filepath> file and place it in the following directory:</p>
+            <p><filepath>/PATH/TO/jwks.json</filepath></p>
+            <p>For information about enabling the JWT function, refer to the <xref
+                    href="https://www.ibm.com/docs/en/zos/3.1.0?topic=configurations-enabling-json-web-token-support"
+                    format="html" scope="external"><cite conref="conref.dita#conref/zosmf_config"
+                    /></xref>.</p>
+        </section>
+        <section id="section_crw_j2h_h1c">
+            <title>Configure JWT authentication on Grafana</title>
+            <p>You must configure Grafana to accept a JWT token in the HTTP header. You can also
+                verify the token's validity using a JSON Web Key Set (JWKS) stored in a local
+                file.</p>
+            <p>As a system administrator, when you install Grafana, you can pass values for some of
+                the individual parameters in the <filepath>.ini</filepath> configuration file to
+                configure JWT authentication on Grafana. See <xref href="grafana_config_parms.dita"
+                />.</p>
+            <p>The default location of the configuration file is as follows:<simpletable frame="all"
+                    id="simpletable_fzz_3jj_31c" relcolwidth="0.5* 1*">
+                    <sthead>
+                        <stentry>Operating systems</stentry>
+                        <stentry>Default path to the configuration file</stentry>
+                    </sthead>
+                    <strow>
+                        <stentry><tm tmtype="reg">Windows</tm></stentry>
+                        <stentry><filepath>WORKING_DIR/conf/defaults.ini</filepath></stentry>
+                    </strow>
+                    <strow>
+                        <stentry><tm tmtype="reg">Linux</tm></stentry>
+                        <stentry><filepath>/etc/grafana/grafana.ini</filepath></stentry>
+                    </strow>
+                    <strow>
+                        <stentry><tm tmtype="reg">macOS</tm></stentry>
+                        <stentry><filepath>/usr/local/etc/grafana/grafana.ini</filepath></stentry>
+                    </strow>
+                </simpletable></p>
+        </section>
+    </body>
+</topic>

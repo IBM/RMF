@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="ts_issues" xml:lang="en-us">
+    <title>Troubleshooting issues</title>
+    <shortdesc>This section guides how to analyze and address typical issues that may arise when
+        using the <tm tmtype="reg">IBM</tm> RMF for z/OS Grafana plugin.</shortdesc>
+    <refbody>
+        <section>
+            <p>This article is regularly updated with the latest information on discovering and
+                solving issues that may arise. You can search through the article to find the
+                precise information you need.</p>
+            <p>You can open a case by navigating to <xref href="https://www.ibm.com/mysupport/s/"
+                    format="html" scope="external">IBM support</xref> if you cannot find any
+                solutions for the issue you encountered. Before opening a case, gather all the
+                required information and provide the details to IBM support for further
+                investigation.</p>
+            <p>The following table describes the details of issues and the resolutions you can apply
+                to fix the problems:</p>
+            <table frame="all" rowsep="1" colsep="1" id="table_vjv_yxq_31c">
+                <tgroup cols="3" align="left">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="c3" colnum="3"/>
+                    <thead>
+                        <row>
+                            <entry>Issues</entry>
+                            <entry>Cause</entry>
+                            <entry>Resolutions</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>RMF Time Series dashboards do not plot the Monitor 3 metrics
+                                data, whereas RMF Reports and RMF Charts dashboards plot
+                                correctly.</entry>
+                            <entry>The proxy settings configured by your network administrator block
+                                web socket connections from the Grafana server.
+                                <lines id="lines_mvl_xty_31c">The <ph conref="conref.dita#conref/plugin_name"/> plugin streams time series data to the clients through web socket connections.</lines></entry>
+                            <entry>Unblocking web sockets and configuring the appropriate proxy
+                                settings is necessary to ensure that web sockets with the name
+                                    "<systemoutput>ws</systemoutput>" in the URI work correctly with
+                                the <ph conref="conref.dita#conref/plugin_name"/>
+                                plugin.<lines id="lines_mdt_3yq_31c">You can contact your network administrator to modify the proxy configuration settings.</lines></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+    </refbody>
+</reference>

@@ -12,7 +12,10 @@
    <appContext helpID="alerts" path="alerts.html"/>
    <appContext helpID="historical_data" path="historical_data.html"/>
    <appContext helpID="error_reports" path="error_reports.html"/>
+   <appContext helpID="ts_issues" path="ts_issues.html"/>
    <appContext helpID="grafana_via_zosmf" path="grafana_via_zosmf.html"/>
+   <appContext helpID="prereq_zosmf" path="prereq_zosmf.html"/>
+   <appContext helpID="grafana_config_parms" path="grafana_config_parms.html"/>
    <appContext helpID="define_grafana_zosmf" path="define_grafana_zosmf.html"/>
    <appContext helpID="access_grafana_zosmf" path="access_grafana_zosmf.html"/>
 </map>
