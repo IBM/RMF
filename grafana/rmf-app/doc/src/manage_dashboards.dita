@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="manage_dashboards" xml:lang="en-us">
+    <title>Managing dashboards</title>
+    <shortdesc>You can mange the dashboard to perform various tasks such as creating a folder or a
+        dashboard, moving dashboards into folders, deleting multiple dashboards, and navigating to a
+        folder page where you can assign folder and dashboard permissions.</shortdesc>
+    <task id="task_gvr_nhp_ryb">
+        <title>Creating Folders</title>
+        <shortdesc>You can create folders to organize and group dashboards, which is helpful for
+            managing multiple dashboards on the same Grafana instance.</shortdesc>
+        <taskbody>
+            <prereq id="prereq_qbs_fhp_ryb">
+                <ul id="ul_fnv_glp_ryb">
+                    <li>You have been assigned the role of an <varname>Administrator</varname> of
+                        Grafana.</li>
+                </ul>
+            </prereq>
+            <steps id="steps_kff_5hp_ryb">
+                <step>
+                    <cmd><ph conref="conref.dita#conref/ph_abl_whp_ryb"/></cmd>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>New</uicontrol>, and then select <uicontrol>New
+                            Folder</uicontrol>.</cmd>
+                </step>
+                <step>
+                    <cmd>Enter a name for the folder in the <uicontrol>Folder name</uicontrol>
+                        field.</cmd>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>Create</uicontrol>.</cmd>
+                </step>
+            </steps>
+            <result id="result_nd5_d3p_ryb">You have created the Folder.</result>
+            <postreq id="postreq_j1t_fjp_ryb">You can use the folder that you created to save
+                dashboards.</postreq>
+        </taskbody>
+    </task>
+    <task id="task_ynt_q5p_ryb">
+        <title>Exporting dashboards</title>
+        <shortdesc>You can export dashboards from Grafana into a JSON file to reuse in the future
+            when required.</shortdesc>
+        <taskbody>
+            <prereq id="prereq_uts_mvp_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                    id="ul_vts_mvp_ryb">
+                    <li conref="conref.dita#conref/li_pjd_jw3_ryb"/>
+                    <li>Created a dashboard. See <xref href="create_dashboards.dita"/></li>
+                </ul></prereq>
+            <steps id="steps_wrp_4vp_ryb">
+                <step>
+                    <cmd><ph conref="conref.dita#conref/ph_abl_whp_ryb"/></cmd>
+                </step>
+                <step>
+                    <cmd>Open the dashboard that you want to export from the corresponding
+                        Folder.</cmd>
+                </step>
+                <step>
+                    <cmd>Click the <uicontrol>Share</uicontrol>
+                        <image href="images/share_icon.png" id="image_dr1_1wp_ryb"/> icon, and then
+                        click the <uicontrol>Export</uicontrol> tab.</cmd>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>Save to file</uicontrol>.</cmd>
+                </step>
+            </steps>
+            <result id="result_cqy_dwp_ryb">You have downloaded the dashboard as the JSON
+                file.</result>
+            <postreq id="postreq_evx_fwp_ryb">You can import the dashboard to Grafana whenever you
+                need it in the future. See <xref href="#task_bns_mwp_ryb"/>.</postreq>
+        </taskbody>
+    </task>
+    <task id="task_bns_mwp_ryb">
+        <title>Importing dashboards</title>
+        <shortdesc>You can import the dashboard saved in JSON format into Grafana for further
+            customization. Thereby, you can construct the dashboard based on your
+            requirements.</shortdesc>
+        <taskbody>
+            <prereq id="prereq_lnr_gxp_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                    id="ul_mnr_gxp_ryb">
+                    <li conref="conref.dita#conref/li_pjd_jw3_ryb"/>
+                    <li>Dashboard saved in JSON format.</li>
+                </ul></prereq>
+            <steps id="steps_wwg_3xp_ryb">
+                <step>
+                    <cmd><ph conref="conref.dita#conref/ph_abl_whp_ryb"/></cmd>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>New</uicontrol>, and then select
+                            <uicontrol>Import</uicontrol>.</cmd>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>Upload dashboard JSON file</uicontrol> and choose the
+                        dashboard JSON file stored on your computer.</cmd>
+                    <info>Alternatively, you can locate the dashboard JSON file and then drag and
+                        drop it to the <uicontrol>Upload dashboard JSON file</uicontrol>
+                        field.</info>
+                </step>
+                <step conref="create_dashboards.dita#create_dashboards/step_cpj_lwq_ryb">
+                    <cmd/>
+                </step>
+                <step>
+                    <cmd>Click <uicontrol>Import</uicontrol>.</cmd>
+                </step>
+            </steps>
+            <result id="result_rdb_pwq_ryb">You have imported the dashboard to Grafana.</result>
+            <postreq id="postreq_iw5_pwq_ryb">You can apply visualization to the dashboard. See
+                    <xref href="apply_visualize.dita"/>.</postreq>
+        </taskbody>
+    </task>
+</task>

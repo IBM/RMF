@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="db_ovw" xml:lang="en-us">
+    <title>RMF master dashboard</title>
+    <shortdesc><tm tmtype="reg">IBM</tm> RMF for z/OS Grafana is a plugin provides custom panels for
+        the RMF data source and master dashboard that consists of RMF Charts, RMF Reporting, and RMF
+        Time Series dashboards.</shortdesc>
+    <conbody>
+        <p>Grafana provides a highly flexible and customizable dashboard consisting of one or more
+            rows and panels. You can use various pre-configured panels to construct queries and
+            tailor the visualization to meet your requirements. This enables you to create a
+            personalized dashboard that seamlessly interacts with data from a configured <ph
+                conref="conref.dita#conref/dds_full"/> (<ph conref="conref.dita#conref/dds_short"
+            />). For more information about creating and managing dashboards, refer to the <xref
+                href="https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/create-dashboard/"
+                format="html" scope="external">Grafana</xref> documentation.</p>
+        <p>When you install the RMF for z/OS Grafana plugin for the first time, all the dashboards
+            are imported automatically. You can view the dashboards by navigating to <menucascade>
+                <uicontrol>Apps</uicontrol>
+                <uicontrol conref="conref.dita#conref/plugin_name_grafana"/>
+                <uicontrol>Dashboards</uicontrol>
+            </menucascade>. The following table lists the dashboards available in RMF Charts, RMF
+            Reporting, and RMF Time Series dashboards:<table frame="all" rowsep="1" colsep="1"
+                id="table_tkq_y3q_pyb">
+                <title>RMF master dashboard</title>
+                <tgroup cols="6" align="left">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <colspec colname="newCol3" colnum="3"/>
+                    <colspec colname="newCol4" colnum="4"/>
+                    <colspec colname="newCol5" colnum="5"/>
+                    <colspec colname="c3" colnum="6"/>
+                    <thead>
+                        <row>
+                            <entry align="center">RMF Charts Dashboard</entry>
+                            <entry namest="c2" nameend="newCol5" align="center">RMF Reporting
+                                Dashboards</entry>
+                            <entry align="center">RMF Time Series Dashboards</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Common Storage Activity</entry>
+                            <entry>CACHDET</entry>
+                            <entry>DSND</entry>
+                            <entry>PROC</entry>
+                            <entry>SYSINFO</entry>
+                            <entry>Common Storage Activity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Coupling Facility Overview</entry>
+                            <entry>CACHSUM</entry>
+                            <entry>EADM</entry>
+                            <entry>PROCU</entry>
+                            <entry>SYSRG</entry>
+                            <entry>Coupling Facility Overview (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Execution Velocity</entry>
+                            <entry>CFACT</entry>
+                            <entry>ENCLAVE</entry>
+                            <entry>SPACED</entry>
+                            <entry>SYSSUM</entry>
+                            <entry>Execution Velocity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>General Activity</entry>
+                            <entry>CFOVER</entry>
+                            <entry>ENQ</entry>
+                            <entry>SPACEG</entry>
+                            <entry>USAGE</entry>
+                            <entry>General Activity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Overall Image Activity</entry>
+                            <entry>CFSYS</entry>
+                            <entry>HSM</entry>
+                            <entry>STOR</entry>
+                            <entry>XCFGROUP</entry>
+                            <entry>Overall Image Activity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Performance Index</entry>
+                            <entry>CHANNEL</entry>
+                            <entry>IOQ</entry>
+                            <entry>STORC</entry>
+                            <entry>XCFOVW</entry>
+                            <entry>Performance Index (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Response Time</entry>
+                            <entry>CPC</entry>
+                            <entry>JES</entry>
+                            <entry>STORCR</entry>
+                            <entry>XCFPATH</entry>
+                            <entry>Response Time</entry>
+                        </row>
+                        <row>
+                            <entry>Using &amp; Delays</entry>
+                            <entry>CRYOVW</entry>
+                            <entry>LOCKSP</entry>
+                            <entry>STORF</entry>
+                            <entry>XCFSYS</entry>
+                            <entry>Using &amp; Delays (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>XCF Activity</entry>
+                            <entry>DELAY</entry>
+                            <entry>LOCKSU</entry>
+                            <entry>STORM</entry>
+                            <entry>ZFSFS</entry>
+                            <entry>XCF Activity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry>Common Storage Activity</entry>
+                            <entry>DEV</entry>
+                            <entry>OPD</entry>
+                            <entry>STORR</entry>
+                            <entry>ZFSKN</entry>
+                            <entry>Common Storage Activity (Timeline)</entry>
+                        </row>
+                        <row>
+                            <entry/>
+                            <entry>DEVR</entry>
+                            <entry>PCIE</entry>
+                            <entry>STORS</entry>
+                            <entry>ZFSOVW</entry>
+                            <entry/>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></p>
+        <p>The dashboard interface offers several customization options for data presentation. The
+            following is the image of the master dashboard from the <ph
+                conref="conref.dita#conref/plugin_name"/> plugin:</p>
+        <p><image href="images/default_db_view.png" id="image_xc4_lvq_pyb">
+                <alt>default_dashboard_view</alt>
+            </image></p>
+        <p>You can click the <image href="images/import_db.png" id="image_dst_g5q_pyb" scale="50">
+                <alt>import_dashboard</alt>
+            </image> option when there is a new version of the plugin, and then re-import the
+            dashboard by clicking the <image href="images/reimport.png" id="image_x5y_35q_pyb"
+                scale="50">
+                <alt>reimport</alt>
+            </image> icon. Similarly, if any of the dashboards is no longer required, you can click
+            the <image href="images/del.png" id="image_hjg_l5q_pyb" scale="50"/> icon to remove it
+            from the master dashboard.</p>
+        <p>For more information about available features in the Dashboard and their descriptions,
+            refer to the <xref
+                href="https://grafana.com/docs/grafana/latest/dashboards/use-dashboards/"
+                format="html" scope="external">Grafana</xref> documentation.</p>
+    </conbody>
+</concept>

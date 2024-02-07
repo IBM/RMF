@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="visual_grafana" xml:lang="en-us">
+    <title>Visualization of RMF Monitor III metrics in Grafana</title>
+    <titlealts>
+        <navtitle>Overview</navtitle>
+    </titlealts>
+    <shortdesc>Grafana is a platform for monitoring and visualizing data. It enables users to
+        create, explore, and share dashboards that are interactive and customizable. The <tm
+            tmtype="reg">IBM</tm> RMF for z/OS Grafana plugin provides effortless analysis and
+        visualization of <ph conref="conref.dita#conref/rmf_full"/> (<ph
+            conref="conref.dita#conref/rmf_short"/>) Monitor III metrics and reports within the
+        Grafana platform. Thereby, you can monitor and analyze the health and performance of
+        applications.</shortdesc>
+    <conbody>
+        <p>The <ph conref="conref.dita#conref/plugin_name"/> plugin provides the following
+                features:<ul id="ul_g42_chq_pyb">
+                <li>You can choose various visualization options, such as graphs, charts, panels,
+                    and reports, to help you understand your data's trends, patterns, and
+                    variances.</li>
+                <!--<li><ph conref="conref.dita#conref/plugin_name"/> plugin consists of RMF Chart dashboards, RMF Reporting dashboards, and RMF Time Series dashboards.</li>-->
+                <li>You can create dynamic and engaging dashboards by piecing together various
+                    panels, each displaying a unique visualization. </li>
+                <li>You have the freedom to customize each panel based on your requirements,
+                    including its appearance, size, and the data queries it displays.</li>
+                <li>Grafana supports integration with numerous data sources, which helps you fetch
+                    data from various <ph conref="conref.dita#conref/dds_full"/>s (<ph
+                        conref="conref.dita#conref/dds_short"/>) and display it in a unified
+                    dashboard.</li>
+                <li>You can set up alerts based on specific conditions or thresholds in your RMF
+                    data. Grafana can trigger notifications via email or other communication
+                    channels when these conditions are met.</li>
+                <li>You can define a dashboard variable to change the RMF data displayed in your
+                    dashboard simply by selecting a value from the drop-down list at the top.</li>
+            </ul></p>
+    </conbody>
+</concept>

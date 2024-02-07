@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="grafana_via_zosmf" xml:lang="en-us">
+    <title>Grafana through <ph conref="conref.dita#conref/zosmf_full"/></title>
+    <titlealts>
+        <navtitle>Grafana through <ph conref="conref.dita#conref/zosmf_short"/></navtitle>
+    </titlealts>
+    <shortdesc>When you use <tm tmtype="reg">IBM</tm> z/OS Management Facility to monitor the
+        performance of the z/OS sysplexes in your environment, you can also access Grafana
+        dashboards from <ph conref="conref.dita#conref/zosmf_short"/>.</shortdesc>
+    <conbody>
+        <p>You must complete certain tasks to access Grafana through <ph
+                conref="conref.dita#conref/zosmf_short"/>. The following table lists the task flows
+            to access Grafana from <ph conref="conref.dita#conref/zosmf_short"/>:<table frame="all"
+                rowsep="1" colsep="1" id="table_mbr_tvq_pyb">
+                <tgroup cols="2" align="left">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <thead>
+                        <row>
+                            <entry>Tasks</entry>
+                            <entry>More information</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Complete the tasks provided in the Prerequisites topic.</entry>
+                            <entry><xref href="prereq_zosmf.dita"/></entry>
+                        </row>
+                        <row>
+                            <entry>Install the RMF for z/OS plugin on Grafana.</entry>
+                            <entry><xref href="install_grafana_plugin.dita"/></entry>
+                        </row>
+                        <row>
+                            <entry>Define Grafana servers as target systems.</entry>
+                            <entry><xref href="define_grafana_zosmf.dita"/></entry>
+                        </row>
+                        <row>
+                            <entry>Access Grafana dashboards</entry>
+                            <entry><xref href="access_grafana_zosmf.dita"/></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table></p>
+    </conbody>
+</concept>

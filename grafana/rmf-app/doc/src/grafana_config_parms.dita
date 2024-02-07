@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="grafana_config_parms" xml:lang="en-us">
+    <title>Grafana configuration parameters</title>
+    <shortdesc>You can find the information about parameters you can use during the configuration of
+        JWT authentication on Grafana.</shortdesc>
+    <body>
+        <p>The following table lists the minimum parameters that you must configure to enable JWT
+            authentication on Grafana:</p>
+        <table frame="all" rowsep="1" colsep="1" id="table_d22_hfh_h1c">
+            <tgroup cols="4" align="left">
+                <colspec colname="c1" colnum="1"/>
+                <colspec colname="c2" colnum="2"/>
+                <colspec colname="c3" colnum="3"/>
+                <colspec colname="c4" colnum="4"/>
+                <thead>
+                    <row>
+                        <entry>Section</entry>
+                        <entry>Parameters</entry>
+                        <entry>Description</entry>
+                        <entry>Values to be configured for <ph
+                                conref="conref.dita#conref/zosmf_short"/></entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry morerows="8"><codeph>[auth.jwt]</codeph></entry>
+                        <entry><parmname>enabled</parmname></entry>
+                        <entry>Use this parameter to allow JWT to authenticate on the Grafana
+                            server.<lines id="lines_qlg_jnh_h1c">The default value is set to <systemoutput>true</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>enable_login_token</parmname></entry>
+                        <entry>Upon successful authentication proxy header validation, this
+                            parameter provides the user with a login
+                            token.<lines id="lines_wnl_qnh_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>header_name</parmname></entry>
+                        <entry>Use this parameter to specify the header's name that holds a
+                            token.<lines id="lines_s4d_tnh_h1c">The default value is set to <systemoutput>X-JWT-Assertion</systemoutput>.</lines></entry>
+                        <entry><systemoutput>X-Forwarded-Access-Token</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>username_claim</parmname></entry>
+                        <entry>Use this parameter to identify the user.
+                            <lines id="lines_us5_tnh_h1c">The <systemoutput>sub</systemoutput> claim is mandatory and needs to be present in a JWT, and it should mention the subject of the JWT.</lines><lines id="lines_mnf_5nh_h1c">The default value is also set to <systemoutput>sub</systemoutput>.</lines></entry>
+                        <entry><systemoutput>sub</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>jwk_set_file</parmname></entry>
+                        <entry>Use this parameter to verify the token with a JSON Web Key Set loaded
+                            from a JSON file.</entry>
+                        <entry><systemoutput>/PATH/TO/jwks.json</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>cache_ttl</parmname></entry>
+                        <entry>Use this parameter to establish the duration for caching data
+                            retrieved from the HTTP endpoint.
+                            <lines id="lines_byn_xnh_h1c">This parameter enables the user to store the data for a specified period, allowing for faster access and retrieval of information.</lines><lines id="lines_m2y_xnh_h1c">The default value is set to <systemoutput>60m</systemoutput> (minutes).</lines></entry>
+                        <entry><systemoutput>60m</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>expect_claims</parmname></entry>
+                        <entry>Use this parameter to verify the validity of other claims that
+                            contain JSON-encoded information.
+                            <lines id="lines_elx_ynh_h1c">When it comes to validation, only the <systemoutput>exp</systemoutput>, <systemoutput>nbf</systemoutput>, and <systemoutput>iat</systemoutput> claims are automatically checked by default.</lines><lines id="lines_c14_znh_h1c">You must validate if you are using other claims such as <systemoutput>iss</systemoutput>, <systemoutput>sub</systemoutput>, <systemoutput>aud</systemoutput>, and <systemoutput>jti</systemoutput>.</lines></entry>
+                        <entry><systemoutput>{"iss": "zOSMF"}</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>auto_sign_up</parmname></entry>
+                        <entry>Use this parameter to automatically create user profiles in Grafana
+                            using the <systemoutput>TSO ID</systemoutput> of <ph
+                                conref="conref.dita#conref/zosmf_short"/> for users who do not have
+                            user profiles in the Grafana
+                            server.<lines id="lines_hwr_1tw_31c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>url_login</parmname></entry>
+                        <entry>Use this parameter to enable JWT authentication in the URL.
+                            <lines id="lines_lgz_znh_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry morerows="2"><codeph>[server]</codeph></entry>
+                        <entry><parmname>protocol</parmname></entry>
+                        <entry>Use this parameter to configure <ph
+                                conref="conref.dita#conref/zosmf_short"/> to work over
+                            HTTPS.<lines id="lines_yfr_14h_h1c">When you configure <ph conref="conref.dita#conref/zosmf_short"/> to work over HTTPS, it is recommended to configure Grafana to also work over HTTPS. This ensures the secure data transfer between the user's web browser and the Grafana server.</lines><lines id="lines_mlb_b4h_h1c">The default value is set to <systemoutput>http</systemoutput>.</lines></entry>
+                        <entry><systemoutput>https</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>cert_file</parmname></entry>
+                        <entry>Use this parameter to specify the path to the certificate file when
+                            the protocol parameter is set to <systemoutput>https</systemoutput> or
+                                <systemoutput>h2</systemoutput>.</entry>
+                        <entry><systemoutput>/PATH/TO/certificate.crt</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>cert_key</parmname></entry>
+                        <entry>Use this parameter to specify the path to the certificate key file
+                            when the protocol parameter is set to <systemoutput>https</systemoutput>
+                            or <systemoutput>h2</systemoutput>.</entry>
+                        <entry><systemoutput>/PATH/TO/privateKey.key</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry morerows="2"><codeph>[Security]</codeph></entry>
+                        <entry><parmname>cookie_secure</parmname></entry>
+                        <entry>Use this parameter if you hosted the Grafana instance over
+                            HTTPS.<lines id="lines_gpn_b4h_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>cookie_samesite</parmname></entry>
+                        <entry>Use this parameter to prevent the browser from sharing cookies with
+                            other
+                            websites.<lines id="lines_gqw_b4h_h1c">The default value is set to <systemoutput>lax</systemoutput>.</lines></entry>
+                        <entry><systemoutput>disabled</systemoutput></entry>
+                    </row>
+                    <row>
+                        <entry><parmname>allow_embedding</parmname></entry>
+                        <entry>Use this parameter to enable web browsers to display Grafana within
+                                <ph conref="conref.dita#conref/zosmf_short"/> HTML &lt;frame>,
+                            &lt;iframe>, &lt;embed>, or &lt;object> element.
+                            <lines id="lines_i5p_c4h_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                        <entry><systemoutput>true</systemoutput></entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <p>For more information about customizing the Grafana instance by modifying the parameters
+            in the configuration file, refer to the following sections in the Grafana
+            documentation.</p>
+        <ul id="ul_zct_qlh_h1c">
+            <li><xref
+                    href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/"
+                    format="html" scope="external">Configure JWT authentication</xref></li>
+            <li><xref
+                    href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/"
+                    format="html" scope="external">Configure Grafana</xref></li>
+        </ul>
+    </body>
+</topic>

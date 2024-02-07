@@ -1,0 +1,297 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" data-whc_version="24.1">
+    <head><link rel="shortcut icon" href="oxygen-webhelp\template\images/ResourceMeasurementFacility.svg"/><link rel="icon" href="oxygen-webhelp\template\images/ResourceMeasurementFacility.svg"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="DC.rights.owner" content="(C) Copyright 2024"/><meta name="copyright" content="(C) Copyright 2024"/><meta name="generator" content="DITA-OT"/><meta name="DC.type" content="topic"/><meta name="description" content="You can find the information about parameters you can use during the configuration of JWT authentication on Grafana."/><meta name="DC.relation" content="prereq_zosmf.html"/><meta name="DC.format" content="HTML5"/><meta name="DC.identifier" content="grafana_config_parms"/><meta name="DC.language" content="en-us"/>        
+      <title>Grafana configuration parameters</title><!--  Generated with Oxygen version 24.1, build number 2022110310.  --><meta name="wh-path2root" content=""/><meta name="wh-toc-id" content="grafana_config_parms-d331e217"/><meta name="wh-source-relpath" content="grafana_config_parms.dita"/><meta name="wh-out-relpath" content="grafana_config_parms.html"/>
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/lib/bootstrap/css/bootstrap.min.css"/>
+    
+    <link rel="stylesheet" href="./oxygen-webhelp/lib/jquery-ui/jquery-ui.min.css"/>
+    
+    <!-- Template default styles  -->
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/app/topic-page.css?buildId=2022110310"/>
+    
+    
+    <script src="./oxygen-webhelp/lib/jquery/jquery-3.5.1.min.js"></script>
+    
+    <script data-main="./oxygen-webhelp/app/topic-page.js" src="./oxygen-webhelp/lib/requirejs/require.js"></script>
+<link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/oxygen-gray.css?buildId=2022110310"/><link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/notes.css?buildId=2022110310"/></head>
+
+    <body id="grafana_config_parms" class="wh_topic_page frmBody">
+        <a href="#wh_topic_body" class="sr-only sr-only-focusable">
+            Jump to main content
+        </a>
+        
+        
+        
+        
+        <header class="navbar navbar-default wh_header">
+    <div class="container-fluid">
+        <div class="wh_header_flex_container navbar-nav navbar-expand-md navbar-dark">
+            <div class="wh_logo_and_publication_title_container">
+                <div class="wh_logo_and_publication_title">
+                    
+                    
+                    <div class=" wh_publication_title "><a href="index.html"><span class="title">IBM RMF for z/OS Grafana Plugin</span></a></div>
+                    
+                </div>
+                
+                
+            </div>
+
+            <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse" id="wh_top_menu_and_indexterms_link">
+                
+                
+                
+                
+   </div>
+   <!--<div id="navbarGitHub" class="external-link" <a href="https://github.com/IBM/RMF">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg">
+  </div>
+   <div id="navbarRMFdocs" class="external-link" <a href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf">
+        <input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg">
+        </div>-->
+  
+  <div class="external-link" id="navbarGitHub">
+  <ul class="navbar-nav">
+   <!-- <li <p class="nav-item">
+    <a class="nav-link" style="color:#ffffff;" href="https://github.com/IBM/RMF"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\logo-github.svg" width="25" height="25"> </p>
+   </li> -->
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf" target="_blank"> <input type="button" value="RMF for z/OS"/> </a></p>
+   </li>
+   <li><p class="nav-item">
+    <a class="nav-link" style="color:#0f62fe;" href="https://github.com/IBM/RMF" target="_blank"> <input type="button" value="GitHub"/> </a></p>
+   </li>
+   <!-- <li <p class="nav-item">
+                <a class="nav-link" style="color:#ffffff;" href="https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf"" target="_blank"></a><input type="image" src="C:\Git\zos_dev\RMF\V3R1\rmf\grafana\template\images\book.svg"> </p>
+            </li> -->
+  </ul>
+ </div>
+    </div>
+    </div>
+</header>
+
+        
+        
+         
+        
+        <div class=" wh_search_input navbar-form wh_topic_page_search search " role="form">
+            
+            
+            
+            <form id="searchForm" method="get" role="search" action="search.html"><div><input type="search" placeholder="Search " class="wh_search_textfield" id="textToSearch" name="searchQuery" aria-label="Search query" required="required"/><button type="submit" class="wh_search_button" aria-label="Search"><span class="search_input_text">Search</span></button></div></form>
+            
+            
+            
+        </div>
+        
+        <div class="container-fluid" id="wh_topic_container">
+            <div class="row">
+
+                <nav class="wh_tools d-print-none navbar-expand-md" aria-label="Tools">
+                    
+                    <div data-tooltip-position="bottom" class=" wh_breadcrumb "><ol class="d-print-none"><li><span class="home"><a href="index.html"><span>Home</span></a></span></li><li><div class="topicref" data-id="grafana_via_zosmf"><div class="title"><a href="grafana_via_zosmf.html">Grafana through <span class="ph">z/OSMF</span></a><div class="wh-tooltip"><p class="shortdesc">When you use IBM® z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <span class="ph">z/OSMF</span>.</p></div></div></div></li><li><div class="topicref" data-id="prereq_zosmf"><div class="title"><a href="prereq_zosmf.html">Prerequisites</a><div class="wh-tooltip"><p class="shortdesc">Before you can start working with Grafana dashboards through <span class="ph">z/OSMF</span>, there are some prerequisites that you need to         complete.</p></div></div></div></li><li class="active"><div class="topicref" data-id="grafana_config_parms"><div class="title"><a href="grafana_config_parms.html">Grafana configuration parameters</a><div class="wh-tooltip"><p class="shortdesc">You can find the information about parameters you can use during the configuration of         JWT authentication on Grafana.</p></div></div></div></li></ol></div>
+                    
+                    
+                    
+                    <div class="wh_right_tools">
+                        <button class="wh_hide_highlight" aria-label="Toggle search highlights" title="Toggle search highlights"></button>
+                        <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" aria-label="Collapse sections" title="Collapse sections"></button>
+                        
+                        
+                        
+                        
+                        <div class=" wh_print_link print d-none d-md-inline-block "><button onClick="window.print()" title="Print this page" aria-label="Print this page"></button></div>
+                        
+                        <button type="button" id="wh_toc_button" class="custom-toggler navbar-toggler collapsed wh_toggle_button navbar-light" aria-expanded="false" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    
+                </nav>
+            </div>
+            
+            
+            
+            
+            <div class="wh_content_area">
+                <div class="row">
+                    
+                        <nav id="wh_publication_toc" class="col-lg-3 col-md-3 col-sm-12 d-md-block d-none d-print-none" aria-label="Table of Contents Container">
+                            <div id="wh_publication_toc_content">
+		                        
+                            	<div class=" wh_publication_toc " data-tooltip-position="right"><span class="expand-button-action-labels"><span id="button-expand-action" role="button" aria-label="Expand"></span><span id="button-collapse-action" role="button" aria-label="Collapse"></span><span id="button-pending-action" role="button" aria-label="Pending"></span></span><ul role="tree" aria-label="Table of Contents"><li role="treeitem"><div data-tocid="visual_grafana-d331e14" class="topicref" data-id="visual_grafana" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="visual_grafana.html" id="visual_grafana-d331e14-link">Overview</a><div class="wh-tooltip"><p class="shortdesc">Grafana is a platform for monitoring and visualizing data. It enables users to         create, explore, and share dashboards that are interactive and customizable. The IBM® RMF for z/OS Grafana plugin provides effortless analysis and         visualization of <span class="ph">Resource Measurement Facility for z/OS</span> (<span class="ph">RMF for z/OS</span>) Monitor III metrics and reports within the         Grafana platform. Thereby, you can monitor and analyze the health and performance of         applications.</p></div></div></div></li><li role="treeitem"><div data-tocid="rn-d331e34" class="topicref" data-id="rn" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="rn.html" id="rn-d331e34-link">Release notes</a><div class="wh-tooltip"><p class="shortdesc">This article covers the new features, system requirements, and known issues of the             IBM® RMF for z/OS Grafana plugin.</p></div></div></div></li><li role="treeitem"><div data-tocid="install_grafana_plugin-d331e48" class="topicref" data-id="install_grafana_plugin" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_grafana_plugin.html" id="install_grafana_plugin-d331e48-link">Installing the plugin</a><div class="wh-tooltip"><p class="shortdesc">You must install the IBM® RMF for z/OS Grafana plugin to analyze         and visualize RMF Monitor III metrics and reports.</p></div></div></div></li><li role="treeitem"><div data-tocid="create_datasources-d331e62" class="topicref" data-id="create_datasources" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="create_datasources.html" id="create_datasources-d331e62-link">Creating RMF data sources</a><div class="wh-tooltip"><p class="shortdesc">To access RMF Monitor III metrics in Grafana, you need to connect to the <span class="ph">Distributed Data Server</span>s by adding an RMF data source.</p></div></div></div></li><li role="treeitem"><div data-tocid="db_ovw-d331e76" class="topicref" data-id="db_ovw" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="db_ovw.html" id="db_ovw-d331e76-link">RMF master dashboard</a><div class="wh-tooltip"><p class="shortdesc">IBM® RMF for z/OS Grafana is a plugin provides custom panels for         the RMF data source and master dashboard that consists of RMF Charts, RMF Reporting, and RMF         Time Series dashboards.</p></div></div></div></li><li role="treeitem"><div data-tocid="apply_visualize-d331e89" class="topicref" data-id="apply_visualize" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="apply_visualize.html" id="apply_visualize-d331e89-link">Applying visualization to RMF data</a><div class="wh-tooltip"><p class="shortdesc">By adding panels to dashboards, you can effectively present your RMF data in a visual         format. Each panel must require at least one query to display a significant         visualization.</p></div></div></div></li><li role="treeitem"><div data-tocid="query_lang-d331e100" class="topicref" data-id="query_lang" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="query_lang.html" id="query_lang-d331e100-link">IBM RMF query languages</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, queries are essential for fetching and transforming data from RMF data         sources.</p></div></div></div></li><li role="treeitem"><div data-tocid="variables-d331e111" class="topicref" data-id="variables" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="variables.html" id="variables-d331e111-link">RMF Variable Query syntax</a><div class="wh-tooltip"><p class="shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They         offer a way to replace hard-coded values in metric queries and panel titles with         placeholders for values.</p></div></div></div></li><li role="treeitem"><div data-tocid="plugin_config-d331e122" class="topicref" data-id="plugin_config" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="plugin_config.html" id="plugin_config-d331e122-link">Plugin configuration</a><div class="wh-tooltip"><p class="shortdesc">If you feel the IBM® RMF for z/OS Grafana plugin consumes too much memory after         plotting charts and reports or working with time-series data, you can configure it to         optimize its performance.</p></div></div></div></li><li role="treeitem"><div data-tocid="alerts-d331e133" class="topicref" data-id="alerts" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="alerts.html" id="alerts-d331e133-link">Alerts</a><div class="wh-tooltip"><p class="shortdesc">Grafana Alerting feature provides a reliable solution to detect and respond to system         issues in real time.</p></div></div></div></li><li role="treeitem"><div data-tocid="historical_data-d331e145" class="topicref" data-id="historical_data" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="historical_data.html" id="historical_data-d331e145-link">Historical data</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, you can collect historical data using absolute and relative time         ranges.</p></div></div></div></li><li role="treeitem"><div data-tocid="error_reports-d331e156" class="topicref" data-id="error_reports" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="error_reports.html" id="error_reports-d331e156-link">Error types</a><div class="wh-tooltip"><p class="shortdesc">Whenever you encounter issues while using the <span class="ph">IBM RMF for z/OS Grafana</span> plugin, you can view detailed error messages         that contain sufficient information to help you identify and troubleshoot the         problem.</p></div></div></div></li><li role="treeitem"><div data-tocid="ts_issues-d331e170" class="topicref" data-id="ts_issues" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="ts_issues.html" id="ts_issues-d331e170-link">Troubleshooting issues</a><div class="wh-tooltip"><p class="shortdesc">This section guides how to analyze and address typical issues that may arise when         using the IBM® RMF for z/OS Grafana plugin.</p></div></div></div></li><li role="treeitem" aria-expanded="true"><div data-tocid="grafana_via_zosmf-d331e184" class="topicref" data-id="grafana_via_zosmf" data-state="expanded"><span role="button" tabindex="0" aria-labelledby="button-collapse-action grafana_via_zosmf-d331e184-link" class="wh-expand-btn"></span><div class="title"><a href="grafana_via_zosmf.html" id="grafana_via_zosmf-d331e184-link">Grafana through <span class="ph">z/OSMF</span></a><div class="wh-tooltip"><p class="shortdesc">When you use IBM® z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <span class="ph">z/OSMF</span>.</p></div></div></div><ul role="group" class="navbar-nav nav-list"><li role="treeitem" aria-expanded="true"><div data-tocid="prereq_zosmf-d331e203" class="topicref" data-id="prereq_zosmf" data-state="expanded"><span role="button" tabindex="0" aria-labelledby="button-collapse-action prereq_zosmf-d331e203-link" class="wh-expand-btn"></span><div class="title"><a href="prereq_zosmf.html" id="prereq_zosmf-d331e203-link">Prerequisites</a><div class="wh-tooltip"><p class="shortdesc">Before you can start working with Grafana dashboards through <span class="ph">z/OSMF</span>, there are some prerequisites that you need to         complete.</p></div></div></div><ul role="group" class="navbar-nav nav-list"><li role="treeitem" class="active"><div data-tocid="grafana_config_parms-d331e217" class="topicref" data-id="grafana_config_parms" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="grafana_config_parms.html" id="grafana_config_parms-d331e217-link">Grafana configuration parameters</a><div class="wh-tooltip"><p class="shortdesc">You can find the information about parameters you can use during the configuration of         JWT authentication on Grafana.</p></div></div></div></li></ul></li><li role="treeitem"><div data-tocid="define_grafana_zosmf-d331e228" class="topicref" data-id="define_grafana_zosmf" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="define_grafana_zosmf.html" id="define_grafana_zosmf-d331e228-link">Defining the Grafana server</a><div class="wh-tooltip"><p class="shortdesc">You must define the Grafana server as a target system in <span class="ph">z/OSMF</span> to access Grafana from the <span class="keyword wintitle">Resource             Monitoring</span> page of <span class="ph">z/OSMF</span>.</p></div></div></div></li><li role="treeitem"><div data-tocid="access_grafana_zosmf-d331e248" class="topicref" data-id="access_grafana_zosmf" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="access_grafana_zosmf.html" id="access_grafana_zosmf-d331e248-link">Accessing the Grafana dashboard</a><div class="wh-tooltip"><p class="shortdesc">You can access the Grafana dashboard from the <span class="keyword wintitle">Resource             Monitoring</span> page of <span class="ph">z/OSMF</span> to         investigate the RMF Monitor III metrics and reports.</p></div></div></div></li></ul></li></ul></div>
+		                        
+                            </div>
+                        </nav>
+                    
+                    
+                    <div class="col-lg-9 col-md-9 col-sm-12" id="wh_topic_body">
+                        <button id="wh_close_publication_toc_button" class="close-toc-button d-none" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc" aria-expanded="true">
+                            <span class="close-toc-icon-container">
+                                <span class="close-toc-icon"></span>     
+                            </span>
+                        </button>
+                        
+                        
+                        <div class=" wh_topic_content body "><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1">Grafana configuration parameters</h1>
+    
+    <div class="- topic/body body"><p class="- topic/shortdesc shortdesc">You can find the information about parameters you can use during the configuration of
+        JWT authentication on Grafana.</p>
+        <p class="- topic/p p">The following table lists the minimum parameters that you must configure to enable JWT
+            authentication on Grafana:</p>
+        <div class="table-container"><table class="- topic/table table frame-all" id="grafana_config_parms__table_d22_hfh_h1c" data-ofbid="grafana_config_parms__table_d22_hfh_h1c" data-cols="4"><caption></caption><colgroup><col/><col/><col/><col/></colgroup><thead class="- topic/thead thead">
+                    <tr class="- topic/row">
+                        <th class="- topic/entry entry align-left colsep-1 rowsep-1" id="grafana_config_parms__table_d22_hfh_h1c__entry__1">Section</th>
+                        <th class="- topic/entry entry align-left colsep-1 rowsep-1" id="grafana_config_parms__table_d22_hfh_h1c__entry__2">Parameters</th>
+                        <th class="- topic/entry entry align-left colsep-1 rowsep-1" id="grafana_config_parms__table_d22_hfh_h1c__entry__3">Description</th>
+                        <th class="- topic/entry entry align-left colsep-0 rowsep-1" id="grafana_config_parms__table_d22_hfh_h1c__entry__4">Values to be configured for <span class="- topic/ph ph">z/OSMF</span></th>
+                    </tr>
+                </thead><tbody class="- topic/tbody tbody">
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__1" rowspan="9"><code class="+ topic/ph pr-d/codeph ph codeph">[auth.jwt]</code></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">enabled</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to allow JWT to authenticate on the Grafana
+                            server.<p class="- topic/lines lines" id="grafana_config_parms__lines_qlg_jnh_h1c" data-ofbid="grafana_config_parms__lines_qlg_jnh_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">enable_login_token</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Upon successful authentication proxy header validation, this
+                            parameter provides the user with a login
+                            token.<p class="- topic/lines lines" id="grafana_config_parms__lines_wnl_qnh_h1c" data-ofbid="grafana_config_parms__lines_wnl_qnh_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">false</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">header_name</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to specify the header's name that holds a
+                            token.<p class="- topic/lines lines" id="grafana_config_parms__lines_s4d_tnh_h1c" data-ofbid="grafana_config_parms__lines_s4d_tnh_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">X-JWT-Assertion</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">X-Forwarded-Access-Token</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">username_claim</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to identify the user.
+                            <p class="- topic/lines lines" id="grafana_config_parms__lines_us5_tnh_h1c" data-ofbid="grafana_config_parms__lines_us5_tnh_h1c">The <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">sub</samp> claim is mandatory and needs to be present in a JWT, and it should mention the subject of the JWT.</p><p class="- topic/lines lines" id="grafana_config_parms__lines_mnf_5nh_h1c" data-ofbid="grafana_config_parms__lines_mnf_5nh_h1c">The default value is also set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">sub</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">sub</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">jwk_set_file</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to verify the token with a JSON Web Key Set loaded
+                            from a JSON file.</td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">/PATH/TO/jwks.json</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">cache_ttl</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to establish the duration for caching data
+                            retrieved from the HTTP endpoint.
+                            <p class="- topic/lines lines" id="grafana_config_parms__lines_byn_xnh_h1c" data-ofbid="grafana_config_parms__lines_byn_xnh_h1c">This parameter enables the user to store the data for a specified period, allowing for faster access and retrieval of information.</p><p class="- topic/lines lines" id="grafana_config_parms__lines_m2y_xnh_h1c" data-ofbid="grafana_config_parms__lines_m2y_xnh_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">60m</samp> (minutes).</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">60m</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">expect_claims</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to verify the validity of other claims that
+                            contain JSON-encoded information.
+                            <p class="- topic/lines lines" id="grafana_config_parms__lines_elx_ynh_h1c" data-ofbid="grafana_config_parms__lines_elx_ynh_h1c">When it comes to validation, only the <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">exp</samp>, <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">nbf</samp>, and <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">iat</samp> claims are automatically checked by default.</p><p class="- topic/lines lines" id="grafana_config_parms__lines_c14_znh_h1c" data-ofbid="grafana_config_parms__lines_c14_znh_h1c">You must validate if you are using other claims such as <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">iss</samp>, <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">sub</samp>, <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">aud</samp>, and <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">jti</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">{"iss": "zOSMF"}</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">auto_sign_up</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to automatically create user profiles in Grafana
+                            using the <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">TSO ID</samp> of <span class="- topic/ph ph">z/OSMF</span> for users who do not have
+                            user profiles in the Grafana
+                            server.<p class="- topic/lines lines" id="grafana_config_parms__lines_hwr_1tw_31c" data-ofbid="grafana_config_parms__lines_hwr_1tw_31c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">false</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">url_login</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to enable JWT authentication in the URL.
+                            <p class="- topic/lines lines" id="grafana_config_parms__lines_lgz_znh_h1c" data-ofbid="grafana_config_parms__lines_lgz_znh_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">false</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__1" rowspan="3"><code class="+ topic/ph pr-d/codeph ph codeph">[server]</code></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">protocol</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to configure <span class="- topic/ph ph">z/OSMF</span> to work over
+                            HTTPS.<p class="- topic/lines lines" id="grafana_config_parms__lines_yfr_14h_h1c" data-ofbid="grafana_config_parms__lines_yfr_14h_h1c">When you configure <span class="- topic/ph ph">z/OSMF</span> to work over HTTPS, it is recommended to configure Grafana to also work over HTTPS. This ensures the secure data transfer between the user's web browser and the Grafana server.</p><p class="- topic/lines lines" id="grafana_config_parms__lines_mlb_b4h_h1c" data-ofbid="grafana_config_parms__lines_mlb_b4h_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">http</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">https</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">cert_file</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to specify the path to the certificate file when
+                            the protocol parameter is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">https</samp> or
+                                <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">h2</samp>.</td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">/PATH/TO/certificate.crt</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">cert_key</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to specify the path to the certificate key file
+                            when the protocol parameter is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">https</samp>
+                            or <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">h2</samp>.</td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">/PATH/TO/privateKey.key</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-0" headers="grafana_config_parms__table_d22_hfh_h1c__entry__1" rowspan="3"><code class="+ topic/ph pr-d/codeph ph codeph">[Security]</code></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">cookie_secure</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter if you hosted the Grafana instance over
+                            HTTPS.<p class="- topic/lines lines" id="grafana_config_parms__lines_gpn_b4h_h1c" data-ofbid="grafana_config_parms__lines_gpn_b4h_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">false</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">cookie_samesite</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to prevent the browser from sharing cookies with
+                            other
+                            websites.<p class="- topic/lines lines" id="grafana_config_parms__lines_gqw_b4h_h1c" data-ofbid="grafana_config_parms__lines_gqw_b4h_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">lax</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-1" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">disabled</samp></td>
+                    </tr>
+                    <tr class="- topic/row">
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-0" headers="grafana_config_parms__table_d22_hfh_h1c__entry__2"><span class="+ topic/keyword pr-d/parmname keyword parmname">allow_embedding</span></td>
+                        <td class="- topic/entry entry align-left colsep-1 rowsep-0" headers="grafana_config_parms__table_d22_hfh_h1c__entry__3">Use this parameter to enable web browsers to display Grafana within
+                                <span class="- topic/ph ph">z/OSMF</span> HTML &lt;frame&gt;,
+                            &lt;iframe&gt;, &lt;embed&gt;, or &lt;object&gt; element.
+                            <p class="- topic/lines lines" id="grafana_config_parms__lines_i5p_c4h_h1c" data-ofbid="grafana_config_parms__lines_i5p_c4h_h1c">The default value is set to <samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">false</samp>.</p></td>
+                        <td class="- topic/entry entry align-left colsep-0 rowsep-0" headers="grafana_config_parms__table_d22_hfh_h1c__entry__4"><samp class="+ topic/ph sw-d/systemoutput ph systemoutput sysout">true</samp></td>
+                    </tr>
+                </tbody></table></div>
+        <p class="- topic/p p">For more information about customizing the Grafana instance by modifying the parameters
+            in the configuration file, refer to the following sections in the Grafana
+            documentation.</p>
+        <ul class="- topic/ul ul" id="grafana_config_parms__ul_zct_qlh_h1c" data-ofbid="grafana_config_parms__ul_zct_qlh_h1c">
+            <li class="- topic/li li"><a class="- topic/xref xref" href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/jwt/" target="_blank" rel="external noopener">Configure JWT authentication</a></li>
+            <li class="- topic/li li"><a class="- topic/xref xref" href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/" target="_blank" rel="external noopener">Configure Grafana</a></li>
+        </ul>
+    </div>
+</article></main></div>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+        </div> 
+        <footer class="navbar navbar-default wh_footer">
+  <div class=" footer-container mx-auto ">
+    
+  </div>
+</footer>
+        
+        <div id="go2top" class="d-print-none">
+            <span class="oxy-icon oxy-icon-up"></span>
+        </div>
+        
+        <div id="modal_img_large" class="modal">
+            <span class="close oxy-icon oxy-icon-remove"></span>
+            <div id="modal_img_container"></div>
+            <div id="caption"></div>
+        </div>
+        
+        
+        
+    </body>
+</html>

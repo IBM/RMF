@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="variables" xml:lang="en-us">
+    <title>RMF Variable Query syntax</title>
+    <shortdesc>Variables are a powerful tool to create more interactive and dynamic dashboards. They
+        offer a way to replace hard-coded values in metric queries and panel titles with
+        placeholders for values.</shortdesc>
+    <conbody>
+        <p>Variables make it easy to change the data displayed in your dashboard simply by selecting
+            a value from the drop-down list at the top. Using variables in your dashboard simplifies
+            maintenance, particularly if you have multiple identical data sources. Instead of
+            creating separate dashboards for each data source, you can create one dashboard and use
+            variables to change what you are viewing.<note id="note_ux2_qgc_fzb" type="important"
+                >It's important to note that variables don't have a default value. Each variable
+                drop-down list in Dashboard settings displays the variable list in the order it
+                appears.</note></p>
+        <p>You can define a dashboard variable in <menucascade>
+                <uicontrol>Dashboard Settings</uicontrol>
+                <uicontrol>Variables</uicontrol>
+            </menucascade> using Grafana's RMF Variable Query syntax with and without a filter.</p>
+        <section id="section_ttx_pjc_fzb"><title>Syntax of the query without a filter</title><p>The
+                general syntax of the query without a filter is as follows:</p><p><codeph>SELECT
+                    &lt;COLUMN_NAME> FROM RESOURCE WHERE <varname>condition1</varname> or
+                        <varname>condition2</varname> or
+                <varname>condition3</varname></codeph></p><note id="note_otd_vhc_fzb">The
+                    <codeph>&lt;COLUMN_NAME></codeph> is limited to <q>label</q> and
+                    <codeph>RESOURCE</codeph> is limited to <q>resource</q> only and cannot be used
+                for other purposes.</note><p>Where:<ul id="ul_prm_ygc_fzb">
+                    <li><codeph><varname>condition1</varname></codeph>:
+                                <synph><parmname>ULQ</parmname><sep>=</sep><var>Value</var>
+                            <sep>and</sep>
+                            <parmname>TYPE</parmname><sep>=</sep><var>Value</var></synph></li>
+                    <li><codeph><varname>condition2</varname></codeph>:
+                                <synph><parmname>Name</parmname><sep>=</sep><var>Value</var>
+                            <sep>and</sep>
+                            <parmname>TYPE</parmname><sep>=</sep><var>Value</var></synph></li>
+                    <li><codeph><varname>condition3</varname></codeph>:
+                                <synph><parmname>Name</parmname><sep>=</sep><var>Value</var>
+                            <sep>and</sep>
+                            <parmname>ULQ</parmname><sep>=</sep><var>Value</var>
+                            <sep>and</sep>
+                            <parmname>TYPE</parmname><sep>=</sep><var>Value</var></synph></li>
+                </ul></p><p><b>Examples for <varname>condition1</varname>:</b><ul
+                    id="ul_pfr_23c_fzb">
+                    <li><codeph>select label from resource where
+                                    <synph><parmname>ulq</parmname><sep>=</sep><var>"hostname of the
+                                    DDS"</var> and
+                                    <parmname>type</parmname><sep>=</sep><var>"CHANNEL_PATH"</var></synph></codeph></li>
+                    <li><codeph>select label from resource where
+                                    <synph><parmname>ulq</parmname><sep>=</sep><var>"hostname of the
+                                    DDS"</var> and
+                                    <parmname>type</parmname><sep>=</sep><var>"ALL_CHANNELS"</var></synph></codeph></li>
+                </ul></p><p><b>Examples for <varname>condition2</varname>:</b></p><codeph>select
+                label from resource where
+                        <synph><parmname>name</parmname><sep>=</sep><var>"resource_name"</var> and
+                        <parmname>type</parmname><sep>=</sep><var>"SYSPLEX"</var></synph></codeph><p><b>Examples
+                    for <varname>condition3</varname>:</b><ul id="ul_ow2_w3c_fzb">
+                    <li><codeph>select label from resource where
+                                    <synph><parmname>ulq</parmname><sep>=</sep><var>"hostname of the
+                                    DDS"</var> and
+                                    <parmname>name</parmname><sep>=</sep><var>"*"</var> and
+                                    <parmname>type</parmname><sep>=</sep><var>"CHANNEL_PATH"</var></synph></codeph></li>
+                    <li><codeph>select label from resource where
+                                    <synph><parmname>ulq</parmname><sep>=</sep><var>"hostname of the
+                                    DDS"</var> and
+                                    <parmname>name</parmname><sep>=</sep><var>"*"</var> and
+                                    <parmname>type</parmname><sep>=</sep><var>"ALL_CHANNELS"</var></synph></codeph></li>
+                </ul></p></section>
+        <section id="section_wh3_dkc_fzb">
+            <title>Syntax of the query with a filter</title>
+            <p>The general syntax of the RMF query with a filter is as follows:</p>
+            <p><codeph>SELECT &lt;COLUMN_NAME> FROM RESOURCE WHERE
+                    <varname>condition</varname></codeph></p>
+            <p>Where <codeph><varname>condition</varname></codeph> is
+                        <synph><parmname>Name</parmname><sep>=</sep><var>Value</var> and
+                        <parmname>ULQ</parmname><sep>=</sep><var>Value</var> and
+                        <parmname>TYPE</parmname><sep>=</sep><var>Value</var> and
+                        <parmname>Filter</parmname><sep>=</sep>
+                    <var>Value</var></synph></p>
+            <p><b>Examples for <varname>condition</varname>:</b></p>
+            <p><codeph>select label from resource where
+                            <synph><parmname>name</parmname><sep>=</sep><var>"resource_name"</var>
+                        and <parmname>type</parmname><sep>=</sep><var>"SYSPLEX"</var> and
+                            <parmname>filter</parmname><sep>=</sep><var>"MVS_IMAGE"</var></synph></codeph></p>
+        </section>
+        <example id="example_bck_5kc_fzb">
+            <p>To learn how to effectively add and manage variables of your choice in Grafana, you
+                can refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/"
+                    format="html" scope="external">Grafana</xref> documentation.</p>
+        </example>
+    </conbody>
+</concept>
