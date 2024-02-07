@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="error_reports" xml:lang="en-us">
+    <title>Error reporting in the plugin</title>
+    <titlealts>
+        <navtitle>Error types</navtitle>
+    </titlealts>
+    <shortdesc>Whenever you encounter issues while using the <ph
+            conref="conref.dita#conref/plugin_name"/> plugin, you can view detailed error messages
+        that contain sufficient information to help you identify and troubleshoot the
+        problem.</shortdesc>
+    <conbody>
+        <p>By viewing these error messages, you can quickly and efficiently troubleshoot any issues
+            you may encounter while using the <ph conref="conref.dita#conref/plugin_name"/>
+            plugin.</p>
+        <p>The errors that can occur vary in severity and are classified into different types as
+            described in the following table:<simpletable frame="all" id="simpletable_yqt_q33_dzb"
+                relcolwidth=".2* .2* 1*">
+                <sthead>
+                    <stentry>Type</stentry>
+                    <stentry>Error Code</stentry>
+                    <stentry>Description</stentry>
+                </sthead>
+                <strow>
+                    <stentry>Severe</stentry>
+                    <stentry>S</stentry>
+                    <stentry>A critical error has arisen that will cause the task you are currently
+                        performing to terminate immediately.<p>It is essential to take necessary
+                            measures to prevent such errors to ensure the smooth functioning of the
+                                <ph conref="conref.dita#conref/plugin_name"/> plugin.</p></stentry>
+                </strow>
+                <strow>
+                    <stentry>Eventual Action </stentry>
+                    <stentry>E</stentry>
+                    <stentry>An error of a transient nature has arisen but can be resolved with an
+                        action by the user.</stentry>
+                </strow>
+                <strow>
+                    <stentry>Warning</stentry>
+                    <stentry>W</stentry>
+                    <stentry>Receiving a warning message from the <ph
+                            conref="conref.dita#conref/plugin_name"/> plugin is not indicative of an
+                        error within the application.</stentry>
+                </strow>
+                <strow>
+                    <stentry>Information</stentry>
+                    <stentry>I</stentry>
+                    <stentry>An information message informs the users about changes or updates in
+                        the <ph conref="conref.dita#conref/plugin_name"/> plugin.<p>You need not
+                            take any action in response, but it's essential to stay up-to-date and
+                            be aware of these updates.</p></stentry>
+                </strow>
+            </simpletable></p>
+        <p>When an error occurs, it is assigned a unique Error ID that can help quickly identify the
+            root cause of the issue by referring to the log file. The Error ID is a combination of
+            10 characters comprising lower and upper case alphabets.</p>
+        <p>In case of any problems with the <ph conref="conref.dita#conref/dds_full"/> (<ph
+                conref="conref.dita#conref/dds_short"/>), you can identify the issues by looking
+            into <ph conref="conref.dita#conref/dds_short"/>-specific errors, which will be
+            displayed without any modifications. The messages issued by the <ph
+                conref="conref.dita#conref/dds_full"/> are documented in the <xref
+                href="https://www.ibm.com/docs/en/zos/3.1.0?topic=codes-distributed-data-server-messages-gpm"
+                format="html" scope="external">Distributed Data Server messages - GPM</xref> topic
+            in the <cite conref="conref.dita#conref/zos_msgs"/>.</p>
+        <p>The following are the examples of error messages that you may encounter while using the
+                <ph conref="conref.dita#conref/plugin_name"/> plugin:</p>
+        <p><image href="images/error_dds.png" id="image_acr_ck3_dzb">
+                <alt>DDS_error</alt>
+            </image></p>
+        <p><image href="images/error_plugin.png" id="image_m44_dk3_dzb" scale="75">
+                <alt>Error_plugin</alt>
+            </image></p>
+        <note id="note_p2m_fqt_lzb" type="tip">To diagnose the issue from the docker logs of the <ph
+                conref="conref.dita#conref/plugin_name"/> plugin, you can run the following command:
+            <codeblock id="codeblock_g5n_hqt_lzb">docker logs &lt;<varname>container_name</varname>> 2>&amp;1 | grep "&lt;<varname>unique error code shown in the error message</varname>>"</codeblock></note>
+    </conbody>
+</concept>

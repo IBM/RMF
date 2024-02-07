@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="access_grafana_zosmf" xml:lang="en-us">
+    <title>Accessing the Grafana dashboard</title>
+    <shortdesc>You can access the Grafana dashboard from the <wintitle>Resource
+            Monitoring</wintitle> page of <ph conref="conref.dita#conref/zosmf_short"/> to
+        investigate the RMF Monitor III metrics and reports.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_apk_dbm_syb">You must have defined the Grafana server in <ph
+                conref="conref.dita#conref/zosmf_short"/>. See <xref
+                href="define_grafana_zosmf.dita"/>.</prereq>
+        <steps>
+            <step>
+                <cmd><ph conref="conref.dita#conref/ph_i51_xbm_syb"/></cmd>
+            </step>
+            <step>
+                <cmd><ph conref="conref.dita#conref/ph_pfq_bcm_syb"/></cmd>
+            </step>
+            <step>
+                <cmd>Double-click <uicontrol>Resource Monitoring</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Select the Grafana server that you want to access from the drop-down
+                    list.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>OK</uicontrol>.</cmd>
+            </step>
+        </steps>
+        <result id="result_d3m_qcm_syb">You have accessed Grafana from <ph
+                conref="conref.dita#conref/zosmf_short"/>.</result>
+        <postreq id="postreq_dzr_rcm_syb"><ph conref="conref.dita#conref/ph_cyy_4bm_syb"/><ul
+                id="ul_uhg_tcm_syb">
+                <li>View the dashboards by navigating to <menucascade>
+                        <uicontrol>Apps</uicontrol>
+                        <uicontrol>IBM RMF</uicontrol>
+                        <uicontrol>Dashboards</uicontrol>
+                    </menucascade>.</li>
+                <li>Add a RMF data source to fetch data from <ph
+                        conref="conref.dita#conref/dds_full"/>s (<ph
+                        conref="conref.dita#conref/dds_short"/>). See <xref
+                        href="about:blankcreate_datasources.dita" format="dita" scope="external"
+                        >Creating RMF data sources</xref>.</li>
+            </ul></postreq>
+    </taskbody>
+</task>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_dashboards" xml:lang="en-us">
+    <title>Creating dashboards</title>
+    <shortdesc>To understand your data better, you must create a dashboard that displays different
+        charts, statistics, and tables. This can give you more insight into your data.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_wbs_fw3_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                id="ul_frm_gw3_ryb">
+                <li conref="conref.dita#conref/li_pjd_jw3_ryb"/>
+                <li>Created a folder in Grafana. See <xref
+                        href="manage_dashboards.dita#task_gvr_nhp_ryb"/>.</li>
+            </ul></prereq>
+        <steps id="steps_d3v_4tp_ryb">
+            <step>
+                <cmd><ph conref="conref.dita#conref/ph_abl_whp_ryb"/></cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_qf3_h3b_fzb"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>New</uicontrol>, and then select <uicontrol>New
+                        Dashboard</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Save</uicontrol>
+                    <image href="images/save_icon.png" id="image_sjn_wtp_ryb"/> icon.</cmd>
+            </step>
+            <step>
+                <cmd>Enter a name for the dashboard in the <uicontrol>Dashboard name</uicontrol>
+                    field.</cmd>
+            </step>
+            <step id="step_cpj_lwq_ryb">
+                <cmd>Select a location to save your dashboard from the <uicontrol>Folder</uicontrol>
+                    list.</cmd>
+                <info>
+                    <note id="note_hb3_ny3_ryb">The default location for the
+                            <uicontrol>Folder</uicontrol> is set as
+                        <uicontrol>General</uicontrol>.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save</uicontrol>.</cmd>
+            </step>
+        </steps>
+        <result id="result_dgm_py3_ryb">You have created the dashboard.</result>
+        <postreq id="postreq_b44_g5p_ryb"><ph conref="conref.dita#conref/ph_cyy_4bm_syb"/><ul
+                id="ul_s3f_shr_ryb">
+                <li>Create panels in the dashboard to visualize the data. See <xref
+                        href="apply_visualize.dita"/>.</li>
+                <li>Customize the dashboard settings. For more information, refer to the <xref
+                        href="https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/modify-dashboard-settings/"
+                        format="html" scope="external"><cite>Grafana</cite></xref>
+                    documentation.</li>
+            </ul></postreq>
+    </taskbody>
+</task>

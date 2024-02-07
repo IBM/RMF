@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="apply_visualize" xml:lang="en-us">
+    <title>Applying visualization to RMF data</title>
+    <shortdesc>By adding panels to dashboards, you can effectively present your RMF data in a visual
+        format. Each panel must require at least one query to display a significant
+        visualization.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_wbs_fw3_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                id="ul_frm_gw3_ryb">
+                <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
+                <li conref="conref.dita#conref/li_af4_1q3_tyb"/>
+                <li conref="conref.dita#conref/li_icp_cq3_tyb"/>
+            </ul></prereq>
+        <steps>
+            <step>
+                <cmd>Identify the dashboard for which you want to add visualization.</cmd>
+            </step>
+            <step>
+                <cmd>Perform one of the steps described in the following table:</cmd>
+                <info>
+                    <simpletable frame="all" id="simpletable_xd2_mfr_ryb" relcolwidth="1* 0.5*">
+                        <sthead>
+                            <stentry>Step description</stentry>
+                            <stentry>Step #</stentry>
+                        </sthead>
+                        <strow>
+                            <stentry>If there are no panels added to the dashboard</stentry>
+                            <stentry>Perform step <xref href="#apply_visualize/step_vdz_4fr_ryb"
+                                />.</stentry>
+                        </strow>
+                        <strow>
+                            <stentry>If at least one panel is added to the dashboard</stentry>
+                            <stentry>Perform step <xref href="#apply_visualize/step_qrg_zfr_ryb"
+                                />.</stentry>
+                        </strow>
+                    </simpletable>
+                </info>
+            </step>
+            <step id="step_vdz_4fr_ryb">
+                <cmd>Click <uicontrol>+ Add visualization</uicontrol> to add visualization to your
+                    data.</cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_mgd_2jb_fzb"/>
+                </info>
+                <stepresult>The <wintitle>Edit panel</wintitle> is displayed.</stepresult>
+            </step>
+            <step>
+                <cmd>Go to step <xref href="#apply_visualize/step_fvt_l3r_ryb"/>.</cmd>
+            </step>
+            <step id="step_qrg_zfr_ryb">
+                <cmd>Click <menucascade>
+                        <uicontrol>Add</uicontrol>
+                        <uicontrol>Visualization</uicontrol>
+                    </menucascade> from the dashboard header.</cmd>
+                <info>
+                    <p><image href="images/add_visulize.png" id="image_cvx_xfr_ryb"/></p>
+                </info>
+                <stepresult>The <wintitle>Edit panel</wintitle> is displayed.</stepresult>
+            </step>
+            <step id="step_fvt_l3r_ryb">
+                <cmd>Enter a name for the panel in the <uicontrol>Title</uicontrol> field.</cmd>
+                <info>Optionally you can also provide a description for the panel that you are
+                        creating.<p>When you add the description for the panel, a notification icon
+                            <image href="images/notification_icon.png" id="image_ctj_ydp_ryb"/> is
+                        displayed after the <wintitle>Panel</wintitle> title, as shown in the
+                        following image:</p><p><image href="images/notification_display.png"
+                            id="image_q3p_12p_ryb"/></p></info>
+            </step>
+            <step>
+                <cmd>Select one of the visualization types from the drop-down menu:</cmd>
+                <info>
+                    <p><image href="images/visualize_drop-down.png" id="image_dxv_xmj_ryb"/></p>
+                    <p>You can choose <uicontrol>Report for IBM RMF for z/OS</uicontrol> or built-in
+                            <uicontrol>Bar chart</uicontrol> Grafana visualization types from the
+                        drop-down list.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Query</uicontrol> tab, and then enter a query in the query
+                    language of the RMF data source.</cmd>
+                <info>
+                    <note id="note_osz_px3_ryb">You can click <uicontrol>+ Query</uicontrol> to add
+                        multiple queries.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Transformation</uicontrol> tab, and then select a
+                    transformation from the list.</cmd>
+                <info>Upon accessing the transformation options, a dedicated row is presented for
+                        configuration.<note id="note_d55_hfp_ryb">You can click <uicontrol>+ Add
+                            Transformation</uicontrol> to add multiple transformations to
+                        data.</note></info>
+            </step>
+            <step>
+                <cmd>Select the existing data sources from the <uicontrol>Data source</uicontrol>
+                    drop-down list.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Time Picker</uicontrol> drop-down list to select relative
+                    time range options and set custom absolute time ranges.</cmd>
+                <info>
+                    <p><image href="images/time_picker.png" id="image_enk_ygr_ryb"/></p>
+                </info>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Refresh dashboard</uicontrol>
+                    <image href="images/refresh.png" id="image_vt1_by3_ryb"/> icon to query the RMF
+                    data source.</cmd>
+                <stepresult>Grafana provides you with a preview of your query results along with the
+                    corresponding visualization.</stepresult>
+            </step>
+            <step importance="optional">
+                <cmd>Click <uicontrol>Apply</uicontrol> to view your changes applied to the
+                    dashboard.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save</uicontrol>, and then enter a note describing the changes
+                    you have made.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save</uicontrol> to store the changes made to the
+                    dashboard.</cmd>
+            </step>
+        </steps>
+        <result id="result_c44_w3s_lzb">You have applied visualization to the RMF data.</result>
+        <postreq id="postreq_amh_qy3_ryb">
+            <p>Grafana provides a range of visualizations that cater to different use cases. For
+                more information about the built-in panels, options, and typical usage, refer to the
+                    <xref
+                    href="https://grafana.com/docs/grafana/latest/panels-visualizations/visualizations/"
+                    format="html" scope="external">Grafana</xref> documentation.</p>
+            <p>You can also configure the panel options based on your requirements. For more
+                information refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/panels-visualizations/configure-panel-options/#edit-a-panel"
+                    format="html" scope="external">Grafana</xref> documentation.</p>
+            <p>You can add multiple transformation to your data. When there are multiple
+                transformations, Grafana applies them sequentially. Each transformation produces a
+                result set that is passed on to the next transformation in the pipeline. Grafana
+                provides several ways that you can transform data. For entire list of
+                transformations, refer to the <xref
+                    href="https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/#transformation-functions"
+                    format="html" scope="external">Grafana</xref> documentation.</p>
+        </postreq>
+    </taskbody>
+</task>

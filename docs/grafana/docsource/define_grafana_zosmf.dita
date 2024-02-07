@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="define_grafana_zosmf" xml:lang="en-us">
+    <title>Defining the Grafana server</title>
+    <shortdesc>You must define the Grafana server as a target system in <ph
+            conref="conref.dita#conref/zosmf_short"/> to access Grafana from the <wintitle>Resource
+            Monitoring</wintitle> page of <ph conref="conref.dita#conref/zosmf_short"/>.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_ovt_dyl_syb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
+                id="ul_ntr_2yl_syb">
+                <li>Completed the tasks provided in the Prerequisites section. See <xref
+                        href="prereq_zosmf.dita"/>.</li>
+                <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
+            </ul></prereq>
+        <steps>
+            <step>
+                <cmd><ph conref="conref.dita#conref/ph_i51_xbm_syb"/></cmd>
+            </step>
+            <step>
+                <cmd><ph conref="conref.dita#conref/ph_pfq_bcm_syb"/></cmd>
+            </step>
+            <step>
+                <cmd>Double-click <uicontrol>System Status</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Add Entry</uicontrol> from the <uicontrol>Actions</uicontrol>
+                    drop-down list.</cmd>
+            </step>
+            <step>
+                <cmd>Perform the following steps to add details about the Grafana server:</cmd>
+                <substeps id="substeps_yyv_pyl_syb">
+                    <substep>
+                        <cmd>Enter a name for the Grafana server in the <uicontrol>Resource
+                                name</uicontrol> field.</cmd>
+                        <info>The <uicontrol>Resource name</uicontrol> is the required field, and
+                            you must provide a unique name. The <uicontrol>Resource name</uicontrol>
+                            can contain up to <systemoutput>24</systemoutput> characters including
+                            alphanumeric characters (<systemoutput>A-Z</systemoutput>,
+                                <systemoutput>a-z</systemoutput>, and
+                                <systemoutput>0-9</systemoutput>) and special characters
+                                (<systemoutput>@ # $</systemoutput>). <note id="note_uw2_5yl_syb"
+                                >You must note that the <uicontrol>Resource name</uicontrol> is not
+                                case sensitive. Therefore, the entries with similar names but
+                                different capitalization, such as <systemoutput>SYS1</systemoutput>
+                                and <systemoutput>Sys1</systemoutput> are considered as identical by
+                                the system.</note></info>
+                    </substep>
+                    <substep>
+                        <cmd>Enter the host name or IP address of the Grafana server that you want
+                            to access in the <uicontrol>Host name or IP address</uicontrol>
+                            field.</cmd>
+                        <info>The host name or IP address can contain up to
+                                <systemoutput>4000</systemoutput> characters.</info>
+                    </substep>
+                    <substep>
+                        <cmd>Select <uicontrol>Grafana</uicontrol> from the <uicontrol>Target system
+                                type</uicontrol> drop-down list.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Select the <uicontrol>Use HTTPS</uicontrol> checkbox to enable secure
+                            communication.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Enter the port number where the Grafana server is hosted in the
+                                <uicontrol>Port</uicontrol> field.</cmd>
+                        <info>
+                            <p>The <uicontrol>Port</uicontrol> is the required field, and the
+                                default port number is set to <systemoutput>3000</systemoutput>.</p>
+                            <note id="note_pyn_k1m_syb" type="tip">Alternatively, you can use
+                                    <uicontrol>up-down</uicontrol> controls to specify the port
+                                number.</note>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>OK</uicontrol>.</cmd>
+            </step>
+        </steps>
+        <result id="result_crs_p1m_syb">You have defined the Grafana server as the target
+            system.</result>
+        <postreq id="postreq_yvm_r1m_syb"><ph conref="conref.dita#conref/ph_cyy_4bm_syb"/><ul
+                id="ul_l4d_s1m_syb">
+                <li>Modify or Remove the Grafana server by clicking the
+                        <uicontrol>Action</uicontrol> drop-down menu from the <wintitle>System
+                        Status</wintitle> page.</li>
+                <li>Access Grafana dashboards. See <xref href="access_grafana_zosmf.dita"/>.</li>
+            </ul></postreq>
+    </taskbody>
+</task>
