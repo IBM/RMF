@@ -1,6 +1,6 @@
 /**
- * (C) Copyright IBM Corp. 2023.
- * (C) Copyright Rocket Software, Inc. 2023.
+ * (C) Copyright IBM Corp. 2023, 2024.
+ * (C) Copyright Rocket Software, Inc. 2023-2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import React, { FC, useCallback } from 'react';
-import { getBackendSrv, locationService } from '@grafana/runtime';
+import { getBackendSrv, getDataSourceSrv, locationService } from '@grafana/runtime';
 import { Alert, Button, HorizontalGroup, LinkButton, VerticalGroup } from '@grafana/ui';
 import { DataSourceName, DataSourceType } from '../../constants';
 import { HighAvailability, RMFCube } from '../../icons';
@@ -56,16 +56,14 @@ const getNewDataSourceName = (dataSources: RmfDataSourceInstanceSettings[]) => {
 };
 
 export const DataSourceList: FC<Props> = ({ dataSources }) => {
-  const addNewDataSource = useCallback(() => {
-    getBackendSrv()
-      .post('/api/datasources', {
-        name: getNewDataSourceName(dataSources),
-        type: DataSourceType.RMFTYPE,
-        access: 'proxy',
-      })
-      .then(({ datasource }) => {
-        locationService.push(`/datasources/edit/${datasource.uid}`);
-      });
+  const addNewDataSource = useCallback(async () => {
+    let { datasource } = await getBackendSrv().post('/api/datasources', {
+      name: getNewDataSourceName(dataSources),
+      type: DataSourceType.RMFTYPE,
+      access: 'proxy',
+    })
+    await getDataSourceSrv().reload();
+    locationService.push(`/datasources/edit/${datasource.uid}`);
   }, [dataSources]);
 
   /**
