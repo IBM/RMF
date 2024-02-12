@@ -1,6 +1,6 @@
 /**
- * (C) Copyright IBM Corp. 2023.
- * (C) Copyright Rocket Software, Inc. 2023.
+ * (C) Copyright IBM Corp. 2023, 2024.
+ * (C) Copyright Rocket Software, Inc. 2023-2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 import React, { PureComponent } from 'react';
 import { AppRootProps, NavModelItem } from '@grafana/data';
-import { config, getBackendSrv } from '@grafana/runtime';
+import { getBackendSrv } from '@grafana/runtime';
 import { Alert } from '@grafana/ui';
 import { ApplicationName, ApplicationSubTitle, DataSourceType } from '../../constants';
 import { GlobalSettings, RmfDataSourceInstanceSettings } from '../../types';
@@ -73,26 +73,6 @@ export class RootPage extends PureComponent<Props, State> {
         return result.filter((ds: RmfDataSourceInstanceSettings) => {
           return ds.type === DataSourceType.RMFTYPE;
         });
-      });
-
-    /**
-     * Workaround, until reload function will be added to DataSourceSrv
-     *
-     * @see https://github.com/grafana/grafana/issues/30728
-     * @see https://github.com/grafana/grafana/issues/29809
-     */
-    await getBackendSrv()
-      .get('/api/frontend/settings')
-      .then((settings: any) => {
-        if (!settings.datasources) {
-          return;
-        }
-
-        /**
-         * Set data sources
-         */
-        config.datasources = settings.datasources;
-        config.defaultDatasource = settings.defaultDatasource;
       });
 
     /**
