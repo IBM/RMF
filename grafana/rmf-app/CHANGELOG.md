@@ -1,11 +1,12 @@
 # Change Log
 
-## 1.0.3 (2024-02-08)
+## 1.0.3 (2024-02-29)
 
 - Time-series dashboards plot graphs correctly even when NaN values are in the historical data.
 - Fixed specific issues related to the support of Grafana v10.x.x.
 - Improved documentation on Grafana through z/OSMF, installation, and troubleshooting.
-- Fixed other internally found defects.  
+- Fixed empty settings issue for IBM RMF data source defined via Home / Apps / IBM RMF page.
+- Fixed other internally found defects.
 
 ## 1.0.2 (2023-12-08)
 
