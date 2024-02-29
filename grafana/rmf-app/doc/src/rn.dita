@@ -11,6 +11,8 @@
                 <dlentry>
                     <dt>February 2024 v1.0.3</dt>
                     <dd>Fixed specific issues related to the support of Grafana v10.x.x.</dd>
+                    <dd>Fixed empty settings issue for IBM RMF data source defined via
+                            <filepath>Home / Apps / IBM RMF</filepath> page.</dd>
                     <dd>Fixed internally found defects.</dd>
                     <dd>The documentation updates for v1.0.3 include the following changes:<ul
                             id="ul_z4c_r3p_31c">
