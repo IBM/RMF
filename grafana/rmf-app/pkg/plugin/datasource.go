@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package client
+package plugin
 
 import (
 	"context"
@@ -26,6 +26,7 @@ import (
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/live"
@@ -40,28 +41,40 @@ import (
 	umf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/unmarshal_functions"
 )
 
-// RMFClient is an example datasource which can respond to data queries, reports
-// its health and has streaming skills.
-type RMFClient struct {
+// Make sure RMFDatasource implements required interfaces. This is important to do
+// since otherwise we will only get a not implemented error response from plugin
+// in runtime. Plugin should implement only interfaces which are required for a
+// particular task.
+var (
+	_ instancemgmt.InstanceDisposer = (*RMFDatasource)(nil)
+	_ backend.CheckHealthHandler    = (*RMFDatasource)(nil)
+	_ backend.CallResourceHandler   = (*RMFDatasource)(nil)
+	_ backend.QueryDataHandler      = (*RMFDatasource)(nil)
+	_ backend.StreamHandler         = (*RMFDatasource)(nil)
+)
+
+type RMFDatasource struct {
 	Cache         *cf.RMFCache
 	EndpointModel *typ.DatasourceEndpointModel
 	ErrHandler    *errh.ErrHandler
 	PluginConfig  *plugincnfg.PluginConfig
 }
 
-func NewRMFClient() RMFClient {
+// NewRMFDatasource creates a new datasource instance
+func NewRMFDatasource(_ context.Context, _ backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+	// TODO: config plugin via Grafana settings
 	pluginCnfg := plugincnfg.NewPluginConfig()
-	return RMFClient{
+	return &RMFDatasource{
 		Cache:        cf.NewRMFCache(pluginCnfg),
 		ErrHandler:   errh.NewErrHandler(pluginCnfg),
 		PluginConfig: pluginCnfg,
-	}
+	}, nil
 }
 
 // Dispose here tells plugin SDK that plugin wants to clean up resources when a new instance
 // created. As soon as datasource settings change detected by SDK old datasource instance will
 // be disposed and a new one will be created using NewRMFClient factory function.
-func (d *RMFClient) Dispose() {
+func (d *RMFDatasource) Dispose() {
 	// Clean up datasource instance resources.
 	d.Cache.Close()
 	d.EndpointModel = nil
@@ -71,7 +84,7 @@ func (d *RMFClient) Dispose() {
 // The main use case for these health checks is the test button on the
 // datasource configuration page which allows users to verify that
 // a datasource is working as expected.
-func (d *RMFClient) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func (d *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	var unmFns umf.UnmarshalFunctions
 	var message string
 	var status backend.HealthStatus = backend.HealthStatusError
@@ -109,7 +122,7 @@ type VariableQueryRequest struct {
 	Query string `json:"query"`
 }
 
-func (d *RMFClient) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+func (d *RMFDatasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	var unmFns umf.UnmarshalFunctions
 
 	//Unmarshal the endpoint model
@@ -169,7 +182,7 @@ func (d *RMFClient) CallResource(ctx context.Context, req *backend.CallResourceR
 // req contains the queries []DataQuery (where each query contains RefID as a unique identifier).
 // The QueryDataResponse contains a map of RefID to the response for each query, and each response
 // contains Frames ([]*Frame).
-func (d *RMFClient) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (d *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 
 	// create queryDataResponse struct
 	queryDataResponse := backend.NewQueryDataResponse()
@@ -189,7 +202,7 @@ func (d *RMFClient) QueryData(ctx context.Context, req *backend.QueryDataRequest
 	return queryDataResponse, nil
 }
 
-func (d *RMFClient) query(ctx context.Context, pCtx backend.PluginContext, q backend.DataQuery) *backend.DataResponse {
+func (d *RMFDatasource) query(ctx context.Context, pCtx backend.PluginContext, q backend.DataQuery) *backend.DataResponse {
 	var (
 		pnlfuncs          pnlf.PanelFunctions
 		unmFns            umf.UnmarshalFunctions
@@ -246,7 +259,7 @@ func (d *RMFClient) query(ctx context.Context, pCtx backend.PluginContext, q bac
 	return dataResponse
 }
 
-func (d *RMFClient) query_timeseries(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
+func (d *RMFDatasource) query_timeseries(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
 	var (
 		newFrame     *data.Frame
 		err          error
@@ -261,7 +274,7 @@ func (d *RMFClient) query_timeseries(pCtx backend.PluginContext, queryModel *typ
 	dataResponseChnl <- dataResponse
 }
 
-func (d *RMFClient) query_timeseries_internal(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+func (d *RMFDatasource) query_timeseries_internal(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
 
 	defer d.ErrHandler.HandleErrors()
 
@@ -290,7 +303,7 @@ func (d *RMFClient) query_timeseries_internal(pCtx backend.PluginContext, queryM
 	return newFrame, nil
 }
 
-func (d *RMFClient) createChannelForStreaming(pCtx backend.PluginContext, queryModel *typ.QueryModel, newFrame *data.Frame) {
+func (d *RMFDatasource) createChannelForStreaming(pCtx backend.PluginContext, queryModel *typ.QueryModel, newFrame *data.Frame) {
 	var pnlfn pnlf.PanelFunctions
 	guid := pnlfn.GetNewGuid()
 
@@ -307,7 +320,7 @@ func (d *RMFClient) createChannelForStreaming(pCtx backend.PluginContext, queryM
 	})
 }
 
-func (d *RMFClient) fetchTimeseriesData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+func (d *RMFDatasource) fetchTimeseriesData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		newFrame *data.Frame
@@ -335,7 +348,7 @@ func (d *RMFClient) fetchTimeseriesData(queryModel *typ.QueryModel, endpointMode
 
 // RunStream is called once for any open channel.  Results are shared with everyone
 // subscribed to the same channel.
-func (d *RMFClient) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
+func (d *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		err      error
@@ -360,7 +373,7 @@ func (d *RMFClient) RunStream(ctx context.Context, req *backend.RunStreamRequest
 	return nil
 }
 
-func (d *RMFClient) streamDataForAbsoluteRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
+func (d *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
 	var waitTime time.Duration
 
 	//Recover from any panic so as to not bring down this backend datasource
@@ -378,7 +391,7 @@ func (d *RMFClient) streamDataForAbsoluteRange(ctx context.Context, req *backend
 	return nil
 }
 
-func (d *RMFClient) streamDataForRelativeRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
+func (d *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
 	//Recover from any panic so as to not bring down this backend datasource
 	defer d.ErrHandler.HandleErrors()
 
@@ -394,7 +407,7 @@ func (d *RMFClient) streamDataForRelativeRange(ctx context.Context, req *backend
 	return nil
 }
 
-func (d *RMFClient) streamDataAbsolute(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime time.Duration) error {
+func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime time.Duration) error {
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		newFrame *data.Frame
@@ -431,7 +444,7 @@ func (d *RMFClient) streamDataAbsolute(ctx context.Context, req *backend.RunStre
 	}
 }
 
-func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) (bool, error) {
+func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) (bool, error) {
 	var (
 		pnlfuncs       pnlf.PanelFunctions
 		newFrame       *data.Frame
@@ -498,7 +511,7 @@ func (d *RMFClient) streamDataRelative(ctx context.Context, req *backend.RunStre
 	}
 }
 
-func (d *RMFClient) getFrameFromCacheOrServer(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (d *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
 	var (
 		newFrame        *data.Frame
 		timeSeriesQuery qf.TimeSeriesQuery
@@ -540,7 +553,7 @@ func (d *RMFClient) getFrameFromCacheOrServer(queryModel *typ.QueryModel, endpoi
 	return newFrame, nil
 }
 
-func (d *RMFClient) getHistoricalQueryModel(matchedQueryModel *typ.QueryModel) typ.QueryModel {
+func (d *RMFDatasource) getHistoricalQueryModel(matchedQueryModel *typ.QueryModel) typ.QueryModel {
 	var (
 		resultQueryModel typ.QueryModel
 		pnlfuncs         pnlf.PanelFunctions
@@ -567,7 +580,7 @@ func (d *RMFClient) getHistoricalQueryModel(matchedQueryModel *typ.QueryModel) t
 
 // SubscribeStream is called when a client wants to connect to a stream. This callback
 // allows sending the first message.
-func (d *RMFClient) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
+func (d *RMFDatasource) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
 	var pnlfuncs pnlf.PanelFunctions
 	status := backend.SubscribeStreamStatusPermissionDenied
 
@@ -587,7 +600,7 @@ func (d *RMFClient) SubscribeStream(_ context.Context, req *backend.SubscribeStr
 }
 
 // PublishStream is called when a client sends a message to the stream.
-func (d *RMFClient) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
 	//Recover from any panic so as to not bring down this backend datasource
 	defer d.ErrHandler.HandleErrors()
 
@@ -597,7 +610,7 @@ func (d *RMFClient) PublishStream(_ context.Context, req *backend.PublishStreamR
 	}, nil
 }
 
-func (d *RMFClient) query_tabledata(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
+func (d *RMFDatasource) query_tabledata(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
 	// Insert QueryModel in Panels if not present. A Panel is an abstraction that stores its QueryModels underneath.
 	// A Panel is created to ensure that a single service call is active at any given point of time within a panel
 	// because RMF is not currently capable of handling concurrent service calls from a single panel to fetch metrics.
@@ -631,7 +644,7 @@ func (d *RMFClient) query_tabledata(queryModel *typ.QueryModel, endpointModel *t
 	dataResponseChnl <- dataResponse
 }
 
-func (d *RMFClient) getErrorInternal(err error) error {
+func (d *RMFDatasource) getErrorInternal(err error) error {
 	if strings.Contains(err.Error(), "DDSError") {
 		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_DDS_ERROR", err)
 	} else {
