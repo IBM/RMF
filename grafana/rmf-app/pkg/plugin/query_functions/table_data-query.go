@@ -22,8 +22,8 @@ import (
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
-	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
 	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
@@ -31,11 +31,8 @@ import (
 type TableDataQuery struct {
 }
 
-func (t *TableDataQuery) QueryForTableData(
-	queryModel *typ.QueryModel,
-	endpointModel *typ.DatasourceEndpointModel,
-	errHandler *errh.ErrHandler) (*data.Frame, error) {
-
+func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "QueryForTableData")
 	var repos repo.Repository
 
 	// Get xml data response
@@ -49,7 +46,7 @@ func (t *TableDataQuery) QueryForTableData(
 	if jsonStr == "" || jsonStr == "*No Data*" {
 		return nil, fmt.Errorf("response json is blank/no data in QueryForTableData - error=%v", err)
 	} else {
-		errHandler.LogStatus(fmt.Sprintf("***Executed query: %s with url: %s and got response in QueryForTableData(): %s", queryModel.SelectedQuery, queryModel.Url, jsonStr))
+		logger.Debug("executed query", "query", queryModel.SelectedQuery, "url", queryModel.Url)
 	}
 
 	// Check for any error contained in the response

@@ -18,11 +18,10 @@
 package config_helper
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	"gopkg.in/yaml.v3"
 )
 
@@ -39,6 +38,7 @@ type PluginConfig struct {
 }
 
 func NewPluginConfig() *PluginConfig {
+	logger := log.Logger.With("func", "NewPluginConfig")
 	pluginConfig := PluginConfig{}
 
 	executablePath, err := os.Executable()
@@ -59,7 +59,7 @@ func NewPluginConfig() *PluginConfig {
 		pluginConfig.CacheSettings.IntervalOffsetCacheSizeMB = 64
 	} else {
 		if err := yaml.Unmarshal(fileContent, &pluginConfig); err != nil {
-			log.DefaultLogger.Info(fmt.Sprintf("could not get unmarshal filContent in NewPluginConfig(): details: %v ", err), nil)
+			logger.Info("could not get unmarshal filContent", "error", err)
 		}
 	}
 	return &pluginConfig

@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package json_functions_test
+package json_functions
 
 import (
 	"bytes"
@@ -24,7 +24,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -65,7 +64,7 @@ func TestMetricFrameFromJson(t *testing.T) {
 			var expectedJson bytes.Buffer
 			err := json.Indent(&expectedJson, testCase.ExpectedFrame, "", "  ")
 			if assert.Nil(t, err, "fail to indent") {
-				frame, err := jsonf.MetricFrameFromJson(string(testCase.DdsResponse), &testCase.QueryModel, testCase.IsTimeSeries)
+				frame, err := MetricFrameFromJson(string(testCase.DdsResponse), &testCase.QueryModel, testCase.IsTimeSeries)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")
 					assert.Equal(t, expectedJson.String(), string(actualJson), "frames are not identical")

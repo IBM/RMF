@@ -23,18 +23,17 @@ import (
 	"io"
 	"strings"
 
-	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
 	httphlper "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/http_helper"
 	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 type ConfigurationQuery struct {
 }
 
-func (c *ConfigurationQuery) FetchRootInfo(
-	em *typ.DatasourceEndpointModel,
-	errHandler *errh.ErrHandler) (bool, error) {
+func (c *ConfigurationQuery) FetchRootInfo(em *typ.DatasourceEndpointModel) (bool, error) {
+	logger := log.Logger.With("func", "FetchRootInfo")
 	var httphlpr httphlper.HttpHelper
 	url := httphlpr.GetHttpUrlForRoot(em)
 	responseData, err := httphlpr.ExecuteHttpGet(url, em)
@@ -51,7 +50,7 @@ func (c *ConfigurationQuery) FetchRootInfo(
 	}
 
 	jsonStr := string(response[:])
-	errHandler.LogStatus(fmt.Sprintf("\n***Fetched Root Info for url: %s and got response in FetchRootInfo(): %s", url, jsonStr))
+	logger.Debug("fetched root info and got response", "url", url, "response", jsonStr)
 	if jsonStr == "" || jsonStr == "*No Data*" {
 		return false, fmt.Errorf("response json is blank/no data in FetchRootInfo - error=%v", err)
 	} else {

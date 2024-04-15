@@ -119,7 +119,7 @@ func executeHttpGetRequest(queryURL string, em *typ.DatasourceEndpointModel) (*h
 
 func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointModel, isXmlFileRequest bool) (*http.Response, error) {
 	var client *http.Client
-	const DDS_TIMEOUT time.Duration = 30 * time.Second
+	const DdsTimeout time.Duration = 30 * time.Second
 
 	req, err := http.NewRequest(http.MethodGet, queryURL, http.NoBody)
 	if err != nil {
@@ -133,7 +133,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 	}
 
 	// Get the client reference with timeout
-	client = &http.Client{Timeout: DDS_TIMEOUT}
+	client = &http.Client{Timeout: DdsTimeout}
 
 	// Set basic auth (if required)
 	if em.SSL {
@@ -148,7 +148,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 						InsecureSkipVerify: !em.VerifyInsecureCert,
 					},
 				},
-				Timeout: DDS_TIMEOUT,
+				Timeout: DdsTimeout,
 			}
 
 			req.SetBasicAuth(em.UserName, em.Password)
@@ -157,7 +157,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("could not complete execution of executeHttpGetRequestInternal() - possibly invalid credentials or data source not reachable - error=%v", err)
+		return nil, fmt.Errorf("could not complete execution of executeHttpGetRequestInternal() - data source not reachable - error=%w", err)
 	} else if res.StatusCode == 400 { // Bad request
 		return nil, fmt.Errorf("bad request (Status Code 400) in executeHttpGetRequestInternal(). please check the data source configuration")
 	} else if res.StatusCode == 401 { // Bad request

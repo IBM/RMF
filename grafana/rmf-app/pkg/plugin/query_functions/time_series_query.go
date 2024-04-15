@@ -21,10 +21,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
-	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
 	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
@@ -42,11 +41,8 @@ var AcceptableMessages = map[string]bool{
 	"GPM0507I": true, // DDS could not retrieve valid data for the specified date and time range
 }
 
-func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
-	queryModel *typ.QueryModel,
-	endpointModel *typ.DatasourceEndpointModel,
-	errHandler *errh.ErrHandler) (*data.Frame, error) {
-
+func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "QueryForTimeseriesDataFrame")
 	var repos repo.Repository
 
 	// Fetch data from server
@@ -60,7 +56,7 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
 	if jsonStr == "" || jsonStr == "*No Data*" {
 		return nil, fmt.Errorf("response json is blank/no data in QueryForTimeseriesDataFrame")
 	} else {
-		errHandler.LogStatus(fmt.Sprintf("***Executed query: %s with url: %s and got response in QueryForTableData(): %s", queryModel.SelectedQuery, queryModel.Url, jsonStr))
+		logger.Debug("executed query", "query", queryModel.SelectedQuery, "url", queryModel.Url)
 	}
 
 	// Check for any error contained in the response
@@ -68,9 +64,9 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(
 	if message != nil {
 		_, ok := AcceptableMessages[message.Id]
 		if !ok {
-			return nil, fmt.Errorf("DDSError - %s", message)
+			return nil, fmt.Errorf("DDS error: %s", message)
 		} else {
-			log.DefaultLogger.Warn("DDSError - %s", message)
+			logger.Info(fmt.Sprintf("DDS error: %s", message))
 		}
 	}
 
