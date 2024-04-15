@@ -24,9 +24,9 @@ import (
 	"time"
 
 	cf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
 	"github.com/google/uuid"
@@ -56,8 +56,9 @@ func replaceSpecialCharacters(uniquePath string) string {
 }
 
 func (pf *PanelFunctions) SaveQueryModelInCache(rmfCache *cf.RMFCache, qm *typ.QueryModel) {
+	logger := log.Logger.With("func", "SaveQueryModelInCache")
 	if err := rmfCache.SaveQueryModel(qm); err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("could not save queryModel in cache (SaveQueryModelInCache()): details: %v ", err), nil)
+		logger.Info("could not save queryModel in cache", "error", err)
 	}
 }
 
@@ -150,8 +151,9 @@ func (pf *PanelFunctions) PanelRefreshRequired(rmfCache *cf.RMFCache, qm *typ.Qu
 }
 
 func (pf *PanelFunctions) DeleteQueryModel(rmfCache *cf.RMFCache, uniquePath string) {
+	logger := log.Logger.With("func", "DeleteQueryModel")
 	if err := rmfCache.Delete(uniquePath, cf.QUERYMODEL); err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("queryModel not in cache: DeleteQueryModel(): details: %v ", err), nil)
+		logger.Info("queryModel not in cache", "error", err)
 	}
 }
 

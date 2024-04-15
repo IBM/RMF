@@ -20,10 +20,10 @@ package main
 import (
 	"os"
 
-	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin"
-
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
+
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin"
 )
 
 func main() {

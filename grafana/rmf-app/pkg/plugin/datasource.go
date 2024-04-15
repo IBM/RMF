@@ -20,20 +20,19 @@ package plugin
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"runtime/debug"
 	"strings"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/live"
 
 	cf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache_functions"
-	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
 	framef "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	pnlf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/panel_functions"
 	plugincnfg "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/plugin_config"
 	qf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/query_functions"
@@ -56,7 +55,6 @@ var (
 type RMFDatasource struct {
 	Cache         *cf.RMFCache
 	EndpointModel *typ.DatasourceEndpointModel
-	ErrHandler    *errh.ErrHandler
 	PluginConfig  *plugincnfg.PluginConfig
 }
 
@@ -66,7 +64,6 @@ func NewRMFDatasource(_ context.Context, _ backend.DataSourceInstanceSettings) (
 	pluginCnfg := plugincnfg.NewPluginConfig()
 	return &RMFDatasource{
 		Cache:        cf.NewRMFCache(pluginCnfg),
-		ErrHandler:   errh.NewErrHandler(pluginCnfg),
 		PluginConfig: pluginCnfg,
 	}, nil
 }
@@ -84,33 +81,53 @@ func (d *RMFDatasource) Dispose() {
 // The main use case for these health checks is the test button on the
 // datasource configuration page which allows users to verify that
 // a datasource is working as expected.
-func (d *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	var unmFns umf.UnmarshalFunctions
-	var message string
-	var status backend.HealthStatus = backend.HealthStatusError
+func (d *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (retRes *backend.CheckHealthResult, _ error) {
 
-	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	logger := log.Logger.With("func", "CheckHealth")
 
-	//Unmarshal the endpoint model
+	// Recover from any panic so as to not bring down this backend datasource
+	defer func() {
+		if r := recover(); r != nil {
+			message := log.ErrorWithId(logger, log.InternalError, "recovered from panic", "error", r, "stack", debug.Stack()).Error()
+			retRes = &backend.CheckHealthResult{Status: backend.HealthStatusError, Message: message}
+		}
+	}()
+
+	var (
+		unmFns    umf.UnmarshalFunctions
+		message   string
+		status    backend.HealthStatus
+		confQuery qf.ConfigurationQuery
+	)
+
+	// Unmarshal the endpoint model
 	endpointModel, err := unmFns.UnmarshalEndpointModel(req.PluginContext)
 	if err != nil {
-		return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not unmarshal endpointModel model in CheckHealth(). Error= %v", err))
+		message = log.ErrorWithId(logger, log.InternalError, "could not unmarshal endpointModel", "error", err).Error()
+		return &backend.CheckHealthResult{
+				Status:  backend.HealthStatusError,
+				Message: message},
+			nil
 	}
 
-	var confQuery qf.ConfigurationQuery
-	res, err := confQuery.FetchRootInfo(endpointModel, d.ErrHandler)
+	res, err := confQuery.FetchRootInfo(endpointModel)
 	if err != nil {
 		if _, ok := err.(*typ.ValueError); ok {
-			message = "Unsupported version of DDS"
+			message = "Unsupported version of DDS."
 		} else {
-			err = d.ErrHandler.LogErrorAndReturnErrorInfo("E", "ERR_DATASRC_CONNECTION_FAILED", err)
-			message = err.Error()
+			message = log.ErrorWithId(logger, log.ConnectionError, "couldn't fetch root info", "error", err).Error()
 		}
+		return &backend.CheckHealthResult{
+				Status:  backend.HealthStatusError,
+				Message: message},
+			nil
 	}
 	if res {
 		status = backend.HealthStatusOk
-		message = "Data source is working"
+		message = "Data source is working."
+	} else {
+		status = backend.HealthStatusError
+		message = "Unknown error. Please contact your administrator and check the logs."
 	}
 	return &backend.CheckHealthResult{
 		Status:  status,
@@ -123,12 +140,13 @@ type VariableQueryRequest struct {
 }
 
 func (d *RMFDatasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+	logger := log.Logger.With("func", "CallResource")
 	var unmFns umf.UnmarshalFunctions
 
 	//Unmarshal the endpoint model
 	endpointModel, err := unmFns.UnmarshalEndpointModel(req.PluginContext)
 	if err != nil {
-		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not unmarshal endpointModel model in CallResource(). Error= %v", err))
+		return log.ErrorWithId(logger, log.InternalError, "could not unmarshal endpointModel model", "error", err)
 	}
 
 	switch req.Path {
@@ -140,19 +158,19 @@ func (d *RMFDatasource) CallResource(ctx context.Context, req *backend.CallResou
 		data := VariableQueryRequest{}
 		err := json.Unmarshal([]byte(jsonStr), &data)
 		if err != nil {
-			return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not unmarshal jsonStr data in CallResource(). Error= %v", err))
+			return log.ErrorWithId(logger, log.InternalError, "could not unmarshal data", "error", err)
 		}
 		svcQuery := data.Query
 		if len(strings.TrimSpace(svcQuery)) == 0 {
-			return d.ErrHandler.LogErrorAndReturnErrorInfo("I", "ERR_INVALID_INPUT", fmt.Errorf("variable query cannot be blank"))
+			return log.ErrorWithId(logger, log.InputError, "variable query cannot be blank")
 		}
 
 		// Execute the query and return as body
 		xmlData, err := variableQuery.ExecuteQuery(svcQuery, endpointModel)
 		if err != nil {
-			return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not fetch xml data in CallResource() for query: %s. error:= %v", svcQuery, err))
+			return log.ErrorWithId(logger, log.InternalError, "could not fetch xml data", "query", svcQuery, "error", err)
 		} else {
-			d.ErrHandler.LogStatus(fmt.Sprintf("***Executed variable query: %s and got response in CallResource(): %s", svcQuery, xmlData))
+			logger.Debug("executed variable query and got response", "query", svcQuery, "response", xmlData)
 		}
 		return sender.Send(&backend.CallResourceResponse{
 			Status: http.StatusOK,
@@ -162,9 +180,9 @@ func (d *RMFDatasource) CallResource(ctx context.Context, req *backend.CallResou
 		var confQuery qf.ConfigurationQuery
 		metricsData, err := confQuery.FetchMetricsFromIndex(endpointModel)
 		if err != nil {
-			return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not fetch (autopopulate) metrics in CallResource(). error: %v", err))
+			return log.ErrorWithId(logger, log.InternalError, "could not fetch (autopopulate) metrics", "error", err)
 		} else {
-			d.ErrHandler.LogStatus(fmt.Sprintf("***Executed autopopulate (FetchMetricsFromIndex) and got response in CallResource(): %v", metricsData))
+			logger.Debug("executed autopopulate and got response", "response", metricsData)
 		}
 		return sender.Send(&backend.CallResourceResponse{
 			Status: http.StatusOK,
@@ -202,7 +220,7 @@ func (d *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataReq
 	return queryDataResponse, nil
 }
 
-func (d *RMFDatasource) query(ctx context.Context, pCtx backend.PluginContext, q backend.DataQuery) *backend.DataResponse {
+func (d *RMFDatasource) query(_ context.Context, pCtx backend.PluginContext, q backend.DataQuery) *backend.DataResponse {
 	var (
 		pnlfuncs          pnlf.PanelFunctions
 		unmFns            umf.UnmarshalFunctions
@@ -210,11 +228,12 @@ func (d *RMFDatasource) query(ctx context.Context, pCtx backend.PluginContext, q
 		intervalAndOffset typ.IntervalOffset
 	)
 
+	logger := log.Logger.With("func", "query")
 	var dataResponse *backend.DataResponse
 	dataResponseChnl := make(chan *backend.DataResponse)
 
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	//Unmarshal the input models
 	queryModel, endpointModel, err := unmFns.UnmarshalQueryAndEndpointModel(q, pCtx)
@@ -229,11 +248,11 @@ func (d *RMFDatasource) query(ctx context.Context, pCtx backend.PluginContext, q
 	if intervalAndOffset, err = pnlfuncs.GetIntervalAndOffsetFromCache(d.Cache, queryModel.Datasource.Uid); err != nil {
 		intervalAndOffset, err = confQuery.FetchIntervalAndOffset(endpointModel)
 		if err != nil {
-			err = d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_UNABLE_TO_FETCH_DATA", fmt.Errorf("could not fetch Interval and Offset in query(). Error=%v", err))
+			err = log.ErrorWithId(logger, log.ConnectionError, "could not fetch Interval and Offset", "error", err)
 		} else {
 			err = pnlfuncs.SaveIntervalAndOffsetInCache(d.Cache, queryModel.Datasource.Uid, intervalAndOffset)
 			if err != nil {
-				err = d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not save Interval and Offset in query(). Error=%v", err))
+				err = log.ErrorWithId(logger, log.InternalError, "could not save Interval and Offset", "error", err)
 			}
 		}
 	}
@@ -260,6 +279,7 @@ func (d *RMFDatasource) query(ctx context.Context, pCtx backend.PluginContext, q
 }
 
 func (d *RMFDatasource) query_timeseries(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
+	logger := log.Logger.With("func", "query_timeseries")
 	var (
 		newFrame     *data.Frame
 		err          error
@@ -267,7 +287,7 @@ func (d *RMFDatasource) query_timeseries(pCtx backend.PluginContext, queryModel 
 	)
 
 	if newFrame, err = d.query_timeseries_internal(pCtx, queryModel, endpointModel); err != nil {
-		dataResponse.Error = d.getErrorInternal(err)
+		dataResponse.Error = log.FrameErrorWithId(logger, err)
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
@@ -276,7 +296,9 @@ func (d *RMFDatasource) query_timeseries(pCtx backend.PluginContext, queryModel 
 
 func (d *RMFDatasource) query_timeseries_internal(pCtx backend.PluginContext, queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
 
-	defer d.ErrHandler.HandleErrors()
+	logger := log.Logger.With("func", "query_timeseries_internal")
+
+	defer log.LogAndRecover(logger)
 
 	// Insert QueryModel in Panels if not present. A Panel is an abstraction that stores its QueryModels underneath.
 	// A Panel is created to ensure that a single service call is active at any given point of time within a panel
@@ -296,7 +318,7 @@ func (d *RMFDatasource) query_timeseries_internal(pCtx backend.PluginContext, qu
 
 	newFrame, err = d.fetchTimeseriesData(queryModel, endpointModel)
 	if err != nil {
-		return nil, d.getErrorInternal(err)
+		return nil, log.FrameErrorWithId(logger, err)
 	}
 	d.createChannelForStreaming(pCtx, queryModel, newFrame)
 
@@ -321,13 +343,14 @@ func (d *RMFDatasource) createChannelForStreaming(pCtx backend.PluginContext, qu
 }
 
 func (d *RMFDatasource) fetchTimeseriesData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "fetchTimeseriesData")
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		newFrame *data.Frame
 		err      error
 	)
 
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	// Has either the datasource, query or interval or (from and to date) range changed? Then a panel refresh is required
 	panelRefreshRequired := pnlfuncs.PanelRefreshRequired(d.Cache, queryModel)
@@ -340,7 +363,7 @@ func (d *RMFDatasource) fetchTimeseriesData(queryModel *typ.QueryModel, endpoint
 
 	// If frame exists in cache for the query get it from there else get frame from the server through a service call
 	if newFrame, err = d.getFrameFromCacheOrServer(queryModel, endpointModel); err != nil {
-		return nil, d.getErrorInternal(err)
+		return nil, log.FrameErrorWithId(logger, err)
 	}
 
 	return newFrame, nil
@@ -349,13 +372,14 @@ func (d *RMFDatasource) fetchTimeseriesData(queryModel *typ.QueryModel, endpoint
 // RunStream is called once for any open channel.  Results are shared with everyone
 // subscribed to the same channel.
 func (d *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
+	logger := log.Logger.With("func", "RunStream")
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		err      error
 	)
 
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	// The matched query model can be an actual query model or a temp query model
 	reqPath := req.Path[:strings.LastIndex(req.Path, "/")]
@@ -375,9 +399,9 @@ func (d *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamReq
 
 func (d *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
 	var waitTime time.Duration
-
+	logger := log.Logger.With("func", "streamDataForAbsoluteRange")
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	// Set wait time to 1/100th of a second
 	waitTime = (time.Second * time.Duration(1)) / 100
@@ -392,8 +416,9 @@ func (d *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *bac
 }
 
 func (d *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
+	logger := log.Logger.With("func", "streamDataForRelativeRange")
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	// Set wait time to 'ServiceCallInterval' for relative and 1/100th of a second for historical
 	waitTime := (time.Second * time.Duration(matchedQueryModel.ServerTimeData.ServiceCallInterval))
@@ -408,6 +433,7 @@ func (d *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *bac
 }
 
 func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime time.Duration) error {
+	logger := log.Logger.With("func", "streamDataAbsolute")
 	var (
 		pnlfuncs pnlf.PanelFunctions
 		newFrame *data.Frame
@@ -419,7 +445,7 @@ func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Run
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
 			err := ctx.Err()
-			d.ErrHandler.LogStatus("**Stream closed: Reason: ", err, ": path", req.Path)
+			logger.Debug("closing stream", "reason", err, "path", req.Path)
 			pnlfuncs.SaveQueryModelInCache(d.Cache, matchedQueryModel)
 			histTicker.Stop()
 			return err
@@ -429,14 +455,14 @@ func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Run
 				return nil
 			}
 			// Send new data periodically.
-			d.ErrHandler.LogStatus("*RunStream executing for ", matchedQueryModel.SelectedQuery)
+			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery)
 			if newFrame, err = d.getFrameFromCacheOrServer(matchedQueryModel, d.EndpointModel); err != nil {
-				return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame in streamDataAbsolute(). error=%v", err))
+				return log.ErrorWithId(logger, log.InternalError, "could not get new frame", "error", err)
 			}
 			framef.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.TimeSeriesTimeRangeFrom)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
-				return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame in streamDataAbsolute(). error:%v", err))
+				return log.ErrorWithId(logger, log.InternalError, "failed to send frame", "error", err)
 			}
 			// Save the query model in cache
 			pnlfuncs.SaveQueryModelInCache(d.Cache, matchedQueryModel)
@@ -445,6 +471,7 @@ func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Run
 }
 
 func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) (bool, error) {
+	logger := log.Logger.With("func", "streamDataRelative")
 	var (
 		pnlfuncs       pnlf.PanelFunctions
 		newFrame       *data.Frame
@@ -460,7 +487,7 @@ func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Run
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
 			err := ctx.Err()
-			d.ErrHandler.LogStatus("*Stream closed and stopping timers: ", err, ": path", req.Path)
+			logger.Debug("closing stream", "reason", err, "path", req.Path)
 			// Stop tickers to enable garbage collection of resources
 			mainTicker.Stop()
 			histTicker.Stop()
@@ -474,16 +501,16 @@ func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Run
 			if histQueryModel.TimeSeriesTimeRangeFrom.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
 				histTicker.Stop()
 			} else {
-				d.ErrHandler.LogStatus("*RunStream (Historical) executing for ", histQueryModel.SelectedQuery)
+				logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery)
 				for counter := 0; counter < numberOfIterations; counter++ {
 					// Fetch the data
 					if newFrame, err = d.getFrameFromCacheOrServer(&histQueryModel, d.EndpointModel, true); err != nil {
-						return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame for absolute data (historical) in streamDataRelative(). error=%v", err))
+						return false, log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 					}
 					framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
 					err = sender.SendFrame(newFrame, data.IncludeAll)
 					if err != nil {
-						return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame for absolute data (historical, SendFrame) in streamDataRelative(). error:%v", err))
+						return false, log.ErrorWithId(logger, log.InternalError, "failed to send frame for historical data", "error", err)
 					}
 					pnlfuncs.SaveQueryModelInCache(d.Cache, &histQueryModel)
 				}
@@ -493,16 +520,16 @@ func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Run
 			if numberOfIterations, err = pnlfuncs.GetIterationsForRelativePlotting(matchedQueryModel); err != nil {
 				return false, err
 			}
-			d.ErrHandler.LogStatus(fmt.Sprintf("*RunStream executing for %s (%d time(s))", matchedQueryModel.SelectedQuery, numberOfIterations))
+			logger.Debug("executing query for relative data", "query", matchedQueryModel.SelectedQuery, "iterations", numberOfIterations)
 			for counter := 0; counter < numberOfIterations; counter++ {
 				if newFrame, err = d.getFrameFromCacheOrServer(matchedQueryModel, d.EndpointModel); err != nil {
-					return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not get new frame for relative data in streamDataRelative(). error=%v", err))
+					return false, log.ErrorWithId(logger, log.InternalError, "could not get new frame for relative data", "error", err)
 				}
 				framef.RemoveOldFieldNames(seriesFields, matchedQueryModel.TimeSeriesTimeRangeFrom.Add(-duration))
 				framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
 				err = sender.SendFrame(newFrame, data.IncludeAll)
 				if err != nil {
-					return false, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error sending frame for relative data (forward, SendFrame) in streamDataRelative(). error:%v", err))
+					return false, log.ErrorWithId(logger, log.InternalError, "failed to send frame for relative data", "error", err)
 				}
 				// Save the query model in cache
 				pnlfuncs.SaveQueryModelInCache(d.Cache, matchedQueryModel)
@@ -512,6 +539,7 @@ func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Run
 }
 
 func (d *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
 	var (
 		newFrame        *data.Frame
 		timeSeriesQuery qf.TimeSeriesQuery
@@ -541,12 +569,12 @@ func (d *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, en
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if (!queryModel.AbsoluteTimeSelected) || frameNotFoundInCache {
-		newFrame, err = timeSeriesQuery.QueryForTimeseriesDataFrame(queryModel, endpointModel, d.ErrHandler)
+		newFrame, err = timeSeriesQuery.QueryForTimeseriesDataFrame(queryModel, endpointModel)
 		if err != nil {
-			return nil, d.getErrorInternal(err)
+			return nil, log.FrameErrorWithId(logger, err)
 		} else {
 			if err = pnlfuncs.SaveFrameInCache(d.Cache, queryModel, newFrame); err != nil {
-				return nil, d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("could not save frame in getFrameFromCacheOrServer(): Error=%v", err))
+				return nil, log.ErrorWithId(logger, log.InternalError, "could not save frame", "error", err)
 			}
 		}
 	}
@@ -581,11 +609,12 @@ func (d *RMFDatasource) getHistoricalQueryModel(matchedQueryModel *typ.QueryMode
 // SubscribeStream is called when a client wants to connect to a stream. This callback
 // allows sending the first message.
 func (d *RMFDatasource) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
+	logger := log.Logger.With("func", "SubscribeStream")
 	var pnlfuncs pnlf.PanelFunctions
 	status := backend.SubscribeStreamStatusPermissionDenied
 
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	reqPath := req.Path[:strings.LastIndex(req.Path, "/")]
 	matchedQueryModel := pnlfuncs.GetMatchedQueryModelFromCache(d.Cache, reqPath)
@@ -601,8 +630,9 @@ func (d *RMFDatasource) SubscribeStream(_ context.Context, req *backend.Subscrib
 
 // PublishStream is called when a client sends a message to the stream.
 func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+	logger := log.Logger.With("func", "PublishStream")
 	//Recover from any panic so as to not bring down this backend datasource
-	defer d.ErrHandler.HandleErrors()
+	defer log.LogAndRecover(logger)
 
 	// Do not allow publishing at all.
 	return &backend.PublishStreamResponse{
@@ -611,6 +641,7 @@ func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStr
 }
 
 func (d *RMFDatasource) query_tabledata(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel, dataResponseChnl chan *backend.DataResponse) {
+	logger := log.Logger.With("func", "query_tabledata")
 	// Insert QueryModel in Panels if not present. A Panel is an abstraction that stores its QueryModels underneath.
 	// A Panel is created to ensure that a single service call is active at any given point of time within a panel
 	// because RMF is not currently capable of handling concurrent service calls from a single panel to fetch metrics.
@@ -626,28 +657,20 @@ func (d *RMFDatasource) query_tabledata(queryModel *typ.QueryModel, endpointMode
 		d.EndpointModel = endpointModel
 		pnlfuncs.SaveQueryModelInCache(d.Cache, queryModel)
 		if err := pnlfuncs.UpdateServiceCallInProgressStatus(d.Cache, queryModel, false); err != nil {
-			log.DefaultLogger.Info(fmt.Sprintf("could not update service call progress status (false): details: %v ", err), nil)
+			logger.Info("could not update service call progress status (false)", "error", err)
 		}
 	}()
 	if err := pnlfuncs.UpdateServiceCallInProgressStatus(d.Cache, queryModel, true); err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("could not update service call progress status (true): details: %v ", err), nil)
+		logger.Info("could not update service call progress status (true)", "error", err)
 	}
 
 	var tableDataQuery qf.TableDataQuery
 
 	// Query the table data
-	if newFrame, err := tableDataQuery.QueryForTableData(queryModel, endpointModel, d.ErrHandler); err != nil {
-		dataResponse.Error = d.getErrorInternal(err)
+	if newFrame, err := tableDataQuery.QueryForTableData(queryModel, endpointModel); err != nil {
+		dataResponse.Error = log.FrameErrorWithId(logger, err)
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
 	dataResponseChnl <- dataResponse
-}
-
-func (d *RMFDatasource) getErrorInternal(err error) error {
-	if strings.Contains(err.Error(), "DDSError") {
-		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_DDS_ERROR", err)
-	} else {
-		return d.ErrHandler.LogErrorAndReturnErrorInfo("S", "ERR_INTERNAL_ERROR", fmt.Errorf("error while retrieving new frame in query_timeseries_internal(): Error=%v", err))
-	}
 }
