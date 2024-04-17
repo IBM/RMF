@@ -175,9 +175,11 @@ func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries boo
 }
 
 // ConstructMetricTSFrame creates a timeseries data frame for a metric from pre-parsed DDS response.
+// Grafana frame format: wide.
 func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
 	frameName := ""
-	if ddsResponse.Reports[0].Metric.Format == "list" {
+	metricFormat := ddsResponse.Reports[0].Metric.Format
+	if metricFormat == "list" {
 		frameName = queryName
 	}
 	resultFrame := data.NewFrame(frameName, data.NewField("timestamp", nil, []time.Time{timestamp}))
@@ -188,10 +190,20 @@ func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, time
 			resultFrame.Fields = append(resultFrame.Fields, newField)
 		})
 
+	// Built-in alerting requires either a frame in wide format with mandatory numeric fields,
+	// or an empty one. However, empty frames won't work for timeseries views.
+	// Solution for single type metric is to send nil values if there's no data.
+	// For list type metrics, we don't have column names to do the same; it has to be fixed differently.
+	if len(resultFrame.Fields) == 1 && metricFormat == "single" {
+		newField := data.NewField(queryName, nil, []*float64{nil})
+		resultFrame.Fields = append(resultFrame.Fields, newField)
+	}
+
 	return resultFrame
 }
 
 // ConstructMetricFrame creates a non-timeseries data frame for a metric from pre-parsed DDS response.
+// Grafana frame format: long.
 func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
 	metricFormat := ddsResponse.Reports[0].Metric.Format
 	nameField := "name"
