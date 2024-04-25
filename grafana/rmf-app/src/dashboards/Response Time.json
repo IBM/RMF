@@ -113,7 +113,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "response time "
+              "options": "response time"
             },
             "properties": [
               {
@@ -128,7 +128,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "response time goal "
+              "options": "response time goal"
             },
             "properties": [
               {
@@ -280,7 +280,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "response time goal percentile "
+              "options": "response time goal percentile"
             },
             "properties": [
               {
@@ -295,7 +295,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "percentile achieving response time goal "
+              "options": "percentile achieving response time goal"
             },
             "properties": [
               {
@@ -548,7 +548,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "percentile achieving response time goal "
+              "options": "percentile achieving response time goal"
             },
             "properties": [
               {

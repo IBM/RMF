@@ -116,7 +116,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },
@@ -147,7 +148,7 @@
           },
           "refId": "A",
           "rmfPanelGuid": "3bdf9ae8-f62b-40ec-b854-6ed5b66656a0",
-          "selectedQuery": "SYSPLEX.signals sent by XCF group ",
+          "selectedQuery": "SYSPLEX.signals sent by XCF group",
           "selectedResource": {
             "label": "id=8D3E40&resource=,,SYSPLEX",
             "value": "id=8D3E40&resource=,,SYSPLEX"
@@ -226,7 +227,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },
@@ -336,7 +338,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },
@@ -431,7 +434,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },
