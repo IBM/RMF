@@ -177,16 +177,14 @@ func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries boo
 // ConstructMetricTSFrame creates a timeseries data frame for a metric from pre-parsed DDS response.
 // Grafana frame format: wide.
 func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
-	frameName := ""
+	frameName := queryName
 	metricFormat := ddsResponse.Reports[0].Metric.Format
-	if metricFormat == "list" {
-		frameName = queryName
-	}
-	resultFrame := data.NewFrame(frameName, data.NewField("timestamp", nil, []time.Time{timestamp}))
+	labels := ffns.GetFrameLabels(metricFormat, queryName)
+	resultFrame := data.NewFrame(frameName, data.NewField("time", nil, []time.Time{timestamp}))
 
 	IterateMetricRows(ddsResponse, queryName,
 		func(name string, value *float64) {
-			newField := data.NewField(name, nil, []*float64{value})
+			newField := data.NewField(name, labels, []*float64{value})
 			resultFrame.Fields = append(resultFrame.Fields, newField)
 		})
 
@@ -195,7 +193,7 @@ func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, time
 	// Solution for single type metric is to send nil values if there's no data.
 	// For list type metrics, we don't have column names to do the same; it has to be fixed differently.
 	if len(resultFrame.Fields) == 1 && metricFormat == "single" {
-		newField := data.NewField(queryName, nil, []*float64{nil})
+		newField := data.NewField(queryName, labels, []*float64{nil})
 		resultFrame.Fields = append(resultFrame.Fields, newField)
 	}
 
@@ -206,24 +204,18 @@ func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, time
 // Grafana frame format: long.
 func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
 	metricFormat := ddsResponse.Reports[0].Metric.Format
-	nameField := "name"
-	valField := ""
+	nameField := "metric"
+	valField := queryName
 	if metricFormat == "list" {
-		nameField = queryName
-		valField = "value"
-		if queryName != "" {
-			splitStringSlice := strings.SplitAfter(queryName, "by")
-			if len(splitStringSlice) > 1 {
-				valField = strings.TrimSpace(splitStringSlice[0])
-				valField = strings.TrimRight(valField, "by")
-				valField = strings.TrimSpace(valField)
-				nameField = strings.TrimSpace(splitStringSlice[1])
-			}
+		valField, nameField = ffns.SplitQueryName(queryName)
+		if nameField == "" {
+			nameField = queryName
+			valField = "value"
 		}
 	}
 
 	resultFrame := data.NewFrame("",
-		data.NewField("timestamp", nil, []time.Time{}),
+		data.NewField("time", nil, []time.Time{}),
 		data.NewField(nameField, nil, []string{}),
 		data.NewField(valField, nil, []*float64{}),
 	)
@@ -233,9 +225,6 @@ func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timest
 			resultFrame.Fields[0].Append(timestamp)
 			resultFrame.Fields[1].Append(name)
 			resultFrame.Fields[2].Append(value)
-			if metricFormat == "single" {
-				resultFrame.Fields[2].Name = name
-			}
 		})
 
 	return resultFrame

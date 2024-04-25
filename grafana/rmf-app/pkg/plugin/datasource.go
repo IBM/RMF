@@ -88,7 +88,7 @@ func (d *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthR
 	// Recover from any panic so as to not bring down this backend datasource
 	defer func() {
 		if r := recover(); r != nil {
-			message := log.ErrorWithId(logger, log.InternalError, "recovered from panic", "error", r, "stack", debug.Stack()).Error()
+			message := log.ErrorWithId(logger, log.InternalError, "recovered from panic", "error", r, "stack", string(debug.Stack())).Error()
 			retRes = &backend.CheckHealthResult{Status: backend.HealthStatusError, Message: message}
 		}
 	}()
@@ -440,7 +440,8 @@ func (d *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Run
 		err      error
 	)
 	histTicker := time.NewTicker(waitTime)
-	seriesFields := map[string]time.Time{}
+	seriesFields := framef.SeriesFields{}
+
 	for {
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
@@ -480,7 +481,7 @@ func (d *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Run
 	)
 	mainTicker := time.NewTicker(*waitTime)
 	histTicker := time.NewTicker(*histWaitTime)
-	seriesFields := map[string]time.Time{}
+	seriesFields := framef.SeriesFields{}
 	duration := matchedQueryModel.TimeRangeTo.Sub(matchedQueryModel.TimeRangeFrom)
 
 	for {

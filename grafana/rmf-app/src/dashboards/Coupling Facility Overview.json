@@ -46,7 +46,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,  
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -122,7 +122,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% processor utilization "
+              "options": "% processor utilization"
             },
             "properties": [
               {
@@ -240,7 +240,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "total request rate "
+              "options": "total request rate"
             },
             "properties": [
               {
@@ -368,7 +368,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "# frames installed "
+              "options": "# frames installed"
             },
             "properties": [
               {
@@ -383,7 +383,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "# frames available "
+              "options": "# frames available"
             },
             "properties": [
               {

@@ -74,7 +74,7 @@ func ErrorWithId(logger log.Logger, errCode ErrorCode, msg string, args ...inter
 
 	var userErrDesc string
 	if errCode == DDSError {
-		userErrDesc = fmt.Sprintf(msg, args...)
+		userErrDesc = msg
 	} else {
 		userErrDesc = ErrorCodeMap[errCode]
 	}
@@ -91,6 +91,6 @@ func FrameErrorWithId(logger log.Logger, err error) error {
 
 func LogAndRecover(logger log.Logger) {
 	if r := recover(); r != nil {
-		logger.Error("recovered from panic", "error", r, "stack", debug.Stack())
+		logger.Error("recovered from panic", "error", r, "stack", string(debug.Stack()))
 	}
 }

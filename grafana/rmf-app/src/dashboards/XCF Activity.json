@@ -113,7 +113,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals sent "
+              "options": "signals sent"
             },
             "properties": [
               {
@@ -128,7 +128,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals received "
+              "options": "signals received"
             },
             "properties": [
               {
@@ -178,7 +178,7 @@
           },
           "refId": "A",
           "rmfPanelGuid": "834a08f0-4082-498b-86fe-976e27223b27",
-          "selectedQuery": "SYSPLEX.signals sent by XCF group ",
+          "selectedQuery": "SYSPLEX.signals sent by XCF group",
           "selectedResource": {
             "label": "id=8D3E40&resource=,,SYSPLEX",
             "value": "id=8D3E40&resource=,,SYSPLEX"
@@ -263,7 +263,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals sent "
+              "options": "signals sent"
             },
             "properties": [
               {
@@ -278,7 +278,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals received "
+              "options": "signals received"
             },
             "properties": [
               {
@@ -413,7 +413,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals sent "
+              "options": "signals sent"
             },
             "properties": [
               {
@@ -524,7 +524,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "signals received "
+              "options": "signals received"
             },
             "properties": [
               {
