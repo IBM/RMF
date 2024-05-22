@@ -19,10 +19,14 @@ package unmarshal_functions
 
 import (
 	"encoding/json"
-
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
+	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+
+	http "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/http_helper"
+	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 type UnmarshalFunctions struct {
@@ -45,21 +49,44 @@ func (u *UnmarshalFunctions) UnmarshalQueryModel(pCtx backend.PluginContext, que
 }
 
 func (u *UnmarshalFunctions) UnmarshalEndpointModel(pCtx backend.PluginContext) (*typ.DatasourceEndpointModel, error) {
-	// Unmarshal the pluginContext JSON into our endpointModel.
-	var endpointModel typ.DatasourceEndpointModel
+	// Unmarshal the pluginContext JSON into our em.
+	var em typ.DatasourceEndpointModel
+	dsSettings := pCtx.DataSourceInstanceSettings
 
-	err := json.Unmarshal(pCtx.DataSourceInstanceSettings.JSONData, &endpointModel)
+	err := json.Unmarshal(pCtx.DataSourceInstanceSettings.JSONData, &em)
 	if err != nil {
 		return nil, err
 	}
-	if pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData != nil {
-		val, ok := pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData["password"]
-		if ok {
-			endpointModel.Password = val
+	if em.Server != "" || em.Port != "" {
+		// Data source in legacy format
+		protocol := "http"
+		if em.SSL {
+			protocol = "https"
+		}
+		em.URL = fmt.Sprintf(
+			"%s://%s:%s", protocol, strings.TrimSpace(em.Server), strings.TrimSpace(em.Port))
+		em.IntTimeout = http.DefaultHttpTimeout
+		em.TlsSkipVerify = !em.VerifyInsecureCert
+		if pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData != nil {
+			val, ok := pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData["password"]
+			if ok {
+				em.Password = val
+			}
+		}
+	} else {
+		// Data source in conventional Grafana format
+		em.URL = dsSettings.URL
+		em.IntTimeout, err = strconv.Atoi(em.RawTimeout)
+		if err != nil {
+			em.IntTimeout = http.DefaultHttpTimeout
+		}
+		if dsSettings.BasicAuthEnabled {
+			em.UserName = dsSettings.BasicAuthUser
+			em.Password = dsSettings.DecryptedSecureJSONData["basicAuthPassword"]
 		}
 	}
-	endpointModel.DatasourceUid = pCtx.DataSourceInstanceSettings.UID
-	return &endpointModel, nil
+	em.DatasourceUid = pCtx.DataSourceInstanceSettings.UID
+	return &em, nil
 }
 
 func (u *UnmarshalFunctions) UnmarshalQueryAndEndpointModel(query backend.DataQuery, pCtx backend.PluginContext) (*typ.QueryModel, *typ.DatasourceEndpointModel, error) {

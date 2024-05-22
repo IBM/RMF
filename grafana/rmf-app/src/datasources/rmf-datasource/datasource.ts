@@ -1,6 +1,6 @@
 /**
- * (C) Copyright IBM Corp. 2023.
- * (C) Copyright Rocket Software, Inc. 2023.
+ * (C) Copyright IBM Corp. 2023, 2024.
+ * (C) Copyright Rocket Software, Inc. 2023-2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,14 @@ import { DataSourceInstanceSettings, MetricFindValue, ScopedVars } from '@grafan
 import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { getResourceName, queryValidation } from './common/common.helper';
 import { ConfigSettings } from './common/configSettings';
-// import { getPath, getRootXmlPath } from 'common/common.helper';
 import { RMFDataSourceJsonData, RMFQuery, resourceBaseData } from './common/types';
 
 export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJsonData> {
-  path = '';
-  url = '';
   dashBoardRefreshed: boolean;
   dashboardName: string;
 
   constructor(instanceSettings: DataSourceInstanceSettings<RMFDataSourceJsonData>) {
     super(instanceSettings);
-    // Used only for WSL localhost
-    // this.path = getPath(getRootXmlPath(instanceSettings));
-
-    // Set for Proxy calls
-    this.url = instanceSettings.url ? instanceSettings.url : '';
-    this.path = this.url + '/proxy';
     this.dashBoardRefreshed = true;
     this.dashboardName = '';
   }

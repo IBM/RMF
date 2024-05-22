@@ -28,15 +28,13 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
+const DefaultHttpTimeout = 60
+
 type HttpHelper struct {
 }
 
 func (h *HttpHelper) GetBaseUrl(em *typ.DatasourceEndpointModel) string {
-	protocol := "http"
-	if em.SSL {
-		protocol = "https"
-	}
-	return strings.TrimSpace(protocol) + "://" + strings.TrimSpace(em.Server) + ":" + strings.TrimSpace(em.Port)
+	return em.URL
 }
 
 func (h *HttpHelper) GetQueryType(qm *typ.QueryModel) string {
@@ -119,7 +117,6 @@ func executeHttpGetRequest(queryURL string, em *typ.DatasourceEndpointModel) (*h
 
 func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointModel, isXmlFileRequest bool) (*http.Response, error) {
 	var client *http.Client
-	const DdsTimeout time.Duration = 30 * time.Second
 
 	req, err := http.NewRequest(http.MethodGet, queryURL, http.NoBody)
 	if err != nil {
@@ -132,27 +129,16 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 		req.Header.Add("Accept", "application/json")
 	}
 
-	// Get the client reference with timeout
-	client = &http.Client{Timeout: DdsTimeout}
-
-	// Set basic auth (if required)
-	if em.SSL {
-		if strings.TrimSpace(em.UserName) != "" {
-			client = &http.Client{
-				Transport: &http.Transport{
-					TLSClientConfig: &tls.Config{
-						// InsecureSkipVerify controls whether a client verifies the server's certificate chain and host name.
-						// If InsecureSkipVerify is true, crypto/tls accepts any certificate presented by the server and
-						// any host name in that certificate. In this mode, TLS is susceptible to machine-in-the-middle attacks
-						// unless custom verification is used. This should be used only for testing or in combination with VerifyConnection or VerifyPeerCertificate.
-						InsecureSkipVerify: !em.VerifyInsecureCert,
-					},
-				},
-				Timeout: DdsTimeout,
-			}
-
-			req.SetBasicAuth(em.UserName, em.Password)
-		}
+	client = &http.Client{
+		Timeout: time.Duration(em.IntTimeout) * time.Second,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: em.TlsSkipVerify,
+			},
+		},
+	}
+	if strings.TrimSpace(em.UserName) != "" {
+		req.SetBasicAuth(em.UserName, em.Password)
 	}
 
 	res, err := client.Do(req)
