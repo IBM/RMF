@@ -39,7 +39,7 @@ jobs:
           awk '/^## / {s++} s == 1 {print}' CHANGELOG.md > RELEASE_NOTES.md
 
       - name: Upload Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rmf-app-grafana
           path: |
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Download Build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rmf-app-grafana
 
@@ -63,7 +63,7 @@ jobs:
           gpg --detach-sign -a build/ibm-rmf-grafana-*.zip
 
       - name: Upload Signature
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rmf-app-grafana-signature
           path: build/ibm-rmf-grafana-*.zip.asc
@@ -77,12 +77,12 @@ jobs:
 
     steps:
       - name: Download Build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rmf-app-grafana
 
       - name: Download Signature
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: rmf-app-grafana-signature
 
