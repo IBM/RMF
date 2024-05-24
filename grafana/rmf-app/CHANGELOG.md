@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.4 (xxxx-xx-xx)
+
+TBD
+
 ## 1.0.3 (2024-02-29)
 
 - Time-series dashboards plot graphs correctly even when NaN values are in the historical data.

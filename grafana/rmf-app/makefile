@@ -30,7 +30,7 @@ dev-frontend: deps-frontend ## Build frontend data sources (development)
 watch-frontend: deps-frontend ## Auto rebuilt frontend on file changes
 	yarn run watch
 
-dev-backend: deps-backend # Build backend data sources (development)
+dev-backend: deps-backend ## Build backend data sources (development)
 	go build -race -o ./dist/datasources/redisrmf-datasource/gpx_ibm-rmf-datasource_$$(go env GOOS)_$$(go env GOARCH) -tags netgo -ldflags -w ./pkg
 
 restart-backend: ## Rebuild and restart backend data source (as root)
@@ -56,6 +56,12 @@ build-backend: deps-backend ## Build backend data source
 
 copy-config: #copy the rmf-plugin-config.yml to executable path
 	cp ./pkg/plugin/rmf-plugin-config.yml ./dist/datasources/rmf-datasource/
+
+test: deps-backend ## Run unittests
+	go test -v ./...
+
+lint:  ## Run linters
+	golangci-lint run
 
 build: build-frontend build-backend copy-config ## Build everything
 
