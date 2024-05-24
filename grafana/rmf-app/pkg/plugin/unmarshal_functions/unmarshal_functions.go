@@ -101,6 +101,6 @@ func (u *UnmarshalFunctions) UnmarshalQueryAndEndpointModel(query backend.DataQu
 	return qm, ep, nil
 }
 
-func attachOtherQueryFields(pCtx backend.PluginContext, qm *typ.QueryModel, query backend.DataQuery) {
+func attachOtherQueryFields(_ backend.PluginContext, qm *typ.QueryModel, query backend.DataQuery) {
 	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
 }

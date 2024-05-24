@@ -38,13 +38,13 @@ func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointM
 	// Get xml data response
 	responseData, err := repos.ExecuteQueryAndGetResponse(queryModel, endpointModel)
 	if err != nil {
-		return nil, fmt.Errorf("error after calling ExecuteQueryAndGetResponse in QueryForTableData: responseData=%v & error=%v", responseData, err)
+		return nil, fmt.Errorf("error after calling ExecuteQueryAndGetResponse in QueryForTableData: responseData=%v & error=%w", responseData, err)
 	}
 
 	// Get the Json String
 	jsonStr := string(responseData[:])
 	if jsonStr == "" || jsonStr == "*No Data*" {
-		return nil, fmt.Errorf("response json is blank/no data in QueryForTableData - error=%v", err)
+		return nil, fmt.Errorf("response json is blank/no data in QueryForTableData - Error=%w", err)
 	} else {
 		logger.Debug("executed query", "query", queryModel.SelectedQuery, "url", queryModel.Url)
 	}
@@ -58,7 +58,7 @@ func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointM
 	// Get the data format
 	resultDataFormat, err := jsonf.GetDataFormat(jsonStr)
 	if err != nil {
-		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%v", err)
+		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%w", err)
 	}
 
 	// GathererInterval is used to wait 'n' secs before streaming a data chunk or while calling service to fetch data.
@@ -74,7 +74,7 @@ func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointM
 		newFrame, err = jsonf.MetricFrameFromJson(jsonStr, queryModel, false)
 	}
 	if err != nil {
-		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%v", err)
+		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%w", err)
 	}
 	// Get the metadata from Json. The metadata info like numSamples is displayed on top of the header
 	newFrame.Meta = &data.FrameMeta{

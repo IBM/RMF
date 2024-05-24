@@ -63,7 +63,7 @@ func TestMetricFrameFromJson(t *testing.T) {
 			}
 			var expectedJson bytes.Buffer
 			err := json.Indent(&expectedJson, testCase.ExpectedFrame, "", "  ")
-			if assert.Nil(t, err, "fail to indent") {
+			if assert.NoError(t, err, "failed to indent") {
 				frame, err := MetricFrameFromJson(string(testCase.DdsResponse), &testCase.QueryModel, testCase.IsTimeSeries)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")

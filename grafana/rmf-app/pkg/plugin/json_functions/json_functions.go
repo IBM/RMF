@@ -57,7 +57,7 @@ func GetJsonPropertyValueAsNumber(jsonStr string, propertyPath string) float64 {
 func GetDataFormat(jsonStr string) (string, error) {
 	dataFormat := gjson.Get(jsonStr, "report.0.metric.format").String()
 	if dataFormat == "" {
-		return "", fmt.Errorf("could not get data format in GetDataFormat()")
+		return "", errors.New("could not get data format in GetDataFormat()")
 	}
 	return dataFormat, nil
 }
@@ -157,7 +157,7 @@ func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries bool) (*data.Frame, error) {
 	var ddsResponse typ.DDSResponse
 	if err := json.Unmarshal([]byte(jsonStr), &ddsResponse); err != nil {
-		return nil, fmt.Errorf("could not parse JSON in MetricFrameFromJson(): Error = %v", err)
+		return nil, fmt.Errorf("could not parse JSON in MetricFrameFromJson(): Error = %w", err)
 	}
 	if len(ddsResponse.Reports) == 0 {
 		return nil, errors.New("unexpected data in MetricFrameFromJson(): Error = no report sections")
@@ -268,7 +268,7 @@ func ConstructReportFrameFromJson(jsonStr string,
 	// The below function will
 	headerInfoList, err := getUpdatedHeaderInfoList(jsonStr, endpointModel, queryModel.SelectedQuery)
 	if err != nil {
-		return resultFrame, fmt.Errorf("could not get headerInfoList in ConstructReportFrameFromJson(). Error=%v", err)
+		return resultFrame, fmt.Errorf("could not get headerInfoList in ConstructReportFrameFromJson(). Error=%w", err)
 	}
 
 	// Add the regular metrics values as fields (either float64 or string values)
@@ -299,7 +299,7 @@ func ConstructReportFrameFromJson(jsonStr string,
 			} else {
 				f2, err := strconv.ParseFloat(currentValue, 64)
 				if err != nil {
-					return nil, fmt.Errorf("could not convert value to float in ConstructReportFrameFromJson(). Error=%v", err)
+					return nil, fmt.Errorf("could not convert value to float in ConstructReportFrameFromJson(). Error=%w", err)
 				}
 				floatSlice = append(floatSlice, f2)
 			}
@@ -346,18 +346,18 @@ func ConstructReportFrameFromJson(jsonStr string,
 func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, selectedQuery string) ([]interface{}, error) {
 	var xmlFns xmlf.XmlFunctions
 	var httpHlpr httphlpr.HttpHelper
-	var colHeaderInfoList []interface{}
+	var colHeaderInfoList []interface{} //nolint:prealloc
 
 	// Form the headerXslMap that contains the headerText (when lookedup with headerId)
 	if _headerXslMap == nil {
 		xslUrl := httpHlpr.GetHttpUrlForReportXsl(em)
 		xslFileContent, err := httpHlpr.GetXslFileContents(xslUrl, em)
 		if err != nil {
-			return nil, fmt.Errorf("could not get xslFileContent in getUpdatedHeaderInfoList. Error=%v", err)
+			return nil, fmt.Errorf("could not get xslFileContent in getUpdatedHeaderInfoList. Error=%w", err)
 		}
 		headerXslMap, err := xmlFns.GetColHeaderXslMap(xslFileContent)
 		if err != nil {
-			return nil, fmt.Errorf("could not unmarshal jsonStr data in getUpdatedHeaderInfoList. Error=%v", err)
+			return nil, fmt.Errorf("could not unmarshal jsonStr data in getUpdatedHeaderInfoList. Error=%w", err)
 		}
 		_headerXslMap = headerXslMap
 	}
