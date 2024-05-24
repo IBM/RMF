@@ -20,6 +20,7 @@ package plugin
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"runtime/debug"
 	"strings"
@@ -112,7 +113,7 @@ func (d *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthR
 
 	res, err := confQuery.FetchRootInfo(endpointModel)
 	if err != nil {
-		if _, ok := err.(*typ.ValueError); ok {
+		if errors.As(err, new(*typ.ValueError)) {
 			message = "Unsupported version of DDS."
 		} else {
 			message = log.ErrorWithId(logger, log.ConnectionError, "couldn't fetch root info", "error", err).Error()

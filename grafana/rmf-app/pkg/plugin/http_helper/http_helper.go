@@ -18,7 +18,9 @@
 package http_helper
 
 import (
+	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -95,7 +97,7 @@ func (h *HttpHelper) GetHttpUrlForReportXsl(em *typ.DatasourceEndpointModel) str
 func (h *HttpHelper) GetXslFileContents(queryURL string, em *typ.DatasourceEndpointModel) (string, error) {
 	resp, err := executeHttpGetRequestInternal(queryURL, em, true)
 	if err != nil {
-		return "", fmt.Errorf("GET error in GetXslFileContents(): %v", err)
+		return "", fmt.Errorf("GET error in GetXslFileContents(): %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -105,7 +107,7 @@ func (h *HttpHelper) GetXslFileContents(queryURL string, em *typ.DatasourceEndpo
 
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("read body in GetXslFileContents(): %v", err)
+		return "", fmt.Errorf("read body in GetXslFileContents(): %w", err)
 	}
 
 	return string(data), nil
@@ -118,7 +120,8 @@ func executeHttpGetRequest(queryURL string, em *typ.DatasourceEndpointModel) (*h
 func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointModel, isXmlFileRequest bool) (*http.Response, error) {
 	var client *http.Client
 
-	req, err := http.NewRequest(http.MethodGet, queryURL, http.NoBody)
+	// TODO: pass the proper context
+	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, queryURL, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +136,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 		Timeout: time.Duration(em.IntTimeout) * time.Second,
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: em.TlsSkipVerify,
+				InsecureSkipVerify: em.TlsSkipVerify, // #nosec G402
 			},
 		},
 	}
@@ -145,9 +148,9 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 	if err != nil {
 		return nil, fmt.Errorf("could not complete execution of executeHttpGetRequestInternal() - data source not reachable - error=%w", err)
 	} else if res.StatusCode == 400 { // Bad request
-		return nil, fmt.Errorf("bad request (Status Code 400) in executeHttpGetRequestInternal(). please check the data source configuration")
+		return nil, errors.New("bad request (Status Code 400) in executeHttpGetRequestInternal(). please check the data source configuration")
 	} else if res.StatusCode == 401 { // Bad request
-		return nil, fmt.Errorf("unauthorized (Status Code 401) in executeHttpGetRequestInternal(). please check the data source configuration")
+		return nil, errors.New("unauthorized (Status Code 401) in executeHttpGetRequestInternal(). please check the data source configuration")
 	}
 
 	return res, err

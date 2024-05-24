@@ -38,28 +38,28 @@ func (c *ConfigurationQuery) FetchRootInfo(em *typ.DatasourceEndpointModel) (boo
 	url := httphlpr.GetHttpUrlForRoot(em)
 	responseData, err := httphlpr.ExecuteHttpGet(url, em)
 	if err != nil {
-		return false, fmt.Errorf("could not fetch health check configuration in FetchRootInfo() - error=%v", err)
+		return false, fmt.Errorf("could not fetch health check configuration in FetchRootInfo() - error=%w", err)
 	}
 	defer responseData.Body.Close()
 	if responseData.StatusCode == 401 { // Unauthorized
-		return false, fmt.Errorf("authentication failed in FetchRootInfo(). possible invalid username/password combination")
+		return false, errors.New("authentication failed in FetchRootInfo(). possible invalid username/password combination")
 	}
 	response, err := io.ReadAll(responseData.Body)
 	if err != nil {
-		return false, fmt.Errorf("could in io.ReadAll() in FetchRootInfo() - error=%v", err)
+		return false, fmt.Errorf("could in io.ReadAll() in FetchRootInfo() - error=%w", err)
 	}
 
 	jsonStr := string(response[:])
 	logger.Debug("fetched root info and got response", "url", url, "response", jsonStr)
 	if jsonStr == "" || jsonStr == "*No Data*" {
-		return false, fmt.Errorf("response json is blank/no data in FetchRootInfo - error=%v", err)
+		return false, fmt.Errorf("response json is blank/no data in FetchRootInfo - error=%w", err)
 	} else {
 		jsonObj, err := jsonf.GetJsonObject(jsonStr)
 		if err != nil {
 			if strings.Contains(jsonStr, "<?xml version=\"1.0\" encoding=\"UTF-8\"?") {
 				return false, typ.NewValueError(100, errors.New("unsupported version of DDS"))
 			} else {
-				return false, fmt.Errorf("response not valid in FetchRootInfo - error=%v", err)
+				return false, fmt.Errorf("response not valid in FetchRootInfo - error=%w", err)
 			}
 		}
 		return len(jsonObj) > 0, nil
@@ -71,12 +71,12 @@ func (c *ConfigurationQuery) FetchMetricsFromIndex(em *typ.DatasourceEndpointMod
 	url := httphlpr.GetHttpUrlForIndex(em)
 	responseData, err := httphlpr.ExecuteHttpGet(url, em)
 	if err != nil {
-		return nil, fmt.Errorf("could not fetch metrics from index, url= %s in FetchMetricsFromIndex() - error= %v", url, err)
+		return nil, fmt.Errorf("could not fetch metrics from index, url= %s in FetchMetricsFromIndex() - error= %w", url, err)
 	}
 	defer responseData.Body.Close()
 	response, err := io.ReadAll(responseData.Body)
 	if err != nil {
-		return nil, fmt.Errorf("error in io.ReadAll() in FetchMetricsFromIndex() - error=%v", err)
+		return nil, fmt.Errorf("error in io.ReadAll() in FetchMetricsFromIndex() - Error=%w", err)
 	}
 	return response, nil
 }
@@ -102,17 +102,17 @@ func (c *ConfigurationQuery) FetchIntervalAndOffset(em *typ.DatasourceEndpointMo
 	// read the response body
 	responseData, err := io.ReadAll(response.Body)
 	if err != nil {
-		return resultTimeData, fmt.Errorf("could not read http repsonse body in FetchServerTimeConfiguration(). error:=%v", err)
+		return resultTimeData, fmt.Errorf("could not read http repsonse body in FetchServerTimeConfiguration(). error=%w", err)
 	}
 
 	jsonStr := string(responseData[:])
 	if jsonStr == "" || jsonStr == "*No Data*" {
-		return resultTimeData, fmt.Errorf("response json is blank/no data in FetchServerTimeConfiguration")
+		return resultTimeData, errors.New("response json is blank/no data in FetchServerTimeConfiguration")
 	}
 
 	resultTimeData, err = jsonf.FetchIntervalAndOffset(jsonStr)
 	if err != nil {
-		return resultTimeData, fmt.Errorf("could not fetch server local time and svc call interval in FetchServerTimeConfiguration")
+		return resultTimeData, errors.New("could not fetch server local time and svc call interval in FetchServerTimeConfiguration")
 	}
 	return resultTimeData, nil
 }

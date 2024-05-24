@@ -18,13 +18,14 @@
 package query_functions
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
-	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
@@ -54,7 +55,7 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel
 	// Convert the Xml data to Json
 	jsonStr := string(responseData[:])
 	if jsonStr == "" || jsonStr == "*No Data*" {
-		return nil, fmt.Errorf("response json is blank/no data in QueryForTimeseriesDataFrame")
+		return nil, errors.New("response json is blank/no data in QueryForTimeseriesDataFrame")
 	} else {
 		logger.Debug("executed query", "query", queryModel.SelectedQuery, "url", queryModel.Url)
 	}
@@ -74,12 +75,12 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel
 	// If we invoke the service again within this interval, the results will be returned from cache
 	queryModel.ServerTimeData, err = jsonf.FetchServerTimeConfig(jsonStr) // float64(jsonf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 	if err != nil {
-		return nil, fmt.Errorf("could not get ServerTimeData in QueryForTimeseriesDataFrame(): Error=%v", err)
+		return nil, fmt.Errorf("could not get ServerTimeData in QueryForTimeseriesDataFrame(): Error=%w", err)
 	}
 
 	newFrame, err := jsonf.MetricFrameFromJson(jsonStr, queryModel, true)
 	if err != nil {
-		return nil, fmt.Errorf("could not obtain frame in QueryForTimeseriesDataFrame(): Error=%v", err)
+		return nil, fmt.Errorf("could not obtain frame in QueryForTimeseriesDataFrame(): Error=%w", err)
 	}
 	return newFrame, nil
 }

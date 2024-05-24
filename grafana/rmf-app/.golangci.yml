@@ -1,0 +1,15 @@
+run:
+  allow-parallel-runners: true
+
+linters:
+  enable:
+    - gofmt
+  disable:
+    - wrapcheck
+    - err113
+    - musttag
+  presets:
+    - bugs
+    - error
+    - unused
+    - performance

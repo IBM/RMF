@@ -19,7 +19,7 @@ package cache_functions
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"math"
 	"sort"
 	"time"
@@ -118,7 +118,7 @@ func (c *RMFCache) getCacheItemValues(key string) ([]typ.CacheItemValue, error) 
 	var cacheItemValues []typ.CacheItemValue
 	byteCacheItemValues := c.Get(key, METRICS)
 	if byteCacheItemValues == nil {
-		return cacheItemValues, fmt.Errorf("could not obtain cache item values in getCacheItemValues()")
+		return cacheItemValues, errors.New("could not obtain cache item values in getCacheItemValues()")
 	} else {
 		err := json.Unmarshal(byteCacheItemValues, &cacheItemValues)
 		if err != nil {
@@ -192,7 +192,7 @@ func (c *RMFCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*d
 			}
 		}
 	} else {
-		return nil, fmt.Errorf("frame not found in cache in GetFrame()")
+		return nil, errors.New("frame not found in cache in GetFrame()")
 	}
 	return resultframe, nil
 }
@@ -247,7 +247,7 @@ func (c *RMFCache) DeleteFrame(qm *typ.QueryModel) error {
 func (c *RMFCache) GetIntervalAndOffset(cacheKey string) (typ.IntervalOffset, error) {
 	var resultIntervalOffset typ.IntervalOffset
 	if byteIntervalOffset := c.Get(cacheKey, INTERVALOFFSET); byteIntervalOffset == nil {
-		return resultIntervalOffset, fmt.Errorf("could not get interval and offset from cache in GetIntervalAndOffset()")
+		return resultIntervalOffset, errors.New("could not get interval and offset from cache in GetIntervalAndOffset()")
 	} else {
 		err := json.Unmarshal(byteIntervalOffset, &resultIntervalOffset)
 		if err != nil {
