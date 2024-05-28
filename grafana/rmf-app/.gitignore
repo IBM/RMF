@@ -38,3 +38,8 @@ e2e-results/
 **/cypress/report.json
 
 .eslintcache
+
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/playwright/.cache/
