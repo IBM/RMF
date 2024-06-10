@@ -135,6 +135,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 	client = &http.Client{
 		Timeout: time.Duration(em.IntTimeout) * time.Second,
 		Transport: &http.Transport{
+			DisableKeepAlives: true,
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: em.TlsSkipVerify, // #nosec G402
 			},
