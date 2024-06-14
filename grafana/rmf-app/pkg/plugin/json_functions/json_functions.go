@@ -365,19 +365,19 @@ func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, s
 	// Get a reference to columnHeaders Json property
 	reports, ok := GetJsonPropertyValue(jsonStr, "report").([]interface{})
 	if !ok || len(reports) == 0 {
-		return nil, fmt.Errorf("report not found in jsonStr data in getUpdatedHeaderInfoList")
+		return nil, errors.New("report not found in jsonStr data in getUpdatedHeaderInfoList")
 	}
 	report0, ok := reports[0].(map[string]interface{})
 	if !ok {
-		return nil, fmt.Errorf("report.0 invalid in jsonStr data in getUpdatedHeaderInfoList")
+		return nil, errors.New("report.0 invalid in jsonStr data in getUpdatedHeaderInfoList")
 	}
 	columnHeaders, ok := report0["columnHeaders"].((map[string]interface{}))
 	if !ok {
-		return nil, fmt.Errorf("report.0.columnHeaders invalid in jsonStr data in getUpdatedHeaderInfoList")
+		return nil, errors.New("report.0.columnHeaders invalid in jsonStr data in getUpdatedHeaderInfoList")
 	}
 	colHeaders, ok := columnHeaders["col"].([]interface{})
 	if !ok {
-		return nil, fmt.Errorf("report.0.columnHeaders.col invalid in jsonStr data in getUpdatedHeaderInfoList")
+		return nil, errors.New("report.0.columnHeaders.col invalid in jsonStr data in getUpdatedHeaderInfoList")
 	}
 
 	// Fetch and update the column header info
