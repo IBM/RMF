@@ -363,7 +363,22 @@ func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, s
 	}
 
 	// Get a reference to columnHeaders Json property
-	colHeaders := GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").((map[string]interface{}))["col"].([]interface{})
+	reports, ok := GetJsonPropertyValue(jsonStr, "report").([]interface{})
+	if !ok || len(reports) == 0 {
+		return nil, fmt.Errorf("report not found in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	report0, ok := reports[0].(map[string]interface{})
+	if !ok {
+		return nil, fmt.Errorf("report.0 invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	columnHeaders, ok := report0["columnHeaders"].((map[string]interface{}))
+	if !ok {
+		return nil, fmt.Errorf("report.0.columnHeaders invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	colHeaders, ok := columnHeaders["col"].([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("report.0.columnHeaders.col invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
 
 	// Fetch and update the column header info
 	for _, header := range colHeaders {
@@ -375,16 +390,16 @@ func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, s
 	// writeToFile(jsonStr)
 
 	// Get a reference to caption(s) Json property
-	var varList []interface{}
-	captionNode := GetJsonPropertyValue(jsonStr, "report.0.caption")
-	if captionNode != nil {
-		varList = captionNode.((map[string]interface{}))["var"].([]interface{})
-	}
-
-	// Fetch and update the caption info
-	for indx := 0; indx < len(varList); indx++ {
-		captionInfo := updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
-		colHeaderInfoList = append(colHeaderInfoList, captionInfo)
+	captionNode, ok := report0["caption"].(map[string]interface{})
+	if ok {
+		varList, ok := captionNode["var"].([]interface{})
+		if ok {
+			// Fetch and update the caption info
+			for indx := 0; indx < len(varList); indx++ {
+				captionInfo := updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
+				colHeaderInfoList = append(colHeaderInfoList, captionInfo)
+			}
+		}
 	}
 	return colHeaderInfoList, nil
 }
