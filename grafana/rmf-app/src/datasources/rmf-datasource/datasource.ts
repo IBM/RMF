@@ -36,10 +36,10 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     let CurrentDashbaordName = getTemplateSrv().replace('${__dashboard.uid}', scopedVars);
 
     let timestamp = getTemplateSrv().replace('${__to}', scopedVars);
-    let toDate = new Date(parseInt(timestamp));
+    let toDate = new Date(parseInt(timestamp, 10));
 
-    var seconds = (currentTime.getTime() - toDate.getTime()) / 1000;
-    let isRelative = seconds < 61
+    let seconds = (currentTime.getTime() - toDate.getTime()) / 1000;
+    let isRelative = seconds < 61;
 
     let dashboardChanged: boolean;
     dashboardChanged = false;
@@ -71,7 +71,8 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     }
 
     let resourceString = getTemplateSrv().replace(queryResult.resourceCommand, options.scopedVars);
-    let urlPathLoader = ConfigSettings.UrlSettings.END_TAG + encodeURIComponent(resourceString) + ConfigSettings.UrlSettings.END_TAG;
+    let urlPathLoader =
+      ConfigSettings.UrlSettings.END_TAG + encodeURIComponent(resourceString) + ConfigSettings.UrlSettings.END_TAG;
     let id = this.id;
 
     return new Promise((resolve) => {
@@ -99,7 +100,7 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
               } else if (queryResult.filterTypes.trim() === '') {
                 retResult.push({ text: itemName });
               }
-            } catch (errorObj) { }
+            } catch (errorObj) {}
           });
           return retResult;
         })

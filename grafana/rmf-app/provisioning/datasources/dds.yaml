@@ -1,0 +1,51 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: No SSL, no auth (legacy format)
+  - name: SSL and auth (legacy format)
+  - name: No SSL, no auth
+  - name: SSL with auth
+
+datasources:
+
+  - name: No SSL, no auth (legacy format)
+    uid: no-ssl-no-auth-legacy
+    type: ibm-rmf-datasource
+    jsonData:
+      path: dds.test
+      ssl: false
+    editable: true
+
+  - name: SSL and auth (legacy format)
+    uid: ssl-and-auth-legacy
+    type: ibm-rmf-datasource
+    jsonData:
+      path: dds.test
+      port: 8803
+      ssl: true
+      skipVerify: true
+      userName: tsxxx
+    secureJsonData:
+      password: secret
+    editable: true
+
+  - name: No SSL, no auth
+    uid: no-ssl-no-auth
+    type: ibm-rmf-datasource
+    url: http://localhost:8803/no-auth
+    basicAuth: false
+    jsonData:
+      timeout: '60'
+      tlsSkipVerify: false
+
+  - name: SSL and auth
+    uid: ssl-and-auth
+    type: ibm-rmf-datasource
+    url: https://localhost:8804/auth
+    basicAuth: true
+    basicAuthUser: tsxxx
+    jsonData:
+      timeout: '60'
+      tlsSkipVerify: true
+    secureJsonData:
+      basicAuthPassword: tsxxx
