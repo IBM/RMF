@@ -54,6 +54,9 @@ build-backend: deps-backend ## Build backend data source
 	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_darwin_arm64 -ldflags '$(GO_LD_FLAGS)' ./pkg
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_windows_amd64.exe -ldflags '$(GO_LD_FLAGS)' ./pkg
 
+build-backend-amd64-linux: deps-backend ## Build backend data source
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
+
 copy-config: #copy the rmf-plugin-config.yml to executable path
 	cp ./pkg/plugin/rmf-plugin-config.yml ./dist/datasources/rmf-datasource/
 
