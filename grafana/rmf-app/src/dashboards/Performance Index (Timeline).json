@@ -115,7 +115,8 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "none",
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },
@@ -221,7 +222,8 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "none",
+          "displayName": "${__field.name}"
         },
         "overrides": []
       },

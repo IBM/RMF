@@ -22,8 +22,8 @@ import (
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
-	errh "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/error_handler"
 	jsonf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/json_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
@@ -31,25 +31,22 @@ import (
 type TableDataQuery struct {
 }
 
-func (t *TableDataQuery) QueryForTableData(
-	queryModel *typ.QueryModel,
-	endpointModel *typ.DatasourceEndpointModel,
-	errHandler *errh.ErrHandler) (*data.Frame, error) {
-
+func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "QueryForTableData")
 	var repos repo.Repository
 
 	// Get xml data response
 	responseData, err := repos.ExecuteQueryAndGetResponse(queryModel, endpointModel)
 	if err != nil {
-		return nil, fmt.Errorf("error after calling ExecuteQueryAndGetResponse in QueryForTableData: responseData=%v & error=%v", responseData, err)
+		return nil, fmt.Errorf("error after calling ExecuteQueryAndGetResponse in QueryForTableData: responseData=%v & error=%w", responseData, err)
 	}
 
 	// Get the Json String
 	jsonStr := string(responseData[:])
 	if jsonStr == "" || jsonStr == "*No Data*" {
-		return nil, fmt.Errorf("response json is blank/no data in QueryForTableData - error=%v", err)
+		return nil, fmt.Errorf("response json is blank/no data in QueryForTableData - Error=%w", err)
 	} else {
-		errHandler.LogStatus(fmt.Sprintf("***Executed query: %s with url: %s and got response in QueryForTableData(): %s", queryModel.SelectedQuery, queryModel.Url, jsonStr))
+		logger.Debug("executed query", "query", queryModel.SelectedQuery, "url", queryModel.Url)
 	}
 
 	// Check for any error contained in the response
@@ -61,7 +58,7 @@ func (t *TableDataQuery) QueryForTableData(
 	// Get the data format
 	resultDataFormat, err := jsonf.GetDataFormat(jsonStr)
 	if err != nil {
-		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%v", err)
+		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%w", err)
 	}
 
 	// GathererInterval is used to wait 'n' secs before streaming a data chunk or while calling service to fetch data.
@@ -77,7 +74,7 @@ func (t *TableDataQuery) QueryForTableData(
 		newFrame, err = jsonf.MetricFrameFromJson(jsonStr, queryModel, false)
 	}
 	if err != nil {
-		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%v", err)
+		return nil, fmt.Errorf("could not obtain frame QueryForTableData(): Error=%w", err)
 	}
 	// Get the metadata from Json. The metadata info like numSamples is displayed on top of the header
 	newFrame.Meta = &data.FrameMeta{

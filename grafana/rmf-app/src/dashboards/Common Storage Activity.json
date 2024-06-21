@@ -121,7 +121,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% CSA utilization "
+              "options": "% CSA utilization"
             },
             "properties": [
               {
@@ -136,7 +136,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% ECSA utilization "
+              "options": "% ECSA utilization"
             },
             "properties": [
               {
@@ -293,7 +293,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% ESQA utilization "
+              "options": "% ESQA utilization"
             },
             "properties": [
               {
@@ -308,7 +308,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% SQA utilization "
+              "options": "% SQA utilization"
             },
             "properties": [
               {
@@ -462,7 +462,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% CSA utilization "
+              "options": "% CSA utilization"
             },
             "properties": [
               {
@@ -585,7 +585,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "% SQA utilization "
+              "options": "% SQA utilization"
             },
             "properties": [
               {

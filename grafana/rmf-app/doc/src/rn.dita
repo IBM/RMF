@@ -7,29 +7,74 @@
     <refbody>
         <section id="section_y2g_rfq_pyb">
             <title>What's new</title>
-            <dl id="dl_ob2_sfq_pyb">
+            <dl id="dl_f15_njt_sbc">
+                <dlentry>
+                    <dt>June 2024 v1.0.4</dt>
+                    <dd>
+                        <ul id="ul_u3s_bkt_sbc">
+                            <li>The user interface for creating the datasource has been enhanced to
+                                improve the user experience.</li>
+                            <li>Fixed internally found defects.</li>
+                            <li>The following dashboards are updated:<ul id="ul_n5x_32w_tbc">
+                                    <li>Common Storage Activity (Timeline)</li>
+                                    <li>Common Storage Activity</li>
+                                    <li>Coupling Facility Overview (Timeline)</li>
+                                    <li>Coupling Facility Overview</li>
+                                    <li>Execution Velocity (Timeline)</li>
+                                    <li>Execution Velocity</li>
+                                    <li>General Activity (Timeline)</li>
+                                    <li>General Activity</li>
+                                    <li>Overall Image Activity (Timeline)</li>
+                                    <li>Overall Image Activity</li>
+                                    <li>Performance Index (Timeline)</li>
+                                    <li>Response Time (Timeline)</li>
+                                    <li>Response Time</li>
+                                    <li>XCF Activity (Timeline)</li>
+                                    <li>XCF Activity </li>
+                                    <li>
+                                        <note id="note_vwg_p2w_tbc">You must re-import the
+                                            dashboards to utilize the latest enhancements in the
+                                            dashboards.</note>
+                                    </li>
+                                </ul></li>
+                            <li>The documentation updates for v1.0.4 include the following
+                                    changes:<ul id="ul_aqv_kht_sbc">
+                                    <li>The topic of <xref href="create_datasources.dita"/> has been
+                                        updated as per the new UI changes.</li>
+                                    <li>The <xref href="update_plugin.dita"/> topic is included to
+                                        provide information about the upgrade process.</li>
+                                </ul></li>
+                        </ul>
+                    </dd>
+                </dlentry>
                 <dlentry>
                     <dt>February 2024 v1.0.3</dt>
-                    <dd>Fixed specific issues related to the support of Grafana v10.x.x.</dd>
-                    <dd>Fixed empty settings issue for IBM RMF data source defined via
-                            <filepath>Home / Apps / IBM RMF</filepath> page.</dd>
-                    <dd>Fixed internally found defects.</dd>
-                    <dd>The documentation updates for v1.0.3 include the following changes:<ul
-                            id="ul_z4c_r3p_31c">
-                            <li>The <xref href="grafana_via_zosmf.dita">Grafana through IBM z/OS
-                                    Management Facility</xref> topic explains more detailed setup
-                                instructions to access Grafana from the z/OSMF server.</li>
-                            <li>The <xref href="install_grafana_plugin.dita"><ph
-                                        conref="conref.dita#conref/rmf_short"/> plugin
-                                    installation</xref> section is updated to provide clear
-                                information and guidance on installing the <ph
-                                    conref="conref.dita#conref/rmf_short"/> plugin on different
-                                platforms based on specific requirements.</li>
-                            <li>The <xref href="ts_issues.dita">troubleshooting</xref> topic is
-                                provided to help users analyze and resolve common issues that may
-                                occur while using the <ph conref="conref.dita#conref/plugin_name"/>
-                                plugin.</li>
-                        </ul></dd>
+                    <dd>
+                        <ul id="ul_cs3_dkt_sbc">
+                            <li>Fixed specific issues related to the support of Grafana
+                                v10.x.x.</li>
+                            <li>Fixed empty settings issue for IBM RMF data source defined via
+                                    <filepath>Home / Apps / IBM RMF</filepath> page.</li>
+                            <li>Fixed internally found defects.</li>
+                            <li>The documentation updates for v1.0.3 include the following
+                                    changes:<ul id="ul_z4c_r3p_31c">
+                                    <li>The <xref href="grafana_via_zosmf.dita">Grafana through IBM
+                                            z/OS Management Facility</xref> topic explains more
+                                        detailed setup instructions to access Grafana from the
+                                        z/OSMF server.</li>
+                                    <li>The <xref href="install_grafana_plugin.dita"><ph
+                                                conref="conref.dita#conref/rmf_short"/> plugin
+                                            installation</xref> section is updated to provide clear
+                                        information and guidance on installing the <ph
+                                            conref="conref.dita#conref/rmf_short"/> plugin on
+                                        different platforms based on specific requirements.</li>
+                                    <li>The <xref href="ts_issues.dita">troubleshooting</xref> topic
+                                        is provided to help users analyze and resolve common issues
+                                        that may occur while using the <ph
+                                            conref="conref.dita#conref/plugin_name"/> plugin.</li>
+                                </ul></li>
+                        </ul>
+                    </dd>
                 </dlentry>
                 <dlentry>
                     <dt>December 2023 v1.0.2</dt>

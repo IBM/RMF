@@ -1,6 +1,6 @@
 /**
- * (C) Copyright IBM Corp. 2023.
- * (C) Copyright Rocket Software, Inc. 2023.
+ * (C) Copyright IBM Corp. 2023, 2024.
+ * (C) Copyright Rocket Software, Inc. 2023-2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DataQuery, DataSourceJsonData, NullValueMode, SelectableValue, ThresholdsMode } from '@grafana/data';
+import {
+  DataQuery,
+  DataSourceJsonData,
+  DataSourceSettings,
+  NullValueMode,
+  SelectableValue,
+  ThresholdsMode
+} from '@grafana/data';
 
 export enum visualisationType {
   auto = 'auto',
@@ -105,20 +112,31 @@ export const defaultQuery: Partial<RMFQuery> = {
  * These are options configured for each DataSource instance
  */
 export interface RMFDataSourceJsonData extends DataSourceJsonData {
+  // Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
+  tlsSkipVerify?: boolean;
+  // We store it as a string because of complications of UI input validation
+  timeout?: string;
+  // Legacy: custom RMF settings. We should ge rid of it at some point.
   path?: string;
   port?: string;
   ssl?: boolean;
-  userName?: string;  
+  userName?: string;
+  // NB: the meaning of that is inverted. If set, we do verify certificates.
   skipVerify?: boolean;
 }
 
 /**
  * Value that is used in the backend, but never sent over HTTP to the frontend
  */
-export interface RMFDatasourceSecureJsonData {
+export interface RMFDataSourceSecureJsonData {
+  // Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
+  basicAuthPassword?: string
+  // Legacy: custom RMF settings. We should ge rid of it at some point.
   userName?: string;
   password?: string;
 }
+
+export type RMFDataSourceSettings = DataSourceSettings<RMFDataSourceJsonData, RMFDataSourceSecureJsonData>;
 
 export interface DashboardHistoryItem {
   dashboardId?: number;

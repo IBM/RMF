@@ -147,7 +147,7 @@
           },
           "refId": "A",
           "rmfPanelGuid": "b6137830-43ac-4fec-b516-07e80b0ab57a",
-          "selectedQuery": "SYSPLEX.# active users by MVS image ",
+          "selectedQuery": "SYSPLEX.# active users by MVS image",
           "selectedResource": {
             "label": "id=8D0630&resource=,,SYSPLEX",
             "value": "id=8D0630&resource=,,SYSPLEX"
@@ -162,7 +162,7 @@
           "hide": false,
           "refId": "B",
           "rmfPanelGuid": "b6137830-43ac-4fec-b516-07e80b0ab57a",
-          "selectedQuery": "SYSPLEX.# users by MVS image ",
+          "selectedQuery": "SYSPLEX.# users by MVS image",
           "selectedResource": {
             "label": "id=8D0D60&resource=,,SYSPLEX",
             "value": "id=8D0D60&resource=,,SYSPLEX"

@@ -51,20 +51,17 @@
                     id="ph_bfn_mmk_2zb">The <msgph>Data source is working</msgph> message is
                     displayed if the connection to DDS succeeds.</ph></p>
             <ol>
-                <li id="li_yyv_vmk_2zb">Set <uicontrol>Use SSL</uicontrol>
-                    <image href="images/toggle-off.png" scale="50"/> to ON to enable the secure connection.<p>
-                        <note type="remember">When you enable SSL, the <uicontrol>Verify the
-                                server’s certificate chain/hostname</uicontrol> option is also
-                                enabled.<p>You can turn OFF the <uicontrol>Verify the server’s
-                                    certificate chain/hostname</uicontrol> option if you are willing
-                                to accept any certificate presented by the DDS and any hostname
-                                listed in that certificate. However, this practice is not considered
-                                secure and is typically used in development or testing
-                                environments.</p><!--<p>You can set <uicontrol>Verify the server’s certificate chain/hostname</uicontrol> <image href="images/toggle-on.png" scale="50"/> to OFF to accept any certificate presented by the <ph conref="conref.dita#conref/dds_short"/> and any hostname in that certificate.</p>--></note>
-                    </p></li>
+                <li id="li_yyv_vmk_2zb">Set <uicontrol>Basic Auth</uicontrol>
+                    <image href="images/toggle-off.png" scale="50"/> to
+                        <systemoutput>ON</systemoutput> to enable the secure connection.</li>
             </ol>
             <note id="note_rr3_txq_pyb">The navigation of the user interface can differ based on the
                 Grafana version that is currently installed.</note>
+            <p>
+                <note type="remember" id="note_odf_zy5_4bc">When you enable SSL, the
+                        <uicontrol>Verify the server’s certificate chain/hostname</uicontrol> option
+                    is also enabled.</note>
+            </p>
         </section>
     </conbody>
 </concept>

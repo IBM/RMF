@@ -45,30 +45,53 @@ func GetFrameName(qm *typ.QueryModel) string {
 	return strings.Trim(resultFrameName, " ")
 }
 
+// GetFrameLabels builds labels based on DDS metric name and type
+func GetFrameLabels(metricType string, queryName string) data.Labels {
+	labels := data.Labels{}
+	if metricType == "list" {
+		labels["metric"], _ = SplitQueryName(queryName)
+	}
+	return labels
+}
+
+// SplitQueryName splits metric name into short metric name and resource type.
+// For example, `% AAP by job` becomes pair `% AAP` and `job`
+func SplitQueryName(queryName string) (string, string) {
+	shortQueryName, itemType, _ := strings.Cut(queryName, " by ")
+	return strings.TrimSpace(shortQueryName), strings.TrimSpace(itemType)
+}
+
+// SeriesFields stores info about fields that appeared in time series.
+type SeriesFields map[string]FieldInfo
+type FieldInfo struct {
+	Time   time.Time
+	Labels data.Labels
+}
+
 // SyncFieldNames adds Fields having names from the map with `nil` values if they are not present
 // in the current frame.
 // Required for frames streamed as time series.
 // If we send a frame without a field name that was there in previous frames of the same time series,
 // values for the field in those frames will be discarded by frontend.
-func SyncFieldNames(seriesFieldMap map[string]time.Time, frame *data.Frame, frameTime time.Time) {
+func SyncFieldNames(seriesFields SeriesFields, frame *data.Frame, frameTime time.Time) {
 	fieldNames := map[string]bool{}
 	for _, field := range frame.Fields {
-		seriesFieldMap[field.Name] = frameTime
+		seriesFields[field.Name] = FieldInfo{Time: frameTime, Labels: field.Labels}
 		fieldNames[field.Name] = true
 	}
-	for key := range seriesFieldMap {
+	for key := range seriesFields {
 		_, ok := fieldNames[key]
 		if !ok {
-			newField := data.NewField(key, nil, []*float64{nil})
+			newField := data.NewField(key, seriesFields[key].Labels, []*float64{nil})
 			frame.Fields = append(frame.Fields, newField)
 		}
 	}
 }
 
 // RemoveOldFieldNames cuts off field names older than the given time.
-func RemoveOldFieldNames(fieldMap map[string]time.Time, cutoffTime time.Time) {
-	for name, timestamp := range fieldMap {
-		if timestamp.Before(cutoffTime) {
+func RemoveOldFieldNames(fieldMap SeriesFields, cutoffTime time.Time) {
+	for name, fieldInfo := range fieldMap {
+		if fieldInfo.Time.Before(cutoffTime) {
 			delete(fieldMap, name)
 		}
 	}

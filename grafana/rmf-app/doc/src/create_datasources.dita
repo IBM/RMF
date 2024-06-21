@@ -33,33 +33,51 @@
             </step>
             <step importance="optional">
                 <cmd>Set <uicontrol>Default</uicontrol>
-                    <image href="images/toggle-off.png" id="image_hvn_dpd_qyb" scale="50"/> to ON to
-                    make the added data source the default one.</cmd>
+                    <image href="images/toggle-off.png" id="image_hvn_dpd_qyb" scale="50"/> to
+                        <systemoutput>ON</systemoutput> to make the added data source the default
+                    one.</cmd>
                 <info>
                     <note id="note_z2w_hpd_qyb">When you create new panels, the default data source
                         is preselected.</note>
                 </info>
             </step>
             <step>
-                <cmd>Enter the details for the following fields in the <wintitle>Server
-                        Information</wintitle> section:</cmd>
+                <cmd>Enter the details for the following fields in the <wintitle>HTTP</wintitle>
+                    section:</cmd>
                 <info>
-                    <simpletable frame="all" id="simpletable_kqy_mhk_2zb" relcolwidth="0.2* 0.5*">
+                    <simpletable frame="all" id="simpletable_kqy_mhk_2zb" relcolwidth="0.1* 0.3*">
                         <sthead>
                             <stentry>Fields</stentry>
                             <stentry>Action</stentry>
                         </sthead>
                         <strow>
-                            <stentry><uicontrol>Server</uicontrol></stentry>
-                            <stentry>Enter the hostname of the <ph
-                                    conref="conref.dita#conref/dds_short"/> in this field.</stentry>
+                            <stentry><uicontrol>DDS URL</uicontrol></stentry>
+                            <stentry>Enter the URL of the <ph conref="conref.dita#conref/dds_short"
+                                /> in this field.<p>The format of the URL is:
+                                            <filepath>http://<varname>hostname</varname>:<varname>port_number</varname>/<varname>path</varname></filepath>
+                                    or
+                                            <filepath>https://<varname>hostname</varname>:<varname>port_number</varname>/<varname>path</varname></filepath></p></stentry>
                         </strow>
                         <strow>
-                            <stentry><uicontrol>Port</uicontrol></stentry>
-                            <stentry>Enter the port number of the <ph
-                                    conref="conref.dita#conref/dds_short"/> in this field.</stentry>
+                            <stentry><uicontrol>Timeout</uicontrol></stentry>
+                            <stentry>Specify the duration, in seconds in this field, for which
+                                Grafana is allowed to wait for a connection to the DDS before it
+                                closes the connection.<p>The default value is
+                                        <systemoutput>60</systemoutput>.</p></stentry>
                         </strow>
                     </simpletable>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>Set the <uicontrol>Skip TLS Verify</uicontrol> option to
+                        <systemoutput>ON</systemoutput> if you are accepting any certificate
+                    presented by the DDS and any hostname listed in that certificate. However, this
+                    practice is not considered secure and is typically used in development or
+                    testing environments.</cmd>
+                <info>
+                    <note id="note_wrk_tmf_qbc">By default, the <uicontrol>Skip TLS
+                            Verify</uicontrol> option is set to
+                        <systemoutput>OFF</systemoutput>.</note>
                 </info>
             </step>
             <step>
@@ -73,24 +91,22 @@
                         </sthead>
                         <strow>
                             <stentry>Create the data source with no authentication</stentry>
-                            <stentry>You do not require any credentials to create the data
-                                source.</stentry>
+                            <stentry>You must set the <uicontrol>Basic Auth</uicontrol> option to
+                                    <systemoutput>OFF</systemoutput>.</stentry>
                             <stentry><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
                                         conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></stentry>
                         </strow>
                         <!--<strow><stentry>Create the data source with SSL only</stentry><stentry>You must select the <uicontrol>Use SSL</uicontrol> radio button, but you are not required to provide a username and password to create the data source.</stentry><stentry><ol id="ol_ogp_rmk_2zb"><li conref="conref.dita#conref/li_yyv_vmk_2zb"/><li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></li></ol></stentry></strow>-->
                         <strow>
-                            <stentry>Create the data source with SSL and Basic
-                                Authentication</stentry>
-                            <stentry>You must select the <uicontrol>Use SSL</uicontrol> radio
-                                button. Optionally you can provide a username and password to create
-                                the data source.</stentry>
+                            <stentry>Create the data source with Basic Authentication</stentry>
+                            <stentry>You must set the <uicontrol>Basic Auth</uicontrol> option to
+                                    <systemoutput>ON</systemoutput>.</stentry>
                             <stentry>
                                 <ol id="ol_fpz_clk_2zb">
                                     <li conref="conref.dita#conref/li_yyv_vmk_2zb"/>
-                                    <li><b>Optional</b>: Enter the credentials of the <ph
+                                    <li>Enter the credentials of the <ph
                                             conref="conref.dita#conref/dds_short"/> in the
-                                            <uicontrol>Username</uicontrol> and
+                                            <uicontrol>User</uicontrol> and
                                             <uicontrol>Password</uicontrol> fields.</li>
                                     <li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
                                                 conref="conref.dita#conref/ph_bfn_mmk_2zb"

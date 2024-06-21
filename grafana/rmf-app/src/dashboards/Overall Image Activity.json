@@ -113,7 +113,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "# active users "
+              "options": "# active users"
             },
             "properties": [
               {

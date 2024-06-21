@@ -18,6 +18,7 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -34,9 +35,9 @@ func (r *Repository) ExecuteQueryAndGetResponse(queryModel *typ.QueryModel,
 	// Get the http Response from service
 	httpResponse, err := fetchDataFromServer(queryModel, endpointModel)
 	if err != nil {
-		return nil, fmt.Errorf("could not fetch data from server in ExecuteQueryAndGetResponse(). error:=%v", err)
+		return nil, fmt.Errorf("could not fetch data from server in ExecuteQueryAndGetResponse(). error:=%w", err)
 	} else if httpResponse.StatusCode == 400 {
-		return nil, fmt.Errorf("error fetching data from server in ExecuteQueryAndGetResponse(). possibly invalid query")
+		return nil, errors.New("error fetching data from server in ExecuteQueryAndGetResponse(). possibly invalid query")
 	}
 
 	// Close the response body once all operations are over
@@ -45,7 +46,7 @@ func (r *Repository) ExecuteQueryAndGetResponse(queryModel *typ.QueryModel,
 	// read the response body
 	responseData, err := io.ReadAll(httpResponse.Body)
 	if responseData == nil && err != nil {
-		return nil, fmt.Errorf("could not read http repsonse body in ExecuteQueryAndGetResponse(). error:=%v", err)
+		return nil, fmt.Errorf("could not read http repsonse body in ExecuteQueryAndGetResponse(). error:=%w", err)
 	}
 	return responseData, nil
 }
@@ -70,7 +71,7 @@ func (r *Repository) ExecuteForVariableQuery(query string, em *typ.DatasourceEnd
 	// Get the http Response from service
 	httpResponse, err := fetchDataForVariableQuery(query, em)
 	if err != nil {
-		return nil, fmt.Errorf("could not get httpResponse in ExecuteForVariableQuery(). Error=%v", err)
+		return nil, fmt.Errorf("could not get httpResponse in ExecuteForVariableQuery(). Error=%w", err)
 	}
 
 	// Close the response body once all operations are over

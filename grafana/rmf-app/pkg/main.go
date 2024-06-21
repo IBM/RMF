@@ -20,10 +20,10 @@ package main
 import (
 	"os"
 
-	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin"
-
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
+
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin"
 )
 
 func main() {
@@ -32,10 +32,10 @@ func main() {
 	// to exit by itself using os.Exit. Manage automatically manages life cycle
 	// of datasource instances. It accepts datasource instance factory as first
 	// argument. This factory will be automatically called on incoming request
-	// from Grafana to create different instances of RMFBackendDatasource (per datasource
+	// from Grafana to create different instances of RMFDatasource (per datasource
 	// ID). When datasource configuration changed Dispose method will be called and
-	// new datasource instance created using NewRMFBackendDatasource factory.
-	if err := datasource.Manage("ibm-rmf-datasource", plugin.NewRMFDataSourceInstance, datasource.ManageOpts{}); err != nil {
+	// new datasource instance created using NewRMFDatasource factory.
+	if err := datasource.Manage("ibm-rmf-datasource", plugin.NewRMFDatasource, datasource.ManageOpts{}); err != nil {
 		log.DefaultLogger.Error(err.Error())
 		os.Exit(1)
 	}
