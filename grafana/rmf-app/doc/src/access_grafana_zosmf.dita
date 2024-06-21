@@ -39,8 +39,8 @@
                 <li>Add a RMF data source to fetch data from <ph
                         conref="conref.dita#conref/dds_full"/>s (<ph
                         conref="conref.dita#conref/dds_short"/>). See <xref
-                        href="about:blankcreate_datasources.dita" format="dita" scope="external"
-                        >Creating RMF data sources</xref>.</li>
+                        href="create_datasources.dita" format="dita">Creating RMF data
+                        sources</xref>.</li>
             </ul></postreq>
     </taskbody>
 </task>

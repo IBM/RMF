@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="update_plugin" xml:lang="en-us">
+    <title>Upgrading the RMF for z/OS plugin on Grafana</title>
+    <titlealts>
+        <navtitle>Upgrading the plugin</navtitle>
+    </titlealts>
+    <shortdesc>You must ensure that the <ph conref="conref.dita#conref/plugin_name"/> plugin is up
+        to date to leverage its enhanced functionalities. You can do so by either installing or
+        upgrading to the latest version of the plugin.</shortdesc>
+    <taskbody>
+        <context>The upgrade procedures differ based on the environment you used to install the
+            Grafana server.<simpletable frame="all" id="simpletable_xt5_mcs_sbc"
+                relcolwidth="1* .4*">
+                <sthead>
+                    <stentry>Methods</stentry>
+                    <stentry>Step #</stentry>
+                </sthead>
+                <strow>
+                    <stentry>Upgrading the plugin in the Grafana stand-alone application.</stentry>
+                    <stentry>Perform steps <xref href="#update_plugin/step_zkc_zrs_sbc"/> to <xref
+                            href="#update_plugin/step_l11_1ss_sbc"/>.</stentry>
+                </strow>
+                <strow>
+                    <stentry>Upgrading the plugin in the Grafana within the Docker
+                        environment.</stentry>
+                    <stentry>Perfrom steps <xref href="#update_plugin/step_wzb_bss_sbc"/> to <xref
+                            href="#update_plugin/step_x1p_1ss_sbc"/>.</stentry>
+                </strow>
+            </simpletable></context>
+        <steps>
+            <step id="step_zkc_zrs_sbc">
+                <cmd>Stop the Grafana server.</cmd>
+            </step>
+            <step>
+                <cmd>Run the following command to upgrade the plugin by using Grafana CLI:</cmd>
+                <info>
+                    <codeblock id="codeblock_frs_byj_lzb">grafana cli --pluginUrl <varname>https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v&lt;version>/ibm-rmf-grafana-&lt;version>.zip</varname> plugins install <varname>ibm-rmf</varname></codeblock>
+                    <note id="note_wf5_cqs_sbc">You must replace the value of
+                            &lt;<varname>version</varname>> for the <parmname>pluginURL</parmname>
+                        option with the plugin's version number to be upgraded.
+                        <lines id="lines_ttk_pss_sbc">For example, if you want to install the <varname>v1.0.3</varname> version of the plugin, the value of <parmname>pluginURL</parmname> is <xref href="https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v1.0.3/ibm-rmf-grafana-1.0.3.zip" format="html" scope="external">https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v1.0.3/ibm-rmf-grafana-1.0.3.zip</xref>.</lines></note>
+                </info>
+                <stepresult>The CLI tool downloads the mentioned version of the plugin and replaces
+                    the existing files.</stepresult>
+            </step>
+            <step id="step_l11_1ss_sbc">
+                <cmd>Restart the Grafana server, and then go to step <xref
+                        href="#update_plugin/step_x1p_1ss_sbc"/>.</cmd>
+            </step>
+            <step id="step_wzb_bss_sbc">
+                <cmd>Run the following command to stop the docker container:</cmd>
+                <info>
+                    <codeblock id="codeblock_rwq_mqs_sbc">docker stop <varname>rmf-grafana</varname></codeblock>
+                    <p>Where <varname>rmf-grafana</varname> is the name of the container.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Run the following command to remove the docker container:</cmd>
+                <info>
+                    <codeblock id="codeblock_b1m_pqs_sbc">docker rm <varname>rmf-grafana</varname></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Run the following command to upgrade the plugin by creating and running a
+                    container:</cmd>
+                <info>
+                    <codeblock id="codeblock_v2k_5yj_lzb">docker run --name <varname>rmf-grafana</varname> --hostname <varname>rmf-grafana</varname> --detach --restart unless-stopped --volume <varname>rmf-grafana-data</varname>:<varname>/var/lib/grafana</varname> --publish <varname>3000</varname>:<varname>3000</varname> --env "<varname>GF_INSTALL_PLUGINS=https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v&lt;version>/ibm-rmf-grafana-&lt;version>.zip</varname>;<varname>ibm-rmf</varname>" --env "<varname>GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS</varname>=<varname>ibm-rmf,ibm-rmf-datasource,ibm-rmf-report</varname>" &lt;<varname>image</varname>></codeblock>
+                    <note type="remember" id="note_d1p_h1k_lzb">You must replace the values of the
+                        following options in the command:<ul id="ul_qrd_gbk_lzb">
+                            <li>&lt;<varname>version</varname>> for the <parmname>env</parmname>
+                                option to the version number of the plugin to be upgraded.</li>
+                            <li>&lt;<varname>image</varname>> to the version of the Grafana image
+                                used.</li>
+                        </ul></note>
+                </info>
+            </step>
+            <step id="step_x1p_1ss_sbc">
+                <cmd>Perform the following sub-steps to re-import the dashboards.</cmd>
+                <info>After upgrading the plugin to a new version, it is essential to re-import the
+                    dashboard. This ensures that you are utilizing the most up-to-date features in
+                    the dashboards.<note id="note_kwr_trs_sbc" type="tip">You can find the updated
+                        dashboards for each release by referring to the <xref
+                            href="https://github.com/IBM/RMF/releases" format="html"
+                            scope="external">CHANGELOG</xref> of the plugin. You do not need to
+                        re-import all the dashboards.</note></info>
+                <substeps id="substeps_bqp_zqs_sbc">
+                    <substep>
+                        <cmd>Enter the URL of Grafana in your web browser.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Enter the username and password of Grafana on the
+                                <wintitle>sign-in</wintitle> page.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Go to <menucascade>
+                                <uicontrol>Administration</uicontrol>
+                                <uicontrol>Plugins</uicontrol>
+                            </menucascade>.</cmd>
+                        <info>
+                            <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_slz_dgb_fzb"
+                            />
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Enter <keyword>RMF</keyword> in the <uicontrol>Search</uicontrol> bar
+                            on the <wintitle>Plugins</wintitle> page.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Click <uicontrol conref="conref.dita#conref/plugin_name_grafana"/> in
+                            the search results.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Click <uicontrol>Dashboards</uicontrol>, and then click
+                                <uicontrol>Re-import</uicontrol> to re-import the dashboards.</cmd>
+                    </substep>
+                </substeps>
+            </step>
+        </steps>
+        <result id="result_pvc_ftt_4bc">You have updated the <ph
+                conref="conref.dita#conref/plugin_name"/> plugin.</result>
+    </taskbody>
+</task>

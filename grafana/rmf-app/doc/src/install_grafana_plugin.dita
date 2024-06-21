@@ -69,7 +69,7 @@
             <!--<step><cmd>Download the required version of <ph conref="conref.dita#conref/plugin_name"/> plugin from the following URL:</cmd><info><xref href="https://github.com/IBM/RMF/releases" format="html" scope="external"/></info></step>-->
             <!--<step><cmd>Extract the contents of the <filepath>ibm-rmf-app-<varname>x.y.z</varname>.zip</filepath> file into the Grafana plugins directory.</cmd><info><p>For example, on Windows systems, you must place the files in <filepath>&lt;grafana-root-dir>\data\plugins</filepath></p><p>Where <filepath><varname>x.y.z</varname></filepath> is the version number of the <ph conref="conref.dita#conref/plugin_name"/> plugin.</p></info></step>-->
             <step id="step_dbx_4qy_g1c">
-                <cmd>Restart Grafana, and then go to step <xref
+                <cmd>Restart the Grafana server, and then go to step <xref
                         href="#install_grafana_plugin/step_um5_bnh_h1c"/>.</cmd>
             </step>
             <step id="step_d2j_sqy_g1c">
@@ -176,7 +176,7 @@
                 </substeps>
             </step>
         </steps>
-        <result id="result_cfk_yxq_pyb"><p/>You have installed the <ph
+        <result id="result_cfk_yxq_pyb">You have installed the <ph
                 conref="conref.dita#conref/plugin_name"/> plugin. You can find the <uicontrol
                 conref="conref.dita#conref/plugin_name_grafana"/> plugin listed under the
                 <uicontrol>Apps</uicontrol> section.<p><image href="images/app_section.png"
