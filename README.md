@@ -4,8 +4,7 @@ Resource Measurement Facility for z/OS
 
 ## IBM RMF for z/OS Grafana Plugin
 
-The IBM® RMF for z/OS Grafana plugin provides effortless analysis and visualization of
-RMF Monitor III metrics and reports within the Grafana platform.
+The IBM® RMF for z/OS Grafana plugin provides effortless analysis and visualization of RMF Monitor III metrics and reports within the Grafana platform.
 
 See [IBM RMF for z/OS Grafana Plugin](grafana/rmf-app/README.md) for more details.
 
@@ -26,4 +25,4 @@ The RMF Spreadsheet Reporter is an advanced and efficient workstation solution t
 
 You can download the installer from the following location: (https://github.com/IBM/RMF/releases).
 
-Refer to the  [z/OS Resource Measurement Facility User's Guide](https://www.ibm.com/docs/en/zos/latest?topic=reporter-concepts-performance-analysis-rmf-spreadsheet) for more information.
+Refer to the [z/OS Resource Measurement Facility User's Guide](https://www.ibm.com/docs/en/zos/latest?topic=reporter-concepts-performance-analysis-rmf-spreadsheet) for more information.
