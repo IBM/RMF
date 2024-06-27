@@ -1,5 +1,12 @@
 # Change Log
 
+## 5.5.7
+
+ - Support CPU reports with multi-page IFL information
+ - Fix WLMGL working set creation
+ - Reset buttons in CF Trend macro
+ - General maintenance
+
 ## 5.5.6
 
 - Upgrade to Java 17.
