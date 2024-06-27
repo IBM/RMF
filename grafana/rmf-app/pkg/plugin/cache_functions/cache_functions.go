@@ -19,16 +19,16 @@ package cache_functions
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"math"
 	"sort"
 	"time"
 
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	plugincnfg "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/plugin_config"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 
 	"github.com/VictoriaMetrics/fastcache"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -118,7 +118,7 @@ func (c *RMFCache) getCacheItemValues(key string) ([]typ.CacheItemValue, error) 
 	var cacheItemValues []typ.CacheItemValue
 	byteCacheItemValues := c.Get(key, METRICS)
 	if byteCacheItemValues == nil {
-		return cacheItemValues, fmt.Errorf("could not obtain cache item values in getCacheItemValues()")
+		return cacheItemValues, errors.New("could not obtain cache item values in getCacheItemValues()")
 	} else {
 		err := json.Unmarshal(byteCacheItemValues, &cacheItemValues)
 		if err != nil {
@@ -160,6 +160,7 @@ func (c *RMFCache) getFilteredCacheItemValues(cacheItemValues []typ.CacheItemVal
 }
 
 func (c *RMFCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+	logger := log.Logger.With("func", "GetFrame")
 	var (
 		resultframe *data.Frame
 		cacheKey    string
@@ -169,7 +170,7 @@ func (c *RMFCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*d
 	cacheKey = c.getFrameCacheKey(qm)
 	cacheItemValues, err := c.getCacheItemValues(cacheKey)
 	if err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("cache item values not obtained in GetFrame(): details: %v ", err), nil)
+		logger.Info("cache item values not obtained", "error", err)
 	}
 	if len(cacheItemValues) > 0 {
 		if len(plotAbsoluteReverse) > 0 {
@@ -191,17 +192,18 @@ func (c *RMFCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*d
 			}
 		}
 	} else {
-		return nil, fmt.Errorf("frame not found in cache in GetFrame()")
+		return nil, errors.New("frame not found in cache in GetFrame()")
 	}
 	return resultframe, nil
 }
 
 func (c *RMFCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
+	logger := log.Logger.With("func", "SaveFrame")
 
 	cacheKey := c.getFrameCacheKey(qm)
 	cacheItemValues, err := c.getCacheItemValues(cacheKey)
 	if err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("cache item values not obtained in SaveFrame(): details: %v ", err), nil)
+		logger.Info("cache item values not obtained", "error", err)
 	}
 	cacheItemValue := c.createCacheItemValue(frame, qm)
 	cacheItemValues = append(cacheItemValues, cacheItemValue)
@@ -245,7 +247,7 @@ func (c *RMFCache) DeleteFrame(qm *typ.QueryModel) error {
 func (c *RMFCache) GetIntervalAndOffset(cacheKey string) (typ.IntervalOffset, error) {
 	var resultIntervalOffset typ.IntervalOffset
 	if byteIntervalOffset := c.Get(cacheKey, INTERVALOFFSET); byteIntervalOffset == nil {
-		return resultIntervalOffset, fmt.Errorf("could not get interval and offset from cache in GetIntervalAndOffset()")
+		return resultIntervalOffset, errors.New("could not get interval and offset from cache in GetIntervalAndOffset()")
 	} else {
 		err := json.Unmarshal(byteIntervalOffset, &resultIntervalOffset)
 		if err != nil {

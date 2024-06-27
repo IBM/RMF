@@ -18,15 +18,15 @@
 package panel_functions
 
 import (
-	"fmt"
+	"errors"
 	"math"
 	"strings"
 	"time"
 
 	cf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
 	"github.com/google/uuid"
@@ -56,8 +56,9 @@ func replaceSpecialCharacters(uniquePath string) string {
 }
 
 func (pf *PanelFunctions) SaveQueryModelInCache(rmfCache *cf.RMFCache, qm *typ.QueryModel) {
+	logger := log.Logger.With("func", "SaveQueryModelInCache")
 	if err := rmfCache.SaveQueryModel(qm); err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("could not save queryModel in cache (SaveQueryModelInCache()): details: %v ", err), nil)
+		logger.Info("could not save queryModel in cache", "error", err)
 	}
 }
 
@@ -87,7 +88,7 @@ func (pf *PanelFunctions) GetFrameFromCache(cache *cf.RMFCache, qm *typ.QueryMod
 		frame, err = cache.GetFrame(qm)
 	}
 	if frame == nil || err != nil {
-		return nil, fmt.Errorf("frame not found in cache in GetFrameFromCache()")
+		return nil, errors.New("frame not found in cache in GetFrameFromCache()")
 	} else {
 		return frame, nil
 	}
@@ -108,11 +109,11 @@ func (pf *PanelFunctions) SaveIntervalAndOffsetInCache(rmfCache *cf.RMFCache, ca
 func (pf *PanelFunctions) UpdateServiceCallInProgressStatus(rmfCache *cf.RMFCache, qm *typ.QueryModel, isServiceCallInProgress bool) error {
 	cacheKey := qm.UniquePath
 	if queryModel, err := rmfCache.GetQueryModel(cacheKey); err != nil {
-		return fmt.Errorf("could not update service call progress status in UpdateServiceCallInProgressStatus()")
+		return errors.New("could not update service call progress status in UpdateServiceCallInProgressStatus()")
 	} else {
 		queryModel.ServiceCallInProgress = isServiceCallInProgress
 		if err := rmfCache.SaveQueryModel(queryModel); err != nil {
-			return fmt.Errorf("could not save queryModel in UpdateServiceCallInProgressStatus()")
+			return errors.New("could not save queryModel in UpdateServiceCallInProgressStatus()")
 		}
 	}
 	return nil
@@ -150,8 +151,9 @@ func (pf *PanelFunctions) PanelRefreshRequired(rmfCache *cf.RMFCache, qm *typ.Qu
 }
 
 func (pf *PanelFunctions) DeleteQueryModel(rmfCache *cf.RMFCache, uniquePath string) {
+	logger := log.Logger.With("func", "DeleteQueryModel")
 	if err := rmfCache.Delete(uniquePath, cf.QUERYMODEL); err != nil {
-		log.DefaultLogger.Info(fmt.Sprintf("queryModel not in cache: DeleteQueryModel(): details: %v ", err), nil)
+		logger.Info("queryModel not in cache", "error", err)
 	}
 }
 
@@ -180,7 +182,7 @@ func (pf *PanelFunctions) GetIterationsForRelativePlotting(qm *typ.QueryModel) (
 	difference := qm.TimeSeriesTimeRangeTo.Sub(currentTimeUTC)
 	differenceInSecs := int(math.Abs(difference.Seconds()))
 	if qm.ServerTimeData.ServiceCallInterval == 0 {
-		return 0, fmt.Errorf("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
+		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
 	result := int(differenceInSecs / int(qm.ServerTimeData.ServiceCallInterval))
 	if result == 0 {
@@ -193,7 +195,7 @@ func (pf *PanelFunctions) GetIterationsForReverseAbsPlotting(qm *typ.QueryModel)
 	difference := qm.TimeSeriesTimeRangeTo.Sub(qm.ServerTimeData.LocalPrevTime)
 	differenceInSecs := int(math.Abs(difference.Seconds()))
 	if qm.ServerTimeData.ServiceCallInterval == 0 {
-		return 0, fmt.Errorf("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
+		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
 	result := int(differenceInSecs / int(qm.ServerTimeData.ServiceCallInterval))
 	if result == 0 {

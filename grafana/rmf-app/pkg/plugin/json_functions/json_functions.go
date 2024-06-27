@@ -57,7 +57,7 @@ func GetJsonPropertyValueAsNumber(jsonStr string, propertyPath string) float64 {
 func GetDataFormat(jsonStr string) (string, error) {
 	dataFormat := gjson.Get(jsonStr, "report.0.metric.format").String()
 	if dataFormat == "" {
-		return "", fmt.Errorf("could not get data format in GetDataFormat()")
+		return "", errors.New("could not get data format in GetDataFormat()")
 	}
 	return dataFormat, nil
 }
@@ -157,7 +157,7 @@ func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries bool) (*data.Frame, error) {
 	var ddsResponse typ.DDSResponse
 	if err := json.Unmarshal([]byte(jsonStr), &ddsResponse); err != nil {
-		return nil, fmt.Errorf("could not parse JSON in MetricFrameFromJson(): Error = %v", err)
+		return nil, fmt.Errorf("could not parse JSON in MetricFrameFromJson(): Error = %w", err)
 	}
 	if len(ddsResponse.Reports) == 0 {
 		return nil, errors.New("unexpected data in MetricFrameFromJson(): Error = no report sections")
@@ -175,43 +175,47 @@ func MetricFrameFromJson(jsonStr string, query *typ.QueryModel, isTimeSeries boo
 }
 
 // ConstructMetricTSFrame creates a timeseries data frame for a metric from pre-parsed DDS response.
+// Grafana frame format: wide.
 func ConstructMetricTSFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
-	frameName := ""
-	if ddsResponse.Reports[0].Metric.Format == "list" {
-		frameName = queryName
-	}
-	resultFrame := data.NewFrame(frameName, data.NewField("timestamp", nil, []time.Time{timestamp}))
+	frameName := queryName
+	metricFormat := ddsResponse.Reports[0].Metric.Format
+	labels := ffns.GetFrameLabels(metricFormat, queryName)
+	resultFrame := data.NewFrame(frameName, data.NewField("time", nil, []time.Time{timestamp}))
 
 	IterateMetricRows(ddsResponse, queryName,
 		func(name string, value *float64) {
-			newField := data.NewField(name, nil, []*float64{value})
+			newField := data.NewField(name, labels, []*float64{value})
 			resultFrame.Fields = append(resultFrame.Fields, newField)
 		})
+
+	// Built-in alerting requires either a frame in wide format with mandatory numeric fields,
+	// or an empty one. However, empty frames won't work for timeseries views.
+	// Solution for single type metric is to send nil values if there's no data.
+	// For list type metrics, we don't have column names to do the same; it has to be fixed differently.
+	if len(resultFrame.Fields) == 1 && metricFormat == "single" {
+		newField := data.NewField(queryName, labels, []*float64{nil})
+		resultFrame.Fields = append(resultFrame.Fields, newField)
+	}
 
 	return resultFrame
 }
 
 // ConstructMetricFrame creates a non-timeseries data frame for a metric from pre-parsed DDS response.
+// Grafana frame format: long.
 func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timestamp time.Time) *data.Frame {
 	metricFormat := ddsResponse.Reports[0].Metric.Format
-	nameField := "name"
-	valField := ""
+	nameField := "metric"
+	valField := queryName
 	if metricFormat == "list" {
-		nameField = queryName
-		valField = "value"
-		if queryName != "" {
-			splitStringSlice := strings.SplitAfter(queryName, "by")
-			if len(splitStringSlice) > 1 {
-				valField = strings.TrimSpace(splitStringSlice[0])
-				valField = strings.TrimRight(valField, "by")
-				valField = strings.TrimSpace(valField)
-				nameField = strings.TrimSpace(splitStringSlice[1])
-			}
+		valField, nameField = ffns.SplitQueryName(queryName)
+		if nameField == "" {
+			nameField = queryName
+			valField = "value"
 		}
 	}
 
 	resultFrame := data.NewFrame("",
-		data.NewField("timestamp", nil, []time.Time{}),
+		data.NewField("time", nil, []time.Time{}),
 		data.NewField(nameField, nil, []string{}),
 		data.NewField(valField, nil, []*float64{}),
 	)
@@ -221,9 +225,6 @@ func ConstructMetricFrame(ddsResponse *typ.DDSResponse, queryName string, timest
 			resultFrame.Fields[0].Append(timestamp)
 			resultFrame.Fields[1].Append(name)
 			resultFrame.Fields[2].Append(value)
-			if metricFormat == "single" {
-				resultFrame.Fields[2].Name = name
-			}
 		})
 
 	return resultFrame
@@ -267,7 +268,7 @@ func ConstructReportFrameFromJson(jsonStr string,
 	// The below function will
 	headerInfoList, err := getUpdatedHeaderInfoList(jsonStr, endpointModel, queryModel.SelectedQuery)
 	if err != nil {
-		return resultFrame, fmt.Errorf("could not get headerInfoList in ConstructReportFrameFromJson(). Error=%v", err)
+		return resultFrame, fmt.Errorf("could not get headerInfoList in ConstructReportFrameFromJson(). Error=%w", err)
 	}
 
 	// Add the regular metrics values as fields (either float64 or string values)
@@ -298,7 +299,7 @@ func ConstructReportFrameFromJson(jsonStr string,
 			} else {
 				f2, err := strconv.ParseFloat(currentValue, 64)
 				if err != nil {
-					return nil, fmt.Errorf("could not convert value to float in ConstructReportFrameFromJson(). Error=%v", err)
+					return nil, fmt.Errorf("could not convert value to float in ConstructReportFrameFromJson(). Error=%w", err)
 				}
 				floatSlice = append(floatSlice, f2)
 			}
@@ -345,24 +346,39 @@ func ConstructReportFrameFromJson(jsonStr string,
 func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, selectedQuery string) ([]interface{}, error) {
 	var xmlFns xmlf.XmlFunctions
 	var httpHlpr httphlpr.HttpHelper
-	var colHeaderInfoList []interface{}
+	var colHeaderInfoList []interface{} //nolint:prealloc
 
 	// Form the headerXslMap that contains the headerText (when lookedup with headerId)
 	if _headerXslMap == nil {
 		xslUrl := httpHlpr.GetHttpUrlForReportXsl(em)
 		xslFileContent, err := httpHlpr.GetXslFileContents(xslUrl, em)
 		if err != nil {
-			return nil, fmt.Errorf("could not get xslFileContent in getUpdatedHeaderInfoList. Error=%v", err)
+			return nil, fmt.Errorf("could not get xslFileContent in getUpdatedHeaderInfoList. Error=%w", err)
 		}
 		headerXslMap, err := xmlFns.GetColHeaderXslMap(xslFileContent)
 		if err != nil {
-			return nil, fmt.Errorf("could not unmarshal jsonStr data in getUpdatedHeaderInfoList. Error=%v", err)
+			return nil, fmt.Errorf("could not unmarshal jsonStr data in getUpdatedHeaderInfoList. Error=%w", err)
 		}
 		_headerXslMap = headerXslMap
 	}
 
 	// Get a reference to columnHeaders Json property
-	colHeaders := GetJsonPropertyValue(jsonStr, "report.0.columnHeaders").((map[string]interface{}))["col"].([]interface{})
+	reports, ok := GetJsonPropertyValue(jsonStr, "report").([]interface{})
+	if !ok || len(reports) == 0 {
+		return nil, errors.New("report not found in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	report0, ok := reports[0].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("report.0 invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	columnHeaders, ok := report0["columnHeaders"].((map[string]interface{}))
+	if !ok {
+		return nil, errors.New("report.0.columnHeaders invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
+	colHeaders, ok := columnHeaders["col"].([]interface{})
+	if !ok {
+		return nil, errors.New("report.0.columnHeaders.col invalid in jsonStr data in getUpdatedHeaderInfoList")
+	}
 
 	// Fetch and update the column header info
 	for _, header := range colHeaders {
@@ -374,16 +390,16 @@ func getUpdatedHeaderInfoList(jsonStr string, em *typ.DatasourceEndpointModel, s
 	// writeToFile(jsonStr)
 
 	// Get a reference to caption(s) Json property
-	var varList []interface{}
-	captionNode := GetJsonPropertyValue(jsonStr, "report.0.caption")
-	if captionNode != nil {
-		varList = captionNode.((map[string]interface{}))["var"].([]interface{})
-	}
-
-	// Fetch and update the caption info
-	for indx := 0; indx < len(varList); indx++ {
-		captionInfo := updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
-		colHeaderInfoList = append(colHeaderInfoList, captionInfo)
+	captionNode, ok := report0["caption"].(map[string]interface{})
+	if ok {
+		varList, ok := captionNode["var"].([]interface{})
+		if ok {
+			// Fetch and update the caption info
+			for indx := 0; indx < len(varList); indx++ {
+				captionInfo := updateHeaderTextWithXslMapValue(selectedQuery, varList[indx])
+				colHeaderInfoList = append(colHeaderInfoList, captionInfo)
+			}
+		}
 	}
 	return colHeaderInfoList, nil
 }

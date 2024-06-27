@@ -120,7 +120,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "execution velocity "
+              "options": "execution velocity"
             },
             "properties": [
               {
@@ -135,7 +135,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "execution velocity goal "
+              "options": "execution velocity goal"
             },
             "properties": [
               {
@@ -286,7 +286,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "execution velocity "
+              "options": "execution velocity"
             },
             "properties": [
               {

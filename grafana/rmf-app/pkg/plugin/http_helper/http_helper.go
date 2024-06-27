@@ -18,7 +18,9 @@
 package http_helper
 
 import (
+	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -28,15 +30,13 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
+const DefaultHttpTimeout = 60
+
 type HttpHelper struct {
 }
 
 func (h *HttpHelper) GetBaseUrl(em *typ.DatasourceEndpointModel) string {
-	protocol := "http"
-	if em.SSL {
-		protocol = "https"
-	}
-	return strings.TrimSpace(protocol) + "://" + strings.TrimSpace(em.Server) + ":" + strings.TrimSpace(em.Port)
+	return em.URL
 }
 
 func (h *HttpHelper) GetQueryType(qm *typ.QueryModel) string {
@@ -97,7 +97,7 @@ func (h *HttpHelper) GetHttpUrlForReportXsl(em *typ.DatasourceEndpointModel) str
 func (h *HttpHelper) GetXslFileContents(queryURL string, em *typ.DatasourceEndpointModel) (string, error) {
 	resp, err := executeHttpGetRequestInternal(queryURL, em, true)
 	if err != nil {
-		return "", fmt.Errorf("GET error in GetXslFileContents(): %v", err)
+		return "", fmt.Errorf("GET error in GetXslFileContents(): %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -107,7 +107,7 @@ func (h *HttpHelper) GetXslFileContents(queryURL string, em *typ.DatasourceEndpo
 
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("read body in GetXslFileContents(): %v", err)
+		return "", fmt.Errorf("read body in GetXslFileContents(): %w", err)
 	}
 
 	return string(data), nil
@@ -119,9 +119,9 @@ func executeHttpGetRequest(queryURL string, em *typ.DatasourceEndpointModel) (*h
 
 func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointModel, isXmlFileRequest bool) (*http.Response, error) {
 	var client *http.Client
-	const DDS_TIMEOUT time.Duration = 30 * time.Second
 
-	req, err := http.NewRequest(http.MethodGet, queryURL, http.NoBody)
+	// TODO: pass the proper context
+	req, err := http.NewRequestWithContext(context.TODO(), http.MethodGet, queryURL, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -132,36 +132,26 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 		req.Header.Add("Accept", "application/json")
 	}
 
-	// Get the client reference with timeout
-	client = &http.Client{Timeout: DDS_TIMEOUT}
-
-	// Set basic auth (if required)
-	if em.SSL {
-		if strings.TrimSpace(em.UserName) != "" {
-			client = &http.Client{
-				Transport: &http.Transport{
-					TLSClientConfig: &tls.Config{
-						// InsecureSkipVerify controls whether a client verifies the server's certificate chain and host name.
-						// If InsecureSkipVerify is true, crypto/tls accepts any certificate presented by the server and
-						// any host name in that certificate. In this mode, TLS is susceptible to machine-in-the-middle attacks
-						// unless custom verification is used. This should be used only for testing or in combination with VerifyConnection or VerifyPeerCertificate.
-						InsecureSkipVerify: !em.VerifyInsecureCert,
-					},
-				},
-				Timeout: DDS_TIMEOUT,
-			}
-
-			req.SetBasicAuth(em.UserName, em.Password)
-		}
+	client = &http.Client{
+		Timeout: time.Duration(em.IntTimeout) * time.Second,
+		Transport: &http.Transport{
+			DisableKeepAlives: true,
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: em.TlsSkipVerify, // #nosec G402
+			},
+		},
+	}
+	if strings.TrimSpace(em.UserName) != "" {
+		req.SetBasicAuth(em.UserName, em.Password)
 	}
 
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("could not complete execution of executeHttpGetRequestInternal() - possibly invalid credentials or data source not reachable - error=%v", err)
+		return nil, fmt.Errorf("could not complete execution of executeHttpGetRequestInternal() - data source not reachable - error=%w", err)
 	} else if res.StatusCode == 400 { // Bad request
-		return nil, fmt.Errorf("bad request (Status Code 400) in executeHttpGetRequestInternal(). please check the data source configuration")
+		return nil, errors.New("bad request (Status Code 400) in executeHttpGetRequestInternal(). please check the data source configuration")
 	} else if res.StatusCode == 401 { // Bad request
-		return nil, fmt.Errorf("unauthorized (Status Code 401) in executeHttpGetRequestInternal(). please check the data source configuration")
+		return nil, errors.New("unauthorized (Status Code 401) in executeHttpGetRequestInternal(). please check the data source configuration")
 	}
 
 	return res, err

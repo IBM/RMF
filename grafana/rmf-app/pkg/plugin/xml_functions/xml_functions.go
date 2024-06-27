@@ -34,7 +34,7 @@ func (x *XmlFunctions) GetColHeaderXslMap(xslContent string) (map[string][]typ.C
 	resultMap := make(map[string][]typ.ColHeaderXslMap)
 	doc, err := xmlquery.Parse(strings.NewReader(xslContent))
 	if err != nil {
-		return nil, fmt.Errorf("could not Parse data in GetColHeaderXslMap(). Error=%v", err)
+		return nil, fmt.Errorf("could not Parse data in GetColHeaderXslMap(). Error=%w", err)
 	}
 
 	// Attach the headers where report = 'NA'
@@ -56,7 +56,7 @@ func (x *XmlFunctions) GetColHeaderXslMap(xslContent string) (map[string][]typ.C
 }
 
 func getHeaderInfoSlice(doc *xmlquery.Node, xPath string) []typ.ColHeaderXslMap {
-	var resultList []typ.ColHeaderXslMap
+	var resultList []typ.ColHeaderXslMap //nolint:prealloc
 	nodes := xmlquery.Find(doc, xPath)
 	for _, node := range nodes {
 		var mp typ.ColHeaderXslMap

@@ -3,6 +3,7 @@
    <appContext helpID="visual_grafana" path="visual_grafana.html"/>
    <appContext helpID="rn" path="rn.html"/>
    <appContext helpID="install_grafana_plugin" path="install_grafana_plugin.html"/>
+   <appContext helpID="update_plugin" path="update_plugin.html"/>
    <appContext helpID="create_datasources" path="create_datasources.html"/>
    <appContext helpID="db_ovw" path="db_ovw.html"/>
    <appContext helpID="apply_visualize" path="apply_visualize.html"/>

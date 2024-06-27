@@ -107,13 +107,14 @@
                 "value": 20
               }
             ]
-          }
+          },
+          "displayName": "${__field.name}"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "# active users "
+              "options": "# active users"
             },
             "properties": [
               {
@@ -128,7 +129,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "# users "
+              "options": "# users"
             },
             "properties": [
               {
