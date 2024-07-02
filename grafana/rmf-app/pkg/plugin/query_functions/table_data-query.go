@@ -61,6 +61,11 @@ func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointM
 		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%w", err)
 	}
 
+	queryModel.ServerTimeData, err = jsonf.FetchServerTimeConfig(jsonStr)
+	if err != nil {
+		return nil, fmt.Errorf("could not get ServerTimeData in QueryForTableData(): Error=%w", err)
+	}
+
 	// GathererInterval is used to wait 'n' secs before streaming a data chunk or while calling service to fetch data.
 	// If we invoke the service again within this interval, the results will be returned from cache
 	queryModel.ServerTimeData.ServiceCallInterval = float64(jsonf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
