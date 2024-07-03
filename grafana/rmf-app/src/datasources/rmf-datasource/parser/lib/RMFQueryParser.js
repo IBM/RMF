@@ -1,4 +1,4 @@
-// Generated from grammar/RMFQuery.g4 by ANTLR 4.12.0
+// Generated from ./grammar/RMFQuery.g4 by ANTLR 4.13.1
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import RMFQueryListener from './RMFQueryListener.js';
@@ -211,7 +211,6 @@ export default class RMFQueryParser extends antlr4.Parser {
 	        case 30:
 	            this.state = 88;
 	            this.repname();
-	            1-100
 	            break;
 	        default:
 	            throw new antlr4.error.NoViableAltException(this);
@@ -304,7 +303,6 @@ export default class RMFQueryParser extends antlr4.Parser {
 	        this.match(RMFQueryParser.DOT);
 	        this.state = 102;
 	        this.metrics();
-	        1-200
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
 		        localctx.exception = re;

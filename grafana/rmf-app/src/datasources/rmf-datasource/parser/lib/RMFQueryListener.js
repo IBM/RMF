@@ -1,4 +1,4 @@
-// Generated from grammar/RMFQuery.g4 by ANTLR 4.12.0
+// Generated from ./grammar/RMFQuery.g4 by ANTLR 4.13.1
 // jshint ignore: start
 import antlr4 from 'antlr4';
 
