@@ -40,6 +40,7 @@ var AcceptableMessages = map[string]bool{
 	"GPM0505I": true, // The data retrieved by DDS may be inconsistent due to a change of the RMF cycle time
 	"GPM0506I": true, // IPL/REBOOT detected in the specified time range
 	"GPM0507I": true, // DDS could not retrieve valid data for the specified date and time range
+	"GPM0709I": true, // Filter has caused no data to be returned
 }
 
 func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
