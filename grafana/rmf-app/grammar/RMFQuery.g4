@@ -197,7 +197,7 @@ metrics
 	;
 
 Ord_Options
-	: (  ([nN][aA]) | ([nN][dD]) | ([vV][aA]) | ([vV][oO]) )
+	: (  ([nN][aA]) | ([nN][dD]) | ([vV][aA]) | ([vV][dD]) | ([nN][nN]) )
 	;
 
 Res_Type
