@@ -33,7 +33,7 @@ Start of Notices for IBM® RMF for z/OS Grafana plugin v1.x
 
 =====================================================================
 
-Components:
+Components: 
 
 @aashutoshrathi/word-wrap 1.2.6 : MIT License
 abab 2.0.6 : BSD 3-clause "New" or "Revised" License
@@ -52,11 +52,11 @@ ajv-formats 2.1.1 : MIT License
 ajv-keywords 3.5.2 : MIT License
 ajv-keywords 5.1.0 : MIT License
 alecthomas-kingpin v2.4.0 : MIT License
-alecthomas/participle v2.0.0 : MIT License
+alecthomas/participle v2.1.0 : MIT License
 alecthomas-units 20211218-snapshot-b94a6e3c : MIT License
 allegro/bigcache 20190220-snapshot-e24eb225 : Apache License 2.0
 @ampproject/remapping 2.2.1 : Apache License 2.0
-andybalholm/brotli v1.0.4 : MIT License
+andybalholm/brotli v1.0.5 : MIT License
 ansicolor 1.1.100 : The Unlicense
 ansi-escapes 4.3.2 : MIT License
 ansi-regex 2.1.1 : MIT License
@@ -69,11 +69,12 @@ ansi-styles 3.2.1 : MIT License
 ansi-styles 5.2.0 : MIT License
 ansi-styles 6.2.1 : MIT License
 ansi-styles v4.3.0 : MIT License
-antchfx/xmlquery v1.3.18 : MIT License
-antchfx/xpath v1.2.4 : MIT License
+antchfx/xmlquery v1.4.0 : MIT License
+antchfx/xpath v1.3.0 : MIT License
+antlr 20230512-snapshot-5d1fd1a3 : BSD 3-clause "New" or "Revised" License
 ANTLR 4 4.13.1 : BSD 3-clause "New" or "Revised" License
 anymatch 3.1.3 : ISC License
-Apache Thrift 0.16.0 : Apache License 2.0
+Apache Thrift 0.17.0 : Apache License 2.0
 are-docs-informative 0.0.2 : MIT License
 ARG 4.1.3 : MIT License
 aria-query 5.1.3 : Apache License 2.0
@@ -135,7 +136,6 @@ babel-traverse 7.23.5 : MIT License
 @babel/types 7.23.5 : MIT License
 balanced-match 1.0.2 : MIT License
 @bcoe/v8-coverage 0.2.3 : MIT License
-benbjohnson-clock v1.1.0 : MIT License
 beorn7-perks v1.0.1 : MIT License
 bigfft 20230129-snapshot-24d4a6f8 : BSD 3-clause "New" or "Revised" License
 binary-extensions v2.2.0 : MIT License
@@ -151,6 +151,7 @@ browserify/resolve 2.0.0-next.5 : MIT License
 browserslist 4.22.2 : MIT License
 bufbuild/protocompile v0.4.0 : Apache License 2.0
 buffer-from 1.1.2 : MIT License
+buger/jsonparser 1.1.1 : MIT License
 builtin-modules 3.3.0 : MIT License
 BurntSushi/toml 1.3.2 : (MIT License AND BSD 2-clause "Simplified" License AND Creative Commons Attribution 3.0 AND BSD 3-clause "New" or "Revised" License)
 bvaughn/react-highlight-words 0.20.0 : MIT License
@@ -176,8 +177,8 @@ carbon-components-react 8.44.0 : Apache License 2.0
 @carbon/telemetry 0.1.0 : Apache License 2.0
 @carbon/themes 11.28.0 : Apache License 2.0
 @carbon/type 11.25.0 : Apache License 2.0
-cenkalti/backoff v4.2.1 : MIT License
-cespare/xxhash v2.2.0 : MIT License
+cenkalti/backoff v4.3.0 : MIT License
+cespare/xxhash v2.3.0 : MIT License
 Chalk 1.1.3 : MIT License
 Chalk 2.4.2 : MIT License
 Chalk 4.1.2 : MIT License
@@ -193,13 +194,11 @@ ci-info 3.9.0 : MIT License
 cjs-module-lexer 1.2.3 : MIT License
 classes 1.2.6 : MIT License
 classnames 2.3.2 : MIT License
-client9/misspell v0.3.4 : (MIT License AND BSD 3-clause "New" or "Revised" License)
-client_golang v1.18.0 : Apache License 2.0
+client_golang v1.19.0 : Apache License 2.0
 cliui 5.0.0 : ISC License
 cliui 8.0.1 : ISC License
 clone-deep 4.0.1 : MIT License
 clsx 1.2.1 : MIT License
-cncf/udpa 20220112-snapshot-c52dc94e : Apache License 2.0
 co 4.6.0 : MIT License
 collect-v8-coverage 1.0.2 : MIT License
 colorette 2.0.20 : MIT License
@@ -222,8 +221,7 @@ core-js 2.6.12 : MIT License
 core-js 3.28.0 : MIT License
 core-js 3.34.0 : MIT License
 cosmiconfig 7.1.0 : MIT License
-cpuguy83-go-md2man 2.0.2 : MIT License
-creack/pty v1.1.9 : MIT License
+cpuguy83-go-md2man v2.0.4 : MIT License
 create-require 1.1.1 : MIT License
 @cspotcode/source-map-support 0.8.1 : MIT License
 css-animation 1.6.1 : MIT License
@@ -274,6 +272,7 @@ d3-transition 3.0.1 : ISC License
 d3-zoom 3.0.0 : ISC License
 DamonOehlman/wildcard 2.0.1 : MIT License
 data-urls 3.0.2 : MIT License
+date-fns/date-fns 2.29.3 : MIT License
 debug-js/debug 3.2.7 : MIT License
 debug-js/debug 4.3.4 : MIT License
 Decamelize 1.2.0 : MIT License
@@ -282,6 +281,7 @@ dedent 1.5.1 : MIT License
 deep-is 0.1.4 : MIT License
 deepmerge 4.3.1 : MIT License
 define-data-property 1.1.1 : MIT License
+define-properties 1.2.1 : MIT License
 delaunator 5.0.0 : ISC License
 delayed-stream 1.0.0 : MIT License
 dequal 2.0.3 : MIT License
@@ -300,14 +300,12 @@ domelementtype 2.3.0 : BSD 2-clause "Simplified" License
 domexception 4.0.0 : MIT License
 DomHandler 5.0.3 : BSD 2-clause "Simplified" License
 dom-helpers 5.2.1 : MIT License
-dominikh/go-tools 20190523-snapshot-ea95bdfd : MIT License
 DOMPurify 2.4.7 : (Apache License 2.0 OR Mozilla Public License 2.0)
 dom-serializer 2.0.0 : MIT License
 domutils 3.1.0 : BSD 2-clause "Simplified" License
 downshift 8.2.3 : MIT License
 earcut 2.2.4 : ISC License
 eastasianwidth 0.2.0 : MIT License
-einaros/ws 8.14.2 : MIT License
 electron-to-chromium 1.4.608 : ISC License
 emittery 0.13.1 : MIT License
 emoji-regex 7.0.3 : MIT License
@@ -329,8 +327,8 @@ emoji-regex v8.0.0 : MIT License
 @emotion/weak-memoize 0.3.1 : MIT License
 enhanced-resolve 5.15.0 : MIT License
 envinfo 7.11.0 : MIT License
-envoyproxy/go-control-plane v0.11.1 : Apache License 2.0
-envoyproxy/protoc-gen-validate 1.0.2 : Apache License 2.0
+envoyproxy/go-control-plane v0.12.0 : Apache License 2.0
+envoyproxy/protoc-gen-validate 1.0.4 : Apache License 2.0
 enzymejs 1.0.5 : MIT License
 enzymejs 3.11.0 : MIT License
 errcheck v1.5.0-alpha : MIT License
@@ -372,7 +370,7 @@ esutils 2.0.3 : BSD 2-clause "Simplified" License
 eventemitter3 5.0.0 : MIT License
 execa 5.1.1 : MIT License
 exenv 1.2.2 : BSD 3-clause "New" or "Revised" License
-exp 20230205-snapshot-46f607a4 : BSD 3-clause "New" or "Revised" License
+exp 20231006-snapshot-7918f672 : BSD 3-clause "New" or "Revised" License
 expect 29.7.0 : MIT License
 fast_array_intersect 1.1.0 : MIT License
 fastcache v1.12.2 : MIT License
@@ -382,20 +380,19 @@ fastest-stable-stringify 2.0.2 : MIT License
 fast-glob 3.3.2 : MIT License
 fast-json-stable-stringify 2.1.0 : MIT License
 fast-levenshtein 2.0.6 : MIT License
-fast-loops 1.1.3 : MIT License
 fastq 1.15.0 : ISC License
 fast-shallow-equal 1.0.0 : Public Domain
 fatih-color 1.15.0 : (MIT License AND BSD 3-clause "New" or "Revised" License)
 faye-websocket-node 0.10.0 : MIT License
+felixge/fgprof v0.9.3 : MIT License
 felixge/httpsnoop v1.0.4 : MIT License
 file-entry-cache 6.0.1 : MIT License
 file-selector 0.6.0 : MIT License
-fill-range 7.0.1 : MIT License
 find-root 1.1.0 : MIT License
 find-up 3.0.0 : MIT License
 find-up v4.1.0 : MIT License
 find-up v5.0.0 : MIT License
-FlatBuffers 23.1.21 : Apache License 2.0
+FlatBuffers 23.5.26 : Apache License 2.0
 flat-cache 3.2.0 : MIT License
 flatpickr 4.6.9 : MIT License
 flatpickr v4.6.1 : MIT License
@@ -425,7 +422,7 @@ geotiff 2.1.0 : MIT License
 get-caller-file 2.0.5 : ISC License
 get-document 1.0.0 : MIT License
 get-intrinsic 1.2.2 : MIT License
-getkin/kin-openapi v0.120.0 : MIT License
+getkin/kin-openapi v0.124.0 : MIT License
 get-package-type 0.1.0 : MIT License
 get-stdin 7.0.0 : MIT License
 get-stream 6.0.1 : MIT License
@@ -433,200 +430,101 @@ get-symbol-description 1.0.0 : MIT License
 get-user-locale 1.5.1 : MIT License
 get-window 1.1.2 : MIT License
 github.com/antihax/optional 1.0.0 : MIT License
+github.com/bufbuild/protovalidate-go v0.2.1 : Apache License 2.0
 github.com/cheekybits/genny v1.0.0 : MIT License
-github.com/cncf/xds 20230607-snapshot-e9ce6880 : Apache License 2.0
+github.com/cncf/xds 20231128-snapshot-0fa0005c : Apache License 2.0
 github.com/docopt/docopt-go 20181101-snapshot-ee0de3bc : MIT License
 github.com/go-kit/log v0.2.1 : MIT License
 github.com/invopop/yaml v0.2.0 : (MIT License AND BSD 3-clause "New" or "Revised" License)
-github.com/konsorten/go-windows-terminal-sequences v1.0.1 : MIT License
 github.com/rogpeppe/fastuuid v1.2.0 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/cc v3.40.0 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/ccgo v3.16.13 : BSD 3-clause "New" or "Revised" License
-gitlab.com/cznic/libc v1.22.2 : BSD 3-clause "New" or "Revised" License
+gitlab.com/cznic/libc v1.22.4 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/mathutil v1.5.0 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/memory v1.5.0 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/opt v0.1.3 : BSD 3-clause "New" or "Revised" License
-gitlab.com/cznic/sqlite v1.20.4 : BSD 3-clause "New" or "Revised" License
+gitlab.com/cznic/sqlite v1.21.2 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/strutil v1.1.3 : BSD 3-clause "New" or "Revised" License
 gitlab.com/cznic/token v1.1.0 : BSD 3-clause "New" or "Revised" License
 globalthis 1.0.3 : MIT License
 glob-parent 5.1.2 : ISC License
 glob-parent 6.0.2 : ISC License
 glob-to-regexp 0.4.1 : BSD 2-clause "Simplified" License
-goccy/go-json v0.10.0 : MIT License
-goccy/go-yaml v1.9.8 : MIT License
+goccy/go-json v0.10.2 : MIT License
+goccy/go-yaml v1.11.0 : MIT License
 go-check-check 20201130-snapshot-10cb9826 : BSD 2-clause "Simplified" License
 goconvey 20190121-snapshot-044398e4 : MIT License
 GoDoc Text v0.2.0 : MIT License
 gogo/protobuf v1.3.2 : BSD 3-clause "New" or "Revised" License
 go humanize 1.0.1 : MIT License
-go-jose v3.0.1 : Apache License 2.0
 golang/appengine v1.6.8 : Apache License 2.0
-golang/glog v1.1.2 : Apache License 2.0
-golang-mock v1.1.1 : Apache License 2.0
-golang.org/x/crypto v0.18.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/lint 20190930-snapshot-16217165 : BSD 3-clause "New" or "Revised" License
-golang.org/x/mod v0.9.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/net v0.20.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/oauth2 v0.16.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/sync v0.4.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/sys v0.16.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/term v0.16.0 : BSD 3-clause "New" or "Revised" License
-golang.org/x/tools v0.6.0 : BSD 3-clause "New" or "Revised" License
+golang/glog v1.2.0 : Apache License 2.0
+golang.org/x/crypto v0.23.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/mod v0.13.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/net v0.25.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/oauth2 v0.20.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/sync v0.7.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/sys v0.20.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/term v0.20.0 : BSD 3-clause "New" or "Revised" License
+golang.org/x/tools v0.14.0 : BSD 3-clause "New" or "Revised" License
 golang.org/x/xerrors 20220907-snapshot-04be3eba : BSD 3-clause "New" or "Revised" License
-Golang Protobuf v1.32.0 : BSD 3-clause "New" or "Revised" License
-Golang Protobuf v1.5.3 : BSD 3-clause "New" or "Revised" License
+Golang Protobuf v1.33.0 : BSD 3-clause "New" or "Revised" License
+Golang Protobuf v1.5.4 : BSD 3-clause "New" or "Revised" License
 golang-snappy-go-dev v0.0.4 : BSD 3-clause "New" or "Revised" License
-golang/text v0.14.0 : BSD 3-clause "New" or "Revised" License
+golang/text v0.15.0 : BSD 3-clause "New" or "Revised" License
 go-logfmt-logfmt v0.5.1 : MIT License
-go-logr/logr v1.3.0 : Apache License 2.0
+go-logr/logr v1.4.1 : Apache License 2.0
 go-logr/stdr v1.2.2 : Apache License 2.0
-Go Logrus v1.4.2 : MIT License
 Gonum numerical packages v0.12.0 : BSD 3-clause "New" or "Revised" License
-googleapis/go-genproto 20231002-snapshot-d307bd88 : Apache License 2.0
-google-cloud-go accessapproval/v1.7.1 : Apache License 2.0
-google-cloud-go aiplatform/v1.50.0 : Apache License 2.0
-google-cloud-go analytics/v0.21.3 : Apache License 2.0
-google-cloud-go apigateway/v1.6.1 : Apache License 2.0
-google-cloud-go apigeeconnect/v1.6.1 : Apache License 2.0
-google-cloud-go appengine/v1.8.1 : Apache License 2.0
-google-cloud-go area120/v0.8.1 : Apache License 2.0
-google-cloud-go artifactregistry/v1.14.1 : Apache License 2.0
-google-cloud-go asset/v1.14.1 : Apache License 2.0
-google-cloud-go assuredworkloads/v1.11.1 : Apache License 2.0
-google-cloud-go automl/v1.13.1 : Apache License 2.0
-google-cloud-go bigquery/v1.55.0 : Apache License 2.0
-google-cloud-go billing/v1.17.0 : Apache License 2.0
-google-cloud-go binaryauthorization/v1.7.0 : Apache License 2.0
-google-cloud-go certificatemanager/v1.7.1 : Apache License 2.0
-google-cloud-go channel/v1.17.0 : Apache License 2.0
-google-cloud-go cloudbuild/v1.14.0 : Apache License 2.0
-google-cloud-go clouddms/v1.7.0 : Apache License 2.0
-google-cloud-go cloudtasks/v1.12.1 : Apache License 2.0
+googleapis/go-genproto 20240227-snapshot-6ceb2ff1 : Apache License 2.0
+googleapis/go-genproto 20240415-snapshot-8c6c4200 : Apache License 2.0
+google/cel-go v0.17.1 : Apache License 2.0
 google-cloud-go compute/metadata/v0.2.3 : Apache License 2.0
-google-cloud-go compute/v1.23.0 : Apache License 2.0
-google-cloud-go containeranalysis/v0.11.0 : Apache License 2.0
-google-cloud-go container/v1.26.0 : Apache License 2.0
-google-cloud-go datacatalog/v1.17.1 : Apache License 2.0
-google-cloud-go dataflow/v0.9.1 : Apache License 2.0
-google-cloud-go datafusion/v1.7.1 : Apache License 2.0
-google-cloud-go datalabeling/v0.8.1 : Apache License 2.0
-google-cloud-go dataplex/v1.9.1 : Apache License 2.0
-google-cloud-go dataqna/v0.8.1 : Apache License 2.0
-google-cloud-go datastore/v1.14.0 : Apache License 2.0
-google-cloud-go datastream/v1.10.0 : Apache License 2.0
-google-cloud-go deploy/v1.13.0 : Apache License 2.0
-google-cloud-go dialogflow/v1.43.0 : Apache License 2.0
-google-cloud-go dlp/v1.10.1 : Apache License 2.0
-google-cloud-go documentai/v1.22.1 : Apache License 2.0
-google-cloud-go domains/v0.9.1 : Apache License 2.0
-google-cloud-go errorreporting/v0.3.0 : Apache License 2.0
-google-cloud-go essentialcontacts/v1.6.2 : Apache License 2.0
-google-cloud-go eventarc/v1.13.0 : Apache License 2.0
-google-cloud-go filestore/v1.7.1 : Apache License 2.0
-google-cloud-go firestore/v1.13.0 : Apache License 2.0
-google-cloud-go functions/v1.15.1 : Apache License 2.0
-google-cloud-go gkeconnect/v0.8.1 : Apache License 2.0
-google-cloud-go gkehub/v0.14.1 : Apache License 2.0
-google-cloud-go gsuiteaddons/v1.6.1 : Apache License 2.0
-google-cloud-go iam/v1.1.2 : Apache License 2.0
-google-cloud-go iap/v1.9.0 : Apache License 2.0
-google-cloud-go ids/v1.4.1 : Apache License 2.0
-google-cloud-go iot/v1.7.1 : Apache License 2.0
-google-cloud-go kms/v1.15.2 : Apache License 2.0
-google-cloud-go language/v1.11.0 : Apache License 2.0
-google-cloud-go lifesciences/v0.9.1 : Apache License 2.0
-google-cloud-go logging/v1.8.1 : Apache License 2.0
-google-cloud-go longrunning/v0.5.1 : Apache License 2.0
-google-cloud-go managedidentities/v1.6.1 : Apache License 2.0
-google-cloud-go mediatranslation/v0.8.1 : Apache License 2.0
-google-cloud-go memcache/v1.10.1 : Apache License 2.0
-google-cloud-go metastore/v1.12.0 : Apache License 2.0
-google-cloud-go monitoring/v1.16.0 : Apache License 2.0
-google-cloud-go networkconnectivity/v1.13.0 : Apache License 2.0
-google-cloud-go networkmanagement/v1.9.0 : Apache License 2.0
-google-cloud-go notebooks/v1.10.0 : Apache License 2.0
-google-cloud-go optimization/v1.5.0 : Apache License 2.0
-google-cloud-go orchestration/v1.8.1 : Apache License 2.0
-google-cloud-go orgpolicy/v1.11.1 : Apache License 2.0
-google-cloud-go osconfig/v1.12.1 : Apache License 2.0
-google-cloud-go oslogin/v1.10.1 : Apache License 2.0
-google-cloud-go phishingprotection/v0.8.1 : Apache License 2.0
-google-cloud-go policytroubleshooter/v1.9.0 : Apache License 2.0
-google-cloud-go privatecatalog/v0.9.1 : Apache License 2.0
-google-cloud-go pubsublite/v1.8.1 : Apache License 2.0
-google-cloud-go pubsub/v1.33.0 : Apache License 2.0
-google-cloud-go recommendationengine/v0.8.1 : Apache License 2.0
-google-cloud-go recommender/v1.11.0 : Apache License 2.0
-google-cloud-go redis/v1.13.1 : Apache License 2.0
-google-cloud-go resourcemanager/v1.9.1 : Apache License 2.0
-google-cloud-go resourcesettings/v1.6.1 : Apache License 2.0
-google-cloud-go retail/v1.14.1 : Apache License 2.0
-google-cloud-go run/v1.2.0 : Apache License 2.0
-google-cloud-go scheduler/v1.10.1 : Apache License 2.0
-google-cloud-go secretmanager/v1.11.1 : Apache License 2.0
-google-cloud-go securitycenter/v1.23.0 : Apache License 2.0
-google-cloud-go security/v1.15.1 : Apache License 2.0
-google-cloud-go servicedirectory/v1.11.0 : Apache License 2.0
-google-cloud-go shell/v1.7.1 : Apache License 2.0
-google-cloud-go spanner/v1.49.0 : Apache License 2.0
-google-cloud-go speech/v1.19.0 : Apache License 2.0
-google-cloud-go storagetransfer/v1.10.0 : Apache License 2.0
-google-cloud-go talent/v1.6.2 : Apache License 2.0
-google-cloud-go texttospeech/v1.7.1 : Apache License 2.0
-google-cloud-go tpu/v1.6.1 : Apache License 2.0
-google-cloud-go trace/v1.10.1 : Apache License 2.0
-google-cloud-go translate/v1.9.0 : Apache License 2.0
-google-cloud-go v0.110.8 : Apache License 2.0
-google-cloud-go videointelligence/v1.11.1 : Apache License 2.0
-google-cloud-go video/v1.20.0 : Apache License 2.0
-google-cloud-go vmmigration/v1.7.1 : Apache License 2.0
-google-cloud-go vpcaccess/v1.7.1 : Apache License 2.0
-google-cloud-go webrisk/v1.9.1 : Apache License 2.0
-google-cloud-go websecurityscanner/v1.6.1 : Apache License 2.0
-google-cloud-go workflows/v1.12.0 : Apache License 2.0
+google-cloud-go compute/v1.24.0 : Apache License 2.0
+google/gnostic-models v0.6.8 : Apache License 2.0
 google/go-cmp v0.6.0 : BSD 3-clause "New" or "Revised" License
-google-gofuzz v1.0.0 : Apache License 2.0
+google-gofuzz v1.1.0 : Apache License 2.0
+google/pprof 20211214-snapshot-6f573593 : Apache License 2.0
 google/uuid v1.6.0 : BSD 3-clause "New" or "Revised" License
-go-openapi/jsonpointer v0.19.6 : Apache License 2.0
-go.opentelemetry.io/proto otlp/v1.0.0 : Apache License 2.0
+go-openapi/jsonpointer v0.20.2 : Apache License 2.0
+go.opentelemetry.io/proto otlp/v1.2.0 : Apache License 2.0
 gopd 1.0.1 : MIT License
 gopherjs 20181203-snapshot-d547d1d9 : BSD 2-clause "Simplified" License
 goproxy 20230729-snapshot-f99041a5 : BSD 3-clause "New" or "Revised" License
-gorilla/mux v1.8.0 : BSD 3-clause "New" or "Revised" License
+go-restful v3.8.0 : MIT License
+gorilla/mux v1.8.1 : BSD 3-clause "New" or "Revised" License
 go-shellquote 20180428-snapshot-95032a82 : MIT License
 go-spew v1.1.1 : ISC License
-go-stack-stack v1.8.0 : MIT License
 go-test/deep v1.0.8 : MIT License
-Go Testify v1.8.4 : MIT License
+Go Testify v1.9.0 : MIT License
 go.uber.org/goleak v1.3.0 : MIT License
-go.uber.org/multierr v1.6.0 : MIT License
+govalidator 20190424-snapshot-f61b66f8 : MIT License
 Gozala/events 3.3.0 : MIT License
-go-zap v1.18.1 : MIT License
 @grafana/data 9.5.1 : Apache License 2.0
 @grafana/e2e-selectors 9.5.1 : Apache License 2.0
 @grafana/eslint-config 6.0.1 : Apache License 2.0
 @grafana/faro-core 1.3.2 : Apache License 2.0
 @grafana/faro-web-sdk 1.0.2 : Apache License 2.0
-grafana/grafana-plugin-sdk-go v0.201.0 : Apache License 2.0
+grafana/grafana-plugin-sdk-go v0.231.0 : Apache License 2.0
 @grafana/runtime 9.5.1 : Apache License 2.0
 @grafana/schema 9.5.1 : Apache License 2.0
 @grafana/tsconfig 1.2.0-rc1 : Apache License 2.0
 @grafana/ui 9.5.1 : Apache License 2.0
 graphemer 1.4.0 : MIT License
 groupcache 20210331-snapshot-41bb18bf : Apache License 2.0
-grpc-ecosystem/go-grpc-middleware v1.4.0 : Apache License 2.0
-grpc-ecosystem/go-grpc-prometheus v1.2.0 : Apache License 2.0
-grpc-gateway v2.16.2 : BSD 3-clause "New" or "Revised" License
-grpc-go v1.60.1 : Apache License 2.0
+grpc-ecosystem/go-grpc-middleware providers/prometheus/v1.0.1 : Apache License 2.0
+grpc-ecosystem/go-grpc-middleware v2.1.0 : Apache License 2.0
+grpc-gateway v2.19.1 : BSD 3-clause "New" or "Revised" License
+grpc-go v1.63.2 : Apache License 2.0
+hamba/avro v2.17.2 : MIT License
 harmony-reflect v1.6.2 : (Mozilla Public License 1.1 OR Apache License 2.0)
 has 1.0.4 : MIT License
 has-ansi 2.0.0 : MIT License
 has-bigints 1.0.2 : MIT License
 has-flag 3.0.0 : MIT License
 has-flag 4.0.0 : MIT License
-hashicorp/go-hclog v1.6.2 : MIT License
-hashicorp-go-plugin v1.6.0 : Mozilla Public License 2.0
+hashicorp/go-hclog v1.6.3 : MIT License
+hashicorp-go-plugin v1.6.1 : Mozilla Public License 2.0
 hashicorp-yamux v0.1.1 : Mozilla Public License 2.0
 hasown 2.0.0 : MIT License
 has-property-descriptors 1.0.1 : MIT License
@@ -648,7 +546,7 @@ human-signals 2.1.0 : Apache License 2.0
 @humanwhocodes/module-importer 1.0.1 : Apache License 2.0
 @humanwhocodes/object-schema 2.0.1 : BSD 3-clause "New" or "Revised" License
 hyphenate-style-name 1.0.4 : BSD 3-clause "New" or "Revised" License
-i18next 22.5.1 : MIT License
+i18next/i18next 22.5.1 : MIT License
 ianstormtaylor/slate 0.2.11 : MIT License
 ianstormtaylor/slate 0.2.115 : MIT License
 ianstormtaylor/slate 0.22.10 : MIT License
@@ -682,6 +580,7 @@ internmap 2.0.3 : ISC License
 interpret 3.1.1 : MIT License
 intl-messageformat 10.5.8 : BSD 3-clause "New" or "Revised" License
 invariant 2.2.4 : MIT License
+invopop/jsonschema v0.12.0 : MIT License
 @isaacs/cliui 8.0.2 : ISC License
 isaacs/once 1.4.0 : ISC License
 is-arguments 1.1.1 : MIT License
@@ -800,6 +699,7 @@ json-buffer 3.0.1 : MIT License
 jsonc-parser 3.2.0 : MIT License
 jsoniter-go v1.1.12 : MIT License
 json-parse-even-better-errors 2.3.1 : MIT License
+jsonreference v0.20.1 : Apache License 2.0
 json-schema-traverse 0.4.1 : MIT License
 json-schema-traverse 1.0.0 : MIT License
 json-stringify-pretty-compact 2.0.0 : MIT License
@@ -810,16 +710,17 @@ js-yaml 3.14.1 : MIT License
 js-yaml 4.1.0 : MIT License
 jtolds-gls 4.2.1 : MIT License
 julienschmidt/httprouter v1.3.0 : BSD 3-clause "New" or "Revised" License
+k8s.io/kube-openapi 20240220-snapshot-37d671a3 : Apache License 2.0
+k8s.io/utils 20230726-snapshot-3b25d923 : Apache License 2.0
 keyanzhang/identity-obj-proxy 3.0.0 : MIT License
 keyv 4.5.4 : MIT License
 kind-of 6.0.3 : MIT License
 kisielk-gotool v1.0.0 : (MIT License AND BSD 3-clause "New" or "Revised" License)
 klauspost/asmfmt v1.3.2 : MIT License
-klauspost-compress v1.15.15 : BSD 3-clause "New" or "Revised" License
-klauspost-cpuid v2.2.3 : MIT License
+klauspost-compress v1.16.7 : BSD 3-clause "New" or "Revised" License
+klauspost-cpuid v2.2.5 : MIT License
 kleur 3.0.3 : MIT License
 klona 2.0.6 : MIT License
-kossnocorp/date-fns 2.29.3 : MIT License
 kr/pretty v0.3.1 : MIT License
 @leeoniya/ufuzzy 1.0.6 : MIT License
 lerc 3.0.0 : Apache License 2.0
@@ -845,7 +746,7 @@ lodash.throttle 4.1.1 : MIT License
 loglevel 1.8.1 : MIT License
 loglevel-colored-level-prefix 1.0.0 : MIT License
 loose-envify 1.4.0 : MIT License
-lukechampine/uint128 v1.2.0 : MIT License
+lukechampine/uint128 v1.3.0 : MIT License
 lz-string 1.5.0 : MIT License
 magefile/mage v1.15.0 : Apache License 2.0
 mailru/easyjson v0.7.7 : MIT License
@@ -858,12 +759,14 @@ mapbox-gl-style-spec 13.28.0 : ISC License
 mapbox-to-css-font 2.4.2 : BSD 2-clause "Simplified" License
 @mapbox/unitbezier 0.0.0 : BSD 2-clause "Simplified" License
 map-obj 4.3.0 : MIT License
+mapstructure v1.5.0 : MIT License
 markedjs 4.2.12 : MIT License
 mathiasbynens's esrever 0.2.0 : MIT License
 mattetti/filebuffer v1.0.1 : MIT License
 mattn-go-colorable 0.1.13 : (MIT License AND BSD 3-clause "New" or "Revised" License)
-mattn-go-isatty v0.0.18 : MIT License
+mattn-go-isatty v0.0.19 : MIT License
 mattn-go-runewidth v0.0.9 : MIT License
+matttproud-golang_protobuf_extensions v1.0.1 : Apache License 2.0
 mdn-data 2.0.14 : Creative Commons Zero v1.0 Universal
 memoize-one 4.1.0 : MIT License
 memoize-one 6.0.0 : MIT License
@@ -874,7 +777,6 @@ messageformat.js 2.3.0 : MIT License
 messageformat/messageformat 2.0.1 : MIT License
 messageformat-parser 4.1.3 : MIT License
 micromatch 4.0.5 : MIT License
-micromatch/braces 3.0.2 : MIT License
 Microsoft/tslib 1.14.1 : BSD Zero Clause License
 Microsoft/tslib 2.5.0 : BSD Zero Clause License
 Microsoft/tslib 2.5.3 : BSD Zero Clause License
@@ -912,7 +814,7 @@ neo-async 2.6.2 : MIT License
 node-abort-controller 3.1.1 : MIT License
 nodeca-argparse 1.0.10 : MIT License
 nodeca-argparse 2.0.1 : Python Software Foundation License 2.0
-nodeca/pako 2.1.0 : (zlib License AND MIT License)
+nodeca/pako 2.1.0 : MIT License
 node-concat-map 0.0.1 : MIT License
 node-cross-spawn 7.0.3 : MIT License
 node-deep-equal 2.2.3 : MIT License
@@ -927,7 +829,6 @@ node-int64 0.4.0 : MIT License
 nodejs-exit 0.1.2 : MIT License
 node-jsonfile 6.1.0 : MIT License
 nodejs/string_decoder 0.10.31 : MIT License
-nodejs/undici 5.26.5 : MIT License
 nodejs-walker 1.0.8 : Apache License 2.0
 @nodelib/fs.scandir 2.1.5 : MIT License
 @nodelib/fs.stat 2.0.5 : MIT License
@@ -961,24 +862,23 @@ OpenLayers 7.2.2 : BSD 2-clause "Simplified" License
 @opentelemetry/api 1.7.0 : Apache License 2.0
 @opentelemetry/api-logs 0.45.1 : Apache License 2.0
 @opentelemetry/core 1.18.1 : Apache License 2.0
-open-telemetry/opentelemetry-go exporters/otlp/otlptrace/otlptracegrpc/v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go exporters/otlp/otlptrace/v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go metric/v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go sdk/v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go trace/v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go v1.21.0 : Apache License 2.0
-open-telemetry/opentelemetry-go-contrib instrumentation/google.golang.org/grpc/otelgrpc/v0.46.1 : Apache License 2.0
-open-telemetry/opentelemetry-go-contrib instrumentation/net/http/httptrace/otelhttptrace/v0.46.1 : Apache License 2.0
-open-telemetry/opentelemetry-go-contrib instrumentation/net/http/otelhttp/v0.46.1 : Apache License 2.0
-open-telemetry/opentelemetry-go-contrib propagators/jaeger/v1.21.1 : Apache License 2.0
-open-telemetry/opentelemetry-go-contrib samplers/jaegerremote/v0.15.1 : Apache License 2.0
+open-telemetry/opentelemetry-go exporters/otlp/otlptrace/otlptracegrpc/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go exporters/otlp/otlptrace/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go metric/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go sdk/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go trace/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go-contrib instrumentation/google.golang.org/grpc/otelgrpc/v0.51.0 : Apache License 2.0
+open-telemetry/opentelemetry-go-contrib instrumentation/net/http/httptrace/otelhttptrace/v0.51.0 : Apache License 2.0
+open-telemetry/opentelemetry-go-contrib instrumentation/net/http/otelhttp/v0.51.0 : Apache License 2.0
+open-telemetry/opentelemetry-go-contrib propagators/jaeger/v1.26.0 : Apache License 2.0
+open-telemetry/opentelemetry-go-contrib samplers/jaegerremote/v0.20.0 : Apache License 2.0
 @opentelemetry/otlp-transformer 0.45.1 : Apache License 2.0
 @opentelemetry/resources 1.18.1 : Apache License 2.0
 @opentelemetry/sdk-logs 0.45.1 : Apache License 2.0
 @opentelemetry/sdk-metrics 1.18.1 : Apache License 2.0
 @opentelemetry/sdk-trace-base 1.18.1 : Apache License 2.0
 @opentelemetry/semantic-conventions 1.18.1 : Apache License 2.0
-opentracing-opentracing-go 1.1.0 : Apache License 2.0
 optionator 0.9.3 : MIT License
 PapaParse 5.3.2 : MIT License
 parent-module 1.0.1 : MIT License
@@ -999,11 +899,11 @@ performance-now 2.1.0 : MIT License
 @petamoriken/float16 3.8.4 : MIT License
 picocolors 1.0.0 : ISC License
 picomatch 2.3.1 : MIT License
-pierrec-lz4 v4.1.17 : BSD 3-clause "New" or "Revised" License
+pierrec-lz4 v4.1.18 : BSD 3-clause "New" or "Revised" License
 pirates 4.0.6 : MIT License
 pkg-dir 4.2.0 : MIT License
-pkg/errors v0.8.1 : BSD 2-clause "Simplified" License
 @pkgjs/parseargs 0.11.0 : MIT License
+pkg-profile v1.7.0 : BSD 2-clause "Simplified" License
 p-limit 2.3.0 : MIT License
 p-limit 3.1.0 : MIT License
 p-locate 3.0.0 : MIT License
@@ -1027,20 +927,18 @@ prettier 2.8.8 : MIT License
 prettier-eslint 14.1.0 : MIT License
 prettier-eslint 15.0.1 : MIT License
 prettier-eslint-cli 6.0.1 : MIT License
-Prettier IO 2.6.2 : MIT License
 pretty-format 23.6.0 : MIT License
 pretty-format 27.5.1 : MIT License
 pretty-format 29.7.0 : MIT License
 PrismJS 1.29.0 : MIT License
-prometheus-client_model v0.5.0 : Apache License 2.0
-prometheus-common 0.46.0 : Apache License 2.0
-prometheus-procfs v0.12.0 : Apache License 2.0
+prometheus-client_model v0.6.1 : Apache License 2.0
+prometheus-common v0.53.0 : Apache License 2.0
+prometheus-procfs v0.14.0 : Apache License 2.0
 prompts 2.4.2 : MIT License
 prop-types 15.8.1 : MIT License
 protocol-buffers-schema 3.6.0 : MIT License
 psl 1.9.0 : MIT License
 p-try 2.2.0 : MIT License
-pty v1.1.1 : MIT License
 Punycode.js 2.3.1 : MIT License
 pure-rand 6.0.4 : MIT License
 Qix/color 4.2.3 : MIT License
@@ -1078,6 +976,7 @@ rc-trigger 5.3.4 : MIT License
 rc-util 5.38.1 : MIT License
 rc-util v4.21.1 : MIT License
 rc-virtual-list 3.11.3 : MIT License
+react 17.0.2 : MIT License
 @react-aria/button 3.6.1 : Apache License 2.0
 @react-aria/dialog 3.3.1 : Apache License 2.0
 @react-aria/focus 3.15.0 : Apache License 2.0
@@ -1096,22 +995,23 @@ react-beautiful-dnd 13.1.1 : Apache License 2.0
 react-calendar 4.0.0 : MIT License
 react-colorful 5.6.1 : MIT License
 react-custom-scrollbars-2 4.5.0 : MIT License
+react-dom 17.0.2 : MIT License
 react-dropzone 14.2.3 : MIT License
 react-fast-compare 3.2.2 : MIT License
 react-from-dom 0.6.2 : MIT License
-React from Facebook 16.13.1 : MIT License
-React from Facebook 17.0.2 : MIT License
-React from Facebook 18.2.0 : MIT License
 react-hook-form 7.5.3 : MIT License
 react-i18next 12.3.1 : MIT License
 react-immutable-proptypes 2.2.0 : MIT License
 react-inlinesvg 3.0.2 : MIT License
+react-is 16.13.1 : MIT License
+react-is 17.0.2 : MIT License
+react-is 18.2.0 : MIT License
 ReactiveX RxJS 6.6.7 : Apache License 2.0
 ReactiveX RxJS 7.8.0 : Apache License 2.0
 react-lifecycles-compat 3.0.4 : MIT License
 react-popper 2.3.0 : MIT License
 react-popper-tooltip 4.4.2 : MIT License
-React-Redux 7.2.9 : MIT License
+reactredux 7.2.9 : MIT License
 react-router-dom 5.3.4 : MIT License
 react-select-event 5.5.1 : MIT License
 @react-stately/collections 3.10.3 : Apache License 2.0
@@ -1160,13 +1060,13 @@ reusify 1.0.4 : MIT License
 rimraf 3.0.2 : ISC License
 robust-predicates 3.0.2 : The Unlicense
 rogpeppe-go-charset 20180617-snapshot-2471d30d : BSD 2-clause "Simplified" License
-rogpeppe/go-internal v1.11.0 : BSD 3-clause "New" or "Revised" License
+rogpeppe/go-internal v1.12.0 : BSD 3-clause "New" or "Revised" License
 rst-selector-parser 2.2.3 : BSD 3-clause "New" or "Revised" License
 rtl-css-js 1.16.1 : MIT License
 run-parallel 1.2.0 : MIT License
 rw 1.3.3 : BSD 3-clause "New" or "Revised" License
 safe-array-concat 1.0.1 : MIT License
-safe-buffer v5.2.1 : MIT License
+safe-buffer 5.2.1 : MIT License
 safe-json-parse 1.0.1 : MIT License
 safer-buffer 2.1.2 : MIT License
 safe-regex-test 1.0.0 : MIT License
@@ -1207,6 +1107,10 @@ sindresorhus/is-stream 2.0.1 : MIT License
 sindresorhus/onetime v5.1.2 : MIT License
 sindresorhus/slash 4.0.0 : MIT License
 sindresorhus/slash v3.0.0 : MIT License
+sindresorhus/supports-color 2.0.0 : MIT License
+sindresorhus/supports-color 5.5.0 : MIT License
+sindresorhus/supports-color 8.1.1 : MIT License
+sindresorhus/supports-color v7.2.0 : MIT License
 @sinonjs/commons 3.0.0 : BSD 3-clause "New" or "Revised" License
 @sinonjs/fake-timers 10.3.0 : BSD 3-clause "New" or "Revised" License
 sisteransi 1.0.5 : MIT License
@@ -1229,9 +1133,10 @@ stacktrace-gps 3.1.2 : MIT License
 stacktrace-js v2.0.2 : MIT License
 stack-utils 2.0.6 : MIT License
 state-local 1.0.7 : MIT License
+stoewer/go-strcase v1.3.0 : MIT License
 stop-iteration-iterator 1.0.0 : MIT License
 streamich/memfs 3.6.0 : The Unlicense
-stretchr/objx v0.5.0 : MIT License
+stretchr/objx v0.5.2 : MIT License
 string-length 4.0.2 : MIT License
 string.prototype.matchall 4.0.10 : MIT License
 string.prototype.trim 1.2.8 : MIT License
@@ -1253,12 +1158,8 @@ strip-json-comments 3.1.1 : MIT License
 style-loader 3.3.3 : MIT License
 stylis 4.2.0 : MIT License
 stylis 4.3.0 : MIT License
-supports-color 2.0.0 : MIT License
-supports-color 5.5.0 : MIT License
-supports-color 8.1.1 : MIT License
-supports-color v7.2.0 : MIT License
 supports-preserve-symlinks-flag 1.0.0 : MIT License
-swag v0.22.4 : Apache License 2.0
+swag v0.22.8 : Apache License 2.0
 @swc/core 1.3.75 : Apache License 2.0
 @swc/core-darwin-arm64 1.3.75 : (MIT License AND Apache License 2.0)
 @swc/core-darwin-x64 1.3.75 : (MIT License AND Apache License 2.0)
@@ -1274,7 +1175,7 @@ swag v0.22.4 : Apache License 2.0
 @swc/jest 0.2.29 : MIT License
 swc-loader 0.2.3 : MIT License
 symbol-tree 3.2.4 : MIT License
-systemjs/systemjs 0.20.19 : MIT License
+SystemJS 0.20.19 : MIT License
 tapable 2.2.1 : MIT License
 terser 5.26.0 : BSD 2-clause "Simplified" License
 terser-webpack-plugin 5.3.9 : MIT License
@@ -1285,9 +1186,10 @@ test-exclude 6.0.0 : ISC License
 @testing-library/react 12.1.5 : MIT License
 text-table 0.2.0 : MIT License
 throttle-debounce v3.0.1 : MIT License
-tidwall/gjson v1.17.0 : MIT License
+tidwall/gjson v1.17.1 : MIT License
 tidwall/match v1.1.1 : MIT License
 tidwall/pretty v1.2.0 : MIT License
+tidwall/sjson v1.2.5 : MIT License
 TinyColor 1.6.0 : MIT License
 tiny-invariant 1.3.1 : MIT License
 tiny-lr 1.1.1 : MIT License
@@ -1379,9 +1281,9 @@ TypeScript 4.9.5 : Apache License 2.0
 @types/yargs 17.0.32 : MIT License
 @types/yargs-parser 21.0.3 : MIT License
 UAParser.js 1.0.37 : MIT License
-uber-go/atomic 1.7.0 : MIT License
 ugorji's go codec/v1.2.7 : MIT License
 unbox-primitive 1.0.2 : MIT License
+undici-types 5.26.5 : MIT License
 @ungap/structured-clone 1.2.0 : ISC License
 universalify 0.2.0 : MIT License
 universalify 2.0.1 : MIT License
@@ -1390,7 +1292,7 @@ Unknwon/com v1.0.1 : Apache License 2.0
 Unknwon-log 20150304-snapshot-e617c870 : Apache License 2.0
 update-browserslist-db 1.0.13 : MIT License
 uplot 1.6.24 : MIT License
-urfave-cli v1.22.14 : MIT License
+urfave-cli v1.22.15 : MIT License
 uri-js 4.4.1 : BSD 2-clause "Simplified" License
 url-parse 1.5.10 : MIT License
 use-isomorphic-layout-effect 1.1.2 : MIT License
@@ -1448,6 +1350,7 @@ which-collection 1.0.1 : MIT License
 which-module 2.0.1 : ISC License
 which-typed-array 1.1.13 : MIT License
 window-or-global 1.0.1 : MIT License
+wk8/go-ordered-map v2.1.8 : Apache License 2.0
 @wojtekmaj/date-utils 1.5.1 : MIT License
 wrap-ansi 8.1.0 : MIT License
 wrap-ansi v5.1.0 : MIT License
@@ -1478,10 +1381,10 @@ yuin/goldmark v1.4.13 : MIT License
 zeebo/assert v1.3.0 : Creative Commons Zero v1.0 Universal
 zeebo/xxh3 v1.0.2 : BSD 2-clause "Simplified" License
 zstddec 0.1.0 : (MIT License AND BSD 3-clause "New" or "Revised" License)
-Licenses:
+Licenses: 
 
 Apache License 2.0
-(@ampproject/remapping 2.2.1, @carbon/colors 11.20.0, @carbon/feature-flags 0.16.0, @carbon/grid 11.21.0, @carbon/icon-helpers 10.45.0, @carbon/icons-react 11.31.0, @carbon/layout 11.20.0, @carbon/motion 11.16.0, @carbon/react 1.44.0, @carbon/styles 1.44.0, @carbon/telemetry 0.1.0, @carbon/themes 11.28.0, @carbon/type 11.25.0, @grafana/data 9.5.1, @grafana/e2e-selectors 9.5.1, @grafana/eslint-config 6.0.1, @grafana/faro-core 1.3.2, @grafana/faro-web-sdk 1.0.2, @grafana/runtime 9.5.1, @grafana/schema 9.5.1, @grafana/tsconfig 1.2.0-rc1, @grafana/ui 9.5.1, @humanwhocodes/config-array 0.11.13, @humanwhocodes/module-importer 1.0.1, @internationalized/date 3.5.0, @internationalized/message 3.1.1, @internationalized/number 3.4.0, @internationalized/string 3.1.1, @opentelemetry/api 1.7.0, @opentelemetry/api-logs 0.45.1, @opentelemetry/core 1.18.1, @opentelemetry/otlp-transformer 0.45.1, @opentelemetry/resources 1.18.1, @opentelemetry/sdk-logs 0.45.1, @opentelemetry/sdk-metrics 1.18.1, @opentelemetry/sdk-trace-base 1.18.1, @opentelemetry/semantic-conventions 1.18.1, @react-aria/button 3.6.1, @react-aria/dialog 3.3.1, @react-aria/focus 3.15.0, @react-aria/focus 3.8.0, @react-aria/i18n 3.9.0, @react-aria/interactions 3.20.0, @react-aria/menu 3.6.1, @react-aria/overlays 3.10.1, @react-aria/overlays 3.19.0, @react-aria/selection 3.17.2, @react-aria/ssr 3.9.0, @react-aria/utils 3.13.1, @react-aria/utils 3.22.0, @react-aria/visually-hidden 3.8.7, @react-stately/collections 3.10.3, @react-stately/menu 3.4.1, @react-stately/menu 3.5.7, @react-stately/overlays 3.6.4, @react-stately/selection 3.14.1, @react-stately/toggle 3.7.0, @react-stately/tree 3.7.4, @react-stately/utils 3.9.0, @react-types/button 3.9.1, @react-types/checkbox 3.6.0, @react-types/dialog 3.5.7, @react-types/menu 3.9.6, @react-types/overlays 3.8.4, @react-types/shared 3.22.0, @swc/core 1.3.75, @swc/core-darwin-arm64 1.3.75, @swc/core-darwin-x64 1.3.75, @swc/core-linux-arm-gnueabihf 1.3.75, @swc/core-linux-arm64-gnu 1.3.75, @swc/core-linux-arm64-musl 1.3.75, @swc/core-linux-x64-gnu 1.3.75, @swc/core-linux-x64-musl 1.3.75, @swc/core-win32-arm64-msvc 1.3.75, @swc/core-win32-ia32-msvc 1.3.75, @swc/core-win32-x64-msvc 1.3.75, @swc/helpers 0.5.3, @webassemblyjs/leb128 1.11.6, @xtuc/long 4.2.2, allegro/bigcache 20190220-snapshot-e24eb225, Apache Thrift 0.16.0, aria-query 5.1.3, aria-query 5.3.0, bufbuild/protocompile v0.4.0, carbon-components 10.58.10, carbon-components-react 8.44.0, client_golang v1.18.0, cncf/udpa 20220112-snapshot-c52dc94e, doctrine v2.1.0, doctrine v3.0.0, DOMPurify 2.4.7, envoyproxy/go-control-plane v0.11.1, envoyproxy/protoc-gen-validate 1.0.2, eslint-visitor-keys 3.4.3, FlatBuffers 23.1.21, github.com/cncf/xds 20230607-snapshot-e9ce6880, go-jose v3.0.1, go-logr/logr v1.3.0, go-logr/stdr v1.2.2, go-openapi/jsonpointer v0.19.6, go.opentelemetry.io/proto otlp/v1.0.0, golang-mock v1.1.1, golang/appengine v1.6.8, golang/glog v1.1.2, google-cloud-go accessapproval/v1.7.1, google-cloud-go aiplatform/v1.50.0, google-cloud-go analytics/v0.21.3, google-cloud-go apigateway/v1.6.1, google-cloud-go apigeeconnect/v1.6.1, google-cloud-go appengine/v1.8.1, google-cloud-go area120/v0.8.1, google-cloud-go artifactregistry/v1.14.1, google-cloud-go asset/v1.14.1, google-cloud-go assuredworkloads/v1.11.1, google-cloud-go automl/v1.13.1, google-cloud-go bigquery/v1.55.0, google-cloud-go billing/v1.17.0, google-cloud-go binaryauthorization/v1.7.0, google-cloud-go certificatemanager/v1.7.1, google-cloud-go channel/v1.17.0, google-cloud-go cloudbuild/v1.14.0, google-cloud-go clouddms/v1.7.0, google-cloud-go cloudtasks/v1.12.1, google-cloud-go compute/metadata/v0.2.3, google-cloud-go compute/v1.23.0, google-cloud-go container/v1.26.0, google-cloud-go containeranalysis/v0.11.0, google-cloud-go datacatalog/v1.17.1, google-cloud-go dataflow/v0.9.1, google-cloud-go datafusion/v1.7.1, google-cloud-go datalabeling/v0.8.1, google-cloud-go dataplex/v1.9.1, google-cloud-go dataqna/v0.8.1, google-cloud-go datastore/v1.14.0, google-cloud-go datastream/v1.10.0, google-cloud-go deploy/v1.13.0, google-cloud-go dialogflow/v1.43.0, google-cloud-go dlp/v1.10.1, google-cloud-go documentai/v1.22.1, google-cloud-go domains/v0.9.1, google-cloud-go errorreporting/v0.3.0, google-cloud-go essentialcontacts/v1.6.2, google-cloud-go eventarc/v1.13.0, google-cloud-go filestore/v1.7.1, google-cloud-go firestore/v1.13.0, google-cloud-go functions/v1.15.1, google-cloud-go gkeconnect/v0.8.1, google-cloud-go gkehub/v0.14.1, google-cloud-go gsuiteaddons/v1.6.1, google-cloud-go iam/v1.1.2, google-cloud-go iap/v1.9.0, google-cloud-go ids/v1.4.1, google-cloud-go iot/v1.7.1, google-cloud-go kms/v1.15.2, google-cloud-go language/v1.11.0, google-cloud-go lifesciences/v0.9.1, google-cloud-go logging/v1.8.1, google-cloud-go longrunning/v0.5.1, google-cloud-go managedidentities/v1.6.1, google-cloud-go mediatranslation/v0.8.1, google-cloud-go memcache/v1.10.1, google-cloud-go metastore/v1.12.0, google-cloud-go monitoring/v1.16.0, google-cloud-go networkconnectivity/v1.13.0, google-cloud-go networkmanagement/v1.9.0, google-cloud-go notebooks/v1.10.0, google-cloud-go optimization/v1.5.0, google-cloud-go orchestration/v1.8.1, google-cloud-go orgpolicy/v1.11.1, google-cloud-go osconfig/v1.12.1, google-cloud-go oslogin/v1.10.1, google-cloud-go phishingprotection/v0.8.1, google-cloud-go policytroubleshooter/v1.9.0, google-cloud-go privatecatalog/v0.9.1, google-cloud-go pubsub/v1.33.0, google-cloud-go pubsublite/v1.8.1, google-cloud-go recommendationengine/v0.8.1, google-cloud-go recommender/v1.11.0, google-cloud-go redis/v1.13.1, google-cloud-go resourcemanager/v1.9.1, google-cloud-go resourcesettings/v1.6.1, google-cloud-go retail/v1.14.1, google-cloud-go run/v1.2.0, google-cloud-go scheduler/v1.10.1, google-cloud-go secretmanager/v1.11.1, google-cloud-go security/v1.15.1, google-cloud-go securitycenter/v1.23.0, google-cloud-go servicedirectory/v1.11.0, google-cloud-go shell/v1.7.1, google-cloud-go spanner/v1.49.0, google-cloud-go speech/v1.19.0, google-cloud-go storagetransfer/v1.10.0, google-cloud-go talent/v1.6.2, google-cloud-go texttospeech/v1.7.1, google-cloud-go tpu/v1.6.1, google-cloud-go trace/v1.10.1, google-cloud-go translate/v1.9.0, google-cloud-go v0.110.8, google-cloud-go video/v1.20.0, google-cloud-go videointelligence/v1.11.1, google-cloud-go vmmigration/v1.7.1, google-cloud-go vpcaccess/v1.7.1, google-cloud-go webrisk/v1.9.1, google-cloud-go websecurityscanner/v1.6.1, google-cloud-go workflows/v1.12.0, google-gofuzz v1.0.0, googleapis/go-genproto 20231002-snapshot-d307bd88, grafana/grafana-plugin-sdk-go v0.201.0, groupcache 20210331-snapshot-41bb18bf, grpc-ecosystem/go-grpc-middleware v1.4.0, grpc-ecosystem/go-grpc-prometheus v1.2.0, grpc-go v1.60.1, harmony-reflect v1.6.2, human-signals 2.1.0, inert 3.1.2, jhump/protoreflect v1.15.1, lerc 3.0.0, magefile/mage v1.15.0, minio/c2goasm 20190812-snapshot-36a3d3bb, modern-go/concurrent 20180305-snapshot-bacd9c7e, modern-go/reflect2 v1.0.2, mwitkow/go-conntrack 20190716-snapshot-2f068394, nodejs-walker 1.0.8, oklog/run v1.1.0, open-telemetry/opentelemetry-go exporters/otlp/otlptrace/otlptracegrpc/v1.21.0, open-telemetry/opentelemetry-go exporters/otlp/otlptrace/v1.21.0, open-telemetry/opentelemetry-go metric/v1.21.0, open-telemetry/opentelemetry-go sdk/v1.21.0, open-telemetry/opentelemetry-go trace/v1.21.0, open-telemetry/opentelemetry-go v1.21.0, open-telemetry/opentelemetry-go-contrib instrumentation/google.golang.org/grpc/otelgrpc/v0.46.1, open-telemetry/opentelemetry-go-contrib instrumentation/net/http/httptrace/otelhttptrace/v0.46.1, open-telemetry/opentelemetry-go-contrib instrumentation/net/http/otelhttp/v0.46.1, open-telemetry/opentelemetry-go-contrib propagators/jaeger/v1.21.1, open-telemetry/opentelemetry-go-contrib samplers/jaegerremote/v0.15.1, OpenCensus v0.4.1, opentracing-opentracing-go 1.1.0, prometheus-client_model v0.5.0, prometheus-common 0.46.0, prometheus-procfs v0.12.0, react-beautiful-dnd 13.1.1, ReactiveX RxJS 6.6.7, ReactiveX RxJS 7.8.0, swag v0.22.4, TypeScript 4.8.4, TypeScript 4.9.5, Unknwon-log 20150304-snapshot-e617c870, Unknwon/bra 20200517-snapshot-1e3013ec, Unknwon/com v1.0.1, watchman 2.0.2, watchman 2.1.1, web-vitals 3.5.0, web-worker 1.2.0, websocket-driver-node 0.7.4, websocket-extensions-node 0.1.4, xml-name-validator 4.0.0, yaml for Go v2.4.0, yaml for Go v3.0.1)
+(@ampproject/remapping 2.2.1, @carbon/colors 11.20.0, @carbon/feature-flags 0.16.0, @carbon/grid 11.21.0, @carbon/icon-helpers 10.45.0, @carbon/icons-react 11.31.0, @carbon/layout 11.20.0, @carbon/motion 11.16.0, @carbon/react 1.44.0, @carbon/styles 1.44.0, @carbon/telemetry 0.1.0, @carbon/themes 11.28.0, @carbon/type 11.25.0, @grafana/data 9.5.1, @grafana/e2e-selectors 9.5.1, @grafana/eslint-config 6.0.1, @grafana/faro-core 1.3.2, @grafana/faro-web-sdk 1.0.2, @grafana/runtime 9.5.1, @grafana/schema 9.5.1, @grafana/tsconfig 1.2.0-rc1, @grafana/ui 9.5.1, @humanwhocodes/config-array 0.11.13, @humanwhocodes/module-importer 1.0.1, @internationalized/date 3.5.0, @internationalized/message 3.1.1, @internationalized/number 3.4.0, @internationalized/string 3.1.1, @opentelemetry/api 1.7.0, @opentelemetry/api-logs 0.45.1, @opentelemetry/core 1.18.1, @opentelemetry/otlp-transformer 0.45.1, @opentelemetry/resources 1.18.1, @opentelemetry/sdk-logs 0.45.1, @opentelemetry/sdk-metrics 1.18.1, @opentelemetry/sdk-trace-base 1.18.1, @opentelemetry/semantic-conventions 1.18.1, @react-aria/button 3.6.1, @react-aria/dialog 3.3.1, @react-aria/focus 3.15.0, @react-aria/focus 3.8.0, @react-aria/i18n 3.9.0, @react-aria/interactions 3.20.0, @react-aria/menu 3.6.1, @react-aria/overlays 3.10.1, @react-aria/overlays 3.19.0, @react-aria/selection 3.17.2, @react-aria/ssr 3.9.0, @react-aria/utils 3.13.1, @react-aria/utils 3.22.0, @react-aria/visually-hidden 3.8.7, @react-stately/collections 3.10.3, @react-stately/menu 3.4.1, @react-stately/menu 3.5.7, @react-stately/overlays 3.6.4, @react-stately/selection 3.14.1, @react-stately/toggle 3.7.0, @react-stately/tree 3.7.4, @react-stately/utils 3.9.0, @react-types/button 3.9.1, @react-types/checkbox 3.6.0, @react-types/dialog 3.5.7, @react-types/menu 3.9.6, @react-types/overlays 3.8.4, @react-types/shared 3.22.0, @swc/core 1.3.75, @swc/core-darwin-arm64 1.3.75, @swc/core-darwin-x64 1.3.75, @swc/core-linux-arm-gnueabihf 1.3.75, @swc/core-linux-arm64-gnu 1.3.75, @swc/core-linux-arm64-musl 1.3.75, @swc/core-linux-x64-gnu 1.3.75, @swc/core-linux-x64-musl 1.3.75, @swc/core-win32-arm64-msvc 1.3.75, @swc/core-win32-ia32-msvc 1.3.75, @swc/core-win32-x64-msvc 1.3.75, @swc/helpers 0.5.3, @webassemblyjs/leb128 1.11.6, @xtuc/long 4.2.2, allegro/bigcache 20190220-snapshot-e24eb225, Apache Thrift 0.17.0, aria-query 5.1.3, aria-query 5.3.0, bufbuild/protocompile v0.4.0, carbon-components 10.58.10, carbon-components-react 8.44.0, client_golang v1.19.0, doctrine v2.1.0, doctrine v3.0.0, DOMPurify 2.4.7, envoyproxy/go-control-plane v0.12.0, envoyproxy/protoc-gen-validate 1.0.4, eslint-visitor-keys 3.4.3, FlatBuffers 23.5.26, github.com/bufbuild/protovalidate-go v0.2.1, github.com/cncf/xds 20231128-snapshot-0fa0005c, go-logr/logr v1.4.1, go-logr/stdr v1.2.2, go-openapi/jsonpointer v0.20.2, go.opentelemetry.io/proto otlp/v1.2.0, golang/appengine v1.6.8, golang/glog v1.2.0, google-cloud-go compute/metadata/v0.2.3, google-cloud-go compute/v1.24.0, google-gofuzz v1.1.0, google/cel-go v0.17.1, google/gnostic-models v0.6.8, google/pprof 20211214-snapshot-6f573593, googleapis/go-genproto 20240227-snapshot-6ceb2ff1, googleapis/go-genproto 20240415-snapshot-8c6c4200, grafana/grafana-plugin-sdk-go v0.231.0, groupcache 20210331-snapshot-41bb18bf, grpc-ecosystem/go-grpc-middleware providers/prometheus/v1.0.1, grpc-ecosystem/go-grpc-middleware v2.1.0, grpc-go v1.63.2, harmony-reflect v1.6.2, human-signals 2.1.0, inert 3.1.2, jhump/protoreflect v1.15.1, jsonreference v0.20.1, k8s.io/kube-openapi 20240220-snapshot-37d671a3, k8s.io/utils 20230726-snapshot-3b25d923, lerc 3.0.0, magefile/mage v1.15.0, matttproud-golang_protobuf_extensions v1.0.1, minio/c2goasm 20190812-snapshot-36a3d3bb, modern-go/concurrent 20180305-snapshot-bacd9c7e, modern-go/reflect2 v1.0.2, mwitkow/go-conntrack 20190716-snapshot-2f068394, nodejs-walker 1.0.8, oklog/run v1.1.0, open-telemetry/opentelemetry-go exporters/otlp/otlptrace/otlptracegrpc/v1.26.0, open-telemetry/opentelemetry-go exporters/otlp/otlptrace/v1.26.0, open-telemetry/opentelemetry-go metric/v1.26.0, open-telemetry/opentelemetry-go sdk/v1.26.0, open-telemetry/opentelemetry-go trace/v1.26.0, open-telemetry/opentelemetry-go v1.26.0, open-telemetry/opentelemetry-go-contrib instrumentation/google.golang.org/grpc/otelgrpc/v0.51.0, open-telemetry/opentelemetry-go-contrib instrumentation/net/http/httptrace/otelhttptrace/v0.51.0, open-telemetry/opentelemetry-go-contrib instrumentation/net/http/otelhttp/v0.51.0, open-telemetry/opentelemetry-go-contrib propagators/jaeger/v1.26.0, open-telemetry/opentelemetry-go-contrib samplers/jaegerremote/v0.20.0, OpenCensus v0.4.1, prometheus-client_model v0.6.1, prometheus-common v0.53.0, prometheus-procfs v0.14.0, react-beautiful-dnd 13.1.1, ReactiveX RxJS 6.6.7, ReactiveX RxJS 7.8.0, swag v0.22.8, TypeScript 4.8.4, TypeScript 4.9.5, Unknwon-log 20150304-snapshot-e617c870, Unknwon/bra 20200517-snapshot-1e3013ec, Unknwon/com v1.0.1, watchman 2.0.2, watchman 2.1.1, web-vitals 3.5.0, web-worker 1.2.0, websocket-driver-node 0.7.4, websocket-extensions-node 0.1.4, wk8/go-ordered-map v2.1.8, xml-name-validator 4.0.0, yaml for Go v2.4.0, yaml for Go v3.0.1)
 
 Apache License
 Version 2.0, January 2004
@@ -1738,7 +1641,7 @@ this software or this license, under any kind of legal claim.
 ---
 
 BSD 2-clause "Simplified" License
-(@mapbox/unitbezier 0.0.0, @typescript-eslint/parser 5.59.9, @typescript-eslint/parser 5.62.0, @typescript-eslint/typescript-estree 5.59.9, @typescript-eslint/typescript-estree 5.62.0, blackfriday v2.1.0, BurntSushi/toml 1.3.2, cheerio-select 2.1.0, css-what 6.1.0, CSSselect 5.1.0, doctrine v2.1.0, domelementtype 2.3.0, DomHandler 5.0.3, domutils 3.1.0, escodegen 2.1.0, eslint-scope 7.2.2, eslint-scope v5.1.1, espree 9.6.1, Esprima 4.0.1, esrecurse v4.3.0, estraverse 5.3.0, estraverse v4.3.0, esutils 2.0.3, glob-to-regexp 0.4.1, go-check-check 20201130-snapshot-10cb9826, gopherjs 20181203-snapshot-d547d1d9, mapbox-to-css-font 2.4.2, node-entities 4.5.0, nth-check 2.1.1, ol-mapbox-style 9.7.0, OpenLayers 7.2.2, pkg/errors v0.8.1, rogpeppe-go-charset 20180617-snapshot-2471d30d, terser 5.26.0, uri-js 4.4.1, webidl-conversions 7.0.0, zeebo/xxh3 v1.0.2)
+(@mapbox/unitbezier 0.0.0, @typescript-eslint/parser 5.59.9, @typescript-eslint/parser 5.62.0, @typescript-eslint/typescript-estree 5.59.9, @typescript-eslint/typescript-estree 5.62.0, blackfriday v2.1.0, BurntSushi/toml 1.3.2, cheerio-select 2.1.0, css-what 6.1.0, CSSselect 5.1.0, doctrine v2.1.0, domelementtype 2.3.0, DomHandler 5.0.3, domutils 3.1.0, escodegen 2.1.0, eslint-scope 7.2.2, eslint-scope v5.1.1, espree 9.6.1, Esprima 4.0.1, esrecurse v4.3.0, estraverse 5.3.0, estraverse v4.3.0, esutils 2.0.3, glob-to-regexp 0.4.1, go-check-check 20201130-snapshot-10cb9826, gopherjs 20181203-snapshot-d547d1d9, mapbox-to-css-font 2.4.2, node-entities 4.5.0, nth-check 2.1.1, ol-mapbox-style 9.7.0, OpenLayers 7.2.2, pkg-profile v1.7.0, rogpeppe-go-charset 20180617-snapshot-2471d30d, terser 5.26.0, uri-js 4.4.1, webidl-conversions 7.0.0, zeebo/xxh3 v1.0.2)
 
 BSD Two Clause License
 ======================
@@ -2072,39 +1975,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 ---
 
 BSD 3-clause "New" or "Revised" License
-(gorilla/mux v1.8.0)
-
-Copyright (c) 2012-2018 The Gorilla Authors. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-	 * Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-	 * Redistributions in binary form must reproduce the above
-copyright notice, this list of conditions and the following disclaimer
-in the documentation and/or other materials provided with the
-distribution.
-	 * Neither the name of Google Inc. nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-
----
-
-BSD 3-clause "New" or "Revised" License
 (istanbul-lib-source-maps 4.0.1)
 
 Copyright 2015 Yahoo! Inc.
@@ -2313,45 +2183,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 ---
 
 BSD 3-clause "New" or "Revised" License
-(client9/misspell v0.3.4)
-
-which are covered under a BSD License.
-
-* https://golang.org/pkg/strings/#Replacer
-* https://golang.org/src/strings/replace.go
-* https://github.com/golang/go/blob/master/LICENSE
-
-Copyright (c) 2009 The Go Authors. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-   * Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-   * Redistributions in binary form must reproduce the above
-copyright notice, this list of conditions and the following disclaimer
-in the documentation and/or other materials provided with the
-distribution.
-   * Neither the name of Google Inc. nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-
----
-
-BSD 3-clause "New" or "Revised" License
 (kisielk-gotool v1.0.0)
 
 License: BSD-3-clause
@@ -2385,7 +2216,7 @@ Redistribution and use in source and binary forms, with or without
 ---
 
 BSD 3-clause "New" or "Revised" License
-(@humanwhocodes/object-schema 2.0.1, @sentry/browser 6.19.7, @sentry/core 6.19.7, @sentry/hub 6.19.7, @sentry/minimal 6.19.7, @sentry/types 6.19.7, @sentry/utils 6.19.7, @sinonjs/commons 3.0.0, @sinonjs/fake-timers 10.3.0, abab 2.0.6, ANTLR 4 4.13.1, bigfft 20230129-snapshot-24d4a6f8, BurntSushi/toml 1.3.2, d3-ease 3.0.1, esquery 1.5.0, exp 20230205-snapshot-46f607a4, fatih-color 1.15.0, gajus/eslint-plugin-jsdoc 46.2.6, github.com/invopop/yaml v0.2.0, gitlab.com/cznic/cc v3.40.0, gitlab.com/cznic/ccgo v3.16.13, gitlab.com/cznic/libc v1.22.2, gitlab.com/cznic/mathutil v1.5.0, gitlab.com/cznic/memory v1.5.0, gitlab.com/cznic/opt v0.1.3, gitlab.com/cznic/sqlite v1.20.4, gitlab.com/cznic/strutil v1.1.3, gitlab.com/cznic/token v1.1.0, Golang Protobuf v1.32.0, Golang Protobuf v1.5.3, golang.org/x/crypto v0.18.0, golang.org/x/lint 20190930-snapshot-16217165, golang.org/x/mod v0.9.0, golang.org/x/net v0.20.0, golang.org/x/oauth2 v0.16.0, golang.org/x/sync v0.4.0, golang.org/x/sys v0.16.0, golang.org/x/term v0.16.0, golang.org/x/tools v0.6.0, golang.org/x/xerrors 20220907-snapshot-04be3eba, golang/text v0.14.0, Gonum numerical packages v0.12.0, google/go-cmp v0.6.0, google/uuid v1.6.0, goproxy 20230729-snapshot-f99041a5, grpc-gateway v2.16.2, hoist-non-react-statics v3.3.2, intl-messageformat 10.5.8, istanbul-lib-coverage 3.2.2, istanbul-lib-instrument 5.2.1, istanbul-lib-instrument 6.0.1, istanbul-lib-report 3.0.1, istanbul-reports 3.1.6, jsdiff 4.0.2, klauspost-compress v1.15.15, mattn-go-colorable 0.1.13, moo 0.5.2, pbf 3.2.1, pierrec-lz4 v4.1.17, qs -  QS Querystring 6.11.2, react-transition-group 4.4.5, rogpeppe/go-internal v1.11.0, rst-selector-parser 2.2.3, serialize-javascript 6.0.1, source-map-js 1.0.2, tough-cookie 4.1.3, xhit/go-str2duration v2.1.0, zstddec 0.1.0)
+(@humanwhocodes/object-schema 2.0.1, @sentry/browser 6.19.7, @sentry/core 6.19.7, @sentry/hub 6.19.7, @sentry/minimal 6.19.7, @sentry/types 6.19.7, @sentry/utils 6.19.7, @sinonjs/commons 3.0.0, @sinonjs/fake-timers 10.3.0, abab 2.0.6, antlr 20230512-snapshot-5d1fd1a3, ANTLR 4 4.13.1, bigfft 20230129-snapshot-24d4a6f8, BurntSushi/toml 1.3.2, d3-ease 3.0.1, esquery 1.5.0, exp 20231006-snapshot-7918f672, fatih-color 1.15.0, gajus/eslint-plugin-jsdoc 46.2.6, github.com/invopop/yaml v0.2.0, gitlab.com/cznic/cc v3.40.0, gitlab.com/cznic/ccgo v3.16.13, gitlab.com/cznic/libc v1.22.4, gitlab.com/cznic/mathutil v1.5.0, gitlab.com/cznic/memory v1.5.0, gitlab.com/cznic/opt v0.1.3, gitlab.com/cznic/sqlite v1.21.2, gitlab.com/cznic/strutil v1.1.3, gitlab.com/cznic/token v1.1.0, Golang Protobuf v1.33.0, Golang Protobuf v1.5.4, golang.org/x/crypto v0.23.0, golang.org/x/mod v0.13.0, golang.org/x/net v0.25.0, golang.org/x/oauth2 v0.20.0, golang.org/x/sync v0.7.0, golang.org/x/sys v0.20.0, golang.org/x/term v0.20.0, golang.org/x/tools v0.14.0, golang.org/x/xerrors 20220907-snapshot-04be3eba, golang/text v0.15.0, Gonum numerical packages v0.12.0, google/go-cmp v0.6.0, google/uuid v1.6.0, goproxy 20230729-snapshot-f99041a5, gorilla/mux v1.8.1, grpc-gateway v2.19.1, hoist-non-react-statics v3.3.2, intl-messageformat 10.5.8, istanbul-lib-coverage 3.2.2, istanbul-lib-instrument 5.2.1, istanbul-lib-instrument 6.0.1, istanbul-lib-report 3.0.1, istanbul-reports 3.1.6, jsdiff 4.0.2, klauspost-compress v1.16.7, mattn-go-colorable 0.1.13, moo 0.5.2, pbf 3.2.1, pierrec-lz4 v4.1.18, qs -  QS Querystring 6.11.2, react-transition-group 4.4.5, rogpeppe/go-internal v1.12.0, rst-selector-parser 2.2.3, serialize-javascript 6.0.1, source-map-js 1.0.2, tough-cookie 4.1.3, xhit/go-str2duration v2.1.0, zstddec 0.1.0)
 
 Copyright (c) <YEAR>, <OWNER>
 All rights reserved.
@@ -2637,7 +2468,7 @@ as stated below:
 
   d. to Distribute and Publicly Perform Adaptations.
 
-  e.
+  e. 
 
     For the avoidance of doubt:
 
@@ -4883,7 +4714,7 @@ SOFTWARE
 ---
 
 MIT License
-(fill-range 7.0.1, is-number 7.0.0, micromatch 4.0.5)
+(is-number 7.0.0, micromatch 4.0.5)
 
 The MIT License (MIT)
 
@@ -5562,33 +5393,6 @@ THE SOFTWARE
 ---
 
 MIT License
-(go-stack-stack v1.8.0)
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Chris Hines
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE
-
----
-
-MIT License
 (@tootallnate/once 2.0.0)
 
 MIT License
@@ -5898,31 +5702,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE
-
----
-
-MIT License
-(go-zap v1.18.1)
-
-Copyright (c) 2016-2017 Uber Technologies, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE
 
 ---
 
@@ -6575,7 +6354,7 @@ SOFTWARE
 ---
 
 MIT License
-(safe-buffer v5.2.1)
+(safe-buffer 5.2.1)
 
 The MIT License (MIT)
 
@@ -6625,44 +6404,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
-
----
-
-MIT License
-(strip-bom 3.0.0)
-
-Upstream-Contact: https://github.com/sindresorhus/strip-bom/issues
-Source: https://github.com/sindresorhus/strip-bom#readme
-
-Files: *
-Copyright: 2016 Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-License: Expat
-
-Files: debian/*
-Copyright: 2016 Shanavas M <shanavas.m2@gmail.com>
-License: Expat
-
-License: Expat
-
-Permission is hereby granted, free of charge, to any person
- obtaining a copy of this software and associated documentation files
- (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge,
- publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
- .
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE
 
 ---
 
@@ -6944,50 +6685,6 @@ SOFTWARE
 ---
 
 MIT License
-(micromatch/braces 3.0.2)
-
-Upstream-Contact: https://github.com/jonschlinkert/braces/issues
-Source: https://github.com/jonschlinkert/braces
-
-Files: *
-Copyright: 2014-2018, Jon Schlinkert (https://github.com/jonschlinkert)
-License: Expat
-
-Files: debian/*
-Copyright: 2016, Sruthi Chandran <srud@disroot.org>
- 2018, Paolo Greppi <paolo.greppi@libpf.com>
- 2019, Xavier Guimard <yadd@debian.org>
-License: Expat
-
-Files: debian/tests/modules/bash-path/*
-Copyright: 2017, Jon Schlinkert (https://github.com/jonschlinkert)
-License: Expat
-
-License: Expat
-
-Permission is hereby granted, free of charge, to any person
- obtaining a copy of this software and associated documentation files
- (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge,
- publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
- .
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE
-
----
-
-MIT License
 (Lodash 4.6.0)
 
 The MIT License (MIT)
@@ -7042,32 +6739,7 @@ THE SOFTWARE
 ---
 
 MIT License
-(andybalholm/brotli v1.0.4)
-
-Copyright (c) 2009, 2010, 2013-2016 by the Brotli Authors.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE
-
----
-
-MIT License
-(@aashutoshrathi/word-wrap 1.2.6, @adobe/css-tools 4.3.2, @babel/code-frame 7.23.5, @babel/compat-data 7.23.5, @babel/core 7.23.5, @babel/generator 7.23.5, @babel/helper-compilation-targets 7.22.15, @babel/helper-environment-visitor 7.22.20, @babel/helper-function-name 7.23.0, @babel/helper-hoist-variables 7.22.5, @babel/helper-module-imports 7.22.15, @babel/helper-module-transforms 7.23.3, @babel/helper-plugin-utils 7.22.5, @babel/helper-simple-access 7.22.5, @babel/helper-split-export-declaration 7.22.6, @babel/helper-string-parser 7.23.4, @babel/helper-validator-identifier 7.22.20, @babel/helper-validator-option 7.23.5, @babel/helpers 7.23.5, @babel/highlight 7.23.4, @babel/parser 7.23.5, @babel/plugin-syntax-jsx 7.23.3, @babel/plugin-syntax-typescript 7.23.3, @babel/runtime 7.23.5, @babel/template 7.22.15, @babel/types 7.23.5, @braintree/sanitize-url 6.0.2, @cspotcode/source-map-support 0.8.1, @emotion/babel-plugin 11.11.0, @emotion/cache 11.11.0, @emotion/css 11.10.6, @emotion/css 11.11.2, @emotion/hash 0.9.1, @emotion/memoize 0.8.1, @emotion/react 11.10.6, @emotion/react 11.11.1, @emotion/serialize 1.1.2, @emotion/sheet 1.2.2, @emotion/unitless 0.8.1, @emotion/use-insertion-effect-with-fallbacks 1.0.1, @emotion/utils 1.2.1, @emotion/weak-memoize 0.3.1, @es-joy/jsdoccomment 0.39.4, @eslint-community/eslint-utils 4.4.0, @eslint-community/regexpp 4.10.0, @eslint/eslintrc 2.1.4, @eslint/js 8.42.0, @eslint/js 8.55.0, @floating-ui/core 1.5.2, @floating-ui/dom 1.5.3, @floating-ui/utils 0.1.6, @formatjs/ecma402-abstract 1.18.0, @formatjs/fast-memoize 2.2.0, @formatjs/icu-messageformat-parser 2.7.3, @formatjs/icu-skeleton-parser 1.7.0, @formatjs/intl-localematcher 0.5.2, @jest/console 29.7.0, @jest/core 29.7.0, @jest/environment 29.7.0, @jest/expect 29.7.0, @jest/expect-utils 29.7.0, @jest/fake-timers 29.7.0, @jest/globals 29.7.0, @jest/reporters 29.7.0, @jest/schemas 29.6.3, @jest/source-map 29.6.3, @jest/test-result 29.7.0, @jest/test-sequencer 29.7.0, @jest/transform 29.7.0, @jest/types 29.6.3, @jridgewell/gen-mapping 0.3.3, @jridgewell/resolve-uri 3.1.1, @jridgewell/set-array 1.1.2, @jridgewell/source-map 0.3.5, @jridgewell/sourcemap-codec 1.4.15, @jridgewell/trace-mapping 0.3.20, @jridgewell/trace-mapping 0.3.9, @leeoniya/ufuzzy 1.0.6, @mapbox/jsonlint-lines-primitives 2.0.2, @monaco-editor/loader 1.4.0, @monaco-editor/react 4.4.6, @petamoriken/float16 3.8.4, @pkgjs/parseargs 0.11.0, @popperjs/core 2.11.6, @popperjs/core 2.11.8, @rc-component/portal 1.1.2, @sinclair/typebox 0.27.8, @swc/core-darwin-arm64 1.3.75, @swc/core-darwin-x64 1.3.75, @swc/core-linux-arm-gnueabihf 1.3.75, @swc/core-linux-arm64-gnu 1.3.75, @swc/core-linux-arm64-musl 1.3.75, @swc/core-linux-x64-gnu 1.3.75, @swc/core-linux-x64-musl 1.3.75, @swc/core-win32-arm64-msvc 1.3.75, @swc/core-win32-ia32-msvc 1.3.75, @swc/core-win32-x64-msvc 1.3.75, @swc/jest 0.2.29, @testing-library/dom 8.20.1, @testing-library/dom 9.3.3, @testing-library/jest-dom 6.1.5, @testing-library/react 12.1.5, @tsconfig/node10 1.0.9, @tsconfig/node12 1.0.11, @tsconfig/node14 1.0.3, @tsconfig/node16 1.0.4, @types/aria-query 5.0.4, @types/babel__core 7.20.5, @types/babel__generator 7.6.7, @types/babel__template 7.4.4, @types/babel__traverse 7.20.4, @types/cheerio 0.22.35, @types/d3-color 3.1.3, @types/d3-interpolate 3.0.4, @types/enzyme 3.10.18, @types/eslint 8.44.8, @types/eslint-scope 3.7.7, @types/estree 1.0.5, @types/graceful-fs 4.1.9, @types/hoist-non-react-statics 3.3.5, @types/istanbul-lib-coverage 2.0.6, @types/istanbul-lib-report 3.0.3, @types/istanbul-reports 3.0.4, @types/jest 29.5.11, @types/jsdom 20.0.1, @types/json-schema 7.0.15, @types/lodash 4.14.202, @types/node 18.19.3, @types/node 20.10.4, @types/parse-json 4.0.2, @types/prettier 2.7.3, @types/prop-types 15.7.11, @types/react 16.14.52, @types/react 17.0.71, @types/react 18.2.42, @types/react-dom 17.0.25, @types/react-redux 7.1.32, @types/react-router 5.1.20, @types/react-router-dom 5.3.3, @types/react-transition-group 4.4.10, @types/scheduler 0.16.8, @types/semver 7.5.6, @types/stack-utils 2.0.3, @types/tough-cookie 4.0.5, @types/yargs 16.0.9, @types/yargs 17.0.32, @types/yargs-parser 21.0.3, @typescript-eslint/eslint-plugin 5.59.9, @typescript-eslint/scope-manager 5.59.9, @typescript-eslint/scope-manager 5.62.0, @typescript-eslint/type-utils 5.59.9, @typescript-eslint/types 5.59.9, @typescript-eslint/types 5.62.0, @typescript-eslint/utils 5.59.9, @typescript-eslint/visitor-keys 5.59.9, @typescript-eslint/visitor-keys 5.62.0, @webassemblyjs/ast 1.11.6, @webassemblyjs/floating-point-hex-parser 1.11.6, @webassemblyjs/helper-api-error 1.11.6, @webassemblyjs/helper-buffer 1.11.6, @webassemblyjs/helper-numbers 1.11.6, @webassemblyjs/helper-wasm-bytecode 1.11.6, @webassemblyjs/helper-wasm-section 1.11.6, @webassemblyjs/ieee754 1.11.6, @webassemblyjs/utf8 1.11.6, @webassemblyjs/wasm-edit 1.11.6, @webassemblyjs/wasm-gen 1.11.6, @webassemblyjs/wasm-opt 1.11.6, @webassemblyjs/wasm-parser 1.11.6, @webassemblyjs/wast-printer 1.11.6, @webpack-cli/configtest 2.1.1, @webpack-cli/info 2.0.2, @webpack-cli/serve 2.0.5, @wojtekmaj/date-utils 1.5.1, Acorn 8.11.2, acorn-globals 7.0.1, acorn-import-assertions 1.9.0, acorn-walk 8.3.1, ajv 8.12.0, alecthomas-kingpin v2.4.0, alecthomas-units 20211218-snapshot-b94a6e3c, alecthomas/participle v2.0.0, ansi-styles 6.2.1, antchfx/xmlquery v1.3.18, antchfx/xpath v1.2.4, are-docs-informative 0.0.2, array-buffer-byte-length 1.0.0, array-includes 3.1.7, array-tree-filter 2.1.0, array.prototype.filter 1.0.3, array.prototype.flat 1.3.2, array.prototype.flatmap 1.3.2, array.prototype.tosorted 1.1.2, arraybuffer.prototype.slice 1.0.2, Async 2.6.4, babel-traverse 7.23.5, boolify 1.0.1, browserify/resolve 1.22.8, browserify/resolve 2.0.0-next.5, browserslist 4.22.2, builtin-modules 3.3.0, BurntSushi/toml 1.3.2, bvaughn/react-highlight-words 0.20.0, call-bind 1.0.5, cenkalti/backoff v4.2.1, cespare/xxhash v2.2.0, cheerio 1.0.0-rc.12, chromedp/cdproto 20220208-snapshot-6efb837e, ci-info 3.9.0, cjs-module-lexer 1.2.3, classes 1.2.6, classnames 2.3.2, clsx 1.2.1, collect-v8-coverage 1.0.2, color-string 1.9.1, colorette 2.0.20, Commander.js 10.0.1, compute-scroll-into-view 3.1.0, convert-source-map 1.9.0, convert-source-map 2.0.0, copy-to-clipboard 3.3.3, copy-webpack-plugin 11.0.0, core-js 3.28.0, core-js 3.34.0, cosmiconfig 7.1.0, cpuguy83-go-md2man 2.0.2, css-loader 6.8.1, csstype 3.1.3, DamonOehlman/wildcard 2.0.1, data-urls 3.0.2, decimal.js 10.4.3, dedent 1.5.1, deepmerge 4.3.1, define-data-property 1.1.1, dequal 2.0.3, dlv 1.1.3, dom-accessibility-api 0.5.16, dom-align 1.12.4, dom-serializer 2.0.0, dominikh/go-tools 20190523-snapshot-ea95bdfd, downshift 8.2.3, eastasianwidth 0.2.0, einaros/ws 8.14.2, emittery 0.13.1, enhanced-resolve 5.15.0, envinfo 7.11.0, enzymejs 1.0.5, error 7.2.1, error-stack-parser 2.1.4, es-abstract 1.22.3, es-get-iterator 1.1.3, es-module-lexer 1.4.1, es-set-tostringtag 2.0.2, es-shim-unscopables 1.0.2, ESLint 8.42.0, ESLint 8.55.0, eslint-config-prettier 8.8.0, eslint-plugin-react-hooks 4.6.0, eslint-webpack-plugin 4.0.1, eventemitter3 5.0.0, expect 29.7.0, fast-glob 3.3.2, fast_array_intersect 1.1.0, fastcache v1.12.2, fastest-levenshtein 1.0.16, fatih-color 1.15.0, felixge/httpsnoop v1.0.4, file-selector 0.6.0, flat-cache 3.2.0, fork-ts-checker-webpack-plugin 8.0.0, fs-extra 10.1.0, fsevents 2.3.3, function-bind 1.1.2, function.prototype.name 1.1.6, functions-have-names 1.2.3, geotiff 2.1.0, get-document 1.0.0, get-intrinsic 1.2.2, get-user-locale 1.5.1, getkin/kin-openapi v0.120.0, github.com/antihax/optional 1.0.0, github.com/go-kit/log v0.2.1, github.com/invopop/yaml v0.2.0, globalthis 1.0.3, go humanize 1.0.1, Go Testify v1.8.4, go.uber.org/goleak v1.3.0, goccy/go-json v0.10.0, goccy/go-yaml v1.9.8, goconvey 20190121-snapshot-044398e4, gopd 1.0.1, graphemer 1.4.0, has 1.0.4, has-bigints 1.0.2, has-property-descriptors 1.0.1, has-proto 1.0.1, hashicorp/go-hclog v1.6.2, hasown 2.0.0, html-parse-stringify v3.0.1, htmlparser2 8.0.2, http-parser-js 0.5.8, https-proxy-agent 5.0.1, i18next 22.5.1, ianstormtaylor/slate 0.2.115, ianstormtaylor/slate 0.2.9, ianstormtaylor/slate 0.47.9, immutable-js 4.2.4, immutable-js 4.3.4, inline-style-prefixer 7.0.0, internal-slot 1.0.6, interpret 3.1.1, is-array-buffer 3.0.2, is-builtin-module 3.2.1, is-callable 1.2.7, is-core-module 2.13.1, is-in-browser 1.1.3, is-number-object 1.0.7, is-shared-array-buffer 1.0.2, is-typed-array 1.1.12, isomorphic-base64 1.0.2, JedWatson/react-select 5.7.0, Jest from Facebook 29.6.3, Jest from Facebook 29.7.0, jest-changed-files 29.7.0, jest-config 29.7.0, jest-diff 29.7.0, jest-each 29.7.0, jest-environment-jsdom 29.7.0, jest-environment-node 29.7.0, jest-get-type 29.6.3, jest-haste-map 29.7.0, jest-leak-detector 29.7.0, jest-matcher-utils 29.7.0, jest-message-util 29.7.0, jest-pnp-resolver 1.2.3, jest-regex-util 29.6.3, jest-resolve 29.7.0, jest-resolve-dependencies 29.7.0, jest-runner 29.7.0, jest-runtime 29.7.0, jest-snapshot 29.7.0, jest-util 29.7.0, jest-validate 29.7.0, jest-worker 29.7.0, jestjs/jest 29.7.0, JohnCGriffin/overflow 20211019-snapshot-46fa312c, jQuery 3.6.3, js-xss 1.0.14, jsdoc-type-pratt-parser 4.0.0, jsdom 20.0.3, jsonc-parser 3.2.0, jsx-ast-utils 3.3.5, keyv 4.5.4, klauspost-cpuid v2.2.3, klauspost/asmfmt v1.3.2, klona 2.0.6, kossnocorp/date-fns 2.29.3, kr/pretty v0.3.1, ljharb/object.assign 4.1.5, loader-runner 4.3.0, loglevel 1.8.1, lukechampine/uint128 v1.2.0, lz-string 1.5.0, make-dir 4.0.0, markedjs 4.2.12, mattn-go-colorable 0.1.13, mattn-go-isatty v0.0.18, minimist 1.2.8, moment-timezone 0.5.41, moment/moment 2.29.4, monaco-editor 0.34.0, nanoid 3.3.7, natural-compare 1.4.0, natural-compare-lite 1.4.0, node-abort-controller 3.1.1, node-deep-equal 2.2.3, node-ignore 5.3.0, node-mkdirp 0.5.6, node-releases 2.0.14, nodeca/pako 2.1.0, nodejs/undici 5.26.5, nwsapi 2.2.7, object-inspect 1.13.1, object.entries 1.1.7, object.fromentries 2.0.7, object.hasown 1.1.3, object.values 1.1.7, optionator 0.9.3, PapaParse 5.3.2, parse5 7.0.0, parse5 7.1.2, pirates 4.0.6, portfinder 1.0.32, PostCSS 8.4.32, postcss-modules-local-by-default 4.0.3, postcss-selector-parser 6.0.13, prettier 2.8.8, Prettier IO 2.6.2, prettier-eslint 14.1.0, prettier-eslint 15.0.1, prettier-eslint-cli 6.0.1, pretty-format 23.6.0, pretty-format 29.7.0, PrismJS 1.29.0, psl 1.9.0, Punycode.js 2.3.1, pure-rand 6.0.4, Qix/color 4.2.3, quick-lru 6.1.2, rc-align 4.0.15, rc-cascader 3.8.0, rc-drawer 6.1.3, rc-motion 2.9.0, rc-overflow 1.3.2, rc-resize-observer 1.4.0, rc-select 14.2.2, rc-slider 10.1.1, rc-tooltip 5.3.1, rc-tree 5.7.12, rc-trigger 5.3.4, rc-util 5.38.1, rc-virtual-list 3.11.3, React from Facebook 18.2.0, react-calendar 4.0.0, react-colorful 5.6.1, react-custom-scrollbars-2 4.5.0, react-dropzone 14.2.3, react-fast-compare 3.2.2, react-from-dom 0.6.2, react-i18next 12.3.1, react-inlinesvg 3.0.2, react-popper 2.3.0, react-popper-tooltip 4.4.2, React-Redux 7.2.9, react-router-dom 5.3.4, react-select-event 5.5.1, react-table 7.8.0, react-window 1.8.8, reacttraining/react-router 5.3.4, Redux JS 4.2.1, regenerator-runtime 0.11.1, regenerator-runtime 0.13.11, regenerator-runtime 0.14.0, regexp.prototype.flags 1.5.1, require-relative 0.8.7, resolve.exports 2.0.2, rtl-css-js 1.16.1, safe-array-concat 1.0.1, safe-regex-test 1.0.0, sass 1.63.2, schema-utils 3.3.0, schema-utils 4.2.0, selection-is-backward 1.0.0, set-function-length 1.1.1, set-function-name 2.0.1, sindresorhus/globals 13.23.0, sindresorhus/globby 11.1.0, sindresorhus/globby 13.2.2, stack-generator 2.0.10, stack-utils 2.0.6, stackframe 1.3.4, stacktrace-gps 3.1.2, stacktrace-js v2.0.2, stop-iteration-iterator 1.0.0, stretchr/objx v0.5.0, string-width 5.1.2, string.prototype.matchall 4.0.10, string.prototype.trim 1.2.8, string.prototype.trimend 1.0.7, string.prototype.trimstart 1.0.7, Strip ANSI 7.1.0, style-loader 3.3.3, stylis 4.2.0, stylis 4.3.0, swc-loader 0.2.3, terser-webpack-plugin 5.3.9, tidwall/gjson v1.17.0, tiny-invariant 1.3.1, tiny-warning 0.0.3, TinyColor 1.6.0, toggle-selection 1.0.6, ts-node 10.9.2, tsconfig-paths 4.2.0, typed-array-buffer 1.0.0, typed-array-byte-length 1.0.0, typed-array-byte-offset 1.0.0, typed-array-length 1.0.4, UAParser.js 1.0.37, unbox-primitive 1.0.2, universalify 2.0.1, update-browserslist-db 1.0.13, uplot 1.6.24, urfave-cli v1.22.14, use-isomorphic-layout-effect 1.1.2, use-memo-one 1.1.3, uuid 9.0.0, v8-compile-cache-lib 3.0.1, w3c-xmlserializer 4.0.0, watchpack 2.4.0, Webpack 5.89.0, webpack-cli 5.1.4, webpack-contrib/sass-loader 13.3.1, webpack-merge 5.10.0, which-typed-array 1.1.13, wrap-ansi 8.1.0, yaml for Go v3.0.1, yannickcr/eslint-plugin-react 7.32.2, yargs 17.7.2, yuin/goldmark v1.4.13, zstddec 0.1.0)
+(@aashutoshrathi/word-wrap 1.2.6, @adobe/css-tools 4.3.2, @babel/code-frame 7.23.5, @babel/compat-data 7.23.5, @babel/core 7.23.5, @babel/generator 7.23.5, @babel/helper-compilation-targets 7.22.15, @babel/helper-environment-visitor 7.22.20, @babel/helper-function-name 7.23.0, @babel/helper-hoist-variables 7.22.5, @babel/helper-module-imports 7.22.15, @babel/helper-module-transforms 7.23.3, @babel/helper-plugin-utils 7.22.5, @babel/helper-simple-access 7.22.5, @babel/helper-split-export-declaration 7.22.6, @babel/helper-string-parser 7.23.4, @babel/helper-validator-identifier 7.22.20, @babel/helper-validator-option 7.23.5, @babel/helpers 7.23.5, @babel/highlight 7.23.4, @babel/parser 7.23.5, @babel/plugin-syntax-jsx 7.23.3, @babel/plugin-syntax-typescript 7.23.3, @babel/runtime 7.23.5, @babel/template 7.22.15, @babel/types 7.23.5, @braintree/sanitize-url 6.0.2, @cspotcode/source-map-support 0.8.1, @emotion/babel-plugin 11.11.0, @emotion/cache 11.11.0, @emotion/css 11.10.6, @emotion/css 11.11.2, @emotion/hash 0.9.1, @emotion/memoize 0.8.1, @emotion/react 11.10.6, @emotion/react 11.11.1, @emotion/serialize 1.1.2, @emotion/sheet 1.2.2, @emotion/unitless 0.8.1, @emotion/use-insertion-effect-with-fallbacks 1.0.1, @emotion/utils 1.2.1, @emotion/weak-memoize 0.3.1, @es-joy/jsdoccomment 0.39.4, @eslint-community/eslint-utils 4.4.0, @eslint-community/regexpp 4.10.0, @eslint/eslintrc 2.1.4, @eslint/js 8.42.0, @eslint/js 8.55.0, @floating-ui/core 1.5.2, @floating-ui/dom 1.5.3, @floating-ui/utils 0.1.6, @formatjs/ecma402-abstract 1.18.0, @formatjs/fast-memoize 2.2.0, @formatjs/icu-messageformat-parser 2.7.3, @formatjs/icu-skeleton-parser 1.7.0, @formatjs/intl-localematcher 0.5.2, @jest/console 29.7.0, @jest/core 29.7.0, @jest/environment 29.7.0, @jest/expect 29.7.0, @jest/expect-utils 29.7.0, @jest/fake-timers 29.7.0, @jest/globals 29.7.0, @jest/reporters 29.7.0, @jest/schemas 29.6.3, @jest/source-map 29.6.3, @jest/test-result 29.7.0, @jest/test-sequencer 29.7.0, @jest/transform 29.7.0, @jest/types 29.6.3, @jridgewell/gen-mapping 0.3.3, @jridgewell/resolve-uri 3.1.1, @jridgewell/set-array 1.1.2, @jridgewell/source-map 0.3.5, @jridgewell/sourcemap-codec 1.4.15, @jridgewell/trace-mapping 0.3.20, @jridgewell/trace-mapping 0.3.9, @leeoniya/ufuzzy 1.0.6, @mapbox/jsonlint-lines-primitives 2.0.2, @monaco-editor/loader 1.4.0, @monaco-editor/react 4.4.6, @petamoriken/float16 3.8.4, @pkgjs/parseargs 0.11.0, @popperjs/core 2.11.6, @popperjs/core 2.11.8, @rc-component/portal 1.1.2, @sinclair/typebox 0.27.8, @swc/core-darwin-arm64 1.3.75, @swc/core-darwin-x64 1.3.75, @swc/core-linux-arm-gnueabihf 1.3.75, @swc/core-linux-arm64-gnu 1.3.75, @swc/core-linux-arm64-musl 1.3.75, @swc/core-linux-x64-gnu 1.3.75, @swc/core-linux-x64-musl 1.3.75, @swc/core-win32-arm64-msvc 1.3.75, @swc/core-win32-ia32-msvc 1.3.75, @swc/core-win32-x64-msvc 1.3.75, @swc/jest 0.2.29, @testing-library/dom 8.20.1, @testing-library/dom 9.3.3, @testing-library/jest-dom 6.1.5, @testing-library/react 12.1.5, @tsconfig/node10 1.0.9, @tsconfig/node12 1.0.11, @tsconfig/node14 1.0.3, @tsconfig/node16 1.0.4, @types/aria-query 5.0.4, @types/babel__core 7.20.5, @types/babel__generator 7.6.7, @types/babel__template 7.4.4, @types/babel__traverse 7.20.4, @types/cheerio 0.22.35, @types/d3-color 3.1.3, @types/d3-interpolate 3.0.4, @types/enzyme 3.10.18, @types/eslint 8.44.8, @types/eslint-scope 3.7.7, @types/estree 1.0.5, @types/graceful-fs 4.1.9, @types/hoist-non-react-statics 3.3.5, @types/istanbul-lib-coverage 2.0.6, @types/istanbul-lib-report 3.0.3, @types/istanbul-reports 3.0.4, @types/jest 29.5.11, @types/jsdom 20.0.1, @types/json-schema 7.0.15, @types/lodash 4.14.202, @types/node 18.19.3, @types/node 20.10.4, @types/parse-json 4.0.2, @types/prettier 2.7.3, @types/prop-types 15.7.11, @types/react 16.14.52, @types/react 17.0.71, @types/react 18.2.42, @types/react-dom 17.0.25, @types/react-redux 7.1.32, @types/react-router 5.1.20, @types/react-router-dom 5.3.3, @types/react-transition-group 4.4.10, @types/scheduler 0.16.8, @types/semver 7.5.6, @types/stack-utils 2.0.3, @types/tough-cookie 4.0.5, @types/yargs 16.0.9, @types/yargs 17.0.32, @types/yargs-parser 21.0.3, @typescript-eslint/eslint-plugin 5.59.9, @typescript-eslint/scope-manager 5.59.9, @typescript-eslint/scope-manager 5.62.0, @typescript-eslint/type-utils 5.59.9, @typescript-eslint/types 5.59.9, @typescript-eslint/types 5.62.0, @typescript-eslint/utils 5.59.9, @typescript-eslint/visitor-keys 5.59.9, @typescript-eslint/visitor-keys 5.62.0, @webassemblyjs/ast 1.11.6, @webassemblyjs/floating-point-hex-parser 1.11.6, @webassemblyjs/helper-api-error 1.11.6, @webassemblyjs/helper-buffer 1.11.6, @webassemblyjs/helper-numbers 1.11.6, @webassemblyjs/helper-wasm-bytecode 1.11.6, @webassemblyjs/helper-wasm-section 1.11.6, @webassemblyjs/ieee754 1.11.6, @webassemblyjs/utf8 1.11.6, @webassemblyjs/wasm-edit 1.11.6, @webassemblyjs/wasm-gen 1.11.6, @webassemblyjs/wasm-opt 1.11.6, @webassemblyjs/wasm-parser 1.11.6, @webassemblyjs/wast-printer 1.11.6, @webpack-cli/configtest 2.1.1, @webpack-cli/info 2.0.2, @webpack-cli/serve 2.0.5, @wojtekmaj/date-utils 1.5.1, Acorn 8.11.2, acorn-globals 7.0.1, acorn-import-assertions 1.9.0, acorn-walk 8.3.1, ajv 8.12.0, alecthomas-kingpin v2.4.0, alecthomas-units 20211218-snapshot-b94a6e3c, alecthomas/participle v2.1.0, andybalholm/brotli v1.0.5, ansi-styles 6.2.1, antchfx/xmlquery v1.4.0, antchfx/xpath v1.3.0, are-docs-informative 0.0.2, array-buffer-byte-length 1.0.0, array-includes 3.1.7, array-tree-filter 2.1.0, array.prototype.filter 1.0.3, array.prototype.flat 1.3.2, array.prototype.flatmap 1.3.2, array.prototype.tosorted 1.1.2, arraybuffer.prototype.slice 1.0.2, Async 2.6.4, babel-traverse 7.23.5, boolify 1.0.1, browserify/resolve 1.22.8, browserify/resolve 2.0.0-next.5, browserslist 4.22.2, builtin-modules 3.3.0, BurntSushi/toml 1.3.2, bvaughn/react-highlight-words 0.20.0, call-bind 1.0.5, cenkalti/backoff v4.3.0, cespare/xxhash v2.3.0, cheerio 1.0.0-rc.12, chromedp/cdproto 20220208-snapshot-6efb837e, ci-info 3.9.0, cjs-module-lexer 1.2.3, classes 1.2.6, classnames 2.3.2, clsx 1.2.1, collect-v8-coverage 1.0.2, color-string 1.9.1, colorette 2.0.20, Commander.js 10.0.1, compute-scroll-into-view 3.1.0, convert-source-map 1.9.0, convert-source-map 2.0.0, copy-to-clipboard 3.3.3, copy-webpack-plugin 11.0.0, core-js 3.28.0, core-js 3.34.0, cosmiconfig 7.1.0, cpuguy83-go-md2man v2.0.4, css-loader 6.8.1, csstype 3.1.3, DamonOehlman/wildcard 2.0.1, data-urls 3.0.2, date-fns/date-fns 2.29.3, decimal.js 10.4.3, dedent 1.5.1, deepmerge 4.3.1, define-data-property 1.1.1, define-properties 1.2.1, dequal 2.0.3, dlv 1.1.3, dom-accessibility-api 0.5.16, dom-align 1.12.4, dom-serializer 2.0.0, downshift 8.2.3, eastasianwidth 0.2.0, emittery 0.13.1, enhanced-resolve 5.15.0, envinfo 7.11.0, enzymejs 1.0.5, error 7.2.1, error-stack-parser 2.1.4, es-abstract 1.22.3, es-get-iterator 1.1.3, es-module-lexer 1.4.1, es-set-tostringtag 2.0.2, es-shim-unscopables 1.0.2, ESLint 8.42.0, ESLint 8.55.0, eslint-config-prettier 8.8.0, eslint-plugin-react-hooks 4.6.0, eslint-webpack-plugin 4.0.1, eventemitter3 5.0.0, expect 29.7.0, fast-glob 3.3.2, fast_array_intersect 1.1.0, fastcache v1.12.2, fastest-levenshtein 1.0.16, fatih-color 1.15.0, felixge/fgprof v0.9.3, felixge/httpsnoop v1.0.4, file-selector 0.6.0, flat-cache 3.2.0, fork-ts-checker-webpack-plugin 8.0.0, fs-extra 10.1.0, fsevents 2.3.3, function-bind 1.1.2, function.prototype.name 1.1.6, functions-have-names 1.2.3, geotiff 2.1.0, get-document 1.0.0, get-intrinsic 1.2.2, get-user-locale 1.5.1, getkin/kin-openapi v0.124.0, github.com/antihax/optional 1.0.0, github.com/go-kit/log v0.2.1, github.com/invopop/yaml v0.2.0, globalthis 1.0.3, go humanize 1.0.1, Go Testify v1.9.0, go-restful v3.8.0, go.uber.org/goleak v1.3.0, goccy/go-json v0.10.2, goccy/go-yaml v1.11.0, goconvey 20190121-snapshot-044398e4, gopd 1.0.1, govalidator 20190424-snapshot-f61b66f8, graphemer 1.4.0, hamba/avro v2.17.2, has 1.0.4, has-bigints 1.0.2, has-property-descriptors 1.0.1, has-proto 1.0.1, hashicorp/go-hclog v1.6.3, hasown 2.0.0, html-parse-stringify v3.0.1, htmlparser2 8.0.2, http-parser-js 0.5.8, https-proxy-agent 5.0.1, i18next/i18next 22.5.1, ianstormtaylor/slate 0.2.115, ianstormtaylor/slate 0.2.9, ianstormtaylor/slate 0.47.9, immutable-js 4.2.4, immutable-js 4.3.4, inline-style-prefixer 7.0.0, internal-slot 1.0.6, interpret 3.1.1, invopop/jsonschema v0.12.0, is-array-buffer 3.0.2, is-builtin-module 3.2.1, is-callable 1.2.7, is-core-module 2.13.1, is-in-browser 1.1.3, is-number-object 1.0.7, is-shared-array-buffer 1.0.2, is-typed-array 1.1.12, isomorphic-base64 1.0.2, JedWatson/react-select 5.7.0, Jest from Facebook 29.6.3, Jest from Facebook 29.7.0, jest-changed-files 29.7.0, jest-config 29.7.0, jest-diff 29.7.0, jest-each 29.7.0, jest-environment-jsdom 29.7.0, jest-environment-node 29.7.0, jest-get-type 29.6.3, jest-haste-map 29.7.0, jest-leak-detector 29.7.0, jest-matcher-utils 29.7.0, jest-message-util 29.7.0, jest-pnp-resolver 1.2.3, jest-regex-util 29.6.3, jest-resolve 29.7.0, jest-resolve-dependencies 29.7.0, jest-runner 29.7.0, jest-runtime 29.7.0, jest-snapshot 29.7.0, jest-util 29.7.0, jest-validate 29.7.0, jest-worker 29.7.0, jestjs/jest 29.7.0, JohnCGriffin/overflow 20211019-snapshot-46fa312c, jQuery 3.6.3, js-xss 1.0.14, jsdoc-type-pratt-parser 4.0.0, jsdom 20.0.3, jsonc-parser 3.2.0, jsx-ast-utils 3.3.5, keyv 4.5.4, klauspost-cpuid v2.2.5, klauspost/asmfmt v1.3.2, klona 2.0.6, kr/pretty v0.3.1, ljharb/object.assign 4.1.5, loader-runner 4.3.0, loglevel 1.8.1, lukechampine/uint128 v1.3.0, lz-string 1.5.0, make-dir 4.0.0, mapstructure v1.5.0, markedjs 4.2.12, mattn-go-colorable 0.1.13, mattn-go-isatty v0.0.19, minimist 1.2.8, moment-timezone 0.5.41, moment/moment 2.29.4, monaco-editor 0.34.0, nanoid 3.3.7, natural-compare 1.4.0, natural-compare-lite 1.4.0, node-abort-controller 3.1.1, node-deep-equal 2.2.3, node-ignore 5.3.0, node-mkdirp 0.5.6, node-releases 2.0.14, nodeca/pako 2.1.0, nwsapi 2.2.7, object-inspect 1.13.1, object.entries 1.1.7, object.fromentries 2.0.7, object.hasown 1.1.3, object.values 1.1.7, optionator 0.9.3, PapaParse 5.3.2, parse5 7.0.0, parse5 7.1.2, pirates 4.0.6, portfinder 1.0.32, PostCSS 8.4.32, postcss-modules-local-by-default 4.0.3, postcss-selector-parser 6.0.13, prettier 2.8.8, prettier-eslint 14.1.0, prettier-eslint 15.0.1, prettier-eslint-cli 6.0.1, pretty-format 23.6.0, pretty-format 29.7.0, PrismJS 1.29.0, psl 1.9.0, Punycode.js 2.3.1, pure-rand 6.0.4, Qix/color 4.2.3, quick-lru 6.1.2, rc-align 4.0.15, rc-cascader 3.8.0, rc-drawer 6.1.3, rc-motion 2.9.0, rc-overflow 1.3.2, rc-resize-observer 1.4.0, rc-select 14.2.2, rc-slider 10.1.1, rc-tooltip 5.3.1, rc-tree 5.7.12, rc-trigger 5.3.4, rc-util 5.38.1, rc-virtual-list 3.11.3, react-calendar 4.0.0, react-colorful 5.6.1, react-custom-scrollbars-2 4.5.0, react-dropzone 14.2.3, react-fast-compare 3.2.2, react-from-dom 0.6.2, react-i18next 12.3.1, react-inlinesvg 3.0.2, react-is 18.2.0, react-popper 2.3.0, react-popper-tooltip 4.4.2, react-router-dom 5.3.4, react-select-event 5.5.1, react-table 7.8.0, react-window 1.8.8, reactredux 7.2.9, reacttraining/react-router 5.3.4, Redux JS 4.2.1, regenerator-runtime 0.11.1, regenerator-runtime 0.13.11, regenerator-runtime 0.14.0, regexp.prototype.flags 1.5.1, require-relative 0.8.7, resolve.exports 2.0.2, rtl-css-js 1.16.1, safe-array-concat 1.0.1, safe-regex-test 1.0.0, sass 1.63.2, schema-utils 3.3.0, schema-utils 4.2.0, selection-is-backward 1.0.0, set-function-length 1.1.1, set-function-name 2.0.1, sindresorhus/globals 13.23.0, sindresorhus/globby 11.1.0, sindresorhus/globby 13.2.2, stack-generator 2.0.10, stack-utils 2.0.6, stackframe 1.3.4, stacktrace-gps 3.1.2, stacktrace-js v2.0.2, stoewer/go-strcase v1.3.0, stop-iteration-iterator 1.0.0, stretchr/objx v0.5.2, string-width 5.1.2, string.prototype.matchall 4.0.10, string.prototype.trim 1.2.8, string.prototype.trimend 1.0.7, string.prototype.trimstart 1.0.7, Strip ANSI 7.1.0, style-loader 3.3.3, stylis 4.2.0, stylis 4.3.0, swc-loader 0.2.3, terser-webpack-plugin 5.3.9, tidwall/gjson v1.17.1, tidwall/sjson v1.2.5, tiny-invariant 1.3.1, tiny-warning 0.0.3, TinyColor 1.6.0, toggle-selection 1.0.6, ts-node 10.9.2, tsconfig-paths 4.2.0, typed-array-buffer 1.0.0, typed-array-byte-length 1.0.0, typed-array-byte-offset 1.0.0, typed-array-length 1.0.4, UAParser.js 1.0.37, unbox-primitive 1.0.2, undici-types 5.26.5, universalify 2.0.1, update-browserslist-db 1.0.13, uplot 1.6.24, urfave-cli v1.22.15, use-isomorphic-layout-effect 1.1.2, use-memo-one 1.1.3, uuid 9.0.0, v8-compile-cache-lib 3.0.1, w3c-xmlserializer 4.0.0, watchpack 2.4.0, Webpack 5.89.0, webpack-cli 5.1.4, webpack-contrib/sass-loader 13.3.1, webpack-merge 5.10.0, which-typed-array 1.1.13, wrap-ansi 8.1.0, yaml for Go v3.0.1, yannickcr/eslint-plugin-react 7.32.2, yargs 17.7.2, yuin/goldmark v1.4.13, zstddec 0.1.0)
 
 The MIT License
 ===============
@@ -7090,82 +6762,6 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
----
-
-MIT License
-(require-from-string 2.0.2)
-
-Upstream-Contact: https://github.com/floatdrop/require-from-string/issues
-Source: https://github.com/floatdrop/require-from-string#readme
-
-Files: *
-Copyright: 2017 Vsevolod Strukchinsky <floatdrop@gmail.com> (github.com/floatdrop)
-License: Expat
-
-Files: debian/*
-Copyright: 2017 Pirate Praveen <praveen@debian.org>
-License: Expat
-
-License: Expat
-
-Permission is hereby granted, free of charge, to any person
- obtaining a copy of this software and associated documentation files
- (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge,
- publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
- .
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE
-
----
-
-MIT License
-(object-assign 4.1.1)
-
-Upstream-Contact: https://github.com/sindresorhus/object-assign/issues
-Source: https://github.com/sindresorhus/object-assign#readme
-
-Files: *
-Copyright: Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-License: Expat
-
-Files: debian/*
-Copyright: 2016, Sruthi Chandran <srud@disroot.org>
-License: Expat
-
-License: Expat
-
-Permission is hereby granted, free of charge, to any person
- obtaining a copy of this software and associated documentation files
- (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge,
- publish, distribute, sublicense, and/or sell copies of the Software,
- and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
- .
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE
 
 ---
 
@@ -7196,7 +6792,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 ---
 
 MIT License
-(systemjs/systemjs 0.20.19)
+(SystemJS 0.20.19)
 
 MIT License
 -----------
@@ -7415,7 +7011,46 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 ---
 
 MIT License
-(css-in-js-utils 3.1.0, fast-loops 1.1.3)
+(normalize-path 3.0.0)
+
+Upstream-Contact: https://github.com/jonschlinkert/normalize-path/issues
+Source: https://github.com/jonschlinkert/normalize-path
+
+Files: *
+Copyright: 2014-2018, Jon Schlinkert (https://github.com/jonschlinkert)
+License: Expat
+
+Files: debian/*
+Copyright: 2016, Sruthi Chandran <srud@disroot.org>
+ 2019, Xavier Guimard <yadd@debian.org>
+License: Expat
+
+License: Expat
+
+Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation files
+ (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge,
+ publish, distribute, sublicense, and/or sell copies of the Software,
+ and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE
+
+---
+
+MIT License
+(css-in-js-utils 3.1.0)
 
 MIT License
 
@@ -7496,7 +7131,7 @@ SOFTWARE
 ---
 
 MIT License
-(ansi-regex 3.0.1, ansi-regex 4.1.1, ansi-regex 5.0.1, ansi-styles 3.2.1, ansi-styles 5.2.0, ansi-styles v4.3.0, array-union v2.1.0, arrify 2.0.1, callsites 3.1.0, Chalk 4.1.2, Chalk v3.0.0, escape-string-regexp v2.0.0, find-up 3.0.0, get-stdin 7.0.0, has-flag 3.0.0, has-flag 4.0.0, import-local 3.1.0, indent-string v4.0.0, is-fullwidth-code-point 3.0.0, is-generator-fn 2.1.0, is-path-inside 3.0.3, leven 3.1.0, locate-path 3.0.0, locate-path v5.0.0, mimic-fn 2.1.0, npm-run-path 4.0.1, p-limit 2.3.0, p-locate 3.0.0, p-locate 4.1.0, p-try 2.2.0, parent-module 1.0.1, path-exists 4.0.0, path-key 3.1.1, path-type 4.0.0, quick-lru 4.0.1, redent 3.0.0, resolve-cwd 3.0.0, resolve-from 4.0.0, resolve-from 5.0.0, screenfull 5.2.0, shebang-regex 3.0.0, string-width 4.2.3, string-width v3.1.0, Strip ANSI 5.2.0, Strip ANSI 6.0.1, strip-bom 4.0.0, strip-final-newline 2.0.0, strip-indent v3.0.0, supports-color 5.5.0, supports-color v7.2.0, wrap-ansi v5.1.0, yn v3.1.1)
+(ansi-regex 3.0.1, ansi-regex 4.1.1, ansi-regex 5.0.1, ansi-styles 3.2.1, ansi-styles 5.2.0, ansi-styles v4.3.0, array-union v2.1.0, arrify 2.0.1, callsites 3.1.0, Chalk 4.1.2, Chalk v3.0.0, escape-string-regexp v2.0.0, find-up 3.0.0, get-stdin 7.0.0, has-flag 3.0.0, has-flag 4.0.0, import-local 3.1.0, indent-string v4.0.0, is-fullwidth-code-point 3.0.0, is-generator-fn 2.1.0, is-path-inside 3.0.3, leven 3.1.0, locate-path 3.0.0, locate-path v5.0.0, mimic-fn 2.1.0, npm-run-path 4.0.1, p-limit 2.3.0, p-locate 3.0.0, p-locate 4.1.0, p-try 2.2.0, parent-module 1.0.1, path-exists 4.0.0, path-key 3.1.1, path-type 4.0.0, quick-lru 4.0.1, redent 3.0.0, resolve-cwd 3.0.0, resolve-from 4.0.0, resolve-from 5.0.0, screenfull 5.2.0, shebang-regex 3.0.0, sindresorhus/supports-color 5.5.0, sindresorhus/supports-color v7.2.0, string-width 4.2.3, string-width v3.1.0, Strip ANSI 5.2.0, Strip ANSI 6.0.1, strip-bom 4.0.0, strip-final-newline 2.0.0, strip-indent v3.0.0, wrap-ansi v5.1.0, yn v3.1.1)
 
 MIT License
 
@@ -7641,7 +7276,7 @@ DEALINGS IN THE SOFTWARE
 ---
 
 MIT License
-(ansi-escapes 4.3.2, ansi-regex 6.0.1, camelcase 6.3.0, escape-string-regexp v4.0.0, execa 5.1.1, find-up v5.0.0, get-stream 6.0.1, import-fresh 3.3.0, map-obj 4.3.0, p-limit 3.1.0, p-locate v5.0.0, parse-json v5.2.0, sindresorhus/is-stream 2.0.1, sindresorhus/onetime v5.1.2, sindresorhus/slash 4.0.0, string-length 4.0.2, supports-color 8.1.1, wrap-ansi v7.0.0, yocto-queue 0.1.0)
+(ansi-escapes 4.3.2, ansi-regex 6.0.1, camelcase 6.3.0, escape-string-regexp v4.0.0, execa 5.1.1, find-up v5.0.0, get-stream 6.0.1, import-fresh 3.3.0, map-obj 4.3.0, p-limit 3.1.0, p-locate v5.0.0, parse-json v5.2.0, sindresorhus/is-stream 2.0.1, sindresorhus/onetime v5.1.2, sindresorhus/slash 4.0.0, sindresorhus/supports-color 8.1.1, string-length 4.0.2, wrap-ansi v7.0.0, yocto-queue 0.1.0)
 
 MIT License
 
@@ -7789,7 +7424,7 @@ Permission is hereby granted, free of charge, to any person obtaining a
 ---
 
 MIT License
-(@jest/create-cache-key-function 27.5.1, @jest/types 27.5.1, jest-worker 27.5.1, pretty-format 27.5.1, React from Facebook 16.13.1, React from Facebook 17.0.2, scheduler 0.20.2)
+(@jest/create-cache-key-function 27.5.1, @jest/types 27.5.1, jest-worker 27.5.1, pretty-format 27.5.1, react 17.0.2, react-dom 17.0.2, react-is 16.13.1, react-is 17.0.2, scheduler 0.20.2)
 
 MIT License
 
@@ -7816,7 +7451,7 @@ SOFTWARE
 ---
 
 MIT License
-(clone-deep 4.0.1, normalize-path 3.0.0)
+(clone-deep 4.0.1)
 
 The MIT License (MIT)
 
@@ -8169,12 +7804,12 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
@@ -8745,6 +8380,33 @@ SOFTWARE
 ---
 
 MIT License
+(buger/jsonparser 1.1.1)
+
+MIT License
+
+Copyright (c) 2016 Leonid Bugaev
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE
+
+---
+
+MIT License
 (is-subset 0.1.1)
 
 Copyright © 2015 Studio B12 GmbH
@@ -8802,12 +8464,12 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
@@ -8899,7 +8561,7 @@ MIT License
 
     Copyright (c) Microsoft Corporation.
 
-
+   
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -9663,58 +9325,6 @@ THE SOFTWARE
 ---
 
 MIT License
-(go.uber.org/multierr v1.6.0)
-
-Copyright (c) 2017 Uber Technologies, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE
-
----
-
-MIT License
-(Go Logrus v1.4.2)
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Simon Eskildsen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE
-
----
-
-MIT License
 (sindresorhus/slash v3.0.0)
 
 Upstream-Contact: https://github.com/sindresorhus/slash/issues
@@ -9777,35 +9387,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
-
----
-
-MIT License
-(creack/pty v1.1.9, pty v1.1.1)
-
-Copyright (c) 2011 Keith Rarick
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute,
-sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall
-be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
-KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
 
@@ -10312,7 +9893,7 @@ MIT License, as follows:
 
     Copyright Mathias Bynens <https://mathiasbynens.be/>
 
-
+   
 
 Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -10490,11 +10071,38 @@ Permission is hereby granted, free of charge, to any person
 ---
 
 MIT License
-(ansi-regex 2.1.1, ansi-styles 2.2.1, Decamelize 1.2.0, escape-string-regexp 1.0.5, has-ansi 2.0.0, is-fullwidth-code-point 2.0.0, path-exists 3.0.0, path-is-absolute 1.0.1, Strip ANSI 3.0.1, supports-color 2.0.0)
+(ansi-regex 2.1.1, ansi-styles 2.2.1, Decamelize 1.2.0, escape-string-regexp 1.0.5, has-ansi 2.0.0, is-fullwidth-code-point 2.0.0, object-assign 4.1.1, path-exists 3.0.0, path-is-absolute 1.0.1, sindresorhus/supports-color 2.0.0, Strip ANSI 3.0.1, strip-bom 3.0.0)
 
 The MIT License (MIT)
 
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE
+
+---
+
+MIT License
+(require-from-string 2.0.2)
+
+The MIT License (MIT)
+
+Copyright (c) Vsevolod Strukchinsky <floatdrop@gmail.com> (github.com/floatdrop)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -10537,33 +10145,6 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-
----
-
-MIT License
-(client9/misspell v0.3.4)
-
-The MIT License (MIT)
-
-Copyright (c) 2015-2017 Nick Galbreath
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE
 
 ---
 
@@ -10639,25 +10220,25 @@ MIT License
 
 Copyright (c) 2013 Dominic Tarr
 
-Permission is hereby granted, free of charge,
-to any person obtaining a copy of this software and
-associated documentation files (the "Software"), to
-deal in the Software without restriction, including
-without limitation the rights to use, copy, modify,
-merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom
-the Software is furnished to do so,
+Permission is hereby granted, free of charge, 
+to any person obtaining a copy of this software and 
+associated documentation files (the "Software"), to 
+deal in the Software without restriction, including 
+without limitation the rights to use, copy, modify, 
+merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom 
+the Software is furnished to do so, 
 subject to the following conditions:
 
-The above copyright notice and this permission notice
+The above copyright notice and this permission notice 
 shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
-ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
@@ -11085,19 +10666,19 @@ MIT License
 
 Copyright (c) 2014 TJ Holowaychuk <tj@vision-media.ca>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-and associated documentation files (the 'Software'), to deal in the Software without restriction,
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the 'Software'), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial
+The above copyright notice and this permission notice shall be included in all copies or substantial 
 portions of the Software.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
@@ -11141,21 +10722,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-
----
-
-MIT License
-(github.com/konsorten/go-windows-terminal-sequences v1.0.1)
-
-(The MIT License)
-
-Copyright (c) 2017 marvin + konsorten GmbH (open-source@konsorten.de)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 ---
 
@@ -11213,31 +10779,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-
----
-
-MIT License
-(uber-go/atomic 1.7.0)
-
-Copyright (c) 2016 Uber Technologies, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE
 
 ---
 
@@ -11315,33 +10856,6 @@ MIT License
 MIT License
 
 Copyright (c) 2020 Roman Dvornov <rdvornov@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE
-
----
-
-MIT License
-(benbjohnson-clock v1.1.0)
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Ben Johnson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -11860,7 +11374,7 @@ EXHIBIT A -Mozilla Public License.
 ---
 
 Mozilla Public License 2.0
-(DOMPurify 2.4.7, hashicorp-go-plugin v1.6.0, hashicorp-yamux v0.1.1)
+(DOMPurify 2.4.7, hashicorp-go-plugin v1.6.1, hashicorp-yamux v0.1.1)
 
 Mozilla Public License
 Version 2.0
@@ -11894,12 +11408,12 @@ Version 2.0
 
   means
 
-    a.
+    a. 
 
       that the initial Contributor has attached the notice described in Exhibit B
       to the Covered Software; or
 
-    b.
+    b. 
 
       that the Covered Software was made available under the terms of version 1.1
       or earlier of the License, but not also under the terms of a Secondary
@@ -11928,12 +11442,12 @@ Version 2.0
 
   means any of the following:
 
-    a.
+    a. 
 
       any file in Source Code Form that results from an addition to, deletion
       from, or modification of the contents of Covered Software; or
 
-    b.
+    b. 
 
       any new file in Source Code Form that contains any Covered Software.
 
@@ -11975,7 +11489,7 @@ Version 2.0
   Each Contributor hereby grants You a world-wide, royalty-free, non-exclusive
   license:
 
-    a.
+    a. 
 
       under intellectual property rights (other than patent or trademark)
       Licensable by such Contributor to use, reproduce, make available, modify,
@@ -11983,7 +11497,7 @@ Version 2.0
       either on an unmodified basis, with Modifications, or as part of a Larger
       Work; and
 
-    b.
+    b. 
 
       under Patent Claims of such Contributor to make, use, sell, offer for sale,
       have made, import, and otherwise transfer either its Contributions or its
@@ -12004,18 +11518,18 @@ Version 2.0
   or licensing of Covered Software under this License. Notwithstanding
   Section 2.1(b) above, no patent license is granted by a Contributor:
 
-    a.
+    a. 
 
       for any code that a Contributor has removed from Covered Software; or
 
-    b.
+    b. 
 
       for infringements caused by: (i) Your and any other third party's
       modifications of Covered Software, or (ii) the combination of its
       Contributions with other software (except as part of its Contributor
       Version); or
 
-    c.
+    c. 
 
       under Patent Claims infringed by Covered Software in the absence of its
       Contributions.
@@ -12070,7 +11584,7 @@ Version 2.0
 
   If You distribute Covered Software in Executable Form then:
 
-    a.
+    a. 
 
       such Covered Software must also be made available in Source Code Form, as
       described in Section 3.1, and You must inform recipients of the Executable
@@ -12078,7 +11592,7 @@ Version 2.0
       means in a timely manner, at a charge no more than the cost of distribution
       to the recipient; and
 
-    b.
+    b. 
 
       You may distribute such Executable Form under the terms of this License, or
       sublicense it under different terms, provided that the license for the
@@ -12462,34 +11976,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to http://unlicense.org/
-
----
-
-zlib License
-(nodeca/pako 2.1.0)
-
-The zlib/libpng License
-=======================
-
-Copyright (c) <year> <copyright holders>
-
-This software is provided 'as-is', without any express or implied warranty. In no
-event will the authors be held liable for any damages arising from the use of
-this software.
-
-Permission is granted to anyone to use this software for any purpose, including
-commercial applications, and to alter it and redistribute it freely, subject to
-the following restrictions:
-
-      1. The origin of this software must not be misrepresented; you must not
-      claim that you wrote the original software. If you use this software in a
-      product, an acknowledgment in the product documentation would be
-      appreciated but is not required.
-
-      2. Altered source versions must be plainly marked as such, and must not be
-      misrepresented as being the original software.
-
-      3. This notice may not be removed or altered from any source distribution.
 
 ---
 
