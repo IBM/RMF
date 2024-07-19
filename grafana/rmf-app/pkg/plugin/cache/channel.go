@@ -24,29 +24,33 @@ import (
 	"github.com/VictoriaMetrics/fastcache"
 )
 
-const channelCacheSize = 128 * 1024 * 1024
-
-var channelCache *fastcache.Cache
-
-func init() {
-	channelCache = fastcache.New(channelCacheSize)
+type ChannelCache struct {
+	cache *fastcache.Cache
 }
 
-func GetChannelQuery(path string) (*typ.QueryModel, error) {
+func NewChannelCache(size int) *ChannelCache {
+	return &ChannelCache{cache: fastcache.New(size * 1024 * 1024)}
+}
+
+func (cc *ChannelCache) GetChannelQuery(path string) (*typ.QueryModel, error) {
 	var query typ.QueryModel
-	queryBytes := channelCache.Get(nil, []byte(path))
+	queryBytes := cc.cache.Get(nil, []byte(path))
 	err := json.Unmarshal(queryBytes, &query)
 	return &query, err
 }
 
-func SetChannelQuery(path string, query *typ.QueryModel) error {
+func (cc *ChannelCache) SetChannelQuery(path string, query *typ.QueryModel) error {
 	queryBytes, err := json.Marshal(*query)
 	if err == nil {
-		channelCache.Set([]byte(path), queryBytes)
+		cc.cache.Set([]byte(path), queryBytes)
 	}
 	return err
 }
 
-func HasChannelQuery(path string) bool {
-	return channelCache.Has([]byte(path))
+func (cc *ChannelCache) HasChannelQuery(path string) bool {
+	return cc.cache.Has([]byte(path))
+}
+
+func (cc *ChannelCache) Reset() {
+	cc.cache.Reset()
 }

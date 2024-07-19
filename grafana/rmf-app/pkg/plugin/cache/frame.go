@@ -31,17 +31,17 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-const frameCacheSize = 1024 * 1024 * 1024
-
-var frameCache *fastcache.Cache
-
-func init() {
-	frameCache = fastcache.New(frameCacheSize)
+type FrameCache struct {
+	cache *fastcache.Cache
 }
 
-func getCacheItemValues(key []byte) ([]typ.CacheItemValue, error) {
+func NewFrameCache(size int) *FrameCache {
+	return &FrameCache{cache: fastcache.New(size * 1024 * 1024)}
+}
+
+func (fc *FrameCache) getCacheItemValues(key []byte) ([]typ.CacheItemValue, error) {
 	var cacheItemValues []typ.CacheItemValue
-	byteCacheItemValues := frameCache.GetBig(nil, key)
+	byteCacheItemValues := fc.cache.GetBig(nil, key)
 	if byteCacheItemValues == nil {
 		return cacheItemValues, errors.New("could not obtain cache item values in getCacheItemValues()")
 	} else {
@@ -53,7 +53,7 @@ func getCacheItemValues(key []byte) ([]typ.CacheItemValue, error) {
 	return cacheItemValues, nil
 }
 
-func getFilteredCacheItemValues(cacheItemValues []typ.CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []typ.CacheItemValue {
+func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []typ.CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []typ.CacheItemValue {
 	var filteredCacheItemValues []typ.CacheItemValue
 	var plotReverse bool
 	if len(plotAbsoluteReverse) > 0 {
@@ -84,21 +84,21 @@ func getFilteredCacheItemValues(cacheItemValues []typ.CacheItemValue, queryModel
 	return filteredCacheItemValues
 }
 
-func GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
 	logger := log.Logger.With("func", "GetFrame")
 	var (
 		resultframe             *data.Frame
 		filteredCacheItemValues []typ.CacheItemValue
 	)
-	cacheItemValues, err := getCacheItemValues(qm.CacheKey())
+	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
 	if err != nil {
 		logger.Info("cache item values not obtained", "error", err)
 	}
 	if len(cacheItemValues) > 0 {
 		if len(plotAbsoluteReverse) > 0 {
-			filteredCacheItemValues = getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse[0])
+			filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse[0])
 		} else {
-			filteredCacheItemValues = getFilteredCacheItemValues(cacheItemValues, qm)
+			filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm)
 		}
 		if len(filteredCacheItemValues) > 0 {
 			var matchedCacheItem *typ.CacheItemValue
@@ -121,26 +121,26 @@ func GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, err
 	return resultframe, nil
 }
 
-func SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
+func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 	logger := log.Logger.With("func", "SaveFrame")
 
-	cacheItemValues, err := getCacheItemValues(qm.CacheKey())
+	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
 	if err != nil {
 		logger.Info("cache item values not obtained", "error", err)
 	}
-	cacheItemValue := createCacheItemValue(frame, qm)
+	cacheItemValue := fc.createCacheItemValue(frame, qm)
 	cacheItemValues = append(cacheItemValues, cacheItemValue)
-	cacheItemValues = sortCacheItemValuesSlice(cacheItemValues)
+	cacheItemValues = fc.sortCacheItemValuesSlice(cacheItemValues)
 
 	if cacheItemValueBytes, err := json.Marshal(cacheItemValues); err != nil {
 		return err
 	} else {
-		frameCache.SetBig(qm.CacheKey(), cacheItemValueBytes)
+		fc.cache.SetBig(qm.CacheKey(), cacheItemValueBytes)
 	}
 	return nil
 }
 
-func createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) typ.CacheItemValue {
+func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) typ.CacheItemValue {
 	var (
 		cacheItemValue typ.CacheItemValue
 	)
@@ -154,10 +154,14 @@ func createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) typ.CacheItemVa
 	return cacheItemValue
 }
 
-func sortCacheItemValuesSlice(cacheItemValues []typ.CacheItemValue) []typ.CacheItemValue {
+func (fc *FrameCache) sortCacheItemValuesSlice(cacheItemValues []typ.CacheItemValue) []typ.CacheItemValue {
 	// Sort the array
 	sort.Slice(cacheItemValues, func(i, j int) bool {
 		return cacheItemValues[i].ValueKey.Before(cacheItemValues[j].ValueKey)
 	})
 	return cacheItemValues
+}
+
+func (fc *FrameCache) Reset() {
+	fc.cache.Reset()
 }

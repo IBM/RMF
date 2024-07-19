@@ -54,17 +54,26 @@ var (
 	_ backend.StreamHandler         = (*RMFDatasource)(nil)
 )
 
+// There's up to two queries per channel to be cached.
+// One query takes about 1KB of memory.
+// So, 16MB means about 8k channels per data source.
+const ChannelCacheSizeMB = 16
+
 type RMFDatasource struct {
-	endpoint   *typ.DatasourceEndpointModel
-	ddsOptions DdsOptions
-	stopChan   chan struct{}
-	waitGroup  sync.WaitGroup
+	channelCache *cache.ChannelCache
+	frameCache   *cache.FrameCache
+	endpoint     *typ.DatasourceEndpointModel
+	ddsOptions   DdsOptions
+	stopChan     chan struct{}
+	waitGroup    sync.WaitGroup
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	ds := &RMFDatasource{
-		stopChan: make(chan struct{}),
+		channelCache: cache.NewChannelCache(ChannelCacheSizeMB),
+		frameCache:   cache.NewFrameCache(pluginConfig.cache.size),
+		stopChan:     make(chan struct{}),
 	}
 	endpoint, err := umf.UnmarshalEndpointModel(settings)
 	if err != nil {
@@ -85,6 +94,8 @@ func (ds *RMFDatasource) Dispose() {
 	defer log.LogAndRecover(logger)
 	close(ds.stopChan)
 	ds.waitGroup.Wait()
+	ds.channelCache.Reset()
+	ds.frameCache.Reset()
 }
 
 // CheckHealth handles health checks sent from Grafana to the plugin.
@@ -189,6 +200,11 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 	logger := log.Logger.With("func", "QueryData")
 	// Recover from any panic so as to not bring down this backend datasource
 	defer log.LogAndRecover(logger)
+	if req.PluginContext.AppInstanceSettings != nil {
+		logger.Warn(string(req.PluginContext.AppInstanceSettings.JSONData))
+	} else {
+		logger.Warn("AppInstanceSettings is nil")
+	}
 
 	queryDataResponse := backend.NewQueryDataResponse()
 	for _, query := range req.Queries {
@@ -242,7 +258,7 @@ func (ds *RMFDatasource) createChannelForStreaming(pCtx backend.PluginContext, q
 		Path:      channelPath,
 	}
 	frame.SetMeta(&data.FrameMeta{Channel: channel.String()})
-	return cache.SetChannelQuery(channelPath, query)
+	return ds.channelCache.SetChannelQuery(channelPath, query)
 }
 
 // RunStream is called once for any open channel.  Results are shared with everyone
@@ -253,7 +269,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	defer log.LogAndRecover(logger)
 
 	var err error
-	query, err := cache.GetChannelQuery(req.Path)
+	query, err := ds.channelCache.GetChannelQuery(req.Path)
 	if err != nil {
 		return err
 	}
@@ -333,7 +349,7 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame", "error", err)
 			}
-			err = cache.SetChannelQuery(req.Path, matchedQueryModel)
+			err = ds.channelCache.SetChannelQuery(req.Path, matchedQueryModel)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to save frame in cache", "error", err)
 			}
@@ -349,7 +365,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 	seriesFields := framef.SeriesFields{}
 	duration := matchedQueryModel.TimeRangeTo.Sub(matchedQueryModel.TimeRangeFrom)
 
-	histQueryModel, err := cache.GetChannelQuery(req.Path + "/h")
+	histQueryModel, err := ds.channelCache.GetChannelQuery(req.Path + "/h")
 	if err != nil {
 		histQueryModel = matchedQueryModel.Copy()
 		histQueryModel.AbsoluteTimeSelected = true
@@ -380,7 +396,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame for historical data", "error", err)
 			}
-			err = cache.SetChannelQuery(req.Path+"/h", matchedQueryModel)
+			err = ds.channelCache.SetChannelQuery(req.Path+"/h", matchedQueryModel)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to save frame in cache", "error", err)
 			}
@@ -401,7 +417,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 					return log.ErrorWithId(logger, log.InternalError, "failed to send frame for relative data", "error", err)
 				}
 				// Save the query model in cache
-				err = cache.SetChannelQuery(req.Path, matchedQueryModel)
+				err = ds.channelCache.SetChannelQuery(req.Path, matchedQueryModel)
 				if err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "failed to save frame in cache", "error", err)
 				}
@@ -425,10 +441,10 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, p
 		// else get frame from the server through a service call
 		if len(plotAbsoluteReverse) > 0 {
 			qf.SetQueryTimeRange(queryModel, plotAbsoluteReverse[0])
-			newFrame, _ = cache.GetFrame(queryModel, plotAbsoluteReverse[0])
+			newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse[0])
 		} else {
 			qf.SetQueryTimeRange(queryModel)
-			newFrame, _ = cache.GetFrame(queryModel)
+			newFrame, _ = ds.frameCache.GetFrame(queryModel)
 		}
 	}
 
@@ -438,7 +454,7 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, p
 		if err != nil {
 			return nil, log.FrameErrorWithId(logger, err)
 		} else {
-			if err = cache.SaveFrame(newFrame, queryModel); err != nil {
+			if err = ds.frameCache.SaveFrame(newFrame, queryModel); err != nil {
 				return nil, log.ErrorWithId(logger, log.InternalError, "could not save frame", "error", err)
 			}
 		}
@@ -454,7 +470,7 @@ func (ds *RMFDatasource) SubscribeStream(_ context.Context, req *backend.Subscri
 	defer log.LogAndRecover(logger)
 
 	status := backend.SubscribeStreamStatusPermissionDenied
-	if cache.HasChannelQuery(req.Path) {
+	if ds.channelCache.HasChannelQuery(req.Path) {
 		status = backend.SubscribeStreamStatusOK
 	}
 	return &backend.SubscribeStreamResponse{Status: status}, nil
