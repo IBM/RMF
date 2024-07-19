@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: 'grafana/rmf-app/yarn.lock'
 
       - name: Setup Golang
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version-file: grafana/rmf-app/go.mod
           cache-dependency-path: grafana/rmf-app/go.sum
