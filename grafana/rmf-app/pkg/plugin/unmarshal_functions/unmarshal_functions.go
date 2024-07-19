@@ -29,10 +29,7 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
-type UnmarshalFunctions struct {
-}
-
-func (u *UnmarshalFunctions) UnmarshalQueryModel(pCtx backend.PluginContext, query backend.DataQuery) (*typ.QueryModel, error) {
+func UnmarshalQueryModel(pCtx backend.PluginContext, query backend.DataQuery) (*typ.QueryModel, error) {
 	// Unmarshal the query JSON into our queryModel.
 	var qm typ.QueryModel
 
@@ -42,18 +39,15 @@ func (u *UnmarshalFunctions) UnmarshalQueryModel(pCtx backend.PluginContext, que
 		return nil, err
 	}
 
-	// Attach other fields such as TimeRange.From, TimeRange.To
-	attachOtherQueryFields(pCtx, &qm, query)
+	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
 
 	return &qm, nil
 }
 
-func (u *UnmarshalFunctions) UnmarshalEndpointModel(pCtx backend.PluginContext) (*typ.DatasourceEndpointModel, error) {
+func UnmarshalEndpointModel(dsSettings backend.DataSourceInstanceSettings) (*typ.DatasourceEndpointModel, error) {
 	// Unmarshal the pluginContext JSON into our em.
 	var em typ.DatasourceEndpointModel
-	dsSettings := pCtx.DataSourceInstanceSettings
-
-	err := json.Unmarshal(pCtx.DataSourceInstanceSettings.JSONData, &em)
+	err := json.Unmarshal(dsSettings.JSONData, &em)
 	if err != nil {
 		return nil, err
 	}
@@ -63,12 +57,11 @@ func (u *UnmarshalFunctions) UnmarshalEndpointModel(pCtx backend.PluginContext) 
 		if em.SSL {
 			protocol = "https"
 		}
-		em.URL = fmt.Sprintf(
-			"%s://%s:%s", protocol, strings.TrimSpace(em.Server), strings.TrimSpace(em.Port))
+		em.URL = fmt.Sprintf("%s://%s:%s", protocol, strings.TrimSpace(em.Server), strings.TrimSpace(em.Port))
 		em.IntTimeout = http.DefaultHttpTimeout
 		em.TlsSkipVerify = !em.VerifyInsecureCert
-		if pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData != nil {
-			val, ok := pCtx.DataSourceInstanceSettings.DecryptedSecureJSONData["password"]
+		if dsSettings.DecryptedSecureJSONData != nil {
+			val, ok := dsSettings.DecryptedSecureJSONData["password"]
 			if ok {
 				em.Password = val
 			}
@@ -85,22 +78,6 @@ func (u *UnmarshalFunctions) UnmarshalEndpointModel(pCtx backend.PluginContext) 
 			em.Password = dsSettings.DecryptedSecureJSONData["basicAuthPassword"]
 		}
 	}
-	em.DatasourceUid = pCtx.DataSourceInstanceSettings.UID
+	em.DatasourceUid = dsSettings.UID
 	return &em, nil
-}
-
-func (u *UnmarshalFunctions) UnmarshalQueryAndEndpointModel(query backend.DataQuery, pCtx backend.PluginContext) (*typ.QueryModel, *typ.DatasourceEndpointModel, error) {
-	qm, err := u.UnmarshalQueryModel(pCtx, query)
-	if err != nil {
-		return nil, nil, err
-	}
-	ep, err := u.UnmarshalEndpointModel(pCtx)
-	if err != nil {
-		return nil, nil, err
-	}
-	return qm, ep, nil
-}
-
-func attachOtherQueryFields(_ backend.PluginContext, qm *typ.QueryModel, query backend.DataQuery) {
-	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
 }

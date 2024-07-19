@@ -15,22 +15,38 @@
 * limitations under the License.
  */
 
-package query_functions
+package cache
 
 import (
-	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
+	"encoding/json"
+
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
+	"github.com/VictoriaMetrics/fastcache"
 )
 
-type VariableQuery struct {
+const channelCacheSize = 128 * 1024 * 1024
+
+var channelCache *fastcache.Cache
+
+func init() {
+	channelCache = fastcache.New(channelCacheSize)
 }
 
-func (t *VariableQuery) ExecuteQuery(
-	query string,
-	endpointModel *typ.DatasourceEndpointModel) ([]byte, error) {
+func GetChannelQuery(path string) (*typ.QueryModel, error) {
+	var query typ.QueryModel
+	queryBytes := channelCache.Get(nil, []byte(path))
+	err := json.Unmarshal(queryBytes, &query)
+	return &query, err
+}
 
-	// Get xml data response
-	responseData, err := new(repo.Repository).ExecuteForVariableQuery(query, endpointModel)
+func SetChannelQuery(path string, query *typ.QueryModel) error {
+	queryBytes, err := json.Marshal(*query)
+	if err == nil {
+		channelCache.Set([]byte(path), queryBytes)
+	}
+	return err
+}
 
-	return responseData, err
+func HasChannelQuery(path string) bool {
+	return channelCache.Has([]byte(path))
 }

@@ -83,9 +83,9 @@ func GetMessageInResponse(jsonStr string) *typ.DDSMessage {
 	return message
 }
 
-func FetchIntervalAndOffset(jsonStr string) (typ.IntervalOffset, error) {
+func FetchIntervalAndOffset(jsonStr string) (typ.IntervalTimeData, error) {
 	var (
-		resultTimeData typ.IntervalOffset
+		resultTimeData typ.IntervalTimeData
 		err            error
 	)
 
@@ -99,8 +99,8 @@ func FetchIntervalAndOffset(jsonStr string) (typ.IntervalOffset, error) {
 		return resultTimeData, err
 	}
 
-	resultTimeData.ServerTimezoneOffset = localStartTime.Sub(UTCStartTime)
-	resultTimeData.ServiceCallInterval = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
+	resultTimeData.TimeOffset = localStartTime.Sub(UTCStartTime)
+	resultTimeData.MinTime = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 
 	return resultTimeData, nil
 }
@@ -141,15 +141,15 @@ func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 		return resultTimeData, err
 	}
 
-	resultTimeData.ServerTimezoneOffset = resultTimeData.LocalStartTime.Sub(resultTimeData.UTCStartTime)
+	resultTimeData.TimeOffset = resultTimeData.LocalStartTime.Sub(resultTimeData.UTCStartTime)
 
-	resultTimeData.ServiceCallInterval = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
+	resultTimeData.MinTime = float64(GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
 
 	// Convert all to UTC times.
-	resultTimeData.LocalStartTime = resultTimeData.LocalStartTime.Add(-1 * resultTimeData.ServerTimezoneOffset)
-	resultTimeData.LocalEndTime = resultTimeData.LocalEndTime.Add(-1 * resultTimeData.ServerTimezoneOffset)
-	resultTimeData.LocalPrevTime = resultTimeData.LocalPrevTime.Add(-1 * resultTimeData.ServerTimezoneOffset)
-	resultTimeData.LocalNextTime = resultTimeData.LocalNextTime.Add(-1 * resultTimeData.ServerTimezoneOffset)
+	resultTimeData.LocalStartTime = resultTimeData.LocalStartTime.Add(-1 * resultTimeData.TimeOffset)
+	resultTimeData.LocalEndTime = resultTimeData.LocalEndTime.Add(-1 * resultTimeData.TimeOffset)
+	resultTimeData.LocalPrevTime = resultTimeData.LocalPrevTime.Add(-1 * resultTimeData.TimeOffset)
+	resultTimeData.LocalNextTime = resultTimeData.LocalNextTime.Add(-1 * resultTimeData.TimeOffset)
 	return resultTimeData, nil
 }
 

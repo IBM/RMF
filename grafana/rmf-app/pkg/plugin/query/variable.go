@@ -15,22 +15,14 @@
 * limitations under the License.
  */
 
-package types
+package query
 
-import "fmt"
+import (
+	repo "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/repository"
+	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
+)
 
-type ValueError struct {
-	Value int
-	Err   error
-}
-
-func NewValueError(value int, err error) *ValueError {
-	return &ValueError{
-		Value: value,
-		Err:   err,
-	}
-}
-
-func (ve *ValueError) Error() string {
-	return fmt.Sprintf("value error: %s", ve.Err)
+func GetVariable(query string, endpointModel *typ.DatasourceEndpointModel) ([]byte, error) {
+	responseData, err := new(repo.Repository).ExecuteForVariableQuery(query, endpointModel)
+	return responseData, err
 }

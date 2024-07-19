@@ -164,15 +164,15 @@ func (h *HttpHelper) GetTimeRange(qm *typ.QueryModel, em *typ.DatasourceEndpoint
 	)
 	if qm.SelectedVisualisationType == "TimeSeries" {
 		if qm.AbsoluteTimeSelected {
-			serverFromTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.ServerTimezoneOffset)
-			serverToTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.ServerTimezoneOffset)
+			serverFromTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
+			serverToTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
 		} else {
-			serverFromTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.ServerTimezoneOffset)
-			serverToTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.ServerTimezoneOffset)
+			serverFromTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
+			serverToTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
 		}
 	} else {
-		serverFromTime = qm.TimeRangeFrom.Add(qm.ServerTimeData.ServerTimezoneOffset)
-		serverToTime = qm.TimeRangeTo.Add(qm.ServerTimeData.ServerTimezoneOffset)
+		serverFromTime = qm.TimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
+		serverToTime = qm.TimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
 	}
 	return serverFromTime.Format(DATETIMELAYOUT) + "," + serverToTime.Format(DATETIMELAYOUT), nil
 }
