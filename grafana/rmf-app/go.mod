@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/VictoriaMetrics/fastcache v1.12.2
-	github.com/antchfx/xmlquery v1.4.0
+	github.com/antchfx/xmlquery v1.4.1
 	github.com/google/uuid v1.6.0
 	github.com/grafana/grafana-plugin-sdk-go v0.231.0
 	github.com/stretchr/testify v1.9.0
@@ -14,7 +14,7 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
-	github.com/antchfx/xpath v1.3.0 // indirect
+	github.com/antchfx/xpath v1.3.1 // indirect
 	github.com/apache/arrow/go/v15 v15.0.2 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
