@@ -7,12 +7,12 @@ updates:
       interval: daily
     target-branch: staging/v1.x
   - package-ecosystem: npm
-    directory: /
+    directory: /grafana/rmf-app
     schedule:
       interval: daily
     target-branch: staging/v1.x
   - package-ecosystem: gomod
-    directory: /
+    directory: /grafana/rmf-app
     schedule:
       interval: daily
     target-branch: staging/v1.x
