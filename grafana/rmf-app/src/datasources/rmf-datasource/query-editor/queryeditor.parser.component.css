@@ -129,6 +129,7 @@ ul,
 
 .filltext {
   width: -webkit-fill-available !important;
+  width: -moz-available !important;
 }
 
 .rmf-switch {
