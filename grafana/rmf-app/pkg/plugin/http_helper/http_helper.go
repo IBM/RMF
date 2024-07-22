@@ -133,7 +133,7 @@ func executeHttpGetRequestInternal(queryURL string, em *typ.DatasourceEndpointMo
 	}
 
 	client = &http.Client{
-		Timeout: time.Duration(em.IntTimeout) * time.Second,
+		Timeout: time.Duration(em.TimeoutInt) * time.Second,
 		Transport: &http.Transport{
 			DisableKeepAlives: true,
 			TLSClientConfig: &tls.Config{

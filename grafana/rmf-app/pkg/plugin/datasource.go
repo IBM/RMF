@@ -71,14 +71,14 @@ type RMFDatasource struct {
 // NewRMFDatasource creates a new instance of the RMF datasource.
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	ds := &RMFDatasource{
-		channelCache: cache.NewChannelCache(ChannelCacheSizeMB),
-		frameCache:   cache.NewFrameCache(pluginConfig.cache.size),
-		stopChan:     make(chan struct{}),
+		stopChan: make(chan struct{}),
 	}
 	endpoint, err := umf.UnmarshalEndpointModel(settings)
 	if err != nil {
 		return nil, err
 	}
+	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
+	ds.frameCache = cache.NewFrameCache(endpoint.CacheSizeInt)
 	ds.endpoint = endpoint
 	ds.waitGroup.Add(1)
 	go ds.watchDdsOptions()

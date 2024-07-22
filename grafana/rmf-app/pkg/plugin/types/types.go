@@ -28,9 +28,12 @@ type DatasourceEndpointModel struct {
 	// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
 	// TODO: the type is to get rid of. We need to re-use one HTTP client on DS level.
 	URL           string
-	IntTimeout    int
-	RawTimeout    string `json:"timeout"`
+	TimeoutInt    int
+	TimeoutRaw    string `json:"timeout"`
 	TlsSkipVerify bool   `json:"tlsSkipVerify"`
+	// Custom RMF settings.
+	CacheSizeRaw string `json:"cacheSize"`
+	CacheSizeInt int
 	// Legacy: custom RMF settings. We should ge rid of it at some point.
 	Server   string `json:"path"`
 	Port     string `json:"port"`

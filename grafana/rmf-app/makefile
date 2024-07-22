@@ -69,16 +69,13 @@ build-backend: deps-backend ## Build backend data source
 build-backend-amd64-linux: deps-backend ## Build backend data source
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
 
-copy-config: #copy the rmf-plugin-config.yml to executable path
-	cp ./pkg/plugin/rmf-plugin-config.yml ./dist/datasources/rmf-datasource/
-
 test: deps-backend ## Run unittests
 	go test -v ./...
 
 lint:  ## Run linters
 	golangci-lint run
 
-build: build-frontend build-backend copy-config ## Build everything
+build: build-frontend build-backend ## Build everything
 
 zip: ## Zip the plugin
 	rm -rf build && mkdir build

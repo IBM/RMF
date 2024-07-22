@@ -29,6 +29,8 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
+const DefaultCacheSize = 1024
+
 func UnmarshalQueryModel(pCtx backend.PluginContext, query backend.DataQuery) (*typ.QueryModel, error) {
 	// Unmarshal the query JSON into our queryModel.
 	var qm typ.QueryModel
@@ -58,7 +60,7 @@ func UnmarshalEndpointModel(dsSettings backend.DataSourceInstanceSettings) (*typ
 			protocol = "https"
 		}
 		em.URL = fmt.Sprintf("%s://%s:%s", protocol, strings.TrimSpace(em.Server), strings.TrimSpace(em.Port))
-		em.IntTimeout = http.DefaultHttpTimeout
+		em.TimeoutInt = http.DefaultHttpTimeout
 		em.TlsSkipVerify = !em.VerifyInsecureCert
 		if dsSettings.DecryptedSecureJSONData != nil {
 			val, ok := dsSettings.DecryptedSecureJSONData["password"]
@@ -69,14 +71,18 @@ func UnmarshalEndpointModel(dsSettings backend.DataSourceInstanceSettings) (*typ
 	} else {
 		// Data source in conventional Grafana format
 		em.URL = dsSettings.URL
-		em.IntTimeout, err = strconv.Atoi(em.RawTimeout)
+		em.TimeoutInt, err = strconv.Atoi(em.TimeoutRaw)
 		if err != nil {
-			em.IntTimeout = http.DefaultHttpTimeout
+			em.TimeoutInt = http.DefaultHttpTimeout
 		}
 		if dsSettings.BasicAuthEnabled {
 			em.UserName = dsSettings.BasicAuthUser
 			em.Password = dsSettings.DecryptedSecureJSONData["basicAuthPassword"]
 		}
+	}
+	em.CacheSizeInt, err = strconv.Atoi(em.CacheSizeRaw)
+	if err != nil {
+		em.CacheSizeInt = DefaultCacheSize
 	}
 	em.DatasourceUid = dsSettings.UID
 	return &em, nil
