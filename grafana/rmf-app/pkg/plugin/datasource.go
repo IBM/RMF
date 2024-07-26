@@ -196,15 +196,28 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 // req contains the queries []DataQuery (where each query contains RefID as a unique identifier).
 // The QueryDataResponse contains a map of RefID to the response for each query, and each response
 // contains Frames ([]*Frame).
-func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (qr *backend.QueryDataResponse, errRet error) {
 	logger := log.Logger.With("func", "QueryData")
-	// Recover from any panic so as to not bring down this backend datasource
-	defer log.LogAndRecover(logger)
-	if req.PluginContext.AppInstanceSettings != nil {
-		logger.Warn(string(req.PluginContext.AppInstanceSettings.JSONData))
-	} else {
-		logger.Warn("AppInstanceSettings is nil")
-	}
+	qr = backend.NewQueryDataResponse()
+
+	// Recover from any panic to prevent bringing down this backend datasource.
+	defer func() {
+		if r := recover(); r != nil {
+			// Assign error to the first incomplete query: that's where the panic occurred.
+			err := log.ErrorWithId(logger, log.InternalError, "recovered from panic", "error", r, "stack", string(debug.Stack()))
+			for _, query := range req.Queries {
+				if _, ok := qr.Responses[query.RefID]; !ok {
+					qr.Responses[query.RefID] = backend.DataResponse{
+						Status: backend.StatusInternal,
+						Error:  err,
+					}
+					return
+				}
+			}
+			qr = nil
+			errRet = err
+		}
+	}()
 
 	queryDataResponse := backend.NewQueryDataResponse()
 	for _, query := range req.Queries {

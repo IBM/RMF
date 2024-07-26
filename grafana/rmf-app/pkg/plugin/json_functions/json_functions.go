@@ -105,39 +105,45 @@ func FetchIntervalAndOffset(jsonStr string) (typ.IntervalTimeData, error) {
 	return resultTimeData, nil
 }
 
+func parseTimeData(jsonStr string, path string) (time.Time, error) {
+	raw, ok := GetJsonPropertyValue(jsonStr, path).(string)
+	if !ok {
+		return time.Time{}, fmt.Errorf("%s is nil", path)
+	}
+	datetime, err := time.Parse("20060102150405", raw)
+	if err != nil {
+		return time.Time{}, err
+	}
+	return datetime, nil
+}
+
 func FetchServerTimeConfig(jsonStr string) (typ.DDSTimeData, error) {
 	var (
 		resultTimeData typ.DDSTimeData
 		err            error
 	)
 
-	resultTimeData.LocalStartTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localStart").(string))
-	if err != nil {
+	if resultTimeData.LocalStartTime, err = parseTimeData(jsonStr, "report.0.timeData.localStart"); err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalEndTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localEnd").(string))
-	if err != nil {
+	if resultTimeData.LocalEndTime, err = parseTimeData(jsonStr, "report.0.timeData.localEnd"); err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalPrevTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localPrev").(string))
-	if err != nil {
+	if resultTimeData.LocalPrevTime, err = parseTimeData(jsonStr, "report.0.timeData.localPrev"); err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.LocalNextTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.localNext").(string))
-	if err != nil {
+	if resultTimeData.LocalNextTime, err = parseTimeData(jsonStr, "report.0.timeData.localNext"); err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.UTCStartTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.utcStart").(string))
-	if err != nil {
+	if resultTimeData.UTCStartTime, err = parseTimeData(jsonStr, "report.0.timeData.utcStart"); err != nil {
 		return resultTimeData, err
 	}
 
-	resultTimeData.UTCEndTime, err = time.Parse("20060102150405", GetJsonPropertyValue(jsonStr, "report.0.timeData.utcEnd").(string))
-	if err != nil {
+	if resultTimeData.UTCEndTime, err = parseTimeData(jsonStr, "report.0.timeData.utcEnd"); err != nil {
 		return resultTimeData, err
 	}
 
