@@ -28,9 +28,12 @@ type DatasourceEndpointModel struct {
 	// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
 	// TODO: the type is to get rid of. We need to re-use one HTTP client on DS level.
 	URL           string
-	IntTimeout    int
-	RawTimeout    string `json:"timeout"`
+	TimeoutInt    int
+	TimeoutRaw    string `json:"timeout"`
 	TlsSkipVerify bool   `json:"tlsSkipVerify"`
+	// Custom RMF settings.
+	CacheSizeRaw string `json:"cacheSize"`
+	CacheSizeInt int
 	// Legacy: custom RMF settings. We should ge rid of it at some point.
 	Server   string `json:"path"`
 	Port     string `json:"port"`
@@ -42,12 +45,6 @@ type DatasourceEndpointModel struct {
 	DatasourceUid      string
 }
 
-type Panel struct {
-	PanelGuid         string
-	QueryModels       []*QueryModel
-	DataLastFetchedAt time.Time // Keeps track of when the last data was fetched.
-}
-
 type QueryModel struct {
 	Datasource                Datasource       `json:"datasource"`
 	SelectedQuery             string           `json:"selectedQuery"`
@@ -57,15 +54,25 @@ type QueryModel struct {
 	DashboardUid              string           `json:"dashboardUid"`
 	SelectedVisualisationType string           `json:"selectedVisualisationType"`
 	RMFPanelId                string           `json:"rmfPanelGuid"`
-	RefID                     string
-	TimeRangeFrom             time.Time // 'From' time converted to UTC
-	TimeRangeTo               time.Time // 'To' time converted to UTC
-	TimeSeriesTimeRangeFrom   time.Time // 'From' Time converted to (DDS) local server time for timeseries
-	TimeSeriesTimeRangeTo     time.Time // 'To' Time converted to (DDS) local server time for timeseries
-	UniquePath                string    // A Unique guid that is used as the streaming PATH
-	ServiceCallInProgress     bool      // True if a service call is in progress, else false
+	TimeRangeFrom             time.Time        // 'From' time converted to UTC
+	TimeRangeTo               time.Time        // 'To' time converted to UTC
+	TimeSeriesTimeRangeFrom   time.Time        // 'From' Time converted to (DDS) local server time for timeseries
+	TimeSeriesTimeRangeTo     time.Time        // 'To' Time converted to (DDS) local server time for timeseries
 	ServerTimeData            DDSTimeData
 	Url                       string // Stores the DDS Url invoked to get response data
+}
+
+func (query *QueryModel) Copy() *QueryModel {
+	copy := *query
+	return &copy
+}
+
+func (query *QueryModel) CacheKey() []byte {
+	return []byte(query.Datasource.Uid + "/" + query.SelectedResource.Value)
+}
+
+type VariableQueryRequest struct {
+	Query string `json:"query"`
 }
 
 type DDSResponse struct {
@@ -90,19 +97,19 @@ func (msg *DDSMessage) String() string {
 }
 
 type DDSTimeData struct {
-	LocalStartTime       time.Time     // The local start time of the DDS Server
-	LocalEndTime         time.Time     // The local end time of the local DDS Server
-	LocalPrevTime        time.Time     // The previous time (current - gathererInterval) of the local DDS Server
-	LocalNextTime        time.Time     // The next time (current + gathererInterval) of the local DDS Server
-	UTCStartTime         time.Time     // The UTC start time corresponding to the LocalStartTime
-	UTCEndTime           time.Time     // The UTC end time corresponding to the LocalEndTime
-	ServiceCallInterval  float64       // GathererInterval: Time to wait before fetching data chunks from server (usually set at 100 (secs)).
-	ServerTimezoneOffset time.Duration // The timezone offset value from UTC time
+	LocalStartTime time.Time     // The local start time of the DDS Server
+	LocalEndTime   time.Time     // The local end time of the local DDS Server
+	LocalPrevTime  time.Time     // The previous time (current - gathererInterval) of the local DDS Server
+	LocalNextTime  time.Time     // The next time (current + gathererInterval) of the local DDS Server
+	UTCStartTime   time.Time     // The UTC start time corresponding to the LocalStartTime
+	UTCEndTime     time.Time     // The UTC end time corresponding to the LocalEndTime
+	MinTime        float64       // GathererInterval: Time to wait before fetching data chunks from server (usually set at 100 (secs)).
+	TimeOffset     time.Duration // The timezone offset value from UTC time
 }
 
-type IntervalOffset struct {
-	ServiceCallInterval  float64       // GathererInterval: Time to wait before fetching data chunks from server (usually set at 100 (secs)).
-	ServerTimezoneOffset time.Duration // The timezone offset value from UTC time
+type IntervalTimeData struct {
+	MinTime    float64
+	TimeOffset time.Duration // Time offset from UTC time
 }
 
 type Datasource struct {
@@ -131,4 +138,20 @@ type CacheItemValue struct {
 	ValueKey       time.Time
 	Value          data.Frame
 	ServerTimeData DDSTimeData
+}
+
+type ValueError struct {
+	Value int
+	Err   error
+}
+
+func NewValueError(value int, err error) *ValueError {
+	return &ValueError{
+		Value: value,
+		Err:   err,
+	}
+}
+
+func (ve *ValueError) Error() string {
+	return fmt.Sprintf("value error: %s", ve.Err)
 }

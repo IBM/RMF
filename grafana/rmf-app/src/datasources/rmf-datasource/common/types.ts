@@ -116,6 +116,8 @@ export interface RMFDataSourceJsonData extends DataSourceJsonData {
   tlsSkipVerify?: boolean;
   // We store it as a string because of complications of UI input validation
   timeout?: string;
+  // Custom config RMF options
+  cacheSize?: string
   // Legacy: custom RMF settings. We should ge rid of it at some point.
   path?: string;
   port?: string;
