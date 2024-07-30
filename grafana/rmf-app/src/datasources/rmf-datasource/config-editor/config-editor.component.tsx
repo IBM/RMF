@@ -27,6 +27,7 @@ const FIELD_INPUT_WIDTH= 20;
 const SWITCH_LABEL_WIDTH = 20;
 const DEFAULT_HTTP_TIMEOUT = "60";
 const DEFAULT_CACHE_SIZE = "1024";
+const MINIMAL_CACHE_SIZE = 128;
 
 type Props = DataSourcePluginOptionsEditorProps<RMFDataSourceJsonData, RMFDataSourceSecureJsonData>;
 
@@ -100,10 +101,10 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
   validateCacheSize = (value: string) => {
     let numValue= Number(value)
-    if (numValue >= 128 && Number.isInteger(numValue)) {
+    if (numValue >= MINIMAL_CACHE_SIZE && Number.isInteger(numValue)) {
       this.setState({ cacheSizeError: undefined });
     } else {
-      this.setState({ cacheSizeError: 'Cache size must be ≥ 128' });
+      this.setState({ cacheSizeError: 'Cache size must be ≥ ' + MINIMAL_CACHE_SIZE });
     }
   }
 
