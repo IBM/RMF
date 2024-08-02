@@ -47,14 +47,6 @@
                     /> in a web browser.</ph></p>
             <p><ph id="ph_pfq_bcm_syb">Log in to <ph conref="conref.dita#conref/zosmf_short"/> if
                     you are not already logged in.</ph></p>
-            <p><ph id="ph_vxh_mmk_2zb">Click <uicontrol>Save &amp; test</uicontrol>.</ph><ph
-                    id="ph_bfn_mmk_2zb">The <msgph>Data source is working</msgph> message is
-                    displayed if the connection to DDS succeeds.</ph></p>
-            <ol>
-                <li id="li_yyv_vmk_2zb">Set <uicontrol>Basic Auth</uicontrol>
-                    <image href="images/toggle-off.png" scale="50"/> to
-                        <systemoutput>ON</systemoutput> to enable the secure connection.</li>
-            </ol>
             <note id="note_rr3_txq_pyb">The navigation of the user interface can differ based on the
                 Grafana version that is currently installed.</note>
             <p>

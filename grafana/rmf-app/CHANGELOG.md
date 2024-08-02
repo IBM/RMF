@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.5 (2024-08-02)
+
+- When creating the datasource, you now have the option to specify the desired cache size in megabytes for the datasource.
+- Fixed internally found defects.
+- The topic of Creating RMF data sources has been updated per the new UI changes.
+
 ## 1.0.4 (2024-06-21)
 
 - The user interface for creating the datasource has been enhanced to improve the user experience.
