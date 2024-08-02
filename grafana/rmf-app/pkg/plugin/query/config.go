@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package query_functions
+package query
 
 import (
 	"errors"
@@ -29,10 +29,7 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
-type ConfigurationQuery struct {
-}
-
-func (c *ConfigurationQuery) FetchRootInfo(em *typ.DatasourceEndpointModel) (bool, error) {
+func FetchRootInfo(em *typ.DatasourceEndpointModel) (bool, error) {
 	logger := log.Logger.With("func", "FetchRootInfo")
 	var httphlpr httphlper.HttpHelper
 	url := httphlpr.GetHttpUrlForRoot(em)
@@ -66,7 +63,7 @@ func (c *ConfigurationQuery) FetchRootInfo(em *typ.DatasourceEndpointModel) (boo
 	}
 }
 
-func (c *ConfigurationQuery) FetchMetricsFromIndex(em *typ.DatasourceEndpointModel) ([]byte, error) {
+func FetchMetricsFromIndex(em *typ.DatasourceEndpointModel) ([]byte, error) {
 	var httphlpr httphlper.HttpHelper
 	url := httphlpr.GetHttpUrlForIndex(em)
 	responseData, err := httphlpr.ExecuteHttpGet(url, em)
@@ -81,12 +78,12 @@ func (c *ConfigurationQuery) FetchMetricsFromIndex(em *typ.DatasourceEndpointMod
 	return response, nil
 }
 
-func (c *ConfigurationQuery) FetchIntervalAndOffset(em *typ.DatasourceEndpointModel) (typ.IntervalOffset, error) {
+func FetchIntervalAndOffset(em *typ.DatasourceEndpointModel) (typ.IntervalTimeData, error) {
 	// Fetch the Http Url from endpoint model
 	// <proto>://<host>:<port>/gpm/perform.xml?resource=,,SYSPLEX&id=8D0D50
 	var (
 		httphlpr       httphlper.HttpHelper
-		resultTimeData typ.IntervalOffset
+		resultTimeData typ.IntervalTimeData
 	)
 	url := httphlpr.GetHttpUrlForTimezoneOffset(em)
 

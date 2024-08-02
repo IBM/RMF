@@ -9,7 +9,6 @@
    <appContext helpID="apply_visualize" path="apply_visualize.html"/>
    <appContext helpID="query_lang" path="query_lang.html"/>
    <appContext helpID="variables" path="variables.html"/>
-   <appContext helpID="plugin_config" path="plugin_config.html"/>
    <appContext helpID="alerts" path="alerts.html"/>
    <appContext helpID="historical_data" path="historical_data.html"/>
    <appContext helpID="error_reports" path="error_reports.html"/>

@@ -26,6 +26,7 @@ const FIELD_LABEL_WIDTH = 10;
 const FIELD_INPUT_WIDTH= 20;
 const SWITCH_LABEL_WIDTH = 20;
 const DEFAULT_HTTP_TIMEOUT = "60";
+const DEFAULT_CACHE_SIZE = "1024";
 
 type Props = DataSourcePluginOptionsEditorProps<RMFDataSourceJsonData, RMFDataSourceSecureJsonData>;
 
@@ -33,6 +34,7 @@ interface State {
   urlError?: string;
   httpTimeoutError?: string
   basicAuthUserError?: string
+  cacheSizeError?: string
 }
 
 
@@ -61,6 +63,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       // Initialize jsonData and secureJsonData if needed
       options.jsonData = {
         timeout: jsonData?.timeout || DEFAULT_HTTP_TIMEOUT,
+        cacheSize: jsonData?.cacheSize|| DEFAULT_CACHE_SIZE,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false
       };
       options.secureJsonData = { basicAuthPassword: secureJsonData?.basicAuthPassword || "" }
@@ -95,6 +98,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     }
   }
 
+  validateCacheSize = (value: string) => {
+    let numValue= Number(value)
+    if (numValue >= 128 && Number.isInteger(numValue)) {
+      this.setState({ cacheSizeError: undefined });
+    } else {
+      this.setState({ cacheSizeError: 'Cache size must be ≥ 128' });
+    }
+  }
+
   updateSettings = (updates: Partial<RMFDataSourceSettings>) => {
     const { options, onOptionsChange } = this.props;
     onOptionsChange(
@@ -107,7 +119,12 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
   render() {
     const {options} = this.props;
-    const {urlError, httpTimeoutError, basicAuthUserError} = this.state;
+    const {
+      urlError,
+      httpTimeoutError,
+      basicAuthUserError,
+      cacheSizeError
+    } = this.state;
 
     return (
       <div className="gf-form-group">
@@ -225,6 +242,30 @@ export default class ConfigEditor extends PureComponent<Props, State> {
             </div>
           </>
         )}
+
+        <h3 className="page-heading">Caching</h3>
+        <div className="gf-form-group">
+          <div className="gf-form">
+            <FormField
+              label="Size"
+              labelWidth={FIELD_LABEL_WIDTH}
+              tooltip="Cache size in MB for the data source"
+              placeholder="≥ 128"
+              inputWidth={FIELD_INPUT_WIDTH}
+              value={options.jsonData?.cacheSize}
+              onChange={(event) => {
+                this.updateSettings({jsonData: {cacheSize: event.currentTarget.value}})
+              }}
+              onBlur={(event) => {
+                this.validateCacheSize(event.currentTarget.value)
+              }}
+            />
+            {cacheSizeError && (
+              <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>
+            )}
+          </div>
+        </div>
+
       </div>
     );
   }

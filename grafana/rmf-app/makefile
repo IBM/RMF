@@ -1,8 +1,6 @@
 # This is a self-documenting Makefile, see https://www.thapaliya.com/en/writings/well-documented-makefiles/
 default: help
 
-ANTLR_JAR=/usr/local/lib/antlr-4.12.0-complete.jar
-
 GRAFANA_PLUGIN_ID := $(shell jq -r '.id' src/plugin.json)
 GRAFANA_PLUGIN_VERSION := $(shell jq -r '.version' package.json)
 GRAFANA_PLUGIN_ARTIFACT := $(GRAFANA_PLUGIN_ID)-grafana-$(GRAFANA_PLUGIN_VERSION).zip
@@ -37,10 +35,24 @@ restart-backend: ## Rebuild and restart backend data source (as root)
 	sudo -u "$$(stat -c '%U' .)" make dev-backend
 	killall gpx_ibm-rmf-datasource_$$(go env GOOS)_$$(go env GOARCH)
 
+##@ Antlr4
+ANTLR_JAR=antlr-4.13.1-complete.jar
+ANTLR_JAR_PATH=/usr/local/lib/$(ANTLR_JAR)
+
+.antlr/$(ANTLR_JAR):
+	mkdir -p .antlr
+ifneq ("$(wildcard $(ANTLR_JAR_PATH))","")
+	@echo $(ANTLR_JAR_PATH) found, copying...
+	cp $(ANTLR_JAR_PATH) .antlr/$(ANTLR_JAR)
+else
+	@echo $(ANTLR_JAR_PATH) not found, downloading...
+	curl -o .antlr/$(ANTLR_JAR) https://www.antlr.org/download/$(ANTLR_JAR)
+endif
+
 ##@ Build
 
-src/datasources/rmf-datasource/parser/lib/RMFQueryParser.js: ./grammar/RMFQuery.g4 ## Build Query Parser
-	java -Xmx500M -cp '${ANTLR_JAR}' org.antlr.v4.Tool -Dlanguage=JavaScript -o $(@D) -Xexact-output-dir $<
+src/datasources/rmf-datasource/parser/lib/RMFQueryParser.js: .antlr/$(ANTLR_JAR) ./grammar/RMFQuery.g4 ## Build Query Parser
+	java -Xmx500M -cp .antlr/$(ANTLR_JAR) org.antlr.v4.Tool -Dlanguage=JavaScript -o $(@D) -Xexact-output-dir ./grammar/RMFQuery.g4
 
 build-frontend: deps-frontend src/datasources/rmf-datasource/parser/lib/RMFQueryParser.js ## Build frontend data sources
 	yarn build
@@ -57,16 +69,13 @@ build-backend: deps-backend ## Build backend data source
 build-backend-amd64-linux: deps-backend ## Build backend data source
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
 
-copy-config: #copy the rmf-plugin-config.yml to executable path
-	cp ./pkg/plugin/rmf-plugin-config.yml ./dist/datasources/rmf-datasource/
-
 test: deps-backend ## Run unittests
 	go test -v ./...
 
 lint:  ## Run linters
 	golangci-lint run
 
-build: build-frontend build-backend copy-config ## Build everything
+build: build-frontend build-backend ## Build everything
 
 zip: ## Zip the plugin
 	rm -rf build && mkdir build
