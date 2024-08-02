@@ -15,7 +15,7 @@
         <topicref href="apply_visualize.dita"/>
         <topicref href="query_lang.dita"/>
         <topicref href="variables.dita"/>
-        <topicref href="plugin_config.dita"/>
+        <!--<topicref href="plugin_config.dita"/>-->
         <topicref href="alerts.dita"/>
         <topicref href="historical_data.dita"/>
         <topicref href="error_reports.dita"/>
