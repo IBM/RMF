@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package query_functions
+package query
 
 import (
 	"fmt"
@@ -28,14 +28,10 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
-type TableDataQuery struct {
-}
-
-func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	logger := log.Logger.With("func", "QueryForTableData")
+func GetTableFrame(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "GetTableFrame")
 	var repos repo.Repository
 
-	// Get xml data response
 	responseData, err := repos.ExecuteQueryAndGetResponse(queryModel, endpointModel)
 	if err != nil {
 		return nil, fmt.Errorf("error after calling ExecuteQueryAndGetResponse in QueryForTableData: responseData=%v & error=%w", responseData, err)
@@ -61,9 +57,16 @@ func (t *TableDataQuery) QueryForTableData(queryModel *typ.QueryModel, endpointM
 		return nil, fmt.Errorf("could not get result dataformat QueryForTableData(): Error=%w", err)
 	}
 
+	queryModel.ServerTimeData, err = jsonf.FetchServerTimeConfig(jsonStr)
+	if err != nil {
+		return nil, fmt.Errorf("could not get ServerTimeData in QueryForTableData(): Error=%w", err)
+	}
+
 	// GathererInterval is used to wait 'n' secs before streaming a data chunk or while calling service to fetch data.
 	// If we invoke the service again within this interval, the results will be returned from cache
-	queryModel.ServerTimeData.ServiceCallInterval = float64(jsonf.GetJsonPropertyValueAsNumber(jsonStr, "report.0.timeData.gathererInterval.value"))
+	if queryModel.ServerTimeData, err = jsonf.FetchServerTimeConfig(jsonStr); err != nil {
+		return nil, fmt.Errorf("could not get DDS time data in QueryForTableData(): Error=%w", err)
+	}
 
 	// Compose the newFrame
 	// Expected data format is report, list, or single.

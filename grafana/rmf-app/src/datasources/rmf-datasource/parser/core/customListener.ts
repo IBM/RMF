@@ -35,6 +35,7 @@ export class CustomListener extends RMFQueryListener {
   metricsTempl = 'id=$4&resource=$1,$2,$3';
   reportTempl = 'report=$4&resource=$1,$2,$3';
   private parserGrammarResult: GrammarResult;
+  filters : string[] = [];
 
   constructor() {
     super();
@@ -151,7 +152,9 @@ export class CustomListener extends RMFQueryListener {
     if (!this.parserGrammarResult.errorFound) {
       const resText = ctx.getText() ? ctx.getText() : '';
       if (resText !== undefined && resText.trim() !== '') {
-        this.parserGrammarResult.query += '&' + resText.trim();
+        var filter = resText.trim();
+        filter = filter.replace(new RegExp("filter=", "i"), "");
+        this.filters.push(filter);
       } else {
         this.parserGrammarResult.errorFound = true;
         this.parserGrammarResult.errorMessage += "<Error '{Filter=<T=<T>>}'>";
@@ -175,11 +178,26 @@ export class CustomListener extends RMFQueryListener {
     this.parserGrammarResult.errorFound = true;
   }
 
+  combinedFilters(): string {
+    var result : string = "";
+    this.filters.forEach((element) => {
+      if (result.trim() !== '') {
+        result = result + ";" + element;
+      } else {
+        result = result + element;
+      }
+    });
+    return result;
+  }
+
   getTable() {
     this.parserGrammarResult.query = this.parserGrammarResult.query.replace('$1', '');
     this.parserGrammarResult.query = this.parserGrammarResult.query.replace('$2', '');
     this.parserGrammarResult.query = this.parserGrammarResult.query.replace('$3', '');
     this.parserGrammarResult.query = this.parserGrammarResult.query.replace('$4', '');
+    if (this.filters.length != 0) {
+      this.parserGrammarResult.query = this.parserGrammarResult.query + "&filter=" + this.combinedFilters();
+    }
     return this.parserGrammarResult;
   }
 }

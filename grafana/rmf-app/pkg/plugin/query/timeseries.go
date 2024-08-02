@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package query_functions
+package query
 
 import (
 	"errors"
@@ -30,9 +30,6 @@ import (
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
-type TimeSeriesQuery struct {
-}
-
 var AcceptableMessages = map[string]bool{
 	"GPM0501I": true, // Data may be inconsistent due to a change of the WLM service policy or IPS
 	"GPM0502I": true, // DDS has returned partial data because time gaps have been detected
@@ -40,10 +37,11 @@ var AcceptableMessages = map[string]bool{
 	"GPM0505I": true, // The data retrieved by DDS may be inconsistent due to a change of the RMF cycle time
 	"GPM0506I": true, // IPL/REBOOT detected in the specified time range
 	"GPM0507I": true, // DDS could not retrieve valid data for the specified date and time range
+	"GPM0709I": true, // Filter has caused no data to be returned
 }
 
-func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
-	logger := log.Logger.With("func", "QueryForTimeseriesDataFrame")
+func GetTimeSeriesFrame(queryModel *typ.QueryModel, endpointModel *typ.DatasourceEndpointModel) (*data.Frame, error) {
+	logger := log.Logger.With("func", "GetTimeSeriesFrame")
 	var repos repo.Repository
 
 	// Fetch data from server
@@ -85,7 +83,7 @@ func (t *TimeSeriesQuery) QueryForTimeseriesDataFrame(queryModel *typ.QueryModel
 	return newFrame, nil
 }
 
-func (t *TimeSeriesQuery) SetTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) {
+func SetQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) {
 	var plotReverse bool
 	if len(plotAbsoluteReverse) > 0 {
 		if plotAbsoluteReverse[0] {
@@ -95,7 +93,7 @@ func (t *TimeSeriesQuery) SetTimeRange(queryModel *typ.QueryModel, plotAbsoluteR
 
 	// Set the Query Model's TimeSeriesTimeRangeFrom and TimeSeriesTimeRangeTo properties
 	if queryModel.AbsoluteTimeSelected { // Absolute time
-		if queryModel.ServerTimeData.ServiceCallInterval == 0 || queryModel.TimeSeriesTimeRangeFrom.IsZero() {
+		if queryModel.ServerTimeData.MinTime == 0 || queryModel.TimeSeriesTimeRangeFrom.IsZero() {
 			fromTime := queryModel.TimeRangeFrom
 			queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = fromTime, fromTime
 		} else {
@@ -103,12 +101,12 @@ func (t *TimeSeriesQuery) SetTimeRange(queryModel *typ.QueryModel, plotAbsoluteR
 				localPrevTime := queryModel.ServerTimeData.LocalPrevTime
 				queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = localPrevTime, localPrevTime
 			} else {
-				addedTime := queryModel.TimeSeriesTimeRangeFrom.Add(time.Duration(time.Second * time.Duration(queryModel.ServerTimeData.ServiceCallInterval)))
+				addedTime := queryModel.TimeSeriesTimeRangeFrom.Add(time.Duration(time.Second * time.Duration(queryModel.ServerTimeData.MinTime)))
 				queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = addedTime, addedTime
 			}
 		}
 	} else { // Relative time
-		if queryModel.ServerTimeData.ServiceCallInterval == 0 || queryModel.TimeSeriesTimeRangeTo.IsZero() {
+		if queryModel.ServerTimeData.MinTime == 0 || queryModel.TimeSeriesTimeRangeTo.IsZero() {
 			toTime := queryModel.TimeRangeTo
 			queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = toTime, toTime
 		} else {
