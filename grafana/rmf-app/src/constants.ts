@@ -54,4 +54,4 @@ export const ApplicationRoot = '/a/ibm-rmf';
  * Application
  */
 export const ApplicationName = 'IBM RMF';
-export const ApplicationSubTitle = 'IBM RMF Plugins Manager';
+export const ApplicationSubTitle = 'IBM RMF Plugin Manager';

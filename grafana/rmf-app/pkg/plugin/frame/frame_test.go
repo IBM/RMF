@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package json_functions
+package frame
 
 import (
 	"bytes"
@@ -24,8 +24,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
+	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 type TestCase struct {
@@ -33,8 +35,7 @@ type TestCase struct {
 	Description   string
 	Skip          bool
 	QueryModel    typ.QueryModel
-	DdsResponse   json.RawMessage
-	IsTimeSeries  bool
+	DdsResponse   *dds.Response
 	ExpectedFrame json.RawMessage
 	ExpectedError string
 }
@@ -45,7 +46,7 @@ func LoadTestCases(t *testing.T) []TestCase {
 	if err != nil {
 		t.Fatal(err)
 	}
-	jsonFile, err := os.ReadFile(filepath.Join(dir, "testdata/MetricFrameFromJson.json"))
+	jsonFile, err := os.ReadFile(filepath.Join(dir, "testdata/frames.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,7 +56,7 @@ func LoadTestCases(t *testing.T) []TestCase {
 	return testCases
 }
 
-func TestMetricFrameFromJson(t *testing.T) {
+func TestFrame(t *testing.T) {
 	for _, testCase := range LoadTestCases(t) {
 		t.Run(testCase.Name, func(t *testing.T) {
 			if testCase.Skip {
@@ -64,7 +65,7 @@ func TestMetricFrameFromJson(t *testing.T) {
 			var expectedJson bytes.Buffer
 			err := json.Indent(&expectedJson, testCase.ExpectedFrame, "", "  ")
 			if assert.NoError(t, err, "failed to indent") {
-				frame, err := MetricFrameFromJson(string(testCase.DdsResponse), &testCase.QueryModel, testCase.IsTimeSeries)
+				frame, err := Build(testCase.DdsResponse, nil, &testCase.QueryModel)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")
 					assert.Equal(t, expectedJson.String(), string(actualJson), "frames are not identical")

@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package frame_functions
+package frame
 
 import (
 	"strings"
@@ -25,7 +25,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-func GetFrameName(qm *typ.QueryModel) string {
+func getFrameName(qm *typ.QueryModel) string {
 	var resultFrameName string
 	if strings.Trim(qm.SelectedQuery, " ") != "" {
 		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
@@ -45,18 +45,18 @@ func GetFrameName(qm *typ.QueryModel) string {
 	return strings.Trim(resultFrameName, " ")
 }
 
-// GetFrameLabels builds labels based on DDS metric name and type
-func GetFrameLabels(metricType string, queryName string) data.Labels {
+// getFrameLabels builds labels based on DDS metric name and type
+func getFrameLabels(metricType string, queryName string) data.Labels {
 	labels := data.Labels{}
 	if metricType == "list" {
-		labels["metric"], _ = SplitQueryName(queryName)
+		labels["metric"], _ = splitQueryName(queryName)
 	}
 	return labels
 }
 
-// SplitQueryName splits metric name into short metric name and resource type.
+// splitQueryName splits metric name into short metric name and resource type.
 // For example, `% AAP by job` becomes pair `% AAP` and `job`
-func SplitQueryName(queryName string) (string, string) {
+func splitQueryName(queryName string) (string, string) {
 	shortQueryName, itemType, _ := strings.Cut(queryName, " by ")
 	return strings.TrimSpace(shortQueryName), strings.TrimSpace(itemType)
 }

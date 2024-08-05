@@ -91,6 +91,10 @@ func FrameErrorWithId(logger log.Logger, err error) error {
 
 func LogAndRecover(logger log.Logger) {
 	if r := recover(); r != nil {
-		logger.Error("recovered from panic", "error", r, "stack", string(debug.Stack()))
+		stack := string(debug.Stack())
+		logger.Error("recovered from panic", "error", r)
+		for _, line := range strings.Split(stack, "\n") {
+			logger.Error("recovered from panic", "stack", line)
+		}
 	}
 }

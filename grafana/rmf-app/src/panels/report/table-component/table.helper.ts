@@ -166,7 +166,7 @@ export const prepareBannerToDisplay = (data: any): TableBanner => {
   if (data.series && data.series[0] && data.series[0].meta && data.series[0].meta.custom) {
     bannerItem = {
       samples: data.series[0].meta.custom['numSamples'],
-      system:
+      systems:
         data.series[0].meta.custom['numSystems'] !== undefined && data.series[0].meta.custom['numSystems'] !== ''
           ? data.series[0].meta.custom['numSystems']
           : '',
@@ -189,13 +189,14 @@ export const prepareBannerToDisplay = (data: any): TableBanner => {
 
 export const stringToDateString = (serviceResult: String): string => {
   //convert result from ex 20230501071820 YYYYMMDDHHMMSS to MM/DD/YYYY HH:MM:SS
+  // FIXME: the timedates must come in the correct timezone from server, consistent with other timestamps
   let result =
     serviceResult.toString().substring(4, 6) +
     '/' +
     serviceResult.toString().substring(6, 8) +
     '/' +
     serviceResult.toString().substring(0, 4) +
-    '/ ' +
+    ' ' +
     serviceResult.toString().substring(8, 10) +
     ':' +
     serviceResult.toString().substring(10, 12) +
