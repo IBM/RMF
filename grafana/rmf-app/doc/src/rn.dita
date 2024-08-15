@@ -9,6 +9,18 @@
             <title>What's new</title>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
+                    <dt>August 2024 v1.0.5</dt>
+                    <dd>
+                        <ul id="ul_ssj_xbl_gcc">
+                            <li>When creating the datasource, you now have the option to specify the
+                                desired cache size in megabytes for the datasource.</li>
+                            <li>Fixed internally found defects.</li>
+                            <li>The topic of <xref href="create_datasources.dita"/> has been updated
+                                per the new UI changes.</li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry>
                     <dt>June 2024 v1.0.4</dt>
                     <dd>
                         <ul id="ul_u3s_bkt_sbc">

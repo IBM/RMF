@@ -81,41 +81,33 @@
                 </info>
             </step>
             <step>
-                <cmd>Choose one of the following methods to create the data source:</cmd>
+                <cmd>Set the <uicontrol>Basic Auth</uicontrol> option to
+                        <systemoutput>ON</systemoutput> to create the data source with basic
+                    authentication.</cmd>
+            </step>
+            <step>
+                <cmd>Enter the credentials of the <ph conref="conref.dita#conref/dds_short"/> in the
+                        <uicontrol>User</uicontrol> and <uicontrol>Password</uicontrol>
+                    fields.</cmd>
                 <info>
-                    <simpletable frame="all" id="simpletable_wd3_sjk_2zb" relcolwidth="0.4* 0.4* 1*">
-                        <sthead>
-                            <stentry>Methods</stentry>
-                            <stentry>Description</stentry>
-                            <stentry>Action</stentry>
-                        </sthead>
-                        <strow>
-                            <stentry>Create the data source with no authentication</stentry>
-                            <stentry>You must set the <uicontrol>Basic Auth</uicontrol> option to
-                                    <systemoutput>OFF</systemoutput>.</stentry>
-                            <stentry><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
-                                        conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></stentry>
-                        </strow>
-                        <!--<strow><stentry>Create the data source with SSL only</stentry><stentry>You must select the <uicontrol>Use SSL</uicontrol> radio button, but you are not required to provide a username and password to create the data source.</stentry><stentry><ol id="ol_ogp_rmk_2zb"><li conref="conref.dita#conref/li_yyv_vmk_2zb"/><li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph conref="conref.dita#conref/ph_bfn_mmk_2zb"/></p></li></ol></stentry></strow>-->
-                        <strow>
-                            <stentry>Create the data source with Basic Authentication</stentry>
-                            <stentry>You must set the <uicontrol>Basic Auth</uicontrol> option to
-                                    <systemoutput>ON</systemoutput>.</stentry>
-                            <stentry>
-                                <ol id="ol_fpz_clk_2zb">
-                                    <li conref="conref.dita#conref/li_yyv_vmk_2zb"/>
-                                    <li>Enter the credentials of the <ph
-                                            conref="conref.dita#conref/dds_short"/> in the
-                                            <uicontrol>User</uicontrol> and
-                                            <uicontrol>Password</uicontrol> fields.</li>
-                                    <li><ph conref="conref.dita#conref/ph_vxh_mmk_2zb"/><p><ph
-                                                conref="conref.dita#conref/ph_bfn_mmk_2zb"
-                                        /></p></li>
-                                </ol>
-                            </stentry>
-                        </strow>
-                    </simpletable>
+                    <note id="note_fvl_4zk_gcc">The <uicontrol>User</uicontrol> and
+                            <uicontrol>Password</uicontrol> fields are visible only when you enable
+                        the basic authentication.</note>
                 </info>
+            </step>
+            <step>
+                <cmd>Specify the size of the cache (in MB) for the data source in the
+                        <uicontrol>Size</uicontrol> field.</cmd>
+                <info>
+                    <note id="note_smy_5zk_gcc" type="remember">The value must be greater than or
+                        equal to <systemoutput>128</systemoutput>. The default value is
+                            <systemoutput>1024</systemoutput>.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Save &amp; test</uicontrol>.</cmd>
+                <stepresult>The <msgph>Data source is working</msgph> message is displayed if the
+                    connection to DDS succeeds.</stepresult>
             </step>
         </steps>
         <result id="result_ywl_ypd_qyb">You have added the RMF data source.</result>
