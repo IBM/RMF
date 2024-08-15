@@ -52,7 +52,7 @@ export const defaultThresholds: ThresholdsConfig = {
 
 export interface TableBanner {
   samples?: string;
-  system?: string;
+  systems?: string;
   timeRange?: string;
   range?: string;
 }

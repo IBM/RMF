@@ -25,9 +25,9 @@ export const BannerComponent: React.FC<BannerData> = ({ dataList }) => {
         <span className="banner-item">Samples</span>:&nbsp;
         {dataList !== undefined && dataList.samples !== undefined ? dataList.samples : ''}
       </span>
-      {dataList !== undefined && dataList.system !== undefined && dataList.system !== '' ? (
+      {dataList !== undefined && dataList.systems !== undefined && dataList.systems !== '' ? (
         <span>
-          <span className="banner-item">&nbsp;&nbsp;&nbsp;&nbsp;System</span>:&nbsp;{dataList.system}
+          <span className="banner-item">&nbsp;&nbsp;&nbsp;&nbsp;Systems</span>:&nbsp;{dataList.systems}
         </span>
       ) : (
         ''

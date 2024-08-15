@@ -369,11 +369,6 @@ export const resourceBaseData = {
   },
 };
 
-export interface MyVariableQuery {
-  namespace: string;
-  rawQuery: string;
-}
-
 export interface QueryValidationResult {
   result: boolean;
   resourceCommand: string;
