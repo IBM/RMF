@@ -28,6 +28,9 @@ const ReportFormat = "report"
 const ListFormat = "list"
 const SingleFormat = "single"
 
+const NumericColType = "N"
+const TextColType = "T"
+
 var SupportedFormats = map[string]bool{
 	ReportFormat: true,
 	ListFormat:   true,
