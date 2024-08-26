@@ -20,6 +20,7 @@ package frame
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 	"time"
 
@@ -29,6 +30,8 @@ import (
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
+
+const CaptionPrefix = "Header::"
 
 func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "Build")
@@ -63,15 +66,10 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 	format := report.Metric.Format
 	queryModel.ServerTimeData = copyTimeData(report.TimeData)
 	var newFrame *data.Frame
-	var err error
 	if format == dds.ReportFormat {
-		newFrame, err = buildForReport(&report, headers, queryModel)
-		newFrame.Meta = &data.FrameMeta{Custom: report.TimeData}
+		newFrame = buildForReport(&report, headers, queryModel)
 	} else {
 		newFrame = buildForMetric(&report, queryModel)
-	}
-	if err != nil {
-		return nil, fmt.Errorf("failed to build frame: %w", err)
 	}
 	return newFrame, nil
 }
@@ -181,84 +179,52 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 		if name == "" {
 			name = defaultName
 		}
-		var value *float64
-		floatValue, err := strconv.ParseFloat(rawValue, 64)
-		// rawValue can contain different kinds of text meaning n/a: NaN, blank value, Deact etc.
-		if rawValue != "NaN" && err == nil {
-			value = &floatValue
-		}
-		process(name, value)
+		process(name, parseFloat(rawValue))
 	}
 }
 
-func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *typ.QueryModel) (*data.Frame, error) {
-	resultFrame := data.NewFrame(getFrameName(qm))
-	// Add the regular metrics values as fields (either float64 or string values)
-	var trackingIndexCol, trackingIndexRow int
+func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *typ.QueryModel) *data.Frame {
+	logger := log.Logger.With("func", "buildForReport")
+	frame := data.NewFrame(getFrameName(qm))
 	reportName := report.Metric.Id
 
-	// Get a reference to columnHeaders Json property
-	cols := report.Headers.Cols
-	for colIndex, col := range cols {
-		var stringSlice []string
-		var floatSlice []float64
-
-		rows := report.Rows
-
-		// Some columns have type="N" (meaning Numeric) but contain "" values. In those cases it will be considered string.
-		// FIXME: it causes all kind of issues with sorting in UI.
-		treatColumnAsString := shouldColumnBeTreatedAsString(rows, colIndex)
-
-		for rowIndex, row := range rows {
-			currentValue := row.Cols[colIndex]
-			if treatColumnAsString {
-				stringSlice = append(stringSlice, currentValue)
-			} else {
-				f2, err := strconv.ParseFloat(currentValue, 64)
-				if err != nil {
-					return nil, fmt.Errorf("could not convert value to float in ConstructReportFrameFromJson(). Error=%w", err)
-				}
-				floatSlice = append(floatSlice, f2)
-			}
-			trackingIndexRow = rowIndex
-		}
-		headerText := headers.Get(reportName, col.Id)
-		if treatColumnAsString {
-			newField := data.NewField(headerText, nil, stringSlice)
-			resultFrame.Fields = append(resultFrame.Fields, newField)
+	for i, col := range report.Headers.Cols {
+		header := headers.Get(reportName, col.Id)
+		var field *data.Field
+		if col.Type == dds.NumericColType {
+			field = data.NewField(header, nil, []*float64{})
 		} else {
-			newField := data.NewField(headerText, nil, floatSlice)
-			resultFrame.Fields = append(resultFrame.Fields, newField)
+			if col.Type != dds.TextColType {
+				logger.Warn("unsupported column type, considering as string", "type", col.Type)
+			}
+			field = data.NewField(header, nil, []string{})
 		}
-		trackingIndexCol = colIndex
+		for _, row := range report.Rows {
+			rawValue := row.Cols[i]
+			if col.Type == dds.NumericColType {
+				field.Append(parseFloat(rawValue))
+			} else {
+				field.Append(rawValue)
+			}
+		}
+		frame.Fields = append(frame.Fields, field)
 	}
 
-	trackingIndexCol++
-	trackingIndexRow++
-
-	// Add the captions (these go as headers in the header table for Reports, not to be confused with col headers of reports)
-	for _, variable := range report.Caption.Vars {
-		fieldHeaderText := "Header::" + headers.Get(reportName, variable.Name)
-		fieldValue := variable.Value
-		fieldValues := make([]string, trackingIndexRow) // This slice will be having 'trackingIndexRow' rows
-		fieldValues[0] = fieldValue                     // Set only the 0th value
-		// Create a new field
-		newField := data.NewField(fieldHeaderText, nil, fieldValues)
-		resultFrame.Fields = append(resultFrame.Fields, newField)
-		trackingIndexCol++
+	for _, caption := range report.Caption.Vars {
+		// All the frames must have the same number of rows.
+		values := make([]string, len(report.Rows))
+		values[0] = caption.Value
+		header := CaptionPrefix + headers.Get(reportName, caption.Name)
+		field := data.NewField(header, nil, values)
+		frame.Fields = append(frame.Fields, field)
 	}
-	return resultFrame, nil
+	return frame
 }
 
-func shouldColumnBeTreatedAsString(rows []dds.Row, colIndex int) bool {
-	treatAsString := false
-	for _, row := range rows {
-		currentValue := row.Cols[colIndex]
-		_, err := strconv.ParseFloat(currentValue, 64)
-		if err != nil {
-			treatAsString = true
-			break
-		}
+func parseFloat(value string) *float64 {
+	// Value can contain different kinds of text meaning n/a: NaN, blank value, Deact, etc.
+	if parsed, err := strconv.ParseFloat(value, 64); err == nil && !math.IsNaN(parsed) {
+		return &parsed
 	}
-	return treatAsString
+	return nil
 }
