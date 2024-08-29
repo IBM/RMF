@@ -215,7 +215,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 		}
 		if err == nil {
 			// nolint:contextcheck
-			qm.ServerTimeData.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+			qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
 			if qm.SelectedVisualisationType == typ.TimeSeriesType {
 				response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
 			} else {
@@ -314,7 +314,7 @@ func (ds *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *ba
 	defer log.LogAndRecover(logger)
 
 	// Set wait time to 'ServiceCallInterval' for relative and 1/100th of a second for historical
-	waitTime := (time.Second * time.Duration(matchedQueryModel.ServerTimeData.MinTime))
+	waitTime := (time.Second * time.Duration(matchedQueryModel.Mintime))
 	histWaitTime := (time.Second * time.Duration(1)) / 100
 
 	// Stream data frames periodically till stream closed by Grafana.
@@ -342,17 +342,17 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if matchedQueryModel.TimeSeriesTimeRangeTo.After(matchedQueryModel.TimeRangeTo) {
+			if matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
 				histTicker.Stop()
 				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path)
 				return nil
 			}
 			// Send new data periodically.
-			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery)
+			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime, "to", matchedQueryModel.TimeRangeTo)
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame", "error", err)
 			}
-			frame.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.TimeSeriesTimeRangeFrom)
+			frame.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame", "error", err)
@@ -392,17 +392,17 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if histQueryModel.TimeSeriesTimeRangeFrom.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
+			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
 				histTicker.Stop()
 				logger.Debug("finished with historical data", "path", req.Path)
 				continue
 			}
-			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery)
+			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel, true); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
-			frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
+			frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame for historical data", "error", err)
@@ -421,8 +421,8 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 				if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "could not get new frame for relative data", "error", err)
 				}
-				frame.RemoveOldFieldNames(seriesFields, matchedQueryModel.TimeSeriesTimeRangeFrom.Add(-duration))
-				frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
+				frame.RemoveOldFieldNames(seriesFields, matchedQueryModel.CurrentTime.Add(-duration))
+				frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 				err = sender.SendFrame(newFrame, data.IncludeAll)
 				if err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "failed to send frame for relative data", "error", err)
@@ -458,19 +458,10 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
+	setQueryTimeRange(queryModel, plotAbsoluteReverse...)
 	// For relative time series (forward only) don't look in the cache
-	if !queryModel.AbsoluteTimeSelected {
-		setQueryTimeRange(queryModel)
-	} else {
-		// If frame exists in cache for the query get it from there
-		// else get frame from the server through a service call
-		if len(plotAbsoluteReverse) > 0 {
-			setQueryTimeRange(queryModel, plotAbsoluteReverse[0])
-			newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse[0])
-		} else {
-			setQueryTimeRange(queryModel)
-			newFrame, _ = ds.frameCache.GetFrame(queryModel)
-		}
+	if queryModel.AbsoluteTimeSelected {
+		newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse...)
 	}
 
 	// Fetch from the DDS Server and then save to cache if required.
@@ -525,12 +516,12 @@ func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *typ.QueryModel)
 
 func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
 	currentTimeUTC := time.Now().UTC()
-	difference := qm.TimeSeriesTimeRangeTo.Sub(currentTimeUTC)
+	difference := qm.CurrentTime.Sub(currentTimeUTC)
 	differenceInSecs := int(math.Abs(difference.Seconds()))
-	if qm.ServerTimeData.MinTime == 0 {
+	if qm.Mintime == 0 {
 		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
-	result := int(differenceInSecs / int(qm.ServerTimeData.MinTime))
+	result := int(differenceInSecs / int(qm.Mintime))
 	if result == 0 {
 		// FIXME: it's not necessarily true.
 		result = 1 //We need to invoke the svc at least once. So return 1.
@@ -548,25 +539,25 @@ func setQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) 
 
 	// Set the Query Model's TimeSeriesTimeRangeFrom and TimeSeriesTimeRangeTo properties
 	if queryModel.AbsoluteTimeSelected { // Absolute time
-		if queryModel.ServerTimeData.MinTime == 0 || queryModel.TimeSeriesTimeRangeFrom.IsZero() {
+		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			fromTime := queryModel.TimeRangeFrom
-			queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = fromTime, fromTime
+			queryModel.CurrentTime = fromTime
 		} else {
 			if plotReverse {
-				localPrevTime := queryModel.ServerTimeData.LocalPrevTime
-				queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = localPrevTime, localPrevTime
+				localPrevTime := queryModel.LocalPrev.Add(-1 * queryModel.TimeOffset)
+				queryModel.CurrentTime = localPrevTime
 			} else {
-				addedTime := queryModel.TimeSeriesTimeRangeFrom.Add(time.Duration(time.Second * time.Duration(queryModel.ServerTimeData.MinTime)))
-				queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = addedTime, addedTime
+				addedTime := queryModel.CurrentTime.Add(time.Duration(time.Second * time.Duration(queryModel.Mintime)))
+				queryModel.CurrentTime = addedTime
 			}
 		}
 	} else { // Relative time
-		if queryModel.ServerTimeData.MinTime == 0 || queryModel.TimeSeriesTimeRangeTo.IsZero() {
+		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			toTime := queryModel.TimeRangeTo
-			queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = toTime, toTime
+			queryModel.CurrentTime = toTime
 		} else {
-			localNextTime := queryModel.ServerTimeData.LocalNextTime
-			queryModel.TimeSeriesTimeRangeFrom, queryModel.TimeSeriesTimeRangeTo = localNextTime, localNextTime
+			localNextTime := queryModel.LocalNext.Add(-1 * queryModel.TimeOffset)
+			queryModel.CurrentTime = localNextTime
 		}
 	}
 }

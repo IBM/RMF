@@ -64,7 +64,7 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 	}
 
 	format := report.Metric.Format
-	queryModel.ServerTimeData = copyTimeData(report.TimeData)
+	queryModel.UpdateResponseStateFromTimeData(report.TimeData)
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
 		newFrame = buildForReport(&report, headers, queryModel)
@@ -72,28 +72,6 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 		newFrame = buildForMetric(&report, queryModel)
 	}
 	return newFrame, nil
-}
-
-func copyTimeData(ddsTimeData *dds.TimeData) typ.DDSTimeData {
-	// FIXME: this is redundant, just re-use dds.TimeData
-	resultTimeData := typ.DDSTimeData{}
-	resultTimeData.LocalStartTime = ddsTimeData.LocalStart.Time
-	resultTimeData.LocalEndTime = ddsTimeData.LocalEnd.Time
-	resultTimeData.LocalPrevTime = ddsTimeData.LocalPrev.Time
-	resultTimeData.LocalNextTime = ddsTimeData.LocalNext.Time
-	resultTimeData.UTCStartTime = ddsTimeData.UTCStart.Time
-	resultTimeData.UTCEndTime = ddsTimeData.UTCEnd.Time
-	// FIXME: sync with DDS client
-	resultTimeData.TimeOffset = resultTimeData.LocalStartTime.Sub(resultTimeData.UTCStartTime)
-	resultTimeData.MinTime = ddsTimeData.MintTime.Value
-
-	// Convert all to UTC times.
-	// FIXME: we already have UTC timestamps, the "local" time fields below are not really local.
-	resultTimeData.LocalStartTime = resultTimeData.LocalStartTime.Add(-1 * resultTimeData.TimeOffset)
-	resultTimeData.LocalEndTime = resultTimeData.LocalEndTime.Add(-1 * resultTimeData.TimeOffset)
-	resultTimeData.LocalPrevTime = resultTimeData.LocalPrevTime.Add(-1 * resultTimeData.TimeOffset)
-	resultTimeData.LocalNextTime = resultTimeData.LocalNextTime.Add(-1 * resultTimeData.TimeOffset)
-	return resultTimeData
 }
 
 // buildForMetric parses JSON string and create a data frame either for time series or a regular one.

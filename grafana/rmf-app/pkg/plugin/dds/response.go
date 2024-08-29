@@ -71,7 +71,7 @@ type TimeData struct {
 	UTCEnd     DateTime `json:"utcEnd"`
 	NumSamples int      `json:"numSamples"`
 	NumSystems *int     `json:"numSystems,omitempty"`
-	MintTime   struct {
+	MinTime    struct {
 		Unit  string `json:"unit"`
 		Value int    `json:"value"`
 	} `json:"gathererInterval"`
