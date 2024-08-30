@@ -32,9 +32,10 @@ import (
 )
 
 type CacheItemValue struct {
-	ValueKey       time.Time
-	Value          data.Frame
-	ServerTimeData typ.DDSTimeData
+	ValueKey time.Time
+	Value    data.Frame
+
+	typ.ResponseStatus
 }
 
 type FrameCache struct {
@@ -62,27 +63,25 @@ func (fc *FrameCache) getCacheItemValues(key []byte) ([]CacheItemValue, error) {
 func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []CacheItemValue {
 	var filteredCacheItemValues []CacheItemValue
 	var plotReverse bool
-	if len(plotAbsoluteReverse) > 0 {
-		if plotAbsoluteReverse[0] {
-			plotReverse = true
-		}
+	if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
+		plotReverse = true
 	}
 	// Set the Query Model's TimeSeriesTimeRangeFrom and TimeSeriesTimeRangeTo properties
 	if queryModel.AbsoluteTimeSelected { // Absolute time
 		for _, cacheItem := range cacheItemValues {
 			if plotReverse { // Are we plotting the reverse absolute time for a relative timeline?
-				if cacheItem.ValueKey.Before(queryModel.TimeSeriesTimeRangeFrom.Add(time.Duration(queryModel.ServerTimeData.MinTime))) {
+				if cacheItem.ValueKey.Before(queryModel.CurrentTime.Add(time.Duration(queryModel.Mintime))) {
 					filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
 				}
 			} else {
-				if cacheItem.ValueKey.After(queryModel.TimeSeriesTimeRangeFrom) {
+				if cacheItem.ValueKey.After(queryModel.CurrentTime) {
 					filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
 				}
 			}
 		}
 	} else { // Relative time
 		for _, cacheItem := range cacheItemValues {
-			if cacheItem.ValueKey.After(queryModel.TimeSeriesTimeRangeFrom) {
+			if cacheItem.ValueKey.After(queryModel.CurrentTime) {
 				filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
 			}
 		}
@@ -101,21 +100,17 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 		logger.Info("cache item values not obtained", "error", err)
 	}
 	if len(cacheItemValues) > 0 {
-		if len(plotAbsoluteReverse) > 0 {
-			filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse[0])
-		} else {
-			filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm)
-		}
+		filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse...)
 		if len(filteredCacheItemValues) > 0 {
 			var matchedCacheItem *CacheItemValue
-			if len(plotAbsoluteReverse) > 0 {
+			if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
 				matchedCacheItem = &filteredCacheItemValues[len(filteredCacheItemValues)-1]
 			} else {
 				matchedCacheItem = &filteredCacheItemValues[0]
 			}
-			diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.TimeSeriesTimeRangeFrom).Seconds())
-			if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.ServerTimeData.MinTime) {
-				qm.ServerTimeData = matchedCacheItem.ServerTimeData
+			diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.CurrentTime).Seconds())
+			if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.Mintime) {
+				qm.Update(&matchedCacheItem.ResponseStatus)
 				resultframe = &matchedCacheItem.Value
 			}
 		} else {
@@ -150,13 +145,9 @@ func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *typ.QueryModel
 	var (
 		cacheItemValue CacheItemValue
 	)
-	if qm.AbsoluteTimeSelected {
-		cacheItemValue.ValueKey = qm.TimeSeriesTimeRangeFrom
-	} else {
-		cacheItemValue.ValueKey = qm.TimeSeriesTimeRangeTo
-	}
+	cacheItemValue.ValueKey = qm.CurrentTime
 	cacheItemValue.Value = *frame
-	cacheItemValue.ServerTimeData = qm.ServerTimeData
+	cacheItemValue.Update(&qm.ResponseStatus)
 	return cacheItemValue
 }
 

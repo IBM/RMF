@@ -29,6 +29,39 @@ import (
 
 const TimeSeriesType = "TimeSeries"
 
+type ResponseStatus struct {
+	TimeOffset time.Duration // The timezone offset value from UTC time
+	Mintime    int
+	LocalPrev  time.Time
+	LocalNext  time.Time
+
+	CurrentTime time.Time
+}
+
+func (rs *ResponseStatus) Update(other *ResponseStatus) {
+	rs.TimeOffset = other.TimeOffset
+	rs.Mintime = other.Mintime
+	rs.LocalPrev = other.LocalPrev
+	rs.LocalNext = other.LocalNext
+	rs.CurrentTime = other.CurrentTime
+}
+
+func (rs *ResponseStatus) UpdateFromTimeData(timeData *dds.TimeData) {
+	rs.TimeOffset = timeData.LocalStart.Sub(timeData.UTCStart.Time)
+	rs.Mintime = timeData.MinTime.Value
+	rs.LocalPrev = timeData.LocalPrev.Time
+	rs.LocalNext = timeData.LocalNext.Time
+	//ensure CurrentTime inside interval
+	//currentMiddle = S+(E-S)/2
+	currentMiddle := timeData.LocalStart.Time.Add(
+		time.Duration(
+			timeData.LocalEnd.Time.Sub(timeData.LocalStart.Time).Nanoseconds() / 2,
+		),
+	)
+	currentMiddle = currentMiddle.Add(-1 * rs.TimeOffset)
+	rs.CurrentTime = currentMiddle
+}
+
 type QueryModel struct {
 	SelectedQuery string `json:"selectedQuery"`
 	// FIXME: it contains also metric ID and needs to be re-parsed, e.g. id=8D21B0&resource=,,SYSPLEX
@@ -40,9 +73,8 @@ type QueryModel struct {
 	RMFPanelId                string           `json:"rmfPanelGuid"`
 	TimeRangeFrom             time.Time        // 'From' time converted to UTC
 	TimeRangeTo               time.Time        // 'To' time converted to UTC
-	TimeSeriesTimeRangeFrom   time.Time        // 'From' Time converted to (DDS) local server time for timeseries
-	TimeSeriesTimeRangeTo     time.Time        // 'To' Time converted to (DDS) local server time for timeseries
-	ServerTimeData            DDSTimeData
+
+	ResponseStatus
 }
 
 func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
@@ -75,23 +107,14 @@ func (qm *QueryModel) getQueryType() string {
 	return resultQueryType
 }
 
-func (qm *QueryModel) getTimeRange() string {
-	var (
-		serverFromTime, serverToTime time.Time
-	)
+func (qm *QueryModel) getTime() string {
+	var time time.Time
 	if qm.SelectedVisualisationType == TimeSeriesType {
-		if qm.AbsoluteTimeSelected {
-			serverFromTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
-			serverToTime = qm.TimeSeriesTimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
-		} else {
-			serverFromTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
-			serverToTime = qm.TimeSeriesTimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
-		}
+		time = qm.CurrentTime.Add(qm.TimeOffset)
 	} else {
-		serverFromTime = qm.TimeRangeFrom.Add(qm.ServerTimeData.TimeOffset)
-		serverToTime = qm.TimeRangeTo.Add(qm.ServerTimeData.TimeOffset)
+		time = qm.TimeRangeFrom.Add(qm.TimeOffset)
 	}
-	return serverFromTime.Format(dds.DateTimeFormat) + "," + serverToTime.Format(dds.DateTimeFormat)
+	return time.Format(dds.DateTimeFormat)
 }
 
 func (qm *QueryModel) GetPathWithParams() (string, []string) {
@@ -101,7 +124,7 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 	} else {
 		path = dds.PerformPath
 	}
-	paramList := []string{"range", qm.getTimeRange()}
+	paramList := []string{"time", qm.getTime()}
 	// FIXME: process errors
 	params, _ := url.ParseQuery(qm.SelectedResource.Value)
 	for key, values := range params {
@@ -112,17 +135,6 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 
 func (q *QueryModel) CacheKey() []byte {
 	return []byte(q.SelectedResource.Value)
-}
-
-type DDSTimeData struct {
-	LocalStartTime time.Time     // The local start time of the DDS Server
-	LocalEndTime   time.Time     // The local end time of the local DDS Server
-	LocalPrevTime  time.Time     // The previous time (current - gathererInterval) of the local DDS Server
-	LocalNextTime  time.Time     // The next time (current + gathererInterval) of the local DDS Server
-	UTCStartTime   time.Time     // The UTC start time corresponding to the LocalStartTime
-	UTCEndTime     time.Time     // The UTC end time corresponding to the LocalEndTime
-	MinTime        int           // GathererInterval: Time to wait before fetching data chunks from server (usually set at 100 (secs)).
-	TimeOffset     time.Duration // The timezone offset value from UTC time
 }
 
 type SelectedResource struct {
