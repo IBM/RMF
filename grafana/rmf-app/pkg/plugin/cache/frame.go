@@ -31,6 +31,13 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
+type CacheItemValue struct {
+	ValueKey time.Time
+	Value    data.Frame
+
+	typ.ResponseStatus
+}
+
 type FrameCache struct {
 	cache *fastcache.Cache
 }
@@ -39,8 +46,8 @@ func NewFrameCache(size int) *FrameCache {
 	return &FrameCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (fc *FrameCache) getCacheItemValues(key []byte) ([]typ.CacheItemValue, error) {
-	var cacheItemValues []typ.CacheItemValue
+func (fc *FrameCache) getCacheItemValues(key []byte) ([]CacheItemValue, error) {
+	var cacheItemValues []CacheItemValue
 	byteCacheItemValues := fc.cache.GetBig(nil, key)
 	if byteCacheItemValues == nil {
 		return cacheItemValues, errors.New("could not obtain cache item values in getCacheItemValues()")
@@ -53,8 +60,8 @@ func (fc *FrameCache) getCacheItemValues(key []byte) ([]typ.CacheItemValue, erro
 	return cacheItemValues, nil
 }
 
-func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []typ.CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []typ.CacheItemValue {
-	var filteredCacheItemValues []typ.CacheItemValue
+func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []CacheItemValue {
+	var filteredCacheItemValues []CacheItemValue
 	var plotReverse bool
 	if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
 		plotReverse = true
@@ -86,7 +93,7 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 	logger := log.Logger.With("func", "GetFrame")
 	var (
 		resultframe             *data.Frame
-		filteredCacheItemValues []typ.CacheItemValue
+		filteredCacheItemValues []CacheItemValue
 	)
 	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
 	if err != nil {
@@ -95,7 +102,7 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 	if len(cacheItemValues) > 0 {
 		filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse...)
 		if len(filteredCacheItemValues) > 0 {
-			var matchedCacheItem *typ.CacheItemValue
+			var matchedCacheItem *CacheItemValue
 			if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
 				matchedCacheItem = &filteredCacheItemValues[len(filteredCacheItemValues)-1]
 			} else {
@@ -103,7 +110,7 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 			}
 			diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.CurrentTime).Seconds())
 			if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.Mintime) {
-				qm.UpdateResponseState(&matchedCacheItem.LastResponseState)
+				qm.Update(&matchedCacheItem.ResponseStatus)
 				resultframe = &matchedCacheItem.Value
 			}
 		} else {
@@ -134,17 +141,17 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 	return nil
 }
 
-func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) typ.CacheItemValue {
+func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) CacheItemValue {
 	var (
-		cacheItemValue typ.CacheItemValue
+		cacheItemValue CacheItemValue
 	)
 	cacheItemValue.ValueKey = qm.CurrentTime
 	cacheItemValue.Value = *frame
-	cacheItemValue.UpdateResponseState(&qm.LastResponseState)
+	cacheItemValue.Update(&qm.ResponseStatus)
 	return cacheItemValue
 }
 
-func (fc *FrameCache) sortCacheItemValuesSlice(cacheItemValues []typ.CacheItemValue) []typ.CacheItemValue {
+func (fc *FrameCache) sortCacheItemValuesSlice(cacheItemValues []CacheItemValue) []CacheItemValue {
 	// Sort the array
 	sort.Slice(cacheItemValues, func(i, j int) bool {
 		return cacheItemValues[i].ValueKey.Before(cacheItemValues[j].ValueKey)

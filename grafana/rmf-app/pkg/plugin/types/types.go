@@ -25,12 +25,11 @@ import (
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 const TimeSeriesType = "TimeSeries"
 
-type LastResponseState struct {
+type ResponseStatus struct {
 	TimeOffset time.Duration // The timezone offset value from UTC time
 	Mintime    int
 	LocalPrev  time.Time
@@ -39,19 +38,19 @@ type LastResponseState struct {
 	CurrentTime time.Time
 }
 
-func (thisState *LastResponseState) UpdateResponseState(thatState *LastResponseState) {
-	thisState.TimeOffset = thatState.TimeOffset
-	thisState.Mintime = thatState.Mintime
-	thisState.LocalPrev = thatState.LocalPrev
-	thisState.LocalNext = thatState.LocalNext
-	thisState.CurrentTime = thatState.CurrentTime
+func (rs *ResponseStatus) Update(other *ResponseStatus) {
+	rs.TimeOffset = other.TimeOffset
+	rs.Mintime = other.Mintime
+	rs.LocalPrev = other.LocalPrev
+	rs.LocalNext = other.LocalNext
+	rs.CurrentTime = other.CurrentTime
 }
 
-func (thisState *LastResponseState) UpdateResponseStateFromTimeData(timeData *dds.TimeData) {
-	thisState.TimeOffset = timeData.LocalStart.Sub(timeData.UTCStart.Time)
-	thisState.Mintime = timeData.MinTime.Value
-	thisState.LocalPrev = timeData.LocalPrev.Time
-	thisState.LocalNext = timeData.LocalNext.Time
+func (rs *ResponseStatus) UpdateFromTimeData(timeData *dds.TimeData) {
+	rs.TimeOffset = timeData.LocalStart.Sub(timeData.UTCStart.Time)
+	rs.Mintime = timeData.MinTime.Value
+	rs.LocalPrev = timeData.LocalPrev.Time
+	rs.LocalNext = timeData.LocalNext.Time
 	//ensure CurrentTime inside interval
 	//currentMiddle = S+(E-S)/2
 	currentMiddle := timeData.LocalStart.Time.Add(
@@ -59,8 +58,8 @@ func (thisState *LastResponseState) UpdateResponseStateFromTimeData(timeData *dd
 			timeData.LocalEnd.Time.Sub(timeData.LocalStart.Time).Nanoseconds() / 2,
 		),
 	)
-	currentMiddle = currentMiddle.Add(-1 * thisState.TimeOffset)
-	thisState.CurrentTime = currentMiddle
+	currentMiddle = currentMiddle.Add(-1 * rs.TimeOffset)
+	rs.CurrentTime = currentMiddle
 }
 
 type QueryModel struct {
@@ -75,7 +74,7 @@ type QueryModel struct {
 	TimeRangeFrom             time.Time        // 'From' time converted to UTC
 	TimeRangeTo               time.Time        // 'To' time converted to UTC
 
-	LastResponseState
+	ResponseStatus
 }
 
 func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
@@ -141,11 +140,4 @@ func (q *QueryModel) CacheKey() []byte {
 type SelectedResource struct {
 	Label string `json:"label"`
 	Value string `json:"value"`
-}
-
-type CacheItemValue struct {
-	ValueKey time.Time
-	Value    data.Frame
-
-	LastResponseState
 }

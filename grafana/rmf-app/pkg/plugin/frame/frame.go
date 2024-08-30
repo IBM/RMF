@@ -64,7 +64,7 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 	}
 
 	format := report.Metric.Format
-	queryModel.UpdateResponseStateFromTimeData(report.TimeData)
+	queryModel.UpdateFromTimeData(report.TimeData)
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
 		newFrame = buildForReport(&report, headers, queryModel)
