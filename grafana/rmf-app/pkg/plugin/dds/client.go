@@ -19,6 +19,7 @@ package dds
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -58,13 +59,18 @@ type Client struct {
 	rwMutex   sync.RWMutex
 }
 
-func NewClient(baseUrl string, username string, password string, timeout int) *Client {
+func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool) *Client {
 	client := &Client{
 		baseUrl:  strings.TrimRight(baseUrl, "/"),
 		username: username,
 		password: password,
 		httpClient: &http.Client{
 			Timeout: time.Duration(timeout) * time.Second,
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: tlsSkipVerify, // #nosec G402
+				},
+			},
 		},
 	}
 	client.waitGroup.Add(1)
