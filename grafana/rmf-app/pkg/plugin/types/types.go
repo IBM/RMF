@@ -139,11 +139,11 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 	} else {
 		path = dds.PerformPath
 	}
-	var paramList []string
+	var paramList []string = make([]string, 0)
 	if qm.SelectedVisualisationType == TimeSeriesType {
-		paramList = []string{"time", qm.getTime()}
+		paramList = append(paramList, "time", qm.getTime())
 	} else {
-		paramList = []string{"range", qm.getTimeRange()}
+		paramList = append(paramList, "range", qm.getTimeRange())
 	}
 	// FIXME: process errors
 	params, _ := url.ParseQuery(qm.SelectedResource.Value)
