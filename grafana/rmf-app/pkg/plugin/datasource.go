@@ -53,6 +53,10 @@ var (
 	_ backend.StreamHandler         = (*RMFDatasource)(nil)
 )
 
+const (
+	SDS_Delay = 5
+)
+
 type RMFDatasource struct {
 	uid          string
 	name         string
@@ -246,6 +250,7 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 		dataResponse *backend.DataResponse = &backend.DataResponse{}
 	)
 
+	setQueryTimeRange(query, false)
 	newFrame, err = ds.getFrameFromCacheOrServer(ctx, query, false)
 	if err != nil {
 		dataResponse.Error = log.FrameErrorWithId(logger, err)
@@ -339,20 +344,30 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 		select {
 		case <-ctx.Done():
 			err := ctx.Err()
-			logger.Debug("closing stream", "reason", err, "path", req.Path)
+			logger.Debug("closing stream: Done.", "reason", err, "path", req.Path)
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
 			if matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
 				histTicker.Stop()
-				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path)
+				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				return nil
+			}
+			setQueryTimeRange(matchedQueryModel)
+			if latestNotReady(matchedQueryModel.CurrentTime, matchedQueryModel.Mintime) {
+				logger.Debug("interval not yet ready", "time", matchedQueryModel.CurrentTime.String())
+				continue
 			}
 			// Send new data periodically.
 			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime, "to", matchedQueryModel.TimeRangeTo)
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame", "error", err)
 			}
+			if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+				logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
+				continue
+			}
+			matchedQueryModel.LastTime = matchedQueryModel.CurrentTime
 			frame.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
@@ -387,7 +402,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
 			err := ctx.Err()
-			logger.Debug("closing stream", "reason", err, "path", req.Path)
+			logger.Debug("closing stream: Done.", "reason", err, "path", req.Path)
 			// Stop tickers to enable garbage collection of resources
 			mainTicker.Stop()
 			histTicker.Stop()
@@ -395,14 +410,20 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 		case <-histTicker.C:
 			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
 				histTicker.Stop()
-				logger.Debug("finished with historical data", "path", req.Path)
+				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String())
 				continue
 			}
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
+			setQueryTimeRange(histQueryModel, true)
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel, true); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
+			if histQueryModel.CurrentTime.Equal(histQueryModel.LastTime) {
+				logger.Debug("skip frame due to duplication", "time", histQueryModel.CurrentTime.String())
+				continue
+			}
+			histQueryModel.LastTime = histQueryModel.CurrentTime
 			frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
@@ -419,9 +440,20 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			}
 			logger.Debug("executing query for relative data", "query", matchedQueryModel.SelectedQuery, "iterations", numberOfIterations)
 			for counter := 0; counter < numberOfIterations; counter++ {
+				setQueryTimeRange(matchedQueryModel)
+				if latestNotReady(matchedQueryModel.CurrentTime, matchedQueryModel.Mintime) {
+					logger.Debug("interval not yet ready", "time", matchedQueryModel.CurrentTime.String())
+					continue
+				}
+				logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime)
 				if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "could not get new frame for relative data", "error", err)
 				}
+				if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+					logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
+					continue
+				}
+				matchedQueryModel.LastTime = matchedQueryModel.CurrentTime
 				frame.RemoveOldFieldNames(seriesFields, matchedQueryModel.CurrentTime.Add(-duration))
 				frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 				err = sender.SendFrame(newFrame, data.IncludeAll)
@@ -459,11 +491,7 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
-	setQueryTimeRange(queryModel, plotAbsoluteReverse...)
-	// For relative time series (forward only) don't look in the cache
-	if queryModel.AbsoluteTimeSelected {
-		newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse...)
-	}
+	newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse...)
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if newFrame == nil {
@@ -475,6 +503,8 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 				return nil, log.ErrorWithId(logger, log.InternalError, "could not save frame", "error", err)
 			}
 		}
+	} else {
+		logger.Debug("cached value exist", "key", string(queryModel.CacheKey()))
 	}
 	return newFrame, nil
 }
@@ -522,6 +552,8 @@ func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
 	if qm.Mintime == 0 {
 		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
+	differenceInSecs -= qm.Mintime / 2
+	differenceInSecs -= SDS_Delay
 	result := int(differenceInSecs / int(qm.Mintime))
 	if result == 0 {
 		// FIXME: it's not necessarily true.
@@ -561,4 +593,9 @@ func setQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) 
 			queryModel.CurrentTime = localNextTime
 		}
 	}
+}
+
+func latestNotReady(t time.Time, m int) bool {
+	var now time.Time = time.Now()
+	return t.Add(time.Second*time.Duration(m/2) + SDS_Delay).After(now)
 }

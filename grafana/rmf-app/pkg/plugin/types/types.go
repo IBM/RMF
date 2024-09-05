@@ -75,6 +75,7 @@ type QueryModel struct {
 	TimeRangeTo               time.Time        // 'To' time converted to UTC
 
 	ResponseStatus
+	LastTime time.Time
 }
 
 func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
@@ -117,6 +118,20 @@ func (qm *QueryModel) getTime() string {
 	return time.Format(dds.DateTimeFormat)
 }
 
+func (qm *QueryModel) getTimeRange() string {
+	var (
+		serverFromTime, serverToTime time.Time
+	)
+	if qm.SelectedVisualisationType == TimeSeriesType {
+		serverFromTime = qm.CurrentTime.Add(qm.TimeOffset)
+		serverToTime = qm.CurrentTime.Add(qm.TimeOffset)
+	} else {
+		serverFromTime = qm.TimeRangeFrom.Add(qm.TimeOffset)
+		serverToTime = qm.TimeRangeTo.Add(qm.TimeOffset)
+	}
+	return serverFromTime.Format(dds.DateTimeFormat) + "," + serverToTime.Format(dds.DateTimeFormat)
+}
+
 func (qm *QueryModel) GetPathWithParams() (string, []string) {
 	var path string
 	if qm.getQueryType() == "report" {
@@ -124,7 +139,12 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 	} else {
 		path = dds.PerformPath
 	}
-	paramList := []string{"time", qm.getTime()}
+	var paramList []string
+	if qm.SelectedVisualisationType == TimeSeriesType {
+		paramList = []string{"time", qm.getTime()}
+	} else {
+		paramList = []string{"range", qm.getTimeRange()}
+	}
 	// FIXME: process errors
 	params, _ := url.ParseQuery(qm.SelectedResource.Value)
 	for key, values := range params {
@@ -134,7 +154,7 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 }
 
 func (q *QueryModel) CacheKey() []byte {
-	return []byte(q.SelectedResource.Value)
+	return []byte(q.SelectedResource.Value + " " + q.CurrentTime.String())
 }
 
 type SelectedResource struct {

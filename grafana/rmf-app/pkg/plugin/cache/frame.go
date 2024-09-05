@@ -50,7 +50,7 @@ func (fc *FrameCache) getCacheItemValues(key []byte) ([]CacheItemValue, error) {
 	var cacheItemValues []CacheItemValue
 	byteCacheItemValues := fc.cache.GetBig(nil, key)
 	if byteCacheItemValues == nil {
-		return cacheItemValues, errors.New("could not obtain cache item values in getCacheItemValues()")
+		return cacheItemValues, errors.New("no cache item")
 	} else {
 		err := json.Unmarshal(byteCacheItemValues, &cacheItemValues)
 		if err != nil {
@@ -97,7 +97,7 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 	)
 	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
 	if err != nil {
-		logger.Info("cache item values not obtained", "error", err)
+		logger.Debug("cache item values not obtained", "error", err, "key", string(qm.CacheKey()))
 	}
 	if len(cacheItemValues) > 0 {
 		filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse...)
@@ -126,8 +126,16 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 	logger := log.Logger.With("func", "SaveFrame")
 
 	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
+	if len(cacheItemValues) > 0 {
+		for _, cacheItemValue := range cacheItemValues {
+			if cacheItemValue.CurrentTime.Equal(qm.CurrentTime) {
+				logger.Info("cache item already exist", "key", string(qm.CacheKey()))
+				return nil
+			}
+		}
+	}
 	if err != nil {
-		logger.Info("cache item values not obtained", "error", err)
+		logger.Debug("cache item values not obtained", "error", err, "key", string(qm.CacheKey()))
 	}
 	cacheItemValue := fc.createCacheItemValue(frame, qm)
 	cacheItemValues = append(cacheItemValues, cacheItemValue)
@@ -137,6 +145,7 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 		return err
 	} else {
 		fc.cache.SetBig(qm.CacheKey(), cacheItemValueBytes)
+		logger.Debug("cache item added", "key", string(qm.CacheKey()))
 	}
 	return nil
 }
