@@ -129,7 +129,7 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 	if len(cacheItemValues) > 0 {
 		for _, cacheItemValue := range cacheItemValues {
 			if cacheItemValue.CurrentTime.Equal(qm.CurrentTime) {
-				logger.Info("cache item already exist", "key", string(qm.CacheKey()))
+				logger.Debug("cache item already exist", "key", string(qm.CacheKey()))
 				return nil
 			}
 		}

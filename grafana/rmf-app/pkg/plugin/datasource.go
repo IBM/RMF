@@ -53,9 +53,7 @@ var (
 	_ backend.StreamHandler         = (*RMFDatasource)(nil)
 )
 
-const (
-	SDS_Delay = 5
-)
+const SdsDelay = 5
 
 type RMFDatasource struct {
 	uid          string
@@ -553,7 +551,7 @@ func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
 		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
 	differenceInSecs -= qm.Mintime / 2
-	differenceInSecs -= SDS_Delay
+	differenceInSecs -= SdsDelay
 	result := int(differenceInSecs / int(qm.Mintime))
 	if result == 0 {
 		// FIXME: it's not necessarily true.
@@ -597,5 +595,5 @@ func setQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) 
 
 func latestNotReady(t time.Time, m int) bool {
 	var now time.Time = time.Now()
-	return t.Add(time.Second*time.Duration(m/2) + SDS_Delay).After(now)
+	return t.Add(time.Second*time.Duration(m/2) + SdsDelay).After(now)
 }
