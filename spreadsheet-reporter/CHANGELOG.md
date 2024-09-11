@@ -1,11 +1,15 @@
 # Change Log
 
+## 5.5.8 (2024-09-11)
+
+- The Spreadsheet Reporter has been updated to include the latest Java version 17.
+
 ## 5.5.7
 
- - Support CPU reports with multi-page IFL information
- - Fix WLMGL working set creation
- - Reset buttons in CF Trend macro
- - General maintenance
+- Support CPU reports with multi-page IFL information
+- Fix WLMGL working set creation
+- Reset buttons in CF Trend macro
+- General maintenance
 
 ## 5.5.6
 
