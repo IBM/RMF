@@ -143,17 +143,17 @@
             "renameByName": {
               "Avg Response Time (LPAR)": "Avg Resp Time (LPAR)",
               "Avg Response Time (Total)": "Avg Resp Time (Total)",
-              "Header::SSCH Rate 1": "SSCH Rate",
-              "Header::SSCH Rate 10": "Decompression Throughput",
-              "Header::SSCH Rate 11": "Decompression Ratio",
-              "Header::SSCH Rate 2": "Total Number of SSCH",
-              "Header::SSCH Rate 3": "Avg Function Pending Time",
-              "Header::SSCH Rate 4": "Avg IOP Queue Time",
-              "Header::SSCH Rate 5": "Avg Initial Cmd Response Time",
-              "Header::SSCH Rate 6": "Compression Request Rate",
-              "Header::SSCH Rate 7": "Compression Throughput",
-              "Header::SSCH Rate 8": "Compression Ratio",
-              "Header::SSCH Rate 9": "Decompression Request Rate"
+              "Caption::SSCH Rate 1": "SSCH Rate",
+              "Caption::SSCH Rate 10": "Decompression Throughput",
+              "Caption::SSCH Rate 11": "Decompression Ratio",
+              "Caption::SSCH Rate 2": "Total Number of SSCH",
+              "Caption::SSCH Rate 3": "Avg Function Pending Time",
+              "Caption::SSCH Rate 4": "Avg IOP Queue Time",
+              "Caption::SSCH Rate 5": "Avg Initial Cmd Response Time",
+              "Caption::SSCH Rate 6": "Compression Request Rate",
+              "Caption::SSCH Rate 7": "Compression Throughput",
+              "Caption::SSCH Rate 8": "Compression Ratio",
+              "Caption::SSCH Rate 9": "Decompression Request Rate"
             }
           }
         }
