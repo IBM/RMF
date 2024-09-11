@@ -346,7 +346,8 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
+			if matchedQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
+				matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
 				histTicker.Stop()
 				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				return nil
@@ -406,7 +407,8 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
+			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
+				histQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
 				histTicker.Stop()
 				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String())
 				continue
