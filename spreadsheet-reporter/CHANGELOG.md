@@ -1,6 +1,6 @@
 # Change Log
 
-## 5.5.8
+## 5.5.8 (2024-09-11)
 
 - The Spreadsheet Reporter has been updated to include the latest Java version 17.
 
