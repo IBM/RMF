@@ -157,6 +157,12 @@ func (q *QueryModel) CacheKey() []byte {
 	return []byte(q.SelectedResource.Value + " " + q.CurrentTime.String())
 }
 
+func (q *QueryModel) TimeRangeExceeded() bool {
+	return q.CurrentTime.Before(q.TimeRangeFrom.
+		Add(-1*time.Duration(time.Second*time.Duration(q.Mintime/2)))) ||
+		q.CurrentTime.After(q.TimeRangeTo)
+}
+
 type SelectedResource struct {
 	Label string `json:"label"`
 	Value string `json:"value"`

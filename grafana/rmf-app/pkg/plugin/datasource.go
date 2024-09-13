@@ -285,6 +285,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	if err != nil {
 		return err
 	}
+	logger.Debug("RunStream", "path", req.Path, "query", query.SelectedQuery, "dashboard", query.DashboardUid, "absoluteTime", query.AbsoluteTimeSelected)
 	// Stream absolute or relative timeline data
 	if query.AbsoluteTimeSelected {
 		err = ds.streamDataForAbsoluteRange(ctx, req, sender, query)
@@ -346,10 +347,9 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if matchedQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
-				matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
+			if matchedQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
+				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom, "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				return nil
 			}
 			setQueryTimeRange(matchedQueryModel)
@@ -407,10 +407,9 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
-				histQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
+			if histQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String())
+				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				continue
 			}
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
