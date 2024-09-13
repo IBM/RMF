@@ -5,6 +5,11 @@ GRAFANA_PLUGIN_ID := $(shell jq -r '.id' src/plugin.json)
 GRAFANA_PLUGIN_VERSION := $(shell jq -r '.version' package.json)
 GRAFANA_PLUGIN_ARTIFACT := $(GRAFANA_PLUGIN_ID)-grafana-$(GRAFANA_PLUGIN_VERSION).zip
 GRAFANA_PLUGIN_ARTIFACT_CHECKSUM := $(GRAFANA_PLUGIN_ARTIFACT).md5
+RMF_QUERY_PARSER_PATH := ./src/datasources/rmf-datasource/parser/lib
+RMF_QUERY_PARSER_FILES := \
+	$(RMF_QUERY_PARSER_PATH)/RMFQueryLexer.js \
+	$(RMF_QUERY_PARSER_PATH)/RMFQueryListener.js \
+	$(RMF_QUERY_PARSER_PATH)/RMFQueryParser.js
 
 all: clean build zip ## Executes clean build and zip tasks
 
@@ -36,7 +41,7 @@ restart-backend: ## Rebuild and restart backend data source (as root)
 	killall gpx_ibm-rmf-datasource_$$(go env GOOS)_$$(go env GOARCH)
 
 ##@ Antlr4
-ANTLR_JAR=antlr-4.13.1-complete.jar
+ANTLR_JAR=antlr-4.13.2-complete.jar
 ANTLR_JAR_PATH=/usr/local/lib/$(ANTLR_JAR)
 
 .antlr/$(ANTLR_JAR):
@@ -51,10 +56,10 @@ endif
 
 ##@ Build
 
-src/datasources/rmf-datasource/parser/lib/RMFQueryParser.js: .antlr/$(ANTLR_JAR) ./grammar/RMFQuery.g4 ## Build Query Parser
-	java -Xmx500M -cp .antlr/$(ANTLR_JAR) org.antlr.v4.Tool -Dlanguage=JavaScript -o $(@D) -Xexact-output-dir ./grammar/RMFQuery.g4
+$(RMF_QUERY_PARSER_FILES): .antlr/$(ANTLR_JAR) ./grammar/RMFQuery.g4 ## Generate Query Parser
+	java -Xmx500M -cp .antlr/$(ANTLR_JAR) org.antlr.v4.Tool -Dlanguage=JavaScript -o $(RMF_QUERY_PARSER_PATH) -Xexact-output-dir ./grammar/RMFQuery.g4
 
-build-frontend: deps-frontend src/datasources/rmf-datasource/parser/lib/RMFQueryParser.js ## Build frontend data sources
+build-frontend: deps-frontend $(RMF_QUERY_PARSER_FILES) ## Build frontend data sources
 	yarn build
 
 GO_LD_FLAGS := -w -s -extldflags "-static"

@@ -1,8 +1,33 @@
-grammar RMFQuery;
+/*
+RMF Query grammar
 
-/* @header {
-	package antlr;
-} */
+Examples:
+1.  query:      restype.metric
+    example:    SYSPLEX.% delay for enqueue
+    output:     ",TESTPLEX01,SYSPLEX"&id=8D1A20
+    ----------------------------------------
+2.  query:      restype.metric  {name=resname}
+    example:    SYSPLEX.% delay for enqueue {name=TESTPLEX01}
+    output:     ",TESTPLEX01,SYSPLEX"&id=8D1A20
+    ----------------------------------------
+3.  query:      restype.metric  {name=resname}
+    example:    MVS_IMAGE.% delay {name=NAME123}
+    output:     ",NAME123,MVS_IMAGE"&id=8D0160
+    ----------------------------------------
+4.  query:      restype.metric  {name=resname, ulq=resource ulq}
+    example:    CF_STRUCTURE.sync service time {ulq=CF01, name=APPC_STR1}
+    output:     "CF01,APPC_STR1,CF_STRUCTURE"&id=8D39A0
+    ----------------------------------------
+5.  query:      restype.metric  {ulq=resource ulq, name=resname}
+    example:    WLM_WORKLOAD.wait time (ms) by WLM service class period {name=*,ulq=ULQTEST01}
+    output:     "ULQTEST01,*,ALL_WLM_WORKLOADS"&id=8D5E30
+    ----------------------------------------
+6.  query:      restype.metric  {ulq=resource ulq, name=resname}
+    example:    WLM_WORKLOAD.active time (ms) {name=ASCH,ulq=ULQTEST01}
+    output:     "ULQTEST01,ASCH,WLM_WORKLOAD"&id=8D5DF0
+    ----------------------------------------
+*/
+grammar RMFQuery;
 
 rmfquery
 	: (rmfqueryReport | rmfqueryMetrices) EOF
@@ -13,7 +38,7 @@ rmfqueryReport
 	;
 
 rmfqueryReportName
-	:(reptypename | repname{1-100})
+	: (reptypename | repname{1-100})
 	;
 
 rmfqueryMetrices
@@ -26,7 +51,7 @@ rmfqueryWithQul
 
 rmfqueryWoutQul
 	: ( restype DOT metrics{1-200} )
-	;	
+	;
 
 qualifications
 	: ( OPEN_FLR_BRAK qualification morequalification CLOSE_FLR_BRAK )?
@@ -57,7 +82,7 @@ String_NAME
 	;
 
 name_options
-	: ( Number_Digits | only_string | string_withdot | string_withdot_withnumber)
+	: ( Integer | only_string | string_withdot | string_withdot_withnumber)
 	;
 
 only_string
@@ -69,7 +94,7 @@ string_withdot
 	;
 
 string_withdot_withnumber
-	: ( resource_withstring? DOT Number_Digits )
+	: ( resource_withstring? DOT Integer )
 	;
 
 dot_withstring
@@ -77,7 +102,7 @@ dot_withstring
 	;
 
 resource_withstring
-	: ( StringCharacters |  Res_Type | Number_Digits)
+	: ( StringCharacters |  Res_Type | Integer )
 	;
 
 range_Qualification
@@ -109,45 +134,45 @@ pat_filter
 	;
 
 lb_filter
-	:  ( String_LB '=' Number_Digits )
+	: String_LB '=' ( Integer | Decimal )
 	;
 
 ub_filter
-	:  ( String_UB '=' Number_Digits )
+	: String_UB '=' ( Integer | Decimal)
 	;
 
 hi_filter
-	:  ( String_HI '=' Number_Digits )
+	:  ( String_HI '=' Integer )
 	;
 
 lo_filter
-	:  ( String_LO '=' Number_Digits )
+	:  ( String_LO '=' Integer )
 	;
 
 ord_filter
 	:  ( String_ORD '=' Ord_Options )
 	;
-	
+
 String_PAT
 	: ([pP][aA][tT])
 	;
-	
+
 String_LB
 	: ([lL][bB])
 	;
-	
+
 String_UB
 	: ([uU][bB])
 	;
-	
+
 String_HI
 	: ([hH][iI])
 	;
-	
+
 String_LO
 	: ([lL][oO])
 	;
-	
+
 String_ORD
 	: ([oO][rR][dD])
 	;
@@ -161,7 +186,7 @@ workscope_Qualification
 	;
 
 workscope_options
-	: ( workscope_ulq ',' workscope_name ',' workscope_type )
+	: workscope_ulq ',' workscope_name ',' workscope_type
 	;
 
 String_WORKSCOPE
@@ -191,74 +216,81 @@ repname: StringCharacters?
 
 restype: Res_Type
 	;
-	
+
 metrics
 	:	StringCharacters?
 	;
 
 Ord_Options
-	: (  ([nN][aA]) | ([nN][dD]) | ([vV][aA]) | ([vV][dD]) | ([nN][nN]) )
+	: N A
+	| N D
+	| V A
+	| V D
+	| N N
 	;
 
 Res_Type
-	: ( ([sS][yY][sS][pP][lL][eE][xX]) 
-	| ([mM][vV][sS][_][iI][mM][aA][gG][eE]) 
-	| ([iI][/][oO][_][sS][uU][bB][sS][yY][sS][tT][eE][mM])
-	| ([aA][lL][lL][_][sS][sS][iI][dD][sS])
-	| ([aA][lL][lL][_][lL][cC][uU][sS])
-	| ([aA][lL][lL][_][cC][hH][aA][nN][nN][eE][lL][sS])
-	| ([aA][lL][lL][_][vV][oO][lL][uU][mM][eE][sS])
-	| ([cC][rR][yY][pP][tT][oO])
-	| ([pP][cC][iI][eE])
-	| ([sS][cC][mM])
-	| ([zZ][fF][sS])
-	| ([aA][gG][gG][rR][eE][gG][aA][tT][eE])
-	| ([pP][rR][oO][cC][eE][sS][sS][oO][rR])
-	| ([sS][tT][oO][rR][aA][G][eE])
-	| ([aA][uU][xX][iI][lL][iI][aA][rR][yY][_][sS][tT][oO][rR][aA][G][eE])
-	| ([cC][eE][nN][tT][rR][aA][lL][_][sS][tT][oO][rR][aA][G][eE])
-	| ([cC][sS][aA])
-	| ([sS][qQ][aA])
-	| ([eE][cC][sS][aA])
-	| ([eE][nN][qQ][uU][eE][uU][eE])
-	| ([oO][pP][eE][rR][aA][tT][oO][rR])
-	| ([sS][wW][_][sS][uU][bB][sS][yY][sS][tT][eE][mM][sS])
-	| ([jJ][eE][sS])
-	| ([xX][cC][fF])
-	| ([hH][sS][mM])
-	| ([cC][pP][cC])
-	| ([lL][pP][aA][rR])
-	| ([cC][oO][uU][pP][lL][iI][nN][G][_][fF][aA][cC][iI][lL][iI][tT][yY])
-	| ([cC][fF][_][sS][tT][rR][uU][cC][tT][uU][rR][eE])
-	| ([wW][lL][mM][_][aA][cC][tT][iI][vV][eE][_][pP][oO][lL][iI][cC][yY])
-	| ([aA][lL][lL][_][wW][lL][mM][_][wW][oO][rR][kK][lL][oO][aA][dD][sS])
-	| ([wW][lL][mM][_][wW][oO][rR][kK][lL][oO][aA][dD])
-	| ([wW][lL][mM][_][sS][eE][rR][vV][iI][cC][eE][_][cC][lL][aA][sS][sS])
-	| ([wW][lL][mM][_][sS][cC][_][pP][eE][rR][iI][oO][dD])
-	| ([aA][lL][lL][_][wW][lL][mM][_][rR][eE][pP][oO][rR][tT][_][cC][lL][aA][sS][sS][eE][sS])
-	| ([wW][lL][mM][_][rR][eE][pP][oO][rR][tT][_][cC][lL][aA][sS][sS])
-	| ([wW][lL][mM][_][rR][cC][_][pP][eE][rR][iI][oO][dD])
-	| ([aA][lL][lL][_][wW][lL][mM][_][rR][eE][sS][oO][uU][rR][cC][eE][_][G][rR][oO][uU][pP][sS])
-	| ([wW][lL][mM][_][rR][eE][sS][oO][uU][rR][cC][eE][_][G][rR][oO][uU][pP])
-	| ([cC][hH][aA][nN][nN][eE][lL][_][pP][aA][tT][hH])
-	| ([lL][oO][gG][iI][cC][aA][lL][_][cC][oO][nN][tT][rR][oO][lL][_][uU][nN][iI][tT])
-	| ([sS][sS][iI][dD])
-	| ([vV][oO][lL][uU][mM][eE])
-	| ([cC][rR][yY][pP][tT][oO][_][cC][aA][rR][dD])
-	| ([pP][cC][iI][eE][_][fF][uU][nN][cC][tT][iI][oO][nN])
-	| ([sS][cC][mM][_][cC][aA][rR][dD])
-	| ([eE][sS][qQ][aA])
-	| ([fF][iI][lL][eE][sS][yY][sS][tT][eE][mM])
-	)
+	: S Y S P L E X
+	| M V S '_' I M A G E
+	| I '/' O '_' S U B S Y S T E M
+	| A L L '_' S S I D S
+	| A L L '_' L C U S
+	| A L L '_' C H A N N E L S
+	| A L L '_' V O L U M E S
+	| C R Y P T O
+	| P C I E
+	| S C M
+	| Z F S
+	| A G G R E G A T E
+	| P R O C C E S S O R
+	| S T O R A G E
+	| A U X I L I A R Y '_' S T O R A G E
+	| C E N T R A L '_' S T O R A G E
+	| C S A
+	| S Q A
+	| E C S A
+	| E N Q U E U E
+	| O P E R A T O R
+	| S W '_' S U B S Y S T E M S
+	| J E S
+	| X C F
+	| H S M
+	| C P C
+	| L P A R
+	| C O U P L I N G '_' F A C I L I T Y
+	| C F '_' S T R U C T U R E
+	| W L M '_' A C T I V E '_' P O L I C Y
+	| A L L '_' W L M '_' W O R K L O A D S
+	| W L M '_' W O R K L O A D
+	| W L M '_' S E R V I C E '_' C L A S S S
+	| W L M '_' S C '_' P E R I O D
+	| A L L '_' W L M '_' R E P O R T '_' C L A S S S E S
+	| W L M '_' R E P O R T '_' C L A S S S
+	| W L M '_' R C '_' P E R I O D
+	| A L L '_' W L M '_' R E S O U R C E '_' G R O U P S
+	| W L M '_' R E S O U R C E '_' G R O U P
+	| C H A N N E L '_' P A T H
+	| L O G I C A L '_' C O N T R O L '_' U N I T
+	| S S I D
+	| V O L U M E
+	| C R Y P T O '_' C A R D
+	| P C I E '_' F U N C T I O N
+	| S C M '_' C A R D
+	| E S Q A
+	| F I L E S Y S T E M
 	;
 
 DateTime
 	: DATETIME
 	;
 
-Number_Digits
-	: ( NEWDIGIT )+
+Integer
+	: NEWDIGIT+
 	;
+
+Decimal
+  : Integer DOT Integer
+  ;
 
 StringCharacters
 	: TEXT+
@@ -292,3 +324,30 @@ CLOSE_FLR_BRAK
 	;
 
 WS: [ \n\t\r]+ -> skip;
+
+fragment A : [aA];
+fragment B : [bB];
+fragment C : [cC];
+fragment D : [dD];
+fragment E : [eE];
+fragment F : [fF];
+fragment G : [gG];
+fragment H : [hH];
+fragment I : [iI];
+fragment J : [jJ];
+fragment K : [kK];
+fragment L : [lL];
+fragment M : [mM];
+fragment N : [nN];
+fragment O : [oO];
+fragment P : [pP];
+fragment Q : [qQ];
+fragment R : [rR];
+fragment S : [sS];
+fragment T : [tT];
+fragment U : [uU];
+fragment V : [vV];
+fragment W : [wW];
+fragment X : [xX];
+fragment Y : [yY];
+fragment Z : [zZ];
