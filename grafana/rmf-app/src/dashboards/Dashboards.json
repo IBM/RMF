@@ -12,7 +12,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.0.5"
+      "version": "9.5.1"
     }
   ],
   "annotations": {
@@ -40,7 +40,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,  
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -139,7 +139,7 @@
           "RMF", "TIMELINE"
         ]
       },
-      "pluginVersion": "9.0.5",
+      "pluginVersion": "9.5.1",
       "title": "RMF Time Series Dashboards",
       "transparent": true,
       "type": "dashlist"

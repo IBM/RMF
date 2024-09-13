@@ -179,8 +179,6 @@ export const defaultTableConfig = {
   },
 };
 
-export const headerSplitKey = 'Header::';
-
 export interface PropTypes {
   Component?: any;
   defaultValue: string;

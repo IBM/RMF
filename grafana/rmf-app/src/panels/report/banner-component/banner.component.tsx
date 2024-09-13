@@ -15,34 +15,23 @@
  * limitations under the License.
  */
 import React from 'react';
-import { BannerData } from '../types';
+import { BANNER_PREFIX, FieldProps } from '../types';
 require('./banner.component.css');
 
-export const BannerComponent: React.FC<BannerData> = ({ dataList }) => {
+
+export const BannerComponent: React.FC<FieldProps> = ({ fields }) => {
   return (
     <span>
-      <span>
-        <span className="banner-item">Samples</span>:&nbsp;
-        {dataList !== undefined && dataList.samples !== undefined ? dataList.samples : ''}
-      </span>
-      {dataList !== undefined && dataList.systems !== undefined && dataList.systems !== '' ? (
-        <span>
-          <span className="banner-item">&nbsp;&nbsp;&nbsp;&nbsp;Systems</span>:&nbsp;{dataList.systems}
-        </span>
-      ) : (
-        ''
-      )}
-      <span>
-        <span className="banner-item">&nbsp;&nbsp;&nbsp;&nbsp;Time Range</span>:&nbsp;
-        {dataList !== undefined && dataList.timeRange !== undefined ? dataList.timeRange : ''}
-      </span>
-      {dataList !== undefined && dataList.range !== undefined && dataList.range !== '' ? (
-        <span>
-          <span className="banner-item">&nbsp;&nbsp;&nbsp;&nbsp;Range</span>:&nbsp;{dataList.range}&nbsp;Seconds
-        </span>
-      ) : (
-        ''
-      )}
+      { fields.map((field) => {
+          const name = field.name.slice(BANNER_PREFIX.length)
+          const values = field.values.buffer || field.values || [];
+          return (
+            <span key={ field.name }>
+              <span className="banner-item">{ name }</span>:&nbsp;{ values[0] ?? 'N/A' }&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+          );
+        })
+      }
     </span>
-  );
+  )
 };
