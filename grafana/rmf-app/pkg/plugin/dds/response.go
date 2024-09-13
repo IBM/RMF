@@ -107,8 +107,8 @@ type Message struct {
 	Description string
 }
 
-func (msg *Message) String() string {
-	return fmt.Sprintf("%s (sev: %d) %s", msg.Id, msg.Severity, msg.Description)
+func (msg Message) Error() string {
+	return fmt.Sprintf("DDS error: %s (severity %d). %s", msg.Id, msg.Severity, msg.Description)
 }
 
 type Metric struct {

@@ -19,6 +19,7 @@ package types
 
 import (
 	"encoding/json"
+	"errors"
 	"net/url"
 	"strings"
 	"time"
@@ -28,6 +29,8 @@ import (
 )
 
 const TimeSeriesType = "TimeSeries"
+
+var ErrBlankResource = errors.New("resource is blank")
 
 type ResponseStatus struct {
 	TimeOffset time.Duration // The timezone offset value from UTC time
@@ -82,6 +85,9 @@ func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
 	var qm QueryModel
 	if err := json.Unmarshal(query.JSON, &qm); err != nil {
 		return nil, err
+	}
+	if qm.SelectedQuery == "" {
+		return nil, ErrBlankResource
 	}
 	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
 	return &qm, nil

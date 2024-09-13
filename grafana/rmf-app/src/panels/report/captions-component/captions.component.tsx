@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 import React from 'react';
-import { CaptionListData } from '../types';
+import { CAPTION_PREFIX, FieldProps } from '../types';
 require('./captions.component.css');
 
-export const CaptionsComponent: React.FC<CaptionListData> = ({ dataList }) => {
+
+export const CaptionsComponent: React.FC<FieldProps> = ({ fields }) => {
   return (
     <span>
-      {dataList.length > 0 ? (
-        dataList.map((item: any, index: number) => {
+      {
+        fields.map((field: any) => {
+          const name = field.name.slice(CAPTION_PREFIX.length)
+          const values = field.values.buffer || field.values || [];
           return (
-            <div key={'captionitem_' + index} className="captionitem">
-              <span className="captionitemname">{item.name}</span> : {item.value}
+            <div key={ field.name } className="captionitem">
+              <span className="captionitemname">{ name }</span> : { values[0] ?? 'N/A'}
             </div>
           );
         })
-      ) : (
-        <span></span>
-      )}
+      }
     </span>
   );
 };

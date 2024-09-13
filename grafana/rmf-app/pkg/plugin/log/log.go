@@ -33,16 +33,16 @@ type ErrorCode int
 
 const (
 	InternalError ErrorCode = iota
+	FrameError
 	InputError
 	ConnectionError
-	DDSError
 )
 
 var ErrorCodeMap = map[ErrorCode]string{
 	InternalError:   "An internal error occurred in the IBM RMF Datasource plugin. Please contact your administrator and check the logs.",
+	FrameError:      "Unable to fetch data from server.",
 	InputError:      "The input provided is invalid.",
 	ConnectionError: "DDS connection failed.",
-	DDSError:        "<No message required>", // TODO: remove, just pass DDS error through
 }
 
 const errorIdLen = 10
@@ -64,7 +64,6 @@ func generateErrorId() (string, error) {
 // ErrorWithId logs an error with a unique id and returns a message with the same code.
 // The message is passed to frontend; the id can be used to identify corresponding backend error.
 func ErrorWithId(logger log.Logger, errCode ErrorCode, msg string, args ...interface{}) error {
-
 	errorId, err := generateErrorId()
 	if err != nil {
 		Logger.Error("unable to generate error id", "error", err, "func", "ErrorWithId")
@@ -72,21 +71,12 @@ func ErrorWithId(logger log.Logger, errCode ErrorCode, msg string, args ...inter
 	args = append(args, "errorId", errorId)
 	logger.Error(msg, args...)
 
-	var userErrDesc string
-	if errCode == DDSError {
-		userErrDesc = msg
-	} else {
-		userErrDesc = ErrorCodeMap[errCode]
-	}
+	userErrDesc := ErrorCodeMap[errCode]
 	return fmt.Errorf("%s (error id %s)", strings.Trim(userErrDesc, "."), errorId)
 }
 
 func FrameErrorWithId(logger log.Logger, err error) error {
-	if strings.Contains(err.Error(), "DDSError") {
-		return ErrorWithId(logger, DDSError, err.Error())
-	} else {
-		return ErrorWithId(logger, InternalError, "failed to get frame", "error", err)
-	}
+	return ErrorWithId(logger, FrameError, "failed to get frame", "error", err)
 }
 
 func LogAndRecover(logger log.Logger) {
