@@ -18,72 +18,60 @@ import { Parser } from './parser';
 import 'jest';
 
 describe('Test ResourceType and Metrics', () => {
-  test('Should parse with message', () => {
+
+  test('Should return formated outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image');
-    expect(parser.parse()).toBe('SYSPLEX.% CPU utilization (CP) by MVS image');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,,SYSPLEX');
   });
 
-  test('Should retuen formated outcome', () => {
-    const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,,SYSPLEX');
-  });
-
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('CPC.% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,,CPC');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,,CPC');
   });
 
   test('Should retuen mismatched Resource type parameter', () => {
     const parser = new Parser('TEST1.% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 0: mismatched input 'TEST1' expecting Res_Type");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 0: mismatched input 'TEST1' expecting {RES_TYPE, WS}");
   });
 
   test('Should check if mismatched Resource type missing.', () => {
     const parser = new Parser('.');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 0: mismatched input '.' expecting Res_Type");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 0: mismatched input '.' expecting {RES_TYPE, WS}");
   });
 
   test('Should check if a resource type is missing.', () => {
     const parser = new Parser('.% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 0: mismatched input '.' expecting Res_Type");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 0: mismatched input '.' expecting {RES_TYPE, WS}");
   });
 
   test('Should check if a resource type syntex is wrong.', () => {
     const parser = new Parser('@.% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("null line 1, col 0: token recognition error at: '@'");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 0: mismatched input '@' expecting {RES_TYPE, WS}");
   });
 
   test('Should check if a resource type & metrics syntex is wrong.', () => {
     const parser = new Parser('@.@');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain(
-      "null line 1, col 0: token recognition error at: '@'null line 1, col 2: token recognition error at: '@'"
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain(
+      "line 1, col 0: mismatched input '@' expecting {RES_TYPE, WS}"
     );
   });
 
   test('Should check if a metric is missing.', () => {
     const parser = new Parser('SYSPLEX.');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("<Error 'metrics | report'>");
-  });
-
-  test('Should check if a metric is wrong syntex.', () => {
-    const parser = new Parser('SYSPLEX.@');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain(
-      "<Error 'metrics | report'>null line 1, col 8: token recognition error at: '@'"
-    );
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 8: no viable alternative at input '.'");
   });
 
   test('Should check if a dot is missing.', () => {
     const parser = new Parser('SYSPLEX,% CPU utilization (CP) by MVS image');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 7: no viable alternative at input 'SYSPLEX,'");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 7: mismatched input ',' expecting '.'");
   });
 });
