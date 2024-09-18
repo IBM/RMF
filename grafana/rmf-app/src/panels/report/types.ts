@@ -14,23 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SelectableValue, ThresholdsConfig, ThresholdsMode } from '@grafana/data';
+import { SelectableValue, ThresholdsConfig, ThresholdsMode, Field, DataFrame } from '@grafana/data';
 import { TableCellDisplayMode } from '@grafana/ui';
 
-export interface CaptionListData {
-  dataList: DataListItem[];
+export interface ReportData {
+  bannerFields: Field[];
+  captionFields: Field[];
+  tableData: DataFrame[];
 }
 
-export interface DataListItem {
-  name: string;
-  value: any;
+export interface FieldProps {
+  fields: Field[]
 }
 
-export const headerSplitKey = 'Header::';
-
-export interface BannerData {
-  dataList: TableBanner;
-}
+export const BANNER_PREFIX= 'Banner::';
+export const CAPTION_PREFIX = 'Caption::';
 
 export const displayModes: Array<SelectableValue<any>> = [
   { value: TableCellDisplayMode.Auto, label: 'Auto' },
