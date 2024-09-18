@@ -26,6 +26,7 @@ import (
 	"net/http"
 	"runtime/debug"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -209,31 +210,51 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 		}
 	}()
 
+	type ResponseWithId struct {
+		refId    string
+		response *backend.DataResponse
+	}
+	var wg sync.WaitGroup
+	responseChan := make(chan ResponseWithId, len(req.Queries))
+
 	for _, query := range req.Queries {
-		var response *backend.DataResponse
-		status := backend.StatusBadRequest
-		qm, err := typ.FromDataQuery(query)
-		if err != nil {
-			if errors.Is(err, typ.ErrBlankResource) {
-				response = &backend.DataResponse{Status: backend.StatusOK}
+		wg.Add(1)
+
+		go func(q backend.DataQuery) {
+			defer wg.Done()
+			var response *backend.DataResponse
+			qm, err := typ.FromDataQuery(q)
+			if err != nil {
+				if errors.Is(err, typ.ErrBlankResource) {
+					response = &backend.DataResponse{Status: backend.StatusOK}
+				} else {
+					response = &backend.DataResponse{Status: backend.StatusBadRequest, Error: err}
+				}
 			} else {
-				response = &backend.DataResponse{Status: status, Error: err}
+				// nolint:contextcheck
+				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+				if qm.SelectedVisualisationType == typ.TimeSeriesType {
+					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
+				} else {
+					// FIXME: it's not actually table data. Just not time series.
+					response = ds.queryTableData(ctx, qm)
+				}
+				if response == nil {
+					err = log.ErrorWithId(logger, log.InternalError, "query response is nil")
+					response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
+				}
 			}
-		} else {
-			// nolint:contextcheck
-			qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
-			if qm.SelectedVisualisationType == typ.TimeSeriesType {
-				response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
-			} else {
-				// FIXME: it's not actually table data. Just not time series.
-				response = ds.queryTableData(ctx, qm)
-			}
-			if response == nil {
-				err = log.ErrorWithId(logger, log.InternalError, "query response is nil")
-				response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
-			}
-		}
-		qr.Responses[query.RefID] = *response
+			responseChan <- ResponseWithId{refId: q.RefID, response: response}
+		}(query)
+
+	}
+
+	go func() {
+		wg.Wait()
+		close(responseChan)
+	}()
+	for respWithId := range responseChan {
+		qr.Responses[respWithId.refId] = *respWithId.response
 	}
 	return qr, nil
 }
