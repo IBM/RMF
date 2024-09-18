@@ -213,10 +213,13 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 		var response *backend.DataResponse
 		status := backend.StatusBadRequest
 		qm, err := typ.FromDataQuery(query)
-		if err == nil && qm.SelectedQuery == "" {
-			err = errors.New("query cannot be blank")
-		}
-		if err == nil {
+		if err != nil {
+			if errors.Is(err, typ.ErrBlankResource) {
+				response = &backend.DataResponse{Status: backend.StatusOK}
+			} else {
+				response = &backend.DataResponse{Status: status, Error: err}
+			}
+		} else {
 			// nolint:contextcheck
 			qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
 			if qm.SelectedVisualisationType == typ.TimeSeriesType {
@@ -225,15 +228,11 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 				// FIXME: it's not actually table data. Just not time series.
 				response = ds.queryTableData(ctx, qm)
 			}
-			status = backend.StatusOK
+			if response == nil {
+				err = log.ErrorWithId(logger, log.InternalError, "query response is nil")
+				response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
+			}
 		}
-		if response == nil {
-			status = backend.StatusInternal
-			err = log.ErrorWithId(logger, log.InternalError, "query response is nil")
-			response = &backend.DataResponse{}
-		}
-		response.Status = status
-		response.Error = err
 		qr.Responses[query.RefID] = *response
 	}
 	return qr, nil
@@ -285,6 +284,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	if err != nil {
 		return err
 	}
+	logger.Debug("RunStream", "path", req.Path, "query", query.SelectedQuery, "dashboard", query.DashboardUid, "absoluteTime", query.AbsoluteTimeSelected)
 	// Stream absolute or relative timeline data
 	if query.AbsoluteTimeSelected {
 		err = ds.streamDataForAbsoluteRange(ctx, req, sender, query)
@@ -346,10 +346,9 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if matchedQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
-				matchedQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
+			if matchedQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
+				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom, "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				return nil
 			}
 			setQueryTimeRange(matchedQueryModel)
@@ -407,10 +406,9 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if histQueryModel.CurrentTime.Before(matchedQueryModel.TimeRangeFrom) ||
-				histQueryModel.CurrentTime.After(matchedQueryModel.TimeRangeTo) {
+			if histQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String())
+				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				continue
 			}
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
@@ -538,7 +536,14 @@ func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *typ.QueryModel)
 	dataResponse := &backend.DataResponse{}
 	// FIXME: doesn't it need to be cached?
 	if newFrame, err := ds.getFrame(ctx, qm); err != nil {
-		dataResponse.Error = log.FrameErrorWithId(logger, err)
+		// nolint:errorlint
+		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
+			dataResponse.Error = cause
+			dataResponse.Status = backend.StatusBadRequest
+		} else {
+			dataResponse.Error = log.FrameErrorWithId(logger, err)
+			dataResponse.Status = backend.StatusInternal
+		}
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
