@@ -269,11 +269,16 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	)
 
 	setQueryTimeRange(query, false)
-	newFrame, err = ds.getFrameFromCacheOrServer(ctx, query, false)
-	if err != nil {
-		dataResponse.Error = log.FrameErrorWithId(logger, err)
-	}
-	if newFrame != nil {
+	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query, false); err != nil {
+		// nolint:errorlint
+		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
+			dataResponse.Error = cause
+			dataResponse.Status = backend.StatusBadRequest
+		} else {
+			dataResponse.Error = log.FrameErrorWithId(logger, err)
+			dataResponse.Status = backend.StatusInternal
+		}
+	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 		if err := ds.createChannelForStreaming(pCtx, query, newFrame); err != nil {
 			dataResponse.Error = err
@@ -516,10 +521,10 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 	if newFrame == nil {
 		newFrame, err = ds.getFrame(ctx, queryModel)
 		if err != nil {
-			return nil, log.FrameErrorWithId(logger, err)
+			return nil, err
 		} else {
 			if err = ds.frameCache.SaveFrame(newFrame, queryModel); err != nil {
-				return nil, log.ErrorWithId(logger, log.InternalError, "could not save frame", "error", err)
+				return nil, err
 			}
 		}
 	} else {
