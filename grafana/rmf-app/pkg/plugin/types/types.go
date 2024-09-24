@@ -154,7 +154,7 @@ func (qm *QueryModel) GetPathWithParams() (string, []string) {
 	// FIXME: process errors
 	params, _ := url.ParseQuery(qm.SelectedResource.Value)
 	for key, values := range params {
-		paramList = append(paramList, key, strings.Join(values, ","))
+		paramList = append(paramList, key, strings.Join(values, ";"))
 	}
 	return path, paramList
 }
