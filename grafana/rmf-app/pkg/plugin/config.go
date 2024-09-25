@@ -48,12 +48,12 @@ type Config struct {
 		// Custom RMF settings.
 		CacheSizeRaw string `json:"cacheSize"`
 		// Legacy custom RMF settings. We should ge rid of these at some point.
-		Server             *string `json:"path"`
-		Port               string  `json:"port"`
-		SSL                bool    `json:"ssl"`
-		Username           string  `json:"userName"`
-		Password           string  `json:"password"`
-		VerifyInsecureCert bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
+		Server    *string `json:"path"`
+		Port      string  `json:"port"`
+		SSL       bool    `json:"ssl"`
+		Username  string  `json:"userName"`
+		Password  string  `json:"password"`
+		SSLVerify bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
 	}
 }
 
@@ -72,7 +72,7 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 		}
 		config.URL = fmt.Sprintf("%s://%s:%s", protocol, *config.JSON.Server, config.JSON.Port)
 		config.Timeout = DefaultHttpTimeout
-		config.JSON.TlsSkipVerify = !config.JSON.VerifyInsecureCert
+		config.JSON.TlsSkipVerify = !config.JSON.SSLVerify
 		config.Username = config.JSON.Username
 		if val, ok := settings.DecryptedSecureJSONData["password"]; ok {
 			config.Password = val
@@ -86,6 +86,9 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 		if settings.BasicAuthEnabled {
 			config.Username = settings.BasicAuthUser
 			if val, ok := settings.DecryptedSecureJSONData["basicAuthPassword"]; ok {
+				config.Password = val
+			} else if val, ok := settings.DecryptedSecureJSONData["password"]; ok {
+				// Password still may be in old format: it can't be converted in frontend, only reset.
 				config.Password = val
 			}
 		}

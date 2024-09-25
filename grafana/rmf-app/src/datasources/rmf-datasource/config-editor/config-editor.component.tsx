@@ -16,63 +16,62 @@
  */
 import React, { PureComponent } from 'react';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms } from '@grafana/ui';
+import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
 
 require('./config-editor.component.css');
 
 const { FormField } = LegacyForms;
 const FIELD_LABEL_WIDTH = 10;
-const FIELD_INPUT_WIDTH= 20;
-const SWITCH_LABEL_WIDTH = 20;
-const DEFAULT_HTTP_TIMEOUT = "60";
-const DEFAULT_CACHE_SIZE = "1024";
+const FIELD_INPUT_WIDTH = 20;
+const INLINE_LABEL_WIDTH = 20;
+const PASSWORD_SET_WIDTH = 30;
+const PASSWORD_EDIT_WIDTH = 40;
+const DEFAULT_HTTP_TIMEOUT = '60';
+const DEFAULT_CACHE_SIZE = '1024';
 const MINIMAL_CACHE_SIZE = 128;
 
 type Props = DataSourcePluginOptionsEditorProps<RMFDataSourceJsonData, RMFDataSourceSecureJsonData>;
 
 interface State {
   urlError?: string;
-  httpTimeoutError?: string
-  basicAuthUserError?: string
-  cacheSizeError?: string
+  httpTimeoutError?: string;
+  basicAuthUserError?: string;
+  cacheSizeError?: string;
 }
-
-
+// TODO: somehow prometherus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const {options, onOptionsChange} = props;
-    const {jsonData, secureJsonData} = options;
-    this.state = {}
+    const { options, onOptionsChange } = props;
+    const { jsonData } = options;
+    this.state = {};
 
     if (jsonData?.path !== undefined || jsonData?.port !== undefined) {
       // Convert from the legacy format if possible
-      options.url = `http${jsonData?.ssl? "s": ""}://${jsonData.path}${jsonData?.port? ":" + jsonData.port: ""}`;
-      let username = (jsonData?.userName || "").trim();
+      options.url = `http${jsonData?.ssl ? 's' : ''}://${jsonData.path}${jsonData?.port ? ':' + jsonData.port : ''}`;
+      let username = (jsonData?.userName || '').trim();
       if (username) {
         options.basicAuth = true;
         options.basicAuthUser = username;
       }
       options.jsonData = {
         timeout: DEFAULT_HTTP_TIMEOUT,
-        tlsSkipVerify: jsonData?.skipVerify || false
+        tlsSkipVerify: !(jsonData?.skipVerify !== undefined ? jsonData?.skipVerify : true), // NB: the meaning of skipVerify is inverted.
       };
-      options.secureJsonData = { basicAuthPassword: secureJsonData?.password || "" }
     } else {
       // Initialize jsonData and secureJsonData if needed
       options.jsonData = {
         timeout: jsonData?.timeout || DEFAULT_HTTP_TIMEOUT,
-        cacheSize: jsonData?.cacheSize|| DEFAULT_CACHE_SIZE,
-        tlsSkipVerify: jsonData?.tlsSkipVerify || false
+        cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
+        tlsSkipVerify: jsonData?.tlsSkipVerify || false,
       };
-      options.secureJsonData = { basicAuthPassword: secureJsonData?.basicAuthPassword || "" }
     }
-    onOptionsChange({...options});
+    onOptionsChange({ ...options });
   }
 
-  urlRegex = /^(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/
+  urlRegex = /^(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
 
   validateUrl = (url: string) => {
     if (this.urlRegex.test(url)) {
@@ -80,16 +79,16 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     } else {
       this.setState({ urlError: 'Invalid DDS URL' });
     }
-  }
+  };
 
   validateHttpTimeout = (value: string) => {
-    let numValue= Number(value)
+    let numValue = Number(value);
     if (numValue > 0 && Number.isInteger(numValue)) {
       this.setState({ httpTimeoutError: undefined });
     } else {
       this.setState({ httpTimeoutError: 'Timeout must be a positive integer' });
     }
-  }
+  };
 
   validateUsername = (value: string) => {
     if (value?.trim().length > 0) {
@@ -97,35 +96,48 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     } else {
       this.setState({ basicAuthUserError: 'Username cannot be blank' });
     }
-  }
+  };
 
   validateCacheSize = (value: string) => {
-    let numValue= Number(value)
+    let numValue = Number(value);
     if (numValue >= MINIMAL_CACHE_SIZE && Number.isInteger(numValue)) {
       this.setState({ cacheSizeError: undefined });
     } else {
       this.setState({ cacheSizeError: 'Cache size must be ≥ ' + MINIMAL_CACHE_SIZE });
     }
-  }
+  };
 
   updateSettings = (updates: Partial<RMFDataSourceSettings>) => {
     const { options, onOptionsChange } = this.props;
-    onOptionsChange(
-      { ...options, ...updates,
-        jsonData: {...options.jsonData, ...updates.jsonData},
-        secureJsonData: {...options.secureJsonData, ...updates.secureJsonData},
-      }
-    );
+    onOptionsChange({
+      ...options,
+      ...updates,
+      jsonData: { ...options.jsonData, ...updates.jsonData },
+    });
+  };
+
+  setPassword = (password: string) => {
+    const { options, onOptionsChange } = this.props;
+    onOptionsChange({
+      ...options,
+      secureJsonData: { basicAuthPassword: password },
+      secureJsonFields: {},
+    });
+  };
+
+  resetPassword = () => {
+    const { options, onOptionsChange } = this.props;
+    onOptionsChange({
+      ...options,
+      secureJsonData: { basicAuthPassword: '' },
+      secureJsonFields: { basicAuthPassword: false },
+    });
   };
 
   render() {
-    const {options} = this.props;
-    const {
-      urlError,
-      httpTimeoutError,
-      basicAuthUserError,
-      cacheSizeError
-    } = this.state;
+    const { options } = this.props;
+    const { urlError, httpTimeoutError, basicAuthUserError, cacheSizeError } = this.state;
+    const isPasswordSet = options?.secureJsonFields?.basicAuthPassword || options?.secureJsonFields?.password || false;
 
     return (
       <div className="gf-form-group">
@@ -140,15 +152,13 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               inputWidth={FIELD_INPUT_WIDTH}
               value={options.url}
               onChange={(event) => {
-                this.updateSettings({url: event.currentTarget.value})
+                this.updateSettings({ url: event.currentTarget.value });
               }}
               onBlur={(event) => {
-                this.validateUrl(event.currentTarget.value)
+                this.validateUrl(event.currentTarget.value);
               }}
             />
-            {urlError && (
-              <FieldValidationMessage horizontal={true}>{urlError}</FieldValidationMessage>
-            )}
+            {urlError && <FieldValidationMessage horizontal={true}>{urlError}</FieldValidationMessage>}
           </div>
           <div className="gf-form">
             <FormField
@@ -159,52 +169,53 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               inputWidth={FIELD_INPUT_WIDTH}
               value={options.jsonData?.timeout}
               onChange={(event) => {
-                this.updateSettings({jsonData: {timeout: event.currentTarget.value}})
+                this.updateSettings({ jsonData: { timeout: event.currentTarget.value } });
               }}
               onBlur={(event) => {
-                this.validateHttpTimeout(event.currentTarget.value)
+                this.validateHttpTimeout(event.currentTarget.value);
               }}
             />
-            {httpTimeoutError && (
-              <FieldValidationMessage horizontal={true}>{httpTimeoutError}</FieldValidationMessage>
-            )}
+            {httpTimeoutError && <FieldValidationMessage horizontal={true}>{httpTimeoutError}</FieldValidationMessage>}
           </div>
         </div>
         <h3 className="page-heading">Auth</h3>
         <div className="gf-form-group">
           <div className="gf-form-inline">
-            <InlineField label="Basic Auth"
-                         labelWidth={SWITCH_LABEL_WIDTH}
-                         tooltip="Use the basic authentication method">
+            <InlineField
+              label="Basic Auth"
+              labelWidth={INLINE_LABEL_WIDTH}
+              tooltip="Use the basic authentication method"
+            >
               <InlineSwitch
                 value={options.basicAuth}
                 onChange={(event) => {
-                  this.updateSettings(
-                    {
-                      basicAuth: event.currentTarget.checked,
-                      basicAuthUser: "",
-                      secureJsonData: {basicAuthPassword: ""}
-                    })
-                  this.setState({basicAuthUserError: undefined});
+                  this.updateSettings({
+                    basicAuth: event.currentTarget.checked,
+                    basicAuthUser: '',
+                    secureJsonData: { basicAuthPassword: '' },
+                  });
+                  this.setState({ basicAuthUserError: undefined });
                 }}
               />
             </InlineField>
           </div>
           <div className="gf-form-inline">
-            <InlineField label="Skip TLS Verify"
-                         labelWidth={SWITCH_LABEL_WIDTH}
-                         tooltip="Skip TLS certificate validation">
+            <InlineField
+              label="Skip TLS Verify"
+              labelWidth={INLINE_LABEL_WIDTH}
+              tooltip="Skip TLS certificate validation"
+            >
               <InlineSwitch
                 value={options.jsonData?.tlsSkipVerify}
                 onChange={(event) => {
-                  this.updateSettings({jsonData: {tlsSkipVerify: event.currentTarget.checked}})
+                  this.updateSettings({ jsonData: { tlsSkipVerify: event.currentTarget.checked } });
                 }}
               />
             </InlineField>
           </div>
         </div>
 
-        {(options.basicAuth) && (
+        {options.basicAuth && (
           <>
             <h6>Basic Auth Details</h6>
             <div className="gf-form-group">
@@ -216,29 +227,29 @@ export default class ConfigEditor extends PureComponent<Props, State> {
                   inputWidth={FIELD_INPUT_WIDTH}
                   value={options.basicAuthUser}
                   onChange={(event) => {
-                    this.updateSettings({basicAuthUser: event.currentTarget.value})
+                    this.updateSettings({ basicAuthUser: event.currentTarget.value });
                   }}
                   onBlur={(event) => {
-                    this.validateUsername(event.currentTarget.value)
+                    this.validateUsername(event.currentTarget.value);
                   }}
                 />
                 {basicAuthUserError && (
-                  <FieldValidationMessage
-                    horizontal={true}>{basicAuthUserError}</FieldValidationMessage>
+                  <FieldValidationMessage horizontal={true}>{basicAuthUserError}</FieldValidationMessage>
                 )}
               </div>
               <div className="gf-form">
-                <FormField
-                  label="Password"
-                  labelWidth={FIELD_LABEL_WIDTH}
-                  type="password"
-                  placeholder="Password"
-                  inputWidth={FIELD_INPUT_WIDTH}
-                  value={options.secureJsonData?.basicAuthPassword}
-                  onChange={(event) => {
-                    this.updateSettings({secureJsonData: {basicAuthPassword: event.currentTarget.value}})
-                  }}
-                />
+                <InlineField label="Password" labelWidth={INLINE_LABEL_WIDTH}>
+                  <SecretInput
+                    label="Password"
+                    // labelWidth={FIELD_LABEL_WIDTH}
+                    type="password"
+                    placeholder="Password"
+                    width={isPasswordSet ? PASSWORD_SET_WIDTH : PASSWORD_EDIT_WIDTH}
+                    isConfigured={isPasswordSet}
+                    onChange={(event) => this.setPassword(event.currentTarget.value)}
+                    onReset={() => this.resetPassword()}
+                  />
+                </InlineField>
               </div>
             </div>
           </>
@@ -255,18 +266,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               inputWidth={FIELD_INPUT_WIDTH}
               value={options.jsonData?.cacheSize}
               onChange={(event) => {
-                this.updateSettings({jsonData: {cacheSize: event.currentTarget.value}})
+                this.updateSettings({ jsonData: { cacheSize: event.currentTarget.value } });
               }}
               onBlur={(event) => {
-                this.validateCacheSize(event.currentTarget.value)
+                this.validateCacheSize(event.currentTarget.value);
               }}
             />
-            {cacheSizeError && (
-              <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>
-            )}
+            {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}
           </div>
         </div>
-
       </div>
     );
   }
