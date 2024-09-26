@@ -30,7 +30,6 @@ export class Parser {
   }
 
   parse(): GrammarResult {
-
     let lexerGrammarResult: { query: string; errorMessage: string; errorFound: boolean };
     let parserGrammarResult = {
       errorFound: false,
@@ -56,12 +55,12 @@ export class Parser {
     const isReport = tree.REPORT() !== null;
     const identifier = (tree.identifier()?.getText() || '').trim();
 
-    let qualifierValues = {}
-    let filters = '';
+    let qualifierValues = {};
+    let filters: string[] = [];
     for (let qual of tree.qualifiers()?.qualifier_list() || []) {
       let q;
       if ((q = qual.name())) {
-          qualifierValues['name'] = (q.string_()?.getText() || '').trim().toUpperCase();
+        qualifierValues['name'] = (q.string_()?.getText() || '').trim().toUpperCase();
       }
       if ((q = qual.ulq())) {
         qualifierValues['ulq'] = (q.string_()?.getText() || '').trim().toUpperCase();
@@ -70,15 +69,15 @@ export class Parser {
         qualifierValues['workscope'] = (q.workscopeValue()?.getText() || '').trim().toUpperCase();
       }
       if ((q = qual.filter())) {
-        filters += `&filter=${(q.filterValue()?.getText() || '').trim()}`;
+        filters.push((q.filterValue()?.getText() || '').trim());
       }
     }
 
     let resource = `${qualifierValues['ulq'] || ''},${qualifierValues['name'] || ''},${resType}`;
     let workscope = qualifierValues['workscope'];
-    let query = `${isReport? 'report': 'id'}=${identifier}&resource=${resource}`;
+    let query = `${isReport ? 'report' : 'id'}=${identifier}&resource=${resource}`;
     if (filters) {
-      query += filters;
+      query += `&filter=${filters.join(';')}`;
     }
     if (workscope) {
       query += `&workscope=${workscope}`;
