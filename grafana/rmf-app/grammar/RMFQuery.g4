@@ -40,7 +40,8 @@ qualifier: ulq | name | filter | workscope;
 ulq: ULQ EQUAL string;
 name: NAME EQUAL string;
 filter: FILTER EQUAL filterValue;
-filterValue: pat | lb | ub | hi | lo | ord;
+filterValue: filterItem (SEMI filterItem)*;
+filterItem: pat | lb | ub | hi | lo | ord;
 pat: PAT EQUAL string;
 lb: LB EQUAL number;
 ub: UB EQUAL number;
@@ -133,6 +134,7 @@ STRING_QUOTED
   | DOUBLE_QOUTE STRING_ITEM_DOUBLE_QUOTE* DOUBLE_QOUTE
   ;
 DOT: '.';
+SEMI: ';';
 COMMA: ',';
 LBRACE: '{';
 RBRACE: '}';
@@ -142,7 +144,7 @@ WS: [ \n\t\r]+;
 
 fragment SINGLE_QUOTE: '\'';
 fragment DOUBLE_QOUTE: '"';
-fragment STRING_ITEM_NO_QUOTE: ~[ .{}=,];
+fragment STRING_ITEM_NO_QUOTE: ~[ .;{}=,];
 fragment STRING_ITEM_SINGLE_QUOTE: ~'\'';
 fragment STRING_ITEM_DOUBLE_QUOTE: ~'"';
 fragment A : [aA];
