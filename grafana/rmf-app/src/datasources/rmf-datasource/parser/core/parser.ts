@@ -76,7 +76,7 @@ export class Parser {
     let resource = `${qualifierValues['ulq'] || ''},${qualifierValues['name'] || ''},${resType}`;
     let workscope = qualifierValues['workscope'];
     let query = `${isReport ? 'report' : 'id'}=${identifier}&resource=${resource}`;
-    if (filters) {
+    if (filters.length > 0) {
       query += `&filter=${filters.join(';')}`;
     }
     if (workscope) {
