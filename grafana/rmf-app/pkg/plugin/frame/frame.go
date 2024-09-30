@@ -45,6 +45,13 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 		return nil, fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
 	}
 	report := ddsResponse.Reports[0]
+	if message := report.Message; message != nil {
+		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
+			return nil, message
+		} else {
+			logger.Debug(message.Error())
+		}
+	}
 	if report.TimeData == nil {
 		return nil, errors.New("no time data in DDS response")
 	}
@@ -53,14 +60,6 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 	}
 	if _, ok := dds.SupportedFormats[report.Metric.Format]; !ok {
 		return nil, fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
-	}
-
-	if message := report.Message; message != nil {
-		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
-			return nil, message
-		} else {
-			logger.Debug(message.Error())
-		}
 	}
 
 	format := report.Metric.Format
