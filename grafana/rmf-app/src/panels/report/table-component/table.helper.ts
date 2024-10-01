@@ -27,14 +27,7 @@ import {
 } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { TableFieldOptions } from '@grafana/ui';
-import { DataListItem, defaultThresholds, headerSplitKey, TableBanner } from '../types';
-
-// const ThemeContext = React.createContext(getTheme());
-// let useTheme = (): GrafanaTheme => {
-//   let ThemeContextMock: React.Context<GrafanaTheme> | null = null;
-//   return useContext(ThemeContextMock || ThemeContext);
-// };
-// const theme = useTheme();
+import { defaultThresholds, CAPTION_PREFIX, BANNER_PREFIX, ReportData } from '../types';
 
 export const InitFrameData = (data: PanelData): DataFrame[] => {
   let frameData: DataFrame[] = [
@@ -70,18 +63,23 @@ export const applyNearestPercentage = (field: Field, maxVal: number): Field => {
   return field;
 };
 
-export const applySelectedDefaultsAndOverrides = (
-  options: any,
-  fieldConfig: FieldConfigSource,
-  data: DataFrame[]
-): DataFrame[] => {
-  let result: DataFrame[] = applyRawFieldOverrides(data);
-  let removeHeadersIndex = -1;
-  removeHeadersIndex = result[0].fields.findIndex((col: any) => col.name.indexOf(headerSplitKey) !== -1);
-  while (removeHeadersIndex > -1) {
-    result[0].fields.splice(removeHeadersIndex, 1);
-    removeHeadersIndex = result[0].fields.findIndex((col: any) => col.name.indexOf(headerSplitKey) !== -1);
+export const applySelectedDefaultsAndOverrides = (options: any, fieldConfig: FieldConfigSource, data: DataFrame[]): ReportData => {
+  // FIXME: send banner, captions and table data in different frames.
+  let result = applyRawFieldOverrides(data);
+  let bannerFields: Field[] = [];
+  let captionFields: Field[] = [];
+  let tableFields: Field[] = []
+  for (let i = 0; i < result[0].fields.length; i++) {
+    let field = result[0].fields[i]
+    if (field.name.startsWith(BANNER_PREFIX)) {
+      bannerFields.push(field);
+    } else if (field.name.startsWith(CAPTION_PREFIX)) {
+      captionFields.push(field);
+    } else {
+      tableFields.push(field);
+    }
   }
+  result[0].fields = tableFields;
 
   // First apply default settings
   result[0].fields.map((field: Field) => {
@@ -98,7 +96,7 @@ export const applySelectedDefaultsAndOverrides = (
     } as TableFieldOptions;
   });
 
-  // apply overrides
+  // Apply overrides
   if (fieldConfig.overrides && fieldConfig.overrides.length > 0) {
     fieldConfig.overrides.map((ovItem: ConfigOverrideRule) => {
       if (ovItem.matcher.id === 'byName') {
@@ -153,74 +151,9 @@ export const applySelectedDefaultsAndOverrides = (
       }
     });
   }
-  return result;
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: result};
 };
 
-export const prepareBannerToDisplay = (data: any): TableBanner => {
-  let bannerItem: TableBanner = {};
-  // This is for old rmf-datasource support : will be remove
-  if (data.series && data.series[0] && data.series[0].meta && data.series[0].meta.tableBanner) {
-    bannerItem = data.series[0].meta.tableBanner as TableBanner;
-  }
-  // ----------
-  if (data.series && data.series[0] && data.series[0].meta && data.series[0].meta.custom) {
-    bannerItem = {
-      samples: data.series[0].meta.custom['numSamples'],
-      system:
-        data.series[0].meta.custom['numSystems'] !== undefined && data.series[0].meta.custom['numSystems'] !== ''
-          ? data.series[0].meta.custom['numSystems']
-          : '',
-      timeRange:
-        data.series[0].meta.custom['localEnd'] !== undefined && data.series[0].meta.custom['localEnd'] !== ''
-          ? stringToDateString(data.series[0].meta.custom['localStart']) +
-            ' - ' +
-            stringToDateString(data.series[0].meta.custom['localEnd'])
-          : stringToDateString(data.series[0].meta.custom['localStart']),
-      range:
-        data.series[0].meta.custom.dataRange !== undefined &&
-        data.series[0].meta.custom.dataRange.value !== undefined &&
-        data.series[0].meta.custom.dataRange.value > 0
-          ? data.series[0].meta.custom.dataRange.value
-          : '',
-    };
-  }
-  return bannerItem;
-};
-
-export const stringToDateString = (serviceResult: String): string => {
-  //convert result from ex 20230501071820 YYYYMMDDHHMMSS to MM/DD/YYYY HH:MM:SS
-  let result =
-    serviceResult.toString().substring(4, 6) +
-    '/' +
-    serviceResult.toString().substring(6, 8) +
-    '/' +
-    serviceResult.toString().substring(0, 4) +
-    '/ ' +
-    serviceResult.toString().substring(8, 10) +
-    ':' +
-    serviceResult.toString().substring(10, 12) +
-    ':' +
-    serviceResult.toString().substring(12, 14);
-  return result;
-};
-
-export const prepareCaptionListToDisplay = (data: DataFrame[]): DataListItem[] => {
-  let captionList: DataListItem[] = [];
-  let result = applyRawFieldOverrides(data);
-  let removeHeadersIndex = result[0].fields.filter((col: any) => col.name.indexOf(headerSplitKey) !== -1);
-
-  if (removeHeadersIndex && removeHeadersIndex.length > 0) {
-    removeHeadersIndex.map((field: any) => {
-      let fieldValue = (field.values ? (field.values.buffer ? field.values.buffer[0] : field.values[0]) : "<NA>")
-      if (field && field.config && field.config.displayName && field.config.displayName.length > 0) {
-        captionList.push({ name: field.config.displayName, value: fieldValue });
-      } else {
-        captionList.push({ name: field.name.replace(headerSplitKey, ''), value: fieldValue });
-      }
-    });
-  }
-  return captionList;
-};
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {
   return applyFieldOverrides({

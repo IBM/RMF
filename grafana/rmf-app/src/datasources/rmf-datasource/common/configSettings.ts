@@ -25,6 +25,5 @@ export class ConfigSettings {
     LISTMETRICS_URL: `/gpm/listmetrics.xml?resource=%22`,
     INDEXXML_URL: `/gpm/index.xml`,
     IMAGE_URL: `/gpm/include/`,
-    END_TAG: `%22`,
   };
 }

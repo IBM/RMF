@@ -18,49 +18,49 @@ import { Parser } from './parser';
 import 'jest';
 
 describe('Test Report', () => {
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('MVS_IMAGE.REPORT.CHANNEL {Name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('report=CHANNEL&resource=,APPC_STR1,MVS_IMAGE');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('report=CHANNEL&resource=,APPC_STR1,MVS_IMAGE');
   });
 
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('SYSPLEX.REPORT.CHANNEL');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('report=CHANNEL&resource=,,SYSPLEX');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('report=CHANNEL&resource=,,SYSPLEX');
   });
 
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('CPC.REPORT.CHANNEL');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('report=CHANNEL&resource=,,CPC');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('report=CHANNEL&resource=,,CPC');
   });
 
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('MVS_IMAGE.REPORT.CPC {ulq=TEST12,Name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('report=CPC&resource=TEST12,APPC_STR1,MVS_IMAGE');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('report=CPC&resource=TEST12,APPC_STR1,MVS_IMAGE');
   });
 
-  test('Should retuen mismatched resource name', () => {
+  test('Should return mismatched resource name', () => {
     const parser = new Parser('MVS_IMAGE.REPORT.');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toBe("<Error 'reportName'>");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 17: missing {REPORT, WORKSCOPE, RANGE, ULQ, NAME, FILTER, PAT, LB, UB, HI, LO, ORD, ORD_OPTION, RES_TYPE, INTEGER, IDENTIFIER, STRING_UNQUOTED}");
   });
 
-  test('Should retuen mismatched resource type', () => {
+  test('Should return mismatched resource type', () => {
     const parser = new Parser('MVS_IAGE.REPORT.CHANNEL {ulq=TEST12,Name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain(
-      "line 1, col 0: mismatched input 'MVS_IAGE' expecting Res_Type"
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain(
+      "line 1, col 0: mismatched input 'MVS_IAGE' expecting {RES_TYPE, WS}"
     );
   });
 
   test('Should check if a name is mismatched input.', () => {
     const parser = new Parser('MVS_IMAGE.REPORT.CHANNEL {ame=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain(
-      "line 1, col 26: mismatched input 'ame' expecting {String_ULQ, String_NAME, YYYYMMDDhhmmss_RANGE, String_FILTER, String_WORKSCOPE}"
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain(
+      "line 1, col 26: mismatched input 'ame' expecting {WORKSCOPE, ULQ, NAME, FILTER, WS}"
     );
   });
 });

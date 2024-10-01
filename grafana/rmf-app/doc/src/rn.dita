@@ -9,6 +9,26 @@
             <title>What's new</title>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
+                    <dt>October 2024 v1.0.6</dt>
+                    <dd>
+                        <ul id="ul_mgn_m3g_xcc">
+                            <li>The <ph conref="conref.dita#conref/plugin_name"/> plugin now allows
+                                customizing banner and caption fields in IBM RMF Report
+                                visualizations.</li>
+                            <li>After you modify any <uicontrol
+                                    conref="conref.dita#conref/plugin_name_grafana"/> data source
+                                and save the changes, you no longer need to re-enter the
+                                password.</li>
+                            <li>Improved performance.</li>
+                            <li>Fixed internally found defects.</li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_qc4_m3g_xcc">
+            <dl id="dl_rc4_m3g_xcc">
+                <dlentry>
                     <dt>August 2024 v1.0.5</dt>
                     <dd>
                         <ul id="ul_ssj_xbl_gcc">

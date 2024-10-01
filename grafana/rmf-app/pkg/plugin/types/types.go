@@ -18,36 +18,56 @@
 package types
 
 import (
-	"fmt"
+	"encoding/json"
+	"errors"
+	"net/url"
+	"strings"
 	"time"
 
-	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-type DatasourceEndpointModel struct {
-	// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
-	// TODO: the type is to get rid of. We need to re-use one HTTP client on DS level.
-	URL           string
-	TimeoutInt    int
-	TimeoutRaw    string `json:"timeout"`
-	TlsSkipVerify bool   `json:"tlsSkipVerify"`
-	// Custom RMF settings.
-	CacheSizeRaw string `json:"cacheSize"`
-	CacheSizeInt int
-	// Legacy: custom RMF settings. We should ge rid of it at some point.
-	Server   string `json:"path"`
-	Port     string `json:"port"`
-	SSL      bool   `json:"ssl"`
-	UserName string `json:"userName"`
-	Password string `json:"password"`
-	// NB: the meaning of JSON field is inverted. If set, we do verify certificates.
-	VerifyInsecureCert bool `json:"skipVerify"`
-	DatasourceUid      string
+const TimeSeriesType = "TimeSeries"
+
+var ErrBlankResource = errors.New("resource is blank")
+
+type ResponseStatus struct {
+	TimeOffset time.Duration // The timezone offset value from UTC time
+	Mintime    int
+	LocalPrev  time.Time
+	LocalNext  time.Time
+
+	CurrentTime time.Time
+}
+
+func (rs *ResponseStatus) Update(other *ResponseStatus) {
+	rs.TimeOffset = other.TimeOffset
+	rs.Mintime = other.Mintime
+	rs.LocalPrev = other.LocalPrev
+	rs.LocalNext = other.LocalNext
+	rs.CurrentTime = other.CurrentTime
+}
+
+func (rs *ResponseStatus) UpdateFromTimeData(timeData *dds.TimeData) {
+	rs.TimeOffset = timeData.LocalStart.Sub(timeData.UTCStart.Time)
+	rs.Mintime = timeData.MinTime.Value
+	rs.LocalPrev = timeData.LocalPrev.Time
+	rs.LocalNext = timeData.LocalNext.Time
+	//ensure CurrentTime inside interval
+	//currentMiddle = S+(E-S)/2
+	currentMiddle := timeData.LocalStart.Time.Add(
+		time.Duration(
+			timeData.LocalEnd.Time.Sub(timeData.LocalStart.Time).Nanoseconds() / 2,
+		),
+	)
+	currentMiddle = currentMiddle.Add(-1 * rs.TimeOffset)
+	rs.CurrentTime = currentMiddle
 }
 
 type QueryModel struct {
-	Datasource                Datasource       `json:"datasource"`
-	SelectedQuery             string           `json:"selectedQuery"`
+	SelectedQuery string `json:"selectedQuery"`
+	// FIXME: it contains also metric ID and needs to be re-parsed, e.g. id=8D21B0&resource=,,SYSPLEX
 	SelectedResource          SelectedResource `json:"selectedResource"`
 	RefreshRequired           bool             `json:"refreshRequired"`
 	AbsoluteTimeSelected      bool             `json:"absoluteTimeSelected"`
@@ -56,102 +76,100 @@ type QueryModel struct {
 	RMFPanelId                string           `json:"rmfPanelGuid"`
 	TimeRangeFrom             time.Time        // 'From' time converted to UTC
 	TimeRangeTo               time.Time        // 'To' time converted to UTC
-	TimeSeriesTimeRangeFrom   time.Time        // 'From' Time converted to (DDS) local server time for timeseries
-	TimeSeriesTimeRangeTo     time.Time        // 'To' Time converted to (DDS) local server time for timeseries
-	ServerTimeData            DDSTimeData
-	Url                       string // Stores the DDS Url invoked to get response data
+
+	ResponseStatus
+	LastTime time.Time
 }
 
-func (query *QueryModel) Copy() *QueryModel {
-	copy := *query
+func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
+	var qm QueryModel
+	if err := json.Unmarshal(query.JSON, &qm); err != nil {
+		return nil, err
+	}
+	if qm.SelectedQuery == "" {
+		return nil, ErrBlankResource
+	}
+	qm.TimeRangeFrom, qm.TimeRangeTo = query.TimeRange.From.UTC(), query.TimeRange.To.UTC()
+	return &qm, nil
+}
+
+func (q *QueryModel) Copy() *QueryModel {
+	copy := *q
 	return &copy
 }
 
-func (query *QueryModel) CacheKey() []byte {
-	return []byte(query.Datasource.Uid + "/" + query.SelectedResource.Value)
-}
-
-type VariableQueryRequest struct {
-	Query string `json:"query"`
-}
-
-type DDSResponse struct {
-	Reports []struct {
-		Metric struct {
-			Format string
+func (qm *QueryModel) getQueryType() string {
+	var resultQueryType string
+	if strings.Trim(qm.SelectedQuery, "") != "" {
+		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
+		if len(splitStringSlice) > 1 {
+			vt := splitStringSlice[1]
+			if strings.ToLower(vt) == "report." {
+				resultQueryType = "report"
+			} else {
+				resultQueryType = "gauge"
+			}
 		}
-		Rows []struct {
-			Cols []string `json:"col"`
-		} `json:"row"`
-	} `json:"report"`
+	}
+	return resultQueryType
 }
 
-type DDSMessage struct {
-	Id          string
-	Severity    int
-	Description string
+func (qm *QueryModel) getTime() string {
+	var time time.Time
+	if qm.SelectedVisualisationType == TimeSeriesType {
+		time = qm.CurrentTime.Add(qm.TimeOffset)
+	} else {
+		time = qm.TimeRangeFrom.Add(qm.TimeOffset)
+	}
+	return time.Format(dds.DateTimeFormat)
 }
 
-func (msg *DDSMessage) String() string {
-	return fmt.Sprintf("%s (Sev: %d) %s", msg.Id, msg.Severity, msg.Description)
+func (qm *QueryModel) getTimeRange() string {
+	var (
+		serverFromTime, serverToTime time.Time
+	)
+	if qm.SelectedVisualisationType == TimeSeriesType {
+		serverFromTime = qm.CurrentTime.Add(qm.TimeOffset)
+		serverToTime = qm.CurrentTime.Add(qm.TimeOffset)
+	} else {
+		serverFromTime = qm.TimeRangeFrom.Add(qm.TimeOffset)
+		serverToTime = qm.TimeRangeTo.Add(qm.TimeOffset)
+	}
+	return serverFromTime.Format(dds.DateTimeFormat) + "," + serverToTime.Format(dds.DateTimeFormat)
 }
 
-type DDSTimeData struct {
-	LocalStartTime time.Time     // The local start time of the DDS Server
-	LocalEndTime   time.Time     // The local end time of the local DDS Server
-	LocalPrevTime  time.Time     // The previous time (current - gathererInterval) of the local DDS Server
-	LocalNextTime  time.Time     // The next time (current + gathererInterval) of the local DDS Server
-	UTCStartTime   time.Time     // The UTC start time corresponding to the LocalStartTime
-	UTCEndTime     time.Time     // The UTC end time corresponding to the LocalEndTime
-	MinTime        float64       // GathererInterval: Time to wait before fetching data chunks from server (usually set at 100 (secs)).
-	TimeOffset     time.Duration // The timezone offset value from UTC time
+func (qm *QueryModel) GetPathWithParams() (string, []string) {
+	var path string
+	if qm.getQueryType() == "report" {
+		path = dds.FullReportPath
+	} else {
+		path = dds.PerformPath
+	}
+	paramList := make([]string, 0, 1)
+	if qm.SelectedVisualisationType == TimeSeriesType {
+		paramList = append(paramList, "time", qm.getTime())
+	} else {
+		paramList = append(paramList, "range", qm.getTimeRange())
+	}
+	// FIXME: process errors
+	params, _ := url.ParseQuery(qm.SelectedResource.Value)
+	for key, values := range params {
+		paramList = append(paramList, key, strings.Join(values, ";"))
+	}
+	return path, paramList
 }
 
-type IntervalTimeData struct {
-	MinTime    float64
-	TimeOffset time.Duration // Time offset from UTC time
+func (q *QueryModel) CacheKey() []byte {
+	return []byte(q.SelectedResource.Value + " " + q.CurrentTime.String())
 }
 
-type Datasource struct {
-	Type string `json:"type"`
-	Uid  string `json:"uid"`
+func (q *QueryModel) TimeRangeExceeded() bool {
+	return q.CurrentTime.Before(q.TimeRangeFrom.
+		Add(-1*time.Duration(time.Second*time.Duration(q.Mintime/2)))) ||
+		q.CurrentTime.After(q.TimeRangeTo)
 }
 
 type SelectedResource struct {
 	Label string `json:"label"`
 	Value string `json:"value"`
-}
-
-type ColHeaderXslMap struct {
-	HeaderID   string
-	HeaderText string
-}
-
-// Below structures are used exclusively for caching
-
-type CacheItems struct {
-	CacheItemKey    string
-	CacheItemValues []CacheItemValue
-}
-
-type CacheItemValue struct {
-	ValueKey       time.Time
-	Value          data.Frame
-	ServerTimeData DDSTimeData
-}
-
-type ValueError struct {
-	Value int
-	Err   error
-}
-
-func NewValueError(value int, err error) *ValueError {
-	return &ValueError{
-		Value: value,
-		Err:   err,
-	}
-}
-
-func (ve *ValueError) Error() string {
-	return fmt.Sprintf("value error: %s", ve.Err)
 }

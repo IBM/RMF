@@ -205,7 +205,7 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
           ? e.currentTarget.value.toString().trim()
           : ''
       );
-      let result: GrammarResult = parser.constructTree();
+      let result: GrammarResult = parser.parse();
       if (result.errorFound) {
         this.setState({ errorMessage: result.errorMessage });
       } else {

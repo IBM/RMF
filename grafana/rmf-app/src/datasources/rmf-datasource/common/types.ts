@@ -179,8 +179,6 @@ export const defaultTableConfig = {
   },
 };
 
-export const headerSplitKey = 'Header::';
-
 export interface PropTypes {
   Component?: any;
   defaultValue: string;
@@ -368,11 +366,6 @@ export const resourceBaseData = {
     },
   },
 };
-
-export interface MyVariableQuery {
-  namespace: string;
-  rawQuery: string;
-}
 
 export interface QueryValidationResult {
   result: boolean;

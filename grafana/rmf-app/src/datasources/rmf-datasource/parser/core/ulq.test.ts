@@ -18,37 +18,37 @@ import { Parser } from './parser';
 import 'jest';
 
 describe('Test ULQ Qualifier', () => {
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=TEST12}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('id=% CPU utilization (CP) by MVS image&resource=TEST12,,SYSPLEX');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('id=% CPU utilization (CP) by MVS image&resource=TEST12,,SYSPLEX');
   });
 
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,APPC_STR1,SYSPLEX');
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe('id=% CPU utilization (CP) by MVS image&resource=,APPC_STR1,SYSPLEX');
   });
 
-  test('Should retuen formated outcome', () => {
+  test('Should return formated outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=TEST12,name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX'
     );
   });
 
   test('Should check if a dot is missing.', () => {
     const parser = new Parser('SYSPLEX,% CPU utilization (CP) by MVS image {ul=TEST12}');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 7: no viable alternative at input 'SYSPLEX,'");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 7: mismatched input ',' expecting '.'");
   });
 
   test('Should check if a name is mismatched input.', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ul=TEST12}');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain(
-      "line 1, col 45: mismatched input 'ul' expecting {String_ULQ, String_NAME, YYYYMMDDhhmmss_RANGE, String_FILTER, String_WORKSCOPE}"
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain(
+      "line 1, col 45: mismatched input 'ul' expecting {WORKSCOPE, ULQ, NAME, FILTER, WS}"
     );
   });
 });
