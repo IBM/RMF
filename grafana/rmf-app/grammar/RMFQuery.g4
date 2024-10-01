@@ -87,7 +87,7 @@ RES_TYPE
 	| S C M
 	| Z F S
 	| A G G R E G A T E
-	| P R O C C E S S O R
+	| P R O C E S S O R
 	| S T O R A G E
 	| A U X I L I A R Y '_' S T O R A G E
 	| C E N T R A L '_' S T O R A G E
@@ -107,10 +107,10 @@ RES_TYPE
 	| W L M '_' A C T I V E '_' P O L I C Y
 	| A L L '_' W L M '_' W O R K L O A D S
 	| W L M '_' W O R K L O A D
-	| W L M '_' S E R V I C E '_' C L A S S S
+	| W L M '_' S E R V I C E '_' C L A S S
 	| W L M '_' S C '_' P E R I O D
-	| A L L '_' W L M '_' R E P O R T '_' C L A S S S E S
-	| W L M '_' R E P O R T '_' C L A S S S
+	| A L L '_' W L M '_' R E P O R T '_' C L A S S E S
+	| W L M '_' R E P O R T '_' C L A S S
 	| W L M '_' R C '_' P E R I O D
 	| A L L '_' W L M '_' R E S O U R C E '_' G R O U P S
 	| W L M '_' R E S O U R C E '_' G R O U P
