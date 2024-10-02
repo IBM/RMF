@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math"
 	"net/http"
 	"runtime/debug"
@@ -35,11 +36,10 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/live"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache"
-	framef "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame_functions"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	qf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/query"
 	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
-	umf "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/unmarshal_functions"
 )
 
 // Make sure RMFDatasource implements required interfaces. This is important to do
@@ -54,34 +54,34 @@ var (
 	_ backend.StreamHandler         = (*RMFDatasource)(nil)
 )
 
-// There's up to two queries per channel to be cached.
-// One query takes about 1KB of memory.
-// So, 16MB means about 8k channels per data source.
-const ChannelCacheSizeMB = 16
+const SdsDelay = 5
 
 type RMFDatasource struct {
+	uid          string
+	name         string
 	channelCache *cache.ChannelCache
 	frameCache   *cache.FrameCache
-	endpoint     *typ.DatasourceEndpointModel
-	ddsOptions   DdsOptions
-	stopChan     chan struct{}
-	waitGroup    sync.WaitGroup
+	ddsClient    *dds.Client
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	ds := &RMFDatasource{
-		stopChan: make(chan struct{}),
-	}
-	endpoint, err := umf.UnmarshalEndpointModel(settings)
+	logger := log.Logger.With("func", "NewRMFDatasource")
+	ds := &RMFDatasource{uid: settings.UID, name: settings.Name}
+	config, err := ds.getConfig(settings)
 	if err != nil {
+		logger.Error("failed to get config", "error", err)
 		return nil, err
 	}
+	// nolint:contextcheck
+	ds.ddsClient = dds.NewClient(
+		config.URL, config.Username, config.Password, config.Timeout, config.JSON.TlsSkipVerify)
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
-	ds.frameCache = cache.NewFrameCache(endpoint.CacheSizeInt)
-	ds.endpoint = endpoint
-	ds.waitGroup.Add(1)
-	go ds.watchDdsOptions()
+	ds.frameCache = cache.NewFrameCache(config.CacheSize)
+	logger.Info("initialized a datasource",
+		"uid", settings.UID, "name", settings.Name,
+		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
+		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
 	return ds, nil
 }
 
@@ -92,17 +92,17 @@ func (ds *RMFDatasource) Dispose() {
 	logger := log.Logger.With("func", "Dispose")
 	// Recover from any panic so as to not bring down this backend datasource
 	defer log.LogAndRecover(logger)
-	close(ds.stopChan)
-	ds.waitGroup.Wait()
 	ds.channelCache.Reset()
 	ds.frameCache.Reset()
+	ds.ddsClient.Close()
+	logger.Info("disposed datasource", "uid", ds.uid, "name", ds.name)
 }
 
 // CheckHealth handles health checks sent from Grafana to the plugin.
 // The main use case for these health checks is the test button on the
 // datasource configuration page which allows users to verify that
 // a datasource is working as expected.
-func (ds *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (retRes *backend.CheckHealthResult, _ error) {
+func (ds *RMFDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (retRes *backend.CheckHealthResult, _ error) {
 
 	logger := log.Logger.With("func", "CheckHealth")
 
@@ -119,29 +119,25 @@ func (ds *RMFDatasource) CheckHealth(_ context.Context, req *backend.CheckHealth
 		status  backend.HealthStatus
 	)
 
-	res, err := qf.FetchRootInfo(ds.endpoint)
+	_, err := ds.ddsClient.GetRoot(ctx)
 	if err != nil {
-		if errors.As(err, new(*typ.ValueError)) {
+		status = backend.HealthStatusError
+		if errors.Is(err, dds.ErrUnauthorized) {
+			message = "Unauthorized. Make sure the credentials are correct."
+		} else if errors.Is(err, dds.ErrParse) {
 			message = "Unsupported version of DDS."
 		} else {
 			message = log.ErrorWithId(logger, log.ConnectionError, "couldn't fetch root info", "error", err).Error()
 		}
-		return &backend.CheckHealthResult{
-				Status:  backend.HealthStatusError,
-				Message: message},
-			nil
-	}
-	if res {
+	} else {
 		status = backend.HealthStatusOk
 		message = "Data source is working."
-	} else {
-		status = backend.HealthStatusError
-		message = "Unknown error. Please contact your administrator and check the logs."
 	}
-	return &backend.CheckHealthResult{
-		Status:  status,
-		Message: message,
-	}, nil
+	return &backend.CheckHealthResult{Status: status, Message: message}, nil
+}
+
+type VariableQueryRequest struct {
+	Query string `json:"query"`
 }
 
 func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
@@ -149,32 +145,30 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	// Recover from any panic so as to not bring down this backend datasource
 	defer log.LogAndRecover(logger)
 	switch req.Path {
+	// FIXME: it's a contained.xml request for M3 resource tree. Re-factor accordingly.
 	case "variablequery":
 		// Extract the query parameter from the POST request
 		jsonStr := string(req.Body)
-		varRequest := typ.VariableQueryRequest{}
+		varRequest := VariableQueryRequest{}
 		err := json.Unmarshal([]byte(jsonStr), &varRequest)
 		if err != nil {
 			return log.ErrorWithId(logger, log.InternalError, "could not unmarshal data", "error", err)
 		}
-		ddsQuery := varRequest.Query
-		if len(strings.TrimSpace(ddsQuery)) == 0 {
+		ddsResource := varRequest.Query
+		if len(strings.TrimSpace(ddsResource)) == 0 {
 			return log.ErrorWithId(logger, log.InputError, "variable query cannot be blank")
 		}
 
-		// Execute the query and return as body
-		data, err := qf.GetVariable(ddsQuery, ds.endpoint)
+		data, err := ds.ddsClient.GetRawContained(ctx, ddsResource)
 		if err != nil {
-			return log.ErrorWithId(logger, log.InternalError, "could not fetch xml data", "query", ddsQuery, "error", err)
+			return log.ErrorWithId(logger, log.InternalError, "could not fetch data", "query", ddsResource, "error", err)
 		} else {
-			logger.Debug("executed variable query and got response", "query", ddsQuery, "response", data)
+			logger.Debug("executed variable query and got response", "query", ddsResource)
 		}
-		return sender.Send(&backend.CallResourceResponse{
-			Status: http.StatusOK,
-			Body:   data,
-		})
+		return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
+	// FIXME: it's a metrics index request. Re-factor accordingly.
 	case "autopopulate":
-		metricsData, err := qf.FetchMetricsFromIndex(ds.endpoint)
+		metricsIndex, err := ds.ddsClient.GetRawIndex(ctx)
 		if err != nil {
 			return log.ErrorWithId(logger, log.InternalError, "could not fetch (autopopulate) metrics", "error", err)
 		} else {
@@ -182,13 +176,10 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 		}
 		return sender.Send(&backend.CallResourceResponse{
 			Status: http.StatusOK,
-			Body:   metricsData,
+			Body:   metricsIndex,
 		})
 	default:
-		return sender.Send(&backend.CallResourceResponse{
-			Status: http.StatusNotFound,
-			Body:   nil,
-		})
+		return sender.Send(&backend.CallResourceResponse{Status: http.StatusNotFound, Body: nil})
 	}
 }
 
@@ -219,29 +210,56 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 		}
 	}()
 
-	queryDataResponse := backend.NewQueryDataResponse()
-	for _, query := range req.Queries {
-		var response *backend.DataResponse
-		ddsQuery, err := umf.UnmarshalQueryModel(req.PluginContext, query)
-		if err != nil || ddsQuery.SelectedQuery == "" {
-			continue
-		}
-		timeData := ds.getCachedDdsTimeData()
-		ddsQuery.ServerTimeData.TimeOffset = timeData.TimeOffset
-		ddsQuery.ServerTimeData.MinTime = timeData.MinTime
-		if ddsQuery.SelectedVisualisationType == "TimeSeries" {
-			response = ds.queryTimeSeries(req.PluginContext, ddsQuery)
-		} else {
-			response = ds.queryTableData(ddsQuery)
-		}
-		if response != nil {
-			queryDataResponse.Responses[query.RefID] = *response
-		}
+	type ResponseWithId struct {
+		refId    string
+		response *backend.DataResponse
 	}
-	return queryDataResponse, nil
+	var wg sync.WaitGroup
+	responseChan := make(chan ResponseWithId, len(req.Queries))
+
+	for _, query := range req.Queries {
+		wg.Add(1)
+
+		go func(q backend.DataQuery) {
+			defer wg.Done()
+			var response *backend.DataResponse
+			qm, err := typ.FromDataQuery(q)
+			if err != nil {
+				if errors.Is(err, typ.ErrBlankResource) {
+					response = &backend.DataResponse{Status: backend.StatusOK}
+				} else {
+					response = &backend.DataResponse{Status: backend.StatusBadRequest, Error: err}
+				}
+			} else {
+				// nolint:contextcheck
+				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+				if qm.SelectedVisualisationType == typ.TimeSeriesType {
+					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
+				} else {
+					// FIXME: it's not actually table data. Just not time series.
+					response = ds.queryTableData(ctx, qm)
+				}
+				if response == nil {
+					err = log.ErrorWithId(logger, log.InternalError, "query response is nil")
+					response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
+				}
+			}
+			responseChan <- ResponseWithId{refId: q.RefID, response: response}
+		}(query)
+
+	}
+
+	go func() {
+		wg.Wait()
+		close(responseChan)
+	}()
+	for respWithId := range responseChan {
+		qr.Responses[respWithId.refId] = *respWithId.response
+	}
+	return qr, nil
 }
 
-func (ds *RMFDatasource) queryTimeSeries(pCtx backend.PluginContext, query *typ.QueryModel) *backend.DataResponse {
+func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.PluginContext, query *typ.QueryModel) *backend.DataResponse {
 	logger := log.Logger.With("func", "queryTimeSeries")
 
 	var (
@@ -250,11 +268,17 @@ func (ds *RMFDatasource) queryTimeSeries(pCtx backend.PluginContext, query *typ.
 		dataResponse *backend.DataResponse = &backend.DataResponse{}
 	)
 
-	newFrame, err = ds.getFrameFromCacheOrServer(query, false)
-	if err != nil {
-		dataResponse.Error = log.FrameErrorWithId(logger, err)
-	}
-	if newFrame != nil {
+	setQueryTimeRange(query, false)
+	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query, false); err != nil {
+		// nolint:errorlint
+		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
+			dataResponse.Error = cause
+			dataResponse.Status = backend.StatusBadRequest
+		} else {
+			dataResponse.Error = log.FrameErrorWithId(logger, err)
+			dataResponse.Status = backend.StatusInternal
+		}
+	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 		if err := ds.createChannelForStreaming(pCtx, query, newFrame); err != nil {
 			dataResponse.Error = err
@@ -286,6 +310,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	if err != nil {
 		return err
 	}
+	logger.Debug("RunStream", "path", req.Path, "query", query.SelectedQuery, "dashboard", query.DashboardUid, "absoluteTime", query.AbsoluteTimeSelected)
 	// Stream absolute or relative timeline data
 	if query.AbsoluteTimeSelected {
 		err = ds.streamDataForAbsoluteRange(ctx, req, sender, query)
@@ -319,7 +344,7 @@ func (ds *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *ba
 	defer log.LogAndRecover(logger)
 
 	// Set wait time to 'ServiceCallInterval' for relative and 1/100th of a second for historical
-	waitTime := (time.Second * time.Duration(matchedQueryModel.ServerTimeData.MinTime))
+	waitTime := (time.Second * time.Duration(matchedQueryModel.Mintime))
 	histWaitTime := (time.Second * time.Duration(1)) / 100
 
 	// Stream data frames periodically till stream closed by Grafana.
@@ -337,27 +362,37 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 		err      error
 	)
 	histTicker := time.NewTicker(waitTime)
-	seriesFields := framef.SeriesFields{}
+	seriesFields := frame.SeriesFields{}
 
 	for {
 		select {
 		case <-ctx.Done():
 			err := ctx.Err()
-			logger.Debug("closing stream", "reason", err, "path", req.Path)
+			logger.Debug("closing stream: Done.", "reason", err, "path", req.Path)
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if matchedQueryModel.TimeSeriesTimeRangeTo.After(matchedQueryModel.TimeRangeTo) {
+			if matchedQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path)
+				logger.Debug("closing stream", "reason", "finished with historical data", "path", req.Path, "CurrentTime", matchedQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom, "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				return nil
 			}
+			setQueryTimeRange(matchedQueryModel)
+			if latestNotReady(matchedQueryModel.CurrentTime, matchedQueryModel.Mintime) {
+				logger.Debug("interval not yet ready", "time", matchedQueryModel.CurrentTime.String())
+				continue
+			}
 			// Send new data periodically.
-			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery)
-			if newFrame, err = ds.getFrameFromCacheOrServer(matchedQueryModel); err != nil {
+			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime, "to", matchedQueryModel.TimeRangeTo)
+			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame", "error", err)
 			}
-			framef.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.TimeSeriesTimeRangeFrom)
+			if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+				logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
+				continue
+			}
+			matchedQueryModel.LastTime = matchedQueryModel.CurrentTime
+			frame.SyncFieldNames(seriesFields, newFrame, matchedQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame", "error", err)
@@ -373,9 +408,12 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) error {
 	logger := log.Logger.With("func", "streamDataRelative")
 	var newFrame *data.Frame
+	// FIXME: tickers are not suitable for the streaming.
+	// Time for the next request should be calculated based on the time of the latest response.
+	// Also, requests for historical and current data should be synchronized.
 	mainTicker := time.NewTicker(*waitTime)
 	histTicker := time.NewTicker(*histWaitTime)
-	seriesFields := framef.SeriesFields{}
+	seriesFields := frame.SeriesFields{}
 	duration := matchedQueryModel.TimeRangeTo.Sub(matchedQueryModel.TimeRangeFrom)
 
 	histQueryModel, err := ds.channelCache.GetChannelQuery(req.Path + "/h")
@@ -388,23 +426,29 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 		select {
 		case <-ctx.Done(): // Did the client cancel out?
 			err := ctx.Err()
-			logger.Debug("closing stream", "reason", err, "path", req.Path)
+			logger.Debug("closing stream: Done.", "reason", err, "path", req.Path)
 			// Stop tickers to enable garbage collection of resources
 			mainTicker.Stop()
 			histTicker.Stop()
 			return err
 		case <-histTicker.C:
-			if histQueryModel.TimeSeriesTimeRangeFrom.Before(matchedQueryModel.TimeRangeFrom) { //TimeRangeFrom
+			if histQueryModel.TimeRangeExceeded() {
 				histTicker.Stop()
-				logger.Debug("finished with historical data", "path", req.Path)
+				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				continue
 			}
-			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery)
+			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
-			if newFrame, err = ds.getFrameFromCacheOrServer(histQueryModel, true); err != nil {
+			setQueryTimeRange(histQueryModel, true)
+			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel, true); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
-			framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
+			if histQueryModel.CurrentTime.Equal(histQueryModel.LastTime) {
+				logger.Debug("skip frame due to duplication", "time", histQueryModel.CurrentTime.String())
+				continue
+			}
+			histQueryModel.LastTime = histQueryModel.CurrentTime
+			frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 			err = sender.SendFrame(newFrame, data.IncludeAll)
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to send frame for historical data", "error", err)
@@ -413,18 +457,29 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			if err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "failed to save frame in cache", "error", err)
 			}
-		case <-mainTicker.C: // Relative Data: Wait for a (usually) larger interval (i.e. gathererInterval) and query DDS
+		case <-mainTicker.C:
 			var numberOfIterations int
 			if numberOfIterations, err = getIterationsForRelativePlotting(matchedQueryModel); err != nil {
 				return err
 			}
 			logger.Debug("executing query for relative data", "query", matchedQueryModel.SelectedQuery, "iterations", numberOfIterations)
 			for counter := 0; counter < numberOfIterations; counter++ {
-				if newFrame, err = ds.getFrameFromCacheOrServer(matchedQueryModel); err != nil {
+				setQueryTimeRange(matchedQueryModel)
+				if latestNotReady(matchedQueryModel.CurrentTime, matchedQueryModel.Mintime) {
+					logger.Debug("interval not yet ready", "time", matchedQueryModel.CurrentTime.String())
+					continue
+				}
+				logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime)
+				if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "could not get new frame for relative data", "error", err)
 				}
-				framef.RemoveOldFieldNames(seriesFields, matchedQueryModel.TimeSeriesTimeRangeFrom.Add(-duration))
-				framef.SyncFieldNames(seriesFields, newFrame, histQueryModel.TimeSeriesTimeRangeFrom)
+				if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+					logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
+					continue
+				}
+				matchedQueryModel.LastTime = matchedQueryModel.CurrentTime
+				frame.RemoveOldFieldNames(seriesFields, matchedQueryModel.CurrentTime.Add(-duration))
+				frame.SyncFieldNames(seriesFields, newFrame, histQueryModel.CurrentTime)
 				err = sender.SendFrame(newFrame, data.IncludeAll)
 				if err != nil {
 					return log.ErrorWithId(logger, log.InternalError, "failed to send frame for relative data", "error", err)
@@ -439,38 +494,41 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 	}
 }
 
-func (ds *RMFDatasource) getFrameFromCacheOrServer(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *typ.QueryModel) (*data.Frame, error) {
+	path, params := queryModel.GetPathWithParams()
+	ddsResponse, err := ds.ddsClient.Get(ctx, path, params...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get DDS response: %w", err)
+	}
+	// nolint:contextcheck
+	newFrame, err := frame.Build(ddsResponse, ds.ddsClient.GetCachedHeaders(), queryModel)
+	if err != nil {
+		return nil, fmt.Errorf("failed to construct frame: %w", err)
+	}
+	return newFrame, nil
+}
+
+func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
 	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
 	var (
 		newFrame *data.Frame
 		err      error
 	)
 
-	// For relative timeseries (forward only) don't look in the cache
-	if !queryModel.AbsoluteTimeSelected {
-		qf.SetQueryTimeRange(queryModel)
-	} else {
-		// If frame exists in cache for the query get it from there
-		// else get frame from the server through a service call
-		if len(plotAbsoluteReverse) > 0 {
-			qf.SetQueryTimeRange(queryModel, plotAbsoluteReverse[0])
-			newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse[0])
-		} else {
-			qf.SetQueryTimeRange(queryModel)
-			newFrame, _ = ds.frameCache.GetFrame(queryModel)
-		}
-	}
+	newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse...)
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if newFrame == nil {
-		newFrame, err = qf.GetTimeSeriesFrame(queryModel, ds.endpoint)
+		newFrame, err = ds.getFrame(ctx, queryModel)
 		if err != nil {
-			return nil, log.FrameErrorWithId(logger, err)
+			return nil, err
 		} else {
 			if err = ds.frameCache.SaveFrame(newFrame, queryModel); err != nil {
-				return nil, log.ErrorWithId(logger, log.InternalError, "could not save frame", "error", err)
+				return nil, err
 			}
 		}
+	} else {
+		logger.Debug("cached value exist", "key", string(queryModel.CacheKey()))
 	}
 	return newFrame, nil
 }
@@ -499,11 +557,19 @@ func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStr
 	return &backend.PublishStreamResponse{Status: backend.PublishStreamStatusPermissionDenied}, nil
 }
 
-func (ds *RMFDatasource) queryTableData(query *typ.QueryModel) *backend.DataResponse {
+func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *typ.QueryModel) *backend.DataResponse {
 	logger := log.Logger.With("func", "queryTableData")
 	dataResponse := &backend.DataResponse{}
-	if newFrame, err := qf.GetTableFrame(query, ds.endpoint); err != nil {
-		dataResponse.Error = log.FrameErrorWithId(logger, err)
+	// FIXME: doesn't it need to be cached?
+	if newFrame, err := ds.getFrame(ctx, qm); err != nil {
+		// nolint:errorlint
+		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
+			dataResponse.Error = cause
+			dataResponse.Status = backend.StatusBadRequest
+		} else {
+			dataResponse.Error = log.FrameErrorWithId(logger, err)
+			dataResponse.Status = backend.StatusInternal
+		}
 	} else if newFrame != nil {
 		dataResponse.Frames = append(dataResponse.Frames, newFrame)
 	}
@@ -512,14 +578,55 @@ func (ds *RMFDatasource) queryTableData(query *typ.QueryModel) *backend.DataResp
 
 func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
 	currentTimeUTC := time.Now().UTC()
-	difference := qm.TimeSeriesTimeRangeTo.Sub(currentTimeUTC)
+	difference := qm.CurrentTime.Sub(currentTimeUTC)
 	differenceInSecs := int(math.Abs(difference.Seconds()))
-	if qm.ServerTimeData.MinTime == 0 {
+	if qm.Mintime == 0 {
 		return 0, errors.New("ServiceCallInterval must not be zero in GetIterationsForRelativePlotting()")
 	}
-	result := int(differenceInSecs / int(qm.ServerTimeData.MinTime))
+	differenceInSecs -= qm.Mintime / 2
+	differenceInSecs -= SdsDelay
+	result := int(differenceInSecs / int(qm.Mintime))
 	if result == 0 {
-		result = 1 //We need to invoke the svc atleast once. So return 1.
+		// FIXME: it's not necessarily true.
+		result = 1 //We need to invoke the svc at least once. So return 1.
 	}
 	return result, nil
+}
+
+func setQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) {
+	var plotReverse bool
+	if len(plotAbsoluteReverse) > 0 {
+		if plotAbsoluteReverse[0] {
+			plotReverse = true
+		}
+	}
+
+	// Set the Query Model's TimeSeriesTimeRangeFrom and TimeSeriesTimeRangeTo properties
+	if queryModel.AbsoluteTimeSelected { // Absolute time
+		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
+			fromTime := queryModel.TimeRangeFrom
+			queryModel.CurrentTime = fromTime
+		} else {
+			if plotReverse {
+				localPrevTime := queryModel.LocalPrev.Add(-1 * queryModel.TimeOffset)
+				queryModel.CurrentTime = localPrevTime
+			} else {
+				addedTime := queryModel.CurrentTime.Add(time.Duration(time.Second * time.Duration(queryModel.Mintime)))
+				queryModel.CurrentTime = addedTime
+			}
+		}
+	} else { // Relative time
+		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
+			toTime := queryModel.TimeRangeTo
+			queryModel.CurrentTime = toTime
+		} else {
+			localNextTime := queryModel.LocalNext.Add(-1 * queryModel.TimeOffset)
+			queryModel.CurrentTime = localNextTime
+		}
+	}
+}
+
+func latestNotReady(t time.Time, m int) bool {
+	var now time.Time = time.Now()
+	return t.Add(time.Second*time.Duration(m/2) + SdsDelay).After(now)
 }

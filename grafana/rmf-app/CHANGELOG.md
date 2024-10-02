@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.6 (2024-10-02)
+
+- The IBM RMF for z/OS Grafana plugin now allows customizing banner and caption fields in IBM RMF Report visualizations.
+- After you modify any IBM RMF data source and save the changes, you no longer need to re-enter the password.
+- Improved performance.
+- Fixed internally found defects.
+
 ## 1.0.5 (2024-08-02)
 
 - When creating the datasource, you now have the option to specify the desired cache size in megabytes for the datasource.

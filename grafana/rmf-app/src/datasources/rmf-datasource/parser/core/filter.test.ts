@@ -18,56 +18,56 @@ import { Parser } from './parser';
 import 'jest';
 
 describe('Test Filter Qualifier', () => {
-  test('Should retuen formated filter PAT outcome', () => {
+  test('Should return formated filter PAT outcome', () => {
     const parser = new Parser(
       'SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=Pat=test12*}'
     );
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=Pat=test12*'
     );
   });
-  test('Should retuen formated filter UB outcome', () => {
+  test('Should return formated filter UB outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {filter=ub=22,ulq=test12,name=APPC_STR1}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=ub=22'
     );
   });
-  test('Should retuen formated filter LB outcome', () => {
+  test('Should return formated filter LB outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=lb=33}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=lb=33'
     );
   });
-  test('Should retuen formated multiple qualification outcome', () => {
+  test('Should return formated multiple qualification outcome', () => {
     const parser = new Parser(
       'SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=lb=33,filter=ord=na}'
     );
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=lb=33&filter=ord=na'
     );
   });
-  test('Should retuen formated filter HI outcome', () => {
+  test('Should return formated filter HI outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=HI=33}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=HI=33'
     );
   });
-  test('Should retuen formated filter LO outcome', () => {
+  test('Should return formated filter LO outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=lO=33}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=lO=33'
     );
   });
-  test('Should retuen formated filter ORD outcome', () => {
+  test('Should return formated filter ORD outcome', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=ORD=nD}');
-    expect(parser.constructTree().errorFound).toBeFalsy();
-    expect(parser.constructTree().query).toBe(
+    expect(parser.parse().errorFound).toBeFalsy();
+    expect(parser.parse().query).toBe(
       'id=% CPU utilization (CP) by MVS image&resource=TEST12,APPC_STR1,SYSPLEX&filter=ORD=nD'
     );
   });
@@ -75,12 +75,12 @@ describe('Test Filter Qualifier', () => {
     const parser = new Parser(
       'SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=ORD=nD=LO=33}'
     );
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 82: mismatched input '=' expecting '}'");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 84: mismatched input '=' expecting {',', '}', WS}");
   });
   test('Should check if a filter has mismatched inputs.', () => {
     const parser = new Parser('SYSPLEX.% CPU utilization (CP) by MVS image {ulq=test12,name=APPC_STR1,filter=LO=}');
-    expect(parser.constructTree().errorFound).toBeTruthy();
-    expect(parser.constructTree().errorMessage).toContain("line 1, col 79: missing Number_Digits at '}'");
+    expect(parser.parse().errorFound).toBeTruthy();
+    expect(parser.parse().errorMessage).toContain("line 1, col 81: missing INTEGER at '}'");
   });
 });

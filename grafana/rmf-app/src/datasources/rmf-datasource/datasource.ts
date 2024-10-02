@@ -17,7 +17,6 @@
 import { DataSourceInstanceSettings, MetricFindValue, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { getResourceName, queryValidation } from './common/common.helper';
-import { ConfigSettings } from './common/configSettings';
 import { RMFDataSourceJsonData, RMFQuery, resourceBaseData } from './common/types';
 
 export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJsonData> {
@@ -66,16 +65,16 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
 
   async metricFindQuery(query: any, options?: any): Promise<MetricFindValue[]> {
     let queryResult = queryValidation(query, resourceBaseData);
-    if (queryResult.result === false) {
+    if (!queryResult.result) {
       throw new Error('Variable: ' + queryResult.errorMessage);
     }
 
+    // FIXME: options.scopedVars may contain Grafana datasource id which doesn't make sense at all!
     let resourceString = getTemplateSrv().replace(queryResult.resourceCommand, options.scopedVars);
-    let urlPathLoader = ConfigSettings.UrlSettings.END_TAG + encodeURIComponent(resourceString) + ConfigSettings.UrlSettings.END_TAG;
     let id = this.id;
 
     return new Promise((resolve) => {
-      const metricFindValue = this.loadDataFromService(urlPathLoader, id, options)
+      const metricFindValue = this.loadDataFromService(resourceString, id, options)
         .then((resp: any) => {
           const result = JSON.parse(resp.data);
           let resNames = getResourceName(result);

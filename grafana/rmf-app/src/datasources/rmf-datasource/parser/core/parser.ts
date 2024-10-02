@@ -14,42 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InputStream, CommonTokenStream, ParseTreeWalker } from 'antlr4';
+import { CharStream, CommonTokenStream, ParseTreeWalker } from 'antlr4';
 import RMFQueryLexer from '../lib/RMFQueryLexer';
-import RMFQueryParser from '../lib/RMFQueryParser';
+import RMFQueryParser, { QualifierContext, UlqContext } from '../lib/RMFQueryParser';
 import { CustomErrorListener } from './customErrorListener';
-import { CustomListener } from './customListener';
 import { GrammarResult } from './type';
 
+const CONTEXT_STR = 'context';
+
 export class Parser {
-  private queryLineText: string;
-  lexerGrammarResult: GrammarResult;
-  parserGrammarResult: GrammarResult;
+  private readonly queryLineText: string;
 
   constructor(queryLine: string) {
     this.queryLineText = queryLine;
+  }
 
-    this.lexerGrammarResult = {
+  parse(): GrammarResult {
+    let lexerGrammarResult: { query: string; errorMessage: string; errorFound: boolean };
+    let parserGrammarResult = {
       errorFound: false,
       errorMessage: '',
       query: '',
     };
 
-    this.parserGrammarResult = {
-      errorFound: false,
-      errorMessage: '',
-      query: '',
-    };
-  }
-
-  parse(): string {
-    return this.queryLineText;
-  }
-
-  constructTree(): GrammarResult {
     const lexerCustomErrorListener = new CustomErrorListener();
-    const chars = new InputStream(this.queryLineText);
-
+    const chars = new CharStream(this.queryLineText);
     const lexer = new RMFQueryLexer(chars);
     lexer.removeErrorListeners();
     lexer.addErrorListener(lexerCustomErrorListener);
@@ -60,18 +49,46 @@ export class Parser {
     parser.addErrorListener(lexerCustomErrorListener);
     parser.buildParseTrees = true;
 
-    const tree = parser.rmfquery();
-    const listener = new CustomListener();
-    ParseTreeWalker.DEFAULT.walk(listener, tree);
+    const tree = parser.query();
 
-    this.lexerGrammarResult = lexerCustomErrorListener.getResult();
-    this.parserGrammarResult = listener.getTable();
+    const resType = (tree.RES_TYPE()?.getText() || '').trim().toUpperCase();
+    const isReport = tree.REPORT() !== null;
+    const identifier = (tree.identifier()?.getText() || '').trim();
 
-    if (this.lexerGrammarResult.errorFound) {
-      this.parserGrammarResult.errorFound = true;
-      this.parserGrammarResult.errorMessage += this.lexerGrammarResult.errorMessage.trim();
+    let qualifierValues = {};
+    let filters: string[] = [];
+    for (let qual of tree.qualifiers()?.qualifier_list() || []) {
+      let q;
+      if ((q = qual.name())) {
+        qualifierValues['name'] = (q.string_()?.getText() || '').trim().toUpperCase();
+      }
+      if ((q = qual.ulq())) {
+        qualifierValues['ulq'] = (q.string_()?.getText() || '').trim().toUpperCase();
+      }
+      if ((q = qual.workscope())) {
+        qualifierValues['workscope'] = (q.workscopeValue()?.getText() || '').trim().toUpperCase();
+      }
+      if ((q = qual.filter())) {
+        filters.push((q.filterValue()?.getText() || '').trim());
+      }
     }
 
-    return this.parserGrammarResult; // this function returns the start and stop indices.
+    let resource = `${qualifierValues['ulq'] || ''},${qualifierValues['name'] || ''},${resType}`;
+    let workscope = qualifierValues['workscope'];
+    let query = `${isReport ? 'report' : 'id'}=${identifier}&resource=${resource}`;
+    if (filters.length > 0) {
+      query += `&filter=${filters.join(';')}`;
+    }
+    if (workscope) {
+      query += `&workscope=${workscope}`;
+    }
+    parserGrammarResult.query = query;
+
+    lexerGrammarResult = lexerCustomErrorListener.getResult();
+    if (lexerGrammarResult.errorFound) {
+      parserGrammarResult.errorFound = true;
+      parserGrammarResult.errorMessage += lexerGrammarResult.errorMessage.trim();
+    }
+    return parserGrammarResult;
   }
 }
