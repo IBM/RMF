@@ -28,14 +28,13 @@ import (
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 const BannerPrefix = "Banner::"
 const CaptionPrefix = "Caption::"
 const ReportDateFormat = "01/02/2006 15:04:05"
 
-func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.QueryModel) (*data.Frame, error) {
+func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
@@ -74,10 +73,10 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *typ.Que
 }
 
 // buildForMetric parses JSON string and create a data frame either for time series or a regular one.
-func buildForMetric(report *dds.Report, query *typ.QueryModel) *data.Frame {
+func buildForMetric(report *dds.Report, query *QueryModel) *data.Frame {
 	queryName := getFrameName(query)
 
-	if query.SelectedVisualisationType == typ.TimeSeriesType {
+	if query.SelectedVisualisationType == TimeSeriesType {
 		return buildWideForMetric(report, queryName)
 	} else {
 		return buildLongForMetric(report, queryName)
@@ -160,7 +159,7 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *typ.QueryModel) *data.Frame {
+func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *QueryModel) *data.Frame {
 	logger := log.Logger.With("func", "buildForReport")
 	frame := data.NewFrame(getFrameName(qm))
 	reportName := report.Metric.Id

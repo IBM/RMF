@@ -21,11 +21,10 @@ import (
 	"strings"
 	"time"
 
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-func getFrameName(qm *typ.QueryModel) string {
+func getFrameName(qm *QueryModel) string {
 	var resultFrameName string
 	if strings.Trim(qm.SelectedQuery, " ") != "" {
 		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
@@ -80,8 +79,7 @@ func SyncFieldNames(seriesFields SeriesFields, frame *data.Frame, frameTime time
 		fieldNames[field.Name] = true
 	}
 	for key := range seriesFields {
-		_, ok := fieldNames[key]
-		if !ok {
+		if _, ok := fieldNames[key]; !ok {
 			newField := data.NewField(key, seriesFields[key].Labels, []*float64{nil})
 			frame.Fields = append(frame.Fields, newField)
 		}
