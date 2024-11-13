@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CharStream, CommonTokenStream, ParseTreeWalker } from 'antlr4';
+import { CharStream, CommonTokenStream } from 'antlr4';
 import RMFQueryLexer from '../lib/RMFQueryLexer';
-import RMFQueryParser, { QualifierContext, UlqContext } from '../lib/RMFQueryParser';
+import RMFQueryParser from '../lib/RMFQueryParser';
 import { CustomErrorListener } from './customErrorListener';
 import { GrammarResult } from './type';
-
-const CONTEXT_STR = 'context';
 
 export class Parser {
   private readonly queryLineText: string;
@@ -69,7 +67,10 @@ export class Parser {
         qualifierValues['workscope'] = (q.workscopeValue()?.getText() || '').trim().toUpperCase();
       }
       if ((q = qual.filter())) {
-        filters.push((q.filterValue()?.getText() || '').trim());
+        let filterValue = (q.filterValue()?.getText() || '').trim();
+        for (let value of filterValue.split(';')) {
+          filters.push(value);
+        }
       }
     }
 
@@ -77,7 +78,7 @@ export class Parser {
     let workscope = qualifierValues['workscope'];
     let query = `${isReport ? 'report' : 'id'}=${identifier}&resource=${resource}`;
     if (filters.length > 0) {
-      query += `&filter=${filters.join(';')}`;
+      query += `&filter=${filters.join('%3B')}`;
     }
     if (workscope) {
       query += `&workscope=${workscope}`;
