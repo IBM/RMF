@@ -15,7 +15,7 @@
 * limitations under the License.
  */
 
-package types
+package frame
 
 import (
 	"encoding/json"
@@ -76,12 +76,13 @@ type QueryModel struct {
 	RMFPanelId                string           `json:"rmfPanelGuid"`
 	TimeRangeFrom             time.Time        // 'From' time converted to UTC
 	TimeRangeTo               time.Time        // 'To' time converted to UTC
+	SeriesFields              SeriesFields     // If it's a time series, we have to maintain field map
 
 	ResponseStatus
 	LastTime time.Time
 }
 
-func FromDataQuery(query backend.DataQuery) (*QueryModel, error) {
+func NewQueryModel(query backend.DataQuery) (*QueryModel, error) {
 	var qm QueryModel
 	if err := json.Unmarshal(query.JSON, &qm); err != nil {
 		return nil, err
