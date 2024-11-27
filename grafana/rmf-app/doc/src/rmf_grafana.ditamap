@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
 <map>
-    <title>IBM RMF for z/OS Grafana Plugin</title>
+    <title>IBM RMF for z/OS Grafana Plugin <ph props="pdf">User Guide</ph></title>
     <topichead collection-type="sequence">
-        <topicmeta>
-            <navtitle/>
+        <topicmeta props="pdf">
+            <navtitle>IBM RMF for z/OS Grafana Plugin</navtitle>
         </topicmeta>
         <topicref href="visual_grafana.dita"/>
         <topicref href="rn.dita"/>
@@ -27,5 +27,6 @@
             <topicref href="define_grafana_zosmf.dita"/>
             <topicref href="access_grafana_zosmf.dita"/>
         </topicref>
+        <topicref href="pdf_guide.dita" props="html"/>
     </topichead>
 </map>

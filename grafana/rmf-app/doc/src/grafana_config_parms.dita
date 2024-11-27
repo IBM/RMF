@@ -7,7 +7,7 @@
     <body>
         <p>The following table lists the minimum parameters that you must configure to enable JWT
             authentication on Grafana:</p>
-        <table frame="all" rowsep="1" colsep="1" id="table_d22_hfh_h1c">
+        <table frame="all" id="table_d22_hfh_h1c" colsep="1" rowsep="1">
             <tgroup cols="4" align="left">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c2" colnum="2"/>

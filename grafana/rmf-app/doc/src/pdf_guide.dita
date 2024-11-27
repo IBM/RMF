@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="pdf_guide" xml:lang="en-us">
+    <title>PDF Guide</title>
+    <shortdesc>You can find the link to view or download <ph conref="conref.dita#conref/plugin_name"
+        /> plugin user guide as a PDF file.</shortdesc>
+    <refbody>
+        <section id="section_p1r_tfz_wcc">
+            <p><xref href="pdf/rmf_grafana.pdf" format="pdf"><ph
+                        conref="conref.dita#conref/plugin_name"/> User Guide</xref></p>
+        </section>
+    </refbody>
+</reference>

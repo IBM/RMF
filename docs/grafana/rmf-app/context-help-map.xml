@@ -18,4 +18,5 @@
    <appContext helpID="grafana_config_parms" path="grafana_config_parms.html"/>
    <appContext helpID="define_grafana_zosmf" path="define_grafana_zosmf.html"/>
    <appContext helpID="access_grafana_zosmf" path="access_grafana_zosmf.html"/>
+   <appContext helpID="pdf_guide" path="pdf_guide.html"/>
 </map>

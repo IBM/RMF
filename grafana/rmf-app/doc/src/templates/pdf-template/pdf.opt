@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><publishing-template>
+    <name>pdf</name>
+    <webhelp>
+        <preview-image file="preview/generated-preview.png"/>
+        <resources>
+            <css file="custom.css"/>
+            <css file="styles.css"/>
+            <fileset>
+                <include name="resources/**/*"/>
+                <include name="*.css"/>
+                <include name="css/**/*"/>
+            </fileset>
+        </resources>
+        <parameters>
+            <parameter name="args.gen.task.lbl" value="YES"/>
+            <parameter name="webhelp.show.main.page.tiles" value="yes"/>
+            <parameter name="webhelp.show.main.page.toc" value="no"/>
+        </parameters>
+    </webhelp>
+    <pdf>
+        <preview-image file="preview/generated-preview.png"/>
+        <resources>
+            <css file="custom.css"/>
+            <css file="styles.css"/>
+        </resources>
+        <parameters>
+            <parameter name="args.gen.task.lbl" value="YES"/>
+            <parameter name="args.css.param.numbering" value="deep"/>
+            <parameter name="sort.and.group.glossentries" value="yes"/>
+        </parameters>
+    </pdf>
+</publishing-template>
