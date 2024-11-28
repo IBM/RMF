@@ -5,11 +5,11 @@
     <titlealts>
         <navtitle>Historical data</navtitle>
     </titlealts>
-    <shortdesc>In Grafana, you can collect historical data using absolute and relative time
+    <shortdesc>In Grafana, you can view historical data using absolute and relative time
         ranges.</shortdesc>
     <refbody>
         <section id="section_n33_prq_syb">
-            <p>Collecting historical data is a common practice across organizations for various
+            <p>Viewing historical data is a common practice across organizations for various
                 purposes. The importance and use of historical data are significant in
                 decision-making, research, analysis, and planning. Analyzing historical data
                 provides valuable insights into the status, usage, performance, and health of
@@ -21,13 +21,17 @@
                 particular timestamp is not found in the cache, it will be fetched by a service call
                 from DDS. This feature can save you time and provide a faster experience accessing
                 metric data.</p>
-            <p>The following example shows the percentage of time during the report interval that
-                the system job or enclave was waiting for a processor by specifying absolute
-                time:</p>
-            <p><object data="images/historical_data_absolute_time.mp4" outputclass="video"/></p>
-            <p>Similarly, you can collect the data for the percentage of time delay for a processor
-                by specifying the relative time range:</p>
-            <p><object data="images/historical_data_relative_time.mp4" outputclass="video"/></p>
+            <note id="note_rh5_h4x_kdc" type="caution">When you view data over extended time ranges,
+                the system may require considerable CPU resources on the host.</note>
+            <p props="html">The following example shows the percentage of time during the report
+                interval that the system job or enclave was waiting for a processor by specifying
+                absolute time:</p>
+            <p props="html"><object data="images/historical_data_absolute_time.mp4"
+                    outputclass="video"/></p>
+            <p props="html">Similarly, you can collect the data for the percentage of time delay for
+                a processor by specifying the relative time range:</p>
+            <p props="html"><object data="images/historical_data_relative_time.mp4"
+                    outputclass="video"/></p>
         </section>
     </refbody>
 </reference>

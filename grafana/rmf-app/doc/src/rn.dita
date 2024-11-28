@@ -9,6 +9,16 @@
             <title>What's new</title>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
+                    <dt>November 2024 v1.0.7</dt>
+                    <dd><ph props="pdf">Fixed internally found defects.</ph><ul id="ul_kwg_kmf_ndc"
+                            props="html">
+                            <li>Fixed internally found defects.</li>
+                            <li>You can now download <ph conref="conref.dita#conref/plugin_name"/>
+                                plugin documentation as a PDF file. See <xref href="pdf_guide.dita"
+                                />.</li>
+                        </ul></dd>
+                </dlentry>
+                <dlentry>
                     <dt>October 2024 v1.0.6</dt>
                     <dd>
                         <ul id="ul_mgn_m3g_xcc">

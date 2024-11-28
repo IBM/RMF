@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:regular,italic,bold&display=swap');
+/*#
+@colors&{"titlesAccentColor":"#00008b","labelsAccentColor":"#000000","linksAccentColor":"#2372de","backgroundAccentColor":"#dce5f2","isDefault":true}&colors@
+@info@STYLES BASKET SELECTIONS METADATA@info@
+@name&styles_basket&name@
+@aspects&wh-tiles,pdf-cover-title-colors-labels,glossary-sort-group-sorted,title-font-size-medium,content-font-size-11,between-lines-medium,pdf-cover-selector,titles-borders-width-medium,tasks-labels-yes,page-size-a4,left-pages-header-page,theme-fonts-open-sans,notes-colors-colorful,tasks-layout-burger-background,tasks-colors-background-light,left-pages-footer-centered-publication-title,header-colors-titles,header-separator-one-titles,footer-colors-titles,footer-separator-one-titles,accent-colors-selector,right-pages-header-page,right-pages-footer-centered-publication-title,toc-numbering-deep&aspects@
+@info@WARNING: PLEASE DON'T MODIFY THIS FILE. MODIFICATION CAN CAUSE UPLOADING ERRORS@info@
+@info@TIP: YOU CAN USE custom.css TO ADD CUSTOM SELECTORS.@info@
+#*/
+@media print {
+  @page front-page {
+    background-image: url("resources/cover.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+  }
+}
+/* Bold selection in Publication TOC. WebHelp only. */
+@media screen {
+  .wh_publication_toc .active > .topicref a {
+    font-weight: bold;
+  }
+}
+/*accent-colors-selector*/
+.topictitle1,
+.topictitle2,
+.topictitle3,
+.topictitle4,
+.topictitle5,
+.topictitle6,
+*[class~='front-page/front-page-title'],
+*[class~="toc/title"],
+*[class~="placeholder/figurelist"] > *[class~="topic/title"],
+*[class~="placeholder/tablelist"] > *[class~="topic/title"],
+*[class~="index/groups"]::before {
+  color: #00008b;
+  align-items: center;
+  font-size: 21pt;
+}
+*[class~='topic/shortdesc']:before {
+  color: #000000;
+}
+*[class~='topic/xref'],
+*[class~='topic/link'] {
+  color: #2372de;
+}
+.related-links a,
+.related-links a:visited {
+  color: #2372de;
+}
+a,
+a:hover,
+a:visited {
+  color: #2372de;
+}
+*[class~='topic/table'] th {
+  background-color: #dce5f2;
+  width: 170px;
+  height: 75px;
+  overflow: hidden;
+}
+/*theme-fonts-open-sans*/
+@page {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+.topictitle1,
+.topictitle2,
+*[class~='front-page/front-page-title'],
+*[class~="toc/title"],
+*[class~='topic/title'],
+*[class~='topic/thead'],
+*[class~="placeholder/figurelist"],
+*[class~="placeholder/tablelist"],
+*[class~="index/groups"]::before,
+*[class~="index/group"] > *[class~="index/label"],
+.wh_publication_title,
+.wh_top_menu,
+.wh_tile_title .topicref,
+.wh_main_page_toc_entry .topicref,
+.wh_index_terms span.wh_first_letter,
+.wh-letters li a {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+*[class~="map/topicref"] {
+  font-family: 'Open Sans', sans-serif;
+}
+.topictitle3,
+.topictitle4,
+.topictitle5,
+.topictitle6 {
+  font-family: 'Open Sans', sans-serif;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+/*title-font-size-medium*/
+.topictitle1,
+*[class~='toc/title'],
+*[class~="placeholder/figurelist"] > *[class~="topic/title"],
+*[class~="placeholder/tablelist"] > *[class~="topic/title"],
+*[class~="index/groups"]::before {
+  font-size: 21pt;
+}
+.topictitle2 {
+  font-size: 18pt;
+}
+.topictitle3,
+.topictitle4,
+.topictitle5,
+.topictitle6 {
+  font-size: 15pt;
+}
+/*content-font-size-11*/
+body {
+  font-size: 10pt;
+}
+/*between-lines-medium*/
+*[class~='topic/topic'],
+*[class~='topic/body'],
+*[class~='topic/title'] {
+  line-height: 1.4;
+}
+/*titles-borders-width-medium*/
+.topictitle1,
+.topictitle2,
+.topictitle3,
+.topictitle4,
+.topictitle5,
+.topictitle6,
+*[class~="toc/title"],
+*[class~="placeholder/figurelist"] > *[class~="topic/title"],
+*[class~="placeholder/tablelist"] > *[class~="topic/title"],
+*[class~="index/groups"]::before {
+  border-width: medium !important;
+}
+/*notes-colors-colorful*/
+*[class~="topic/note"]:not([class~="hazard-d/hazardstatement"]) {
+  background-color: rgba(0, 120, 160, 0.09);
+  border-color: #0078A0;
+}
+*[class~="topic/note"].note_danger,
+*[class~="topic/note"].note_caution {
+  background-color: rgba(255, 202, 45, 0.1);
+  border-color: #606060;
+}
+*[class~="topic/note"].note_warning,
+*[class~="topic/note"].note_attention,
+*[class~="topic/note"].note_important {
+  background-color: rgba(255, 202, 45, 0.1);
+  border-color: #FFCA2D;
+}
+*[class~="topic/note"].note_restriction {
+  background-color: rgba(255, 226, 225, 0.32);
+  border-color: #FF342D;
+}
+/*tasks-labels-yes*/
+/*tasks-layout-burger-background*/
+ol[class~="task/steps"] {
+  border-top: 5px solid #dce5f2;
+  border-bottom: 5px solid #dce5f2;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+/*tasks-colors-background-light*/
+ol[class~="task/steps"] {
+  background-color: #ffffff;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+/*page-size-a4*/
+@media print {
+  @page {
+    size: A4;
+  }
+}
+/*pdf-cover-selector*/
+/*pdf-cover-title-colors-labels*/
+*[class~="front-page/front-page-title"] > *[class~="topic/title"] {
+  color: #000000;
+  background-color: transparent;
+}
+/*toc-numbering-deep*/
+/*left-pages-header-page*/
+@page :left {
+  @top-left {
+    content: "Page " counter(page);
+  }
+}
+/*right-pages-header-page*/
+@page :right {
+  @top-right {
+    content: "Page " counter(page);
+  }
+}
+/*header-colors-titles*/
+@page {
+  @top-left {
+    color: #00008b;
+  }
+  @top-center {
+    color: #00008b;
+  }
+  @top-right {
+    color: #00008b;
+  }
+}
+/*header-separator-one-titles*/
+@page chapter {
+  border-top: 1pt solid #00008b;
+  
+  @top-left-corner {
+    padding-bottom: 12pt;
+    vertical-align: bottom;
+  }
+  @top-left {
+    padding-bottom: 12pt;
+    vertical-align: bottom;
+  }
+  @top-center {
+    padding-bottom: 12pt;
+    vertical-align: bottom;
+  }
+  @top-right {
+    padding-bottom: 12pt;
+    vertical-align: bottom;
+  }
+  @top-right-corner {
+    padding-bottom: 12pt;
+    vertical-align: bottom;
+  }
+}
+/*left-pages-footer-centered-publication-title*/
+@page :left {
+  @bottom-left {
+    content: string(maptitle);
+  }
+}
+/*right-pages-footer-centered-publication-title*/
+@page :right {
+  @bottom-right {
+    content: string(maptitle);
+  }
+}
+/*footer-colors-titles*/
+@page {
+  @bottom-left {
+    color: #00008b;
+  }
+  @bottom-center {
+    color: #00008b;
+  }
+  @bottom-right {
+    color: #00008b;
+  }
+}
+/*footer-separator-one-titles*/
+@page chapter {
+  border-bottom: 1pt solid #00008b;
+  
+  @bottom-left-corner {
+    padding-top: 12pt;
+    vertical-align: top;
+  }
+  @bottom-left {
+    padding-top: 12pt;
+    vertical-align: top;
+  }
+  @bottom-center {
+    padding-top: 12pt;
+    vertical-align: top;
+  }
+  @bottom-right {
+    padding-top: 12pt;
+    vertical-align: top;
+  }
+  @bottom-right-corner {
+    padding-top: 12pt;
+    vertical-align: top;
+  }
+}
+/*glossary-sort-group-sorted*/
+/*wh-tiles*/
+
