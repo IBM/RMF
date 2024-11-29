@@ -24,8 +24,8 @@ import (
 	"sort"
 	"time"
 
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 
 	"github.com/VictoriaMetrics/fastcache"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -35,7 +35,7 @@ type CacheItemValue struct {
 	ValueKey time.Time
 	Value    data.Frame
 
-	typ.ResponseStatus
+	frame.ResponseStatus
 }
 
 type FrameCache struct {
@@ -60,7 +60,7 @@ func (fc *FrameCache) getCacheItemValues(key []byte) ([]CacheItemValue, error) {
 	return cacheItemValues, nil
 }
 
-func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValue, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) []CacheItemValue {
+func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValue, queryModel *frame.QueryModel, plotAbsoluteReverse ...bool) []CacheItemValue {
 	var filteredCacheItemValues []CacheItemValue
 	var plotReverse bool
 	if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
@@ -89,7 +89,7 @@ func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValu
 	return filteredCacheItemValues
 }
 
-func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (fc *FrameCache) GetFrame(qm *frame.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
 	logger := log.Logger.With("func", "GetFrame")
 	var (
 		resultframe             *data.Frame
@@ -122,7 +122,7 @@ func (fc *FrameCache) GetFrame(qm *typ.QueryModel, plotAbsoluteReverse ...bool) 
 	return resultframe, nil
 }
 
-func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
+func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *frame.QueryModel) error {
 	logger := log.Logger.With("func", "SaveFrame")
 
 	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
@@ -150,7 +150,7 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *typ.QueryModel) error {
 	return nil
 }
 
-func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *typ.QueryModel) CacheItemValue {
+func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *frame.QueryModel) CacheItemValue {
 	var (
 		cacheItemValue CacheItemValue
 	)

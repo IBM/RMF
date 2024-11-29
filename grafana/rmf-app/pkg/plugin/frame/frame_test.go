@@ -27,14 +27,13 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 type TestCase struct {
 	Name          string
 	Description   string
 	Skip          bool
-	QueryModel    typ.QueryModel
+	QueryModel    QueryModel
 	DdsResponse   *dds.Response
 	ExpectedFrame json.RawMessage
 	ExpectedError string

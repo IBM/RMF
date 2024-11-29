@@ -39,7 +39,6 @@ import (
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 // Make sure RMFDatasource implements required interfaces. This is important to do
@@ -223,9 +222,9 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 		go func(q backend.DataQuery) {
 			defer wg.Done()
 			var response *backend.DataResponse
-			qm, err := typ.FromDataQuery(q)
+			qm, err := frame.NewQueryModel(q)
 			if err != nil {
-				if errors.Is(err, typ.ErrBlankResource) {
+				if errors.Is(err, frame.ErrBlankResource) {
 					response = &backend.DataResponse{Status: backend.StatusOK}
 				} else {
 					response = &backend.DataResponse{Status: backend.StatusBadRequest, Error: err}
@@ -233,7 +232,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 			} else {
 				// nolint:contextcheck
 				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
-				if qm.SelectedVisualisationType == typ.TimeSeriesType {
+				if qm.SelectedVisualisationType == frame.TimeSeriesType {
 					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
 				} else {
 					// FIXME: it's not actually table data. Just not time series.
@@ -259,7 +258,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 	return qr, nil
 }
 
-func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.PluginContext, query *typ.QueryModel) *backend.DataResponse {
+func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.PluginContext, query *frame.QueryModel) *backend.DataResponse {
 	logger := log.Logger.With("func", "queryTimeSeries")
 
 	var (
@@ -287,14 +286,16 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	return dataResponse
 }
 
-func (ds *RMFDatasource) createChannelForStreaming(pCtx backend.PluginContext, query *typ.QueryModel, frame *data.Frame) error {
+func (ds *RMFDatasource) createChannelForStreaming(pCtx backend.PluginContext, query *frame.QueryModel, firstFrame *data.Frame) error {
 	channelPath := uuid.New().String()
 	channel := live.Channel{
 		Scope:     live.ScopeDatasource,
 		Namespace: pCtx.DataSourceInstanceSettings.UID,
 		Path:      channelPath,
 	}
-	frame.SetMeta(&data.FrameMeta{Channel: channel.String()})
+	firstFrame.SetMeta(&data.FrameMeta{Channel: channel.String()})
+	query.SeriesFields = frame.SeriesFields{}
+	frame.SyncFieldNames(query.SeriesFields, firstFrame, query.CurrentTime)
 	return ds.channelCache.SetChannelQuery(channelPath, query)
 }
 
@@ -320,7 +321,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	return err
 }
 
-func (ds *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
+func (ds *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *frame.QueryModel) error {
 	var waitTime time.Duration
 	logger := log.Logger.With("func", "streamDataForAbsoluteRange")
 	//Recover from any panic so as to not bring down this backend datasource
@@ -338,7 +339,7 @@ func (ds *RMFDatasource) streamDataForAbsoluteRange(ctx context.Context, req *ba
 	return nil
 }
 
-func (ds *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel) error {
+func (ds *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *frame.QueryModel) error {
 	logger := log.Logger.With("func", "streamDataForRelativeRange")
 	//Recover from any panic so as to not bring down this backend datasource
 	defer log.LogAndRecover(logger)
@@ -355,14 +356,14 @@ func (ds *RMFDatasource) streamDataForRelativeRange(ctx context.Context, req *ba
 	return nil
 }
 
-func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime time.Duration) error {
+func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *frame.QueryModel, waitTime time.Duration) error {
 	logger := log.Logger.With("func", "streamDataAbsolute")
 	var (
 		newFrame *data.Frame
 		err      error
 	)
 	histTicker := time.NewTicker(waitTime)
-	seriesFields := frame.SeriesFields{}
+	seriesFields := matchedQueryModel.SeriesFields
 
 	for {
 		select {
@@ -405,7 +406,7 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 	}
 }
 
-func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *typ.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) error {
+func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender, matchedQueryModel *frame.QueryModel, waitTime *time.Duration, histWaitTime *time.Duration) error {
 	logger := log.Logger.With("func", "streamDataRelative")
 	var newFrame *data.Frame
 	// FIXME: tickers are not suitable for the streaming.
@@ -413,7 +414,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 	// Also, requests for historical and current data should be synchronized.
 	mainTicker := time.NewTicker(*waitTime)
 	histTicker := time.NewTicker(*histWaitTime)
-	seriesFields := frame.SeriesFields{}
+	seriesFields := matchedQueryModel.SeriesFields
 	duration := matchedQueryModel.TimeRangeTo.Sub(matchedQueryModel.TimeRangeFrom)
 
 	histQueryModel, err := ds.channelCache.GetChannelQuery(req.Path + "/h")
@@ -494,7 +495,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 	}
 }
 
-func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *typ.QueryModel) (*data.Frame, error) {
+func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *frame.QueryModel) (*data.Frame, error) {
 	path, params := queryModel.GetPathWithParams()
 	ddsResponse, err := ds.ddsClient.Get(ctx, path, params...)
 	if err != nil {
@@ -508,7 +509,7 @@ func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *typ.QueryMode
 	return newFrame, nil
 }
 
-func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *frame.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
 	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
 	var (
 		newFrame *data.Frame
@@ -557,7 +558,7 @@ func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStr
 	return &backend.PublishStreamResponse{Status: backend.PublishStreamStatusPermissionDenied}, nil
 }
 
-func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *typ.QueryModel) *backend.DataResponse {
+func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *frame.QueryModel) *backend.DataResponse {
 	logger := log.Logger.With("func", "queryTableData")
 	dataResponse := &backend.DataResponse{}
 	// FIXME: doesn't it need to be cached?
@@ -576,7 +577,7 @@ func (ds *RMFDatasource) queryTableData(ctx context.Context, qm *typ.QueryModel)
 	return dataResponse
 }
 
-func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
+func getIterationsForRelativePlotting(qm *frame.QueryModel) (int, error) {
 	currentTimeUTC := time.Now().UTC()
 	difference := qm.CurrentTime.Sub(currentTimeUTC)
 	differenceInSecs := int(math.Abs(difference.Seconds()))
@@ -593,7 +594,7 @@ func getIterationsForRelativePlotting(qm *typ.QueryModel) (int, error) {
 	return result, nil
 }
 
-func setQueryTimeRange(queryModel *typ.QueryModel, plotAbsoluteReverse ...bool) {
+func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool) {
 	var plotReverse bool
 	if len(plotAbsoluteReverse) > 0 {
 		if plotAbsoluteReverse[0] {
