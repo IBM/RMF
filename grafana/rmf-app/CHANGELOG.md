@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.7 (2024-11-29)
+
+- Fixed internally found defects.
+- You can now download IBM RMF for z/OS Grafana plugin documentation as a PDF file.
+
 ## 1.0.6 (2024-10-02)
 
 - The IBM RMF for z/OS Grafana plugin now allows customizing banner and caption fields in IBM RMF Report visualizations.

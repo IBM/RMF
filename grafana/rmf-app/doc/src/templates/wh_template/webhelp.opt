@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<publishing-template>
+    <name>webhelp</name>
+    <description></description>
+    <webhelp>
+        <preview-image file="oxygen-gray-tree.png"/>
+        <parameters>
+			<parameter name="clean.output" value="yes"/>
+            <parameter name="webhelp.top.menu.depth" value="3"/>
+            <parameter name="args.gen.task.lbl" value="YES"/>
+            <parameter name="args.indexshow" value="yes"/>
+            <parameter name="args.rellinks" value="all"/>
+            <parameter name="force-unique" value="true"/>
+			<parameter name="webhelp.fragment.header" value="header.xml" type="filePath"/>
+            <parameter name="webhelp.fragment.footer" value=" "/>
+            <parameter name="webhelp.publication.toc.links" value="all"/>
+            <parameter name="webhelp.show.child.links" value="no"/>
+            <parameter name="webhelp.show.main.page.tiles" value="no"/>
+            <parameter name="webhelp.show.main.page.toc" value="yes"/>
+            <parameter name="webhelp.show.top.menu" value="no"/>
+        </parameters>
+        <resources>
+            <css file="oxygen-gray.css"/>
+            <css file="notes.css"/>
+            <favicon file="images/ResourceMeasurementFacility.svg"/>
+            <fileset>
+                <include name="resources/**/*"/>
+                <exclude name="resources/**/*.svn"/>
+                <exclude name="resources/**/*.git"/>
+            </fileset>
+        </resources>
+        <online-preview-url>https://www.oxygenxml.com/samples/DITA-WebHelp-Responsive/tree/oxygen-gray/</online-preview-url>
+        <tags>
+            <tag type="layout">tree</tag>
+            <tag type="color">gray</tag>
+            <tag type="color">light</tag>
+        </tags>
+    </webhelp>
+</publishing-template>

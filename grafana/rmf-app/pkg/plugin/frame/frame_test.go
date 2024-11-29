@@ -27,14 +27,13 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
 )
 
 type TestCase struct {
 	Name          string
 	Description   string
 	Skip          bool
-	QueryModel    typ.QueryModel
+	QueryModel    QueryModel
 	DdsResponse   *dds.Response
 	ExpectedFrame json.RawMessage
 	ExpectedError string
@@ -68,7 +67,7 @@ func TestFrame(t *testing.T) {
 				frame, err := Build(testCase.DdsResponse, nil, &testCase.QueryModel)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")
-					assert.Equal(t, expectedJson.String(), string(actualJson), "frames are not identical")
+					assert.JSONEq(t, expectedJson.String(), string(actualJson), "frames are not identical")
 				} else {
 					assert.Equal(t, testCase.ExpectedError, err.Error(), "unexpected error message")
 				}

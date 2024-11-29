@@ -55,6 +55,7 @@ type Client struct {
 	headerMap  *HeaderMap
 
 	stopChan  chan struct{}
+	closeOnce sync.Once
 	waitGroup sync.WaitGroup
 	rwMutex   sync.RWMutex
 }
@@ -72,6 +73,7 @@ func NewClient(baseUrl string, username string, password string, timeout int, tl
 				},
 			},
 		},
+		stopChan: make(chan struct{}),
 	}
 	client.waitGroup.Add(1)
 	go client.sync()
@@ -99,9 +101,11 @@ func (c *Client) sync() {
 }
 
 func (c *Client) Close() {
-	close(c.stopChan)
-	c.waitGroup.Wait()
-	c.httpClient.CloseIdleConnections()
+	c.closeOnce.Do(func() {
+		close(c.stopChan)
+		c.waitGroup.Wait()
+		c.httpClient.CloseIdleConnections()
+	})
 }
 
 func (c *Client) Get(ctx context.Context, path string, params ...string) (*Response, error) {

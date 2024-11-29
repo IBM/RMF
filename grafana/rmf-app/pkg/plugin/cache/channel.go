@@ -20,7 +20,8 @@ package cache
 import (
 	"encoding/json"
 
-	typ "github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/types"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
+
 	"github.com/VictoriaMetrics/fastcache"
 )
 
@@ -32,14 +33,14 @@ func NewChannelCache(size int) *ChannelCache {
 	return &ChannelCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (cc *ChannelCache) GetChannelQuery(path string) (*typ.QueryModel, error) {
-	var query typ.QueryModel
+func (cc *ChannelCache) GetChannelQuery(path string) (*frame.QueryModel, error) {
+	var query frame.QueryModel
 	queryBytes := cc.cache.Get(nil, []byte(path))
 	err := json.Unmarshal(queryBytes, &query)
 	return &query, err
 }
 
-func (cc *ChannelCache) SetChannelQuery(path string, query *typ.QueryModel) error {
+func (cc *ChannelCache) SetChannelQuery(path string, query *frame.QueryModel) error {
 	queryBytes, err := json.Marshal(*query)
 	if err == nil {
 		cc.cache.Set([]byte(path), queryBytes)
