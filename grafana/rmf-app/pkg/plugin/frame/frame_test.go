@@ -67,7 +67,7 @@ func TestFrame(t *testing.T) {
 				frame, err := Build(testCase.DdsResponse, nil, &testCase.QueryModel)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")
-					assert.Equal(t, expectedJson.String(), string(actualJson), "frames are not identical")
+					assert.JSONEq(t, expectedJson.String(), string(actualJson), "frames are not identical")
 				} else {
 					assert.Equal(t, testCase.ExpectedError, err.Error(), "unexpected error message")
 				}
