@@ -73,18 +73,34 @@ export const applySelectedDefaultsAndOverrides = (
   let bannerFields: Field[] = [];
   let captionFields: Field[] = [];
   let tableFields: Field[] = [];
+
+  let targetArray: Field[];
+  let sliceStart: number;
+  let sliceEnd: number | undefined;
+
   for (let i = 0; i < result[0].fields.length; i++) {
     let field = result[0].fields[i];
     if (field.name.startsWith(BANNER_PREFIX)) {
-      field.values = field.values.slice(0, 1);
-      bannerFields.push(field);
+      targetArray = bannerFields;
+      sliceStart = 0;
+      sliceEnd = 1;
     } else if (field.name.startsWith(CAPTION_PREFIX)) {
-      field.values = field.values.slice(0, 1);
-      captionFields.push(field);
+      targetArray = captionFields;
+      sliceStart = 0;
+      sliceEnd = 1;
     } else {
-      field.values = field.values.slice(1);
-      tableFields.push(field);
+      targetArray = tableFields;
+      sliceStart = 1;
+      sliceEnd = undefined;
     }
+    let values = field.values?.buffer ?? field.values;
+    values = values.slice(sliceStart, sliceEnd);
+    if (field.values?.buffer !== undefined) {
+      field.values.buffer = values;
+    } else {
+      field.values = values;
+    }
+    targetArray.push(field);
   }
   result[0].fields = tableFields;
   result[0].length -= 1;
