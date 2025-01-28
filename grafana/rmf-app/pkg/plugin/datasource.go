@@ -73,8 +73,8 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 		return nil, err
 	}
 	// nolint:contextcheck
-	ds.ddsClient = dds.NewClient(
-		config.URL, config.Username, config.Password, config.Timeout, config.JSON.TlsSkipVerify)
+	ds.ddsClient = dds.NewClient(config.URL, config.Username, config.Password, config.Timeout,
+		config.JSON.TlsSkipVerify, config.JSON.DisableCompression)
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
 	logger.Info("initialized a datasource",

@@ -43,8 +43,9 @@ type Config struct {
 	Password  string
 	JSON      struct {
 		// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
-		TimeoutRaw    string `json:"timeout"`
-		TlsSkipVerify bool   `json:"tlsSkipVerify"`
+		TimeoutRaw         string `json:"timeout"`
+		TlsSkipVerify      bool   `json:"tlsSkipVerify"`
+		DisableCompression bool   `json:"disableCompression"`
 		// Custom RMF settings.
 		CacheSizeRaw string `json:"cacheSize"`
 		// Legacy custom RMF settings. We should ge rid of these at some point.

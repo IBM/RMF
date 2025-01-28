@@ -60,7 +60,7 @@ type Client struct {
 	rwMutex   sync.RWMutex
 }
 
-func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool) *Client {
+func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool, disableCompression bool) *Client {
 	client := &Client{
 		baseUrl:  strings.TrimRight(baseUrl, "/"),
 		username: username,
@@ -68,6 +68,7 @@ func NewClient(baseUrl string, username string, password string, timeout int, tl
 		httpClient: &http.Client{
 			Timeout: time.Duration(timeout) * time.Second,
 			Transport: &http.Transport{
+				DisableCompression: disableCompression,
 				TLSClientConfig: &tls.Config{
 					InsecureSkipVerify: tlsSkipVerify, // #nosec G402
 				},
