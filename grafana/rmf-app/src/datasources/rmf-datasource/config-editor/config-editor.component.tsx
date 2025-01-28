@@ -59,6 +59,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       options.jsonData = {
         timeout: DEFAULT_HTTP_TIMEOUT,
         tlsSkipVerify: !(jsonData?.skipVerify !== undefined ? jsonData?.skipVerify : true), // NB: the meaning of skipVerify is inverted.
+        disableCompression: jsonData?.disableCompression ?? false,
       };
     } else {
       // Initialize jsonData and secureJsonData if needed
@@ -66,6 +67,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         timeout: jsonData?.timeout || DEFAULT_HTTP_TIMEOUT,
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
+        disableCompression: jsonData?.disableCompression ?? false,
       };
     }
     onOptionsChange({ ...options });
@@ -176,6 +178,18 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               }}
             />
             {httpTimeoutError && <FieldValidationMessage horizontal={true}>{httpTimeoutError}</FieldValidationMessage>}
+          </div>
+          <div className="gf-form-inline">
+            <InlineField label="Compression" labelWidth={INLINE_LABEL_WIDTH} tooltip="Request HTTP compression">
+              <InlineSwitch
+                // Negative flags aren't good for UX.
+                // However, it's more consistent to keep it consistent with Golang DisableCompression option in the backend.
+                value={!options.jsonData.disableCompression}
+                onChange={(event) => {
+                  this.updateSettings({ jsonData: { disableCompression: !event.currentTarget.checked } });
+                }}
+              />
+            </InlineField>
           </div>
         </div>
         <h3 className="page-heading">Auth</h3>
