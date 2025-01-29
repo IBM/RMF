@@ -268,7 +268,7 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	)
 
 	setQueryTimeRange(query, false)
-	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query, false); err != nil {
+	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query); err != nil {
 		// nolint:errorlint
 		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
 			dataResponse.Error = cause
@@ -441,7 +441,7 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
 			setQueryTimeRange(histQueryModel, true)
-			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel, true); err != nil {
+			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
 			if histQueryModel.CurrentTime.Equal(histQueryModel.LastTime) {
@@ -509,14 +509,14 @@ func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *frame.QueryMo
 	return newFrame, nil
 }
 
-func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *frame.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
+func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *frame.QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
 	var (
 		newFrame *data.Frame
 		err      error
 	)
 
-	newFrame, _ = ds.frameCache.GetFrame(queryModel, plotAbsoluteReverse...)
+	newFrame, _ = ds.frameCache.GetFrame(queryModel)
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if newFrame == nil {
