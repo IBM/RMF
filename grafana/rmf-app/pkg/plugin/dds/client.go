@@ -53,6 +53,7 @@ type Client struct {
 	httpClient *http.Client
 	timeOffset *time.Duration
 	headerMap  *HeaderMap
+	mintime    int
 
 	stopChan  chan struct{}
 	closeOnce sync.Once
@@ -196,5 +197,13 @@ func (c *Client) GetTimeOffset() time.Duration {
 	latest := timeData.LocalStart.Sub(timeData.UTCStart.Time)
 	c.timeOffset = &latest
 	logger.Debug("DDS timezone offset updated", "offset", latest.String())
+	c.mintime = timeData.MinTime.Value
 	return latest
+}
+
+func (c *Client) GetCachedMintime() int {
+	c.rwMutex.RLock()
+	mintime := c.mintime
+	c.rwMutex.RUnlock()
+	return mintime
 }

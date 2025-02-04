@@ -61,6 +61,7 @@ type RMFDatasource struct {
 	channelCache *cache.ChannelCache
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
+	cacheLock    sync.RWMutex
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -232,6 +233,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 			} else {
 				// nolint:contextcheck
 				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+				qm.Mintime = ds.ddsClient.GetCachedMintime()
 				if qm.SelectedVisualisationType == frame.TimeSeriesType {
 					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
 				} else {
@@ -268,6 +270,10 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	)
 
 	setQueryTimeRange(query, false)
+	if latestNotReady(query.CurrentTime, query.Mintime) {
+		logger.Debug("interval not yet ready, step back", "time", query.CurrentTime.String())
+		query.CurrentTime = query.CurrentTime.Add(-1 * time.Duration(query.Mintime) * time.Second)
+	}
 	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query); err != nil {
 		// nolint:errorlint
 		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
@@ -516,6 +522,8 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
+	ds.cacheLock.Lock()
+	defer ds.cacheLock.Unlock()
 	newFrame, _ = ds.frameCache.GetFrame(queryModel)
 
 	// Fetch from the DDS Server and then save to cache if required.
@@ -606,7 +614,7 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 	if queryModel.AbsoluteTimeSelected { // Absolute time
 		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			fromTime := queryModel.TimeRangeFrom
-			queryModel.CurrentTime = fromTime
+			queryModel.CurrentTime = queryModel.AdjustRealtime(fromTime, queryModel.Mintime)
 		} else {
 			if plotReverse {
 				localPrevTime := queryModel.LocalPrev.Add(-1 * queryModel.TimeOffset)
@@ -619,7 +627,7 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 	} else { // Relative time
 		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			toTime := queryModel.TimeRangeTo
-			queryModel.CurrentTime = toTime
+			queryModel.CurrentTime = queryModel.AdjustRealtime(toTime, queryModel.Mintime)
 		} else {
 			localNextTime := queryModel.LocalNext.Add(-1 * queryModel.TimeOffset)
 			queryModel.CurrentTime = localNextTime

@@ -63,6 +63,44 @@ func (rs *ResponseStatus) UpdateFromTimeData(timeData *dds.TimeData) {
 	)
 	currentMiddle = currentMiddle.Add(-1 * rs.TimeOffset)
 	rs.CurrentTime = currentMiddle
+	duration := timeData.LocalEnd.Time.Sub(timeData.LocalStart.Time)
+	if int(duration.Seconds()) != rs.Mintime {
+		rs.AdjustCurrentTime()
+	}
+}
+
+func (rs *ResponseStatus) AdjustCurrentTime() {
+	rs.CurrentTime = rs.AdjustRealtime(rs.CurrentTime, rs.Mintime)
+}
+
+func (rs *ResponseStatus) AdjustRealtime(realtime time.Time, mintime int) time.Time {
+	if mintime == 0 {
+		return realtime
+	}
+
+	y := realtime.Year()
+	M := realtime.Month()
+	d := realtime.Day()
+	h := realtime.Hour()
+	m := realtime.Minute()
+	s := realtime.Second()
+
+	sec0 := m*60 + s
+	intnum := sec0 / int(mintime)
+	m = intnum * int(mintime) / 60
+	s = intnum * int(mintime) % 60
+	half := mintime / 2
+
+	t := time.Date(
+		y,
+		time.Month(M),
+		int(d),
+		int(h),
+		int(m),
+		int(s),
+		0, realtime.Location()).
+		Add(time.Duration(time.Duration(half) * time.Second))
+	return t
 }
 
 type QueryModel struct {
