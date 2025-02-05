@@ -27,6 +27,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/google/uuid"
@@ -61,7 +62,27 @@ type RMFDatasource struct {
 	channelCache *cache.ChannelCache
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
-	cacheLock    sync.RWMutex
+	dsLock       sync.Mutex
+	locks        map[string]*ResourceLock
+}
+
+type ResourceLock struct {
+	sync.Mutex
+	qlen atomic.Uint32
+}
+
+func (rl *ResourceLock) LockResource() {
+	rl.qlen.Add(1)
+	rl.Lock()
+}
+
+func (rl *ResourceLock) UnlockResource() {
+	rl.Unlock()
+	rl.qlen.Add(^uint32(0))
+}
+
+func (rl *ResourceLock) isFree() bool {
+	return rl.qlen.Load() == 0
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -522,8 +543,9 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
-	ds.cacheLock.Lock()
-	defer ds.cacheLock.Unlock()
+	defer ds.unlockResource(queryModel.SelectedResource.Value)
+	ds.getResourceLock(queryModel.SelectedResource.Value).LockResource()
+
 	newFrame, _ = ds.frameCache.GetFrame(queryModel)
 
 	// Fetch from the DDS Server and then save to cache if required.
@@ -540,6 +562,36 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		logger.Debug("cached value exist", "key", string(queryModel.CacheKey()))
 	}
 	return newFrame, nil
+}
+
+func (ds *RMFDatasource) getResourceLock(resource string) *ResourceLock {
+	ds.dsLock.Lock()
+	defer ds.dsLock.Unlock()
+	if ds.locks == nil {
+		ds.locks = make(map[string]*ResourceLock)
+	}
+	lock := ds.locks[resource]
+	if lock == nil {
+		newLock := ResourceLock{}
+		lock = &newLock
+		ds.locks[resource] = lock
+		log.Logger.Debug("Lock added", "resource", resource)
+	}
+	return lock
+}
+
+func (ds *RMFDatasource) unlockResource(resource string) {
+	ds.dsLock.Lock()
+	defer ds.dsLock.Unlock()
+	lock := ds.locks[resource]
+	if lock == nil {
+		panic("resource was not locked: " + resource)
+	}
+	lock.UnlockResource()
+	if lock.isFree() {
+		delete(ds.locks, resource)
+		log.Logger.Debug("Lock removed", "resource", resource)
+	}
 }
 
 // SubscribeStream is called when a client wants to connect to a stream. This callback
