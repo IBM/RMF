@@ -72,17 +72,24 @@ type ResourceLock struct {
 }
 
 func (rl *ResourceLock) LockResource() {
-	rl.qlen.Add(1)
 	rl.Lock()
 }
 
 func (rl *ResourceLock) UnlockResource() {
 	rl.Unlock()
-	rl.qlen.Add(^uint32(0))
+	rl.qSub()
 }
 
 func (rl *ResourceLock) isFree() bool {
 	return rl.qlen.Load() == 0
+}
+
+func (rl *ResourceLock) qAdd() {
+	rl.qlen.Add(1)
+}
+
+func (rl *ResourceLock) qSub() {
+	rl.qlen.Add(^uint32(0))
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -577,6 +584,7 @@ func (ds *RMFDatasource) getResourceLock(resource string) *ResourceLock {
 		ds.locks[resource] = lock
 		log.Logger.Debug("Lock added", "resource", resource)
 	}
+	lock.qAdd()
 	return lock
 }
 
