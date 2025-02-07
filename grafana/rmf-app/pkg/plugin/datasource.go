@@ -27,6 +27,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/google/uuid"
@@ -61,6 +62,34 @@ type RMFDatasource struct {
 	channelCache *cache.ChannelCache
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
+	dsLock       sync.Mutex
+	locks        map[string]*ResourceLock
+}
+
+type ResourceLock struct {
+	sync.Mutex
+	qlen atomic.Uint32
+}
+
+func (rl *ResourceLock) LockResource() {
+	rl.Lock()
+}
+
+func (rl *ResourceLock) UnlockResource() {
+	rl.Unlock()
+	rl.qSub()
+}
+
+func (rl *ResourceLock) isFree() bool {
+	return rl.qlen.Load() == 0
+}
+
+func (rl *ResourceLock) qAdd() {
+	rl.qlen.Add(1)
+}
+
+func (rl *ResourceLock) qSub() {
+	rl.qlen.Add(^uint32(0))
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -232,6 +261,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 			} else {
 				// nolint:contextcheck
 				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+				qm.Mintime = ds.ddsClient.GetCachedMintime()
 				if qm.SelectedVisualisationType == frame.TimeSeriesType {
 					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
 				} else {
@@ -268,6 +298,10 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	)
 
 	setQueryTimeRange(query, false)
+	if latestNotReady(query.CurrentTime, query.Mintime) {
+		logger.Debug("interval not yet ready, step back", "time", query.CurrentTime.String())
+		query.CurrentTime = query.CurrentTime.Add(-1 * time.Duration(query.Mintime) * time.Second)
+	}
 	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query); err != nil {
 		// nolint:errorlint
 		if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
@@ -516,6 +550,9 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
+	defer ds.unlockResource(queryModel.SelectedResource.Value)
+	ds.getResourceLock(queryModel.SelectedResource.Value).LockResource()
+
 	newFrame, _ = ds.frameCache.GetFrame(queryModel)
 
 	// Fetch from the DDS Server and then save to cache if required.
@@ -532,6 +569,37 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		logger.Debug("cached value exist", "key", string(queryModel.CacheKey()))
 	}
 	return newFrame, nil
+}
+
+func (ds *RMFDatasource) getResourceLock(resource string) *ResourceLock {
+	ds.dsLock.Lock()
+	defer ds.dsLock.Unlock()
+	if ds.locks == nil {
+		ds.locks = make(map[string]*ResourceLock)
+	}
+	lock := ds.locks[resource]
+	if lock == nil {
+		newLock := ResourceLock{}
+		lock = &newLock
+		ds.locks[resource] = lock
+		log.Logger.Debug("Lock added", "resource", resource)
+	}
+	lock.qAdd()
+	return lock
+}
+
+func (ds *RMFDatasource) unlockResource(resource string) {
+	ds.dsLock.Lock()
+	defer ds.dsLock.Unlock()
+	lock := ds.locks[resource]
+	if lock == nil {
+		panic("resource was not locked: " + resource)
+	}
+	lock.UnlockResource()
+	if lock.isFree() {
+		delete(ds.locks, resource)
+		log.Logger.Debug("Lock removed", "resource", resource)
+	}
 }
 
 // SubscribeStream is called when a client wants to connect to a stream. This callback
@@ -606,7 +674,7 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 	if queryModel.AbsoluteTimeSelected { // Absolute time
 		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			fromTime := queryModel.TimeRangeFrom
-			queryModel.CurrentTime = fromTime
+			queryModel.CurrentTime = queryModel.AdjustRealtime(fromTime, queryModel.Mintime)
 		} else {
 			if plotReverse {
 				localPrevTime := queryModel.LocalPrev.Add(-1 * queryModel.TimeOffset)
@@ -619,7 +687,7 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 	} else { // Relative time
 		if queryModel.Mintime == 0 || queryModel.CurrentTime.IsZero() {
 			toTime := queryModel.TimeRangeTo
-			queryModel.CurrentTime = toTime
+			queryModel.CurrentTime = queryModel.AdjustRealtime(toTime, queryModel.Mintime)
 		} else {
 			localNextTime := queryModel.LocalNext.Add(-1 * queryModel.TimeOffset)
 			queryModel.CurrentTime = localNextTime
