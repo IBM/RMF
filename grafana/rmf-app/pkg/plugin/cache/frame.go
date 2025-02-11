@@ -45,28 +45,26 @@ func NewFrameCache(size int) *FrameCache {
 	return &FrameCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (fc *FrameCache) getCacheItemValue(key []byte) (*CacheItemValue, error) {
+func (fc *FrameCache) getCacheItemValue(key []byte) *CacheItemValue {
+	logger := log.Logger.With("func", "getCacheItemValue")
 	byteCacheItemValue := fc.cache.GetBig(nil, key)
 	if byteCacheItemValue != nil {
 		var cacheItemValue CacheItemValue
 		err := json.Unmarshal(byteCacheItemValue, &cacheItemValue)
 		if err != nil {
-			return nil, err
+			logger.Debug("Unmarshal error", "err", err, "key", string(key))
+			return nil
 		}
-		return &cacheItemValue, nil
+		return &cacheItemValue
 	}
-	return nil, nil
+	return nil
 }
 
 func (fc *FrameCache) GetFrame(qm *frame.QueryModel) (*data.Frame, error) {
-	logger := log.Logger.With("func", "GetFrame")
 	var (
 		resultframe *data.Frame
 	)
-	matchedCacheItem, err := fc.getCacheItemValue(qm.CacheKey())
-	if err != nil {
-		logger.Debug("cache item values not obtained", "error", err, "key", string(qm.CacheKey()))
-	}
+	matchedCacheItem := fc.getCacheItemValue(qm.CacheKey())
 	if matchedCacheItem != nil {
 		diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.CurrentTime).Seconds())
 		if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.Mintime) {
@@ -83,15 +81,12 @@ func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *frame.QueryModel) error {
 	logger := log.Logger.With("func", "SaveFrame")
 
 	var cacheItemValue *CacheItemValue
-	cacheItemValue, err := fc.getCacheItemValue(qm.CacheKey())
+	cacheItemValue = fc.getCacheItemValue(qm.CacheKey())
 	if cacheItemValue != nil {
 		if cacheItemValue.CurrentTime.Equal(qm.CurrentTime) {
 			logger.Debug("cache item already exist", "key", string(qm.CacheKey()))
 			return nil
 		}
-	}
-	if err != nil {
-		logger.Debug("cache item value", "error", err, "key", string(qm.CacheKey()))
 	}
 	var newCacheItemValue CacheItemValue = fc.createCacheItemValue(frame, qm)
 
