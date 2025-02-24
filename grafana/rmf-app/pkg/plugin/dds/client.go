@@ -51,9 +51,8 @@ type Client struct {
 	username   string
 	password   string
 	httpClient *http.Client
-	timeOffset *time.Duration
 	headerMap  *HeaderMap
-	mintime    int
+	timeData   *TimeData
 
 	stopChan  chan struct{}
 	closeOnce sync.Once
@@ -87,13 +86,18 @@ func (c *Client) sync() {
 	ticker := time.NewTicker(UpdateInterval)
 	defer c.waitGroup.Done()
 	defer ticker.Stop()
+	defer func() {
+		if r := recover(); r != nil {
+			logger.Debug("DDS background sync stopped", "error", r)
+		}
+	}()
 	logger.Debug("DDS background sync started")
-	c.GetTimeOffset()
+	c.updateTimeData()
 	c.GetHeaders()
 	for {
 		select {
 		case <-ticker.C:
-			c.GetTimeOffset()
+			c.updateTimeData()
 			c.GetHeaders()
 		case <-c.stopChan:
 			logger.Debug("DDS background sync stopped")
@@ -171,39 +175,41 @@ func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, 
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
 	c.rwMutex.RLock()
-	current := c.timeOffset
-	c.rwMutex.RUnlock()
-	if current != nil {
-		return *current
+	defer c.rwMutex.RUnlock()
+	if c.timeData == nil {
+		c.updateTimeData()
 	}
-	return c.GetTimeOffset()
+	if c.timeData != nil {
+		return c.timeData.LocalStart.Sub(c.timeData.UTCStart.Time)
+	}
+	return DefaultTimeOffset
 }
 
-func (c *Client) GetTimeOffset() time.Duration {
+func (c *Client) updateTimeData() {
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
 	logger := log.Logger.With("func", "getTimeOffset")
 	response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 	if err != nil {
-		logger.Error("unable to fetch DDS timezone offset", "error", err)
-		return DefaultTimeOffset
+		logger.Error("unable to fetch DDS time data", "error", err)
 	}
 	timeData := response.Reports[0].TimeData
 	if timeData == nil {
-		logger.Error("unable to fetch DDS timezone offset", "error", "no time data in DDS response")
-		return DefaultTimeOffset
+		logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
 	}
-	latest := timeData.LocalStart.Sub(timeData.UTCStart.Time)
-	c.timeOffset = &latest
-	logger.Debug("DDS timezone offset updated", "offset", latest.String())
-	c.mintime = timeData.MinTime.Value
-	return latest
+	c.timeData = timeData
+	logger.Debug("DDS time data updated")
 }
 
 func (c *Client) GetCachedMintime() int {
 	c.rwMutex.RLock()
-	mintime := c.mintime
-	c.rwMutex.RUnlock()
-	return mintime
+	defer c.rwMutex.RUnlock()
+	if c.timeData == nil {
+		c.updateTimeData()
+	}
+	if c.timeData != nil {
+		return c.timeData.MinTime.Value
+	}
+	return 0
 }

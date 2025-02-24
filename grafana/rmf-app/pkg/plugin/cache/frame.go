@@ -19,7 +19,6 @@ package cache
 
 import (
 	"encoding/json"
-	"errors"
 	"math"
 	"time"
 
@@ -60,7 +59,7 @@ func (fc *FrameCache) getCacheItemValue(key []byte) *CacheItemValue {
 	return nil
 }
 
-func (fc *FrameCache) GetFrame(qm *frame.QueryModel) (*data.Frame, error) {
+func (fc *FrameCache) GetFrame(qm *frame.QueryModel) *data.Frame {
 	var (
 		resultframe *data.Frame
 	)
@@ -71,10 +70,8 @@ func (fc *FrameCache) GetFrame(qm *frame.QueryModel) (*data.Frame, error) {
 			qm.Update(&matchedCacheItem.ResponseStatus)
 			resultframe = &matchedCacheItem.Value
 		}
-	} else {
-		return nil, errors.New("frame not found in cache in GetFrame()")
 	}
-	return resultframe, nil
+	return resultframe
 }
 
 func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *frame.QueryModel) error {

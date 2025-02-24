@@ -550,10 +550,10 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
-	defer ds.unlockResource(queryModel.SelectedResource.Value)
-	ds.getResourceLock(queryModel.SelectedResource.Value).LockResource()
+	defer ds.unlockResource(queryModel.SelectedResource.Value + queryModel.CurrentTime.String())
+	ds.getResourceLock(queryModel.SelectedResource.Value + queryModel.CurrentTime.String()).LockResource()
 
-	newFrame, _ = ds.frameCache.GetFrame(queryModel)
+	newFrame = ds.frameCache.GetFrame(queryModel)
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if newFrame == nil {
