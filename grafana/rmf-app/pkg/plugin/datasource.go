@@ -261,6 +261,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 			} else {
 				// nolint:contextcheck
 				qm.TimeOffset = ds.ddsClient.GetCachedTimeOffset()
+				// nolint:contextcheck
 				qm.Mintime = ds.ddsClient.GetCachedMintime()
 				if qm.SelectedVisualisationType == frame.TimeSeriesType {
 					response = ds.queryTimeSeries(ctx, req.PluginContext, qm)
