@@ -57,7 +57,7 @@ type Client struct {
 	stopChan  chan struct{}
 	closeOnce sync.Once
 	waitGroup sync.WaitGroup
-	rwMutex   sync.RWMutex
+	mutex     sync.Mutex
 }
 
 func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool, disableCompression bool) *Client {
@@ -92,18 +92,23 @@ func (c *Client) sync() {
 		}
 	}()
 	logger.Debug("DDS background sync started")
-	c.updateTimeData()
-	c.GetHeaders()
+	c.updateCache()
 	for {
 		select {
 		case <-ticker.C:
-			c.updateTimeData()
-			c.GetHeaders()
+			c.updateCache()
 		case <-c.stopChan:
 			logger.Debug("DDS background sync stopped")
 			return
 		}
 	}
+}
+
+func (c *Client) updateCache() {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	c.updateTimeData()
+	c.GetHeaders()
 }
 
 func (c *Client) Close() {
@@ -174,8 +179,8 @@ func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, 
 }
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
-	c.rwMutex.RLock()
-	defer c.rwMutex.RUnlock()
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	if c.timeData == nil {
 		c.updateTimeData()
 	}
@@ -186,9 +191,6 @@ func (c *Client) GetCachedTimeOffset() time.Duration {
 }
 
 func (c *Client) updateTimeData() {
-	c.rwMutex.Lock()
-	defer c.rwMutex.Unlock()
-
 	logger := log.Logger.With("func", "getTimeOffset")
 	response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 	if err != nil {
@@ -203,8 +205,8 @@ func (c *Client) updateTimeData() {
 }
 
 func (c *Client) GetCachedMintime() int {
-	c.rwMutex.RLock()
-	defer c.rwMutex.RUnlock()
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	if c.timeData == nil {
 		c.updateTimeData()
 	}

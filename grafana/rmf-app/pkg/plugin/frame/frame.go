@@ -62,7 +62,11 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryMo
 	}
 
 	format := report.Metric.Format
+	timeCopy := queryModel.CurrentTime
 	queryModel.UpdateFromTimeData(report.TimeData)
+	if !queryModel.CurrentTime.Equal(timeCopy) {
+		logger.Debug("CurrentTime updated", "before", timeCopy.String(), "after", queryModel.CurrentTime.String(), "mintime", queryModel.Mintime)
+	}
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
 		newFrame = buildForReport(&report, headers, queryModel)

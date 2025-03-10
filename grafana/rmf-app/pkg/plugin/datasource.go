@@ -27,7 +27,6 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
-	"sync/atomic"
 	"time"
 
 	"github.com/google/uuid"
@@ -63,39 +62,13 @@ type RMFDatasource struct {
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
 	dsLock       sync.Mutex
-	locks        map[string]*ResourceLock
-}
-
-type ResourceLock struct {
-	sync.Mutex
-	qlen atomic.Uint32
-}
-
-func (rl *ResourceLock) LockResource() {
-	rl.Lock()
-}
-
-func (rl *ResourceLock) UnlockResource() {
-	rl.Unlock()
-	rl.qSub()
-}
-
-func (rl *ResourceLock) isFree() bool {
-	return rl.qlen.Load() == 0
-}
-
-func (rl *ResourceLock) qAdd() {
-	rl.qlen.Add(1)
-}
-
-func (rl *ResourceLock) qSub() {
-	rl.qlen.Add(^uint32(0))
+	waitGroups   map[string]*sync.WaitGroup
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	logger := log.Logger.With("func", "NewRMFDatasource")
-	ds := &RMFDatasource{uid: settings.UID, name: settings.Name}
+	ds := &RMFDatasource{uid: settings.UID, name: settings.Name, waitGroups: make(map[string]*sync.WaitGroup)}
 	config, err := ds.getConfig(settings)
 	if err != nil {
 		logger.Error("failed to get config", "error", err)
@@ -551,10 +524,18 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		err      error
 	)
 
-	defer ds.unlockResource(queryModel.SelectedResource.Value + queryModel.CurrentTime.String())
-	ds.getResourceLock(queryModel.SelectedResource.Value + queryModel.CurrentTime.String()).LockResource()
-
 	newFrame = ds.frameCache.GetFrame(queryModel)
+	if newFrame == nil {
+		key := string(queryModel.CacheKey())
+		defer ds.doneResource(key)
+		for ds.waitResource(key) {
+			newFrame = ds.frameCache.GetFrame(queryModel)
+			if newFrame != nil {
+				return newFrame, nil
+			}
+			log.Logger.Debug("First routine failed to get data", "resource", key)
+		}
+	}
 
 	// Fetch from the DDS Server and then save to cache if required.
 	if newFrame == nil {
@@ -572,34 +553,38 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 	return newFrame, nil
 }
 
-func (ds *RMFDatasource) getResourceLock(resource string) *ResourceLock {
+func (ds *RMFDatasource) createWaitGroup(resource string) (*sync.WaitGroup, bool) {
 	ds.dsLock.Lock()
 	defer ds.dsLock.Unlock()
-	if ds.locks == nil {
-		ds.locks = make(map[string]*ResourceLock)
+	wg := ds.waitGroups[resource]
+	if wg == nil {
+		newWg := sync.WaitGroup{}
+		newWg.Add(1)
+		wg = &newWg
+		ds.waitGroups[resource] = wg
+		log.Logger.Debug("WaitGroup added", "resource", resource)
+		return wg, false
 	}
-	lock := ds.locks[resource]
-	if lock == nil {
-		newLock := ResourceLock{}
-		lock = &newLock
-		ds.locks[resource] = lock
-		log.Logger.Debug("Lock added", "resource", resource)
-	}
-	lock.qAdd()
-	return lock
+	return wg, true
 }
 
-func (ds *RMFDatasource) unlockResource(resource string) {
+func (ds *RMFDatasource) waitResource(resource string) bool {
+	wg, wait := ds.createWaitGroup(resource)
+	if wait {
+		log.Logger.Debug("Wait for first routine", "resource", resource)
+		wg.Wait()
+	}
+	return wait
+}
+
+func (ds *RMFDatasource) doneResource(resource string) {
 	ds.dsLock.Lock()
 	defer ds.dsLock.Unlock()
-	lock := ds.locks[resource]
-	if lock == nil {
-		panic("resource was not locked: " + resource)
-	}
-	lock.UnlockResource()
-	if lock.isFree() {
-		delete(ds.locks, resource)
-		log.Logger.Debug("Lock removed", "resource", resource)
+	wg := ds.waitGroups[resource]
+	if wg != nil {
+		delete(ds.waitGroups, resource)
+		log.Logger.Debug("WaitGroup removed", "resource", resource)
+		wg.Done()
 	}
 }
 
@@ -679,10 +664,10 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 		} else {
 			if plotReverse {
 				localPrevTime := queryModel.LocalPrev.Add(-1 * queryModel.TimeOffset)
-				queryModel.CurrentTime = localPrevTime
+				queryModel.CurrentTime = queryModel.AdjustRealtime(localPrevTime, queryModel.Mintime)
 			} else {
 				addedTime := queryModel.CurrentTime.Add(time.Duration(time.Second * time.Duration(queryModel.Mintime)))
-				queryModel.CurrentTime = addedTime
+				queryModel.CurrentTime = queryModel.AdjustRealtime(addedTime, queryModel.Mintime)
 			}
 		}
 	} else { // Relative time
@@ -691,7 +676,7 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 			queryModel.CurrentTime = queryModel.AdjustRealtime(toTime, queryModel.Mintime)
 		} else {
 			localNextTime := queryModel.LocalNext.Add(-1 * queryModel.TimeOffset)
-			queryModel.CurrentTime = localNextTime
+			queryModel.CurrentTime = queryModel.AdjustRealtime(localNextTime, queryModel.Mintime)
 		}
 	}
 }

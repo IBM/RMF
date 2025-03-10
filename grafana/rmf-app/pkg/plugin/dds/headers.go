@@ -65,19 +65,15 @@ type XslChoose struct {
 }
 
 func (c *Client) GetCachedHeaders() HeaderMap {
-	c.rwMutex.RLock()
-	current := c.headerMap
-	c.rwMutex.RUnlock()
-	if current != nil {
-		return *current
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
+	if c.headerMap == nil {
+		c.GetHeaders()
 	}
-	return c.GetHeaders()
+	return *c.headerMap
 }
 
 func (c *Client) GetHeaders() HeaderMap {
-	c.rwMutex.Lock()
-	defer c.rwMutex.Unlock()
-
 	logger := log.Logger.With("func", "GetHeaderMap")
 	headers := HeaderMap{}
 	raw, err := c.GetRaw(context.Background(), XslHeadersPath)
