@@ -65,7 +65,11 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryMo
 	timeCopy := queryModel.CurrentTime
 	queryModel.UpdateFromTimeData(report.TimeData)
 	if !queryModel.CurrentTime.Equal(timeCopy) {
-		logger.Debug("CurrentTime updated", "before", timeCopy.String(), "after", queryModel.CurrentTime.String(), "mintime", queryModel.Mintime)
+		logger.Debug("CurrentTime updated", "before", timeCopy.String(),
+			"after", queryModel.CurrentTime.String(),
+			"mintime", queryModel.Mintime,
+			"start", report.TimeData.LocalStart.Time.String(),
+			"end", report.TimeData.LocalEnd.Time.String())
 	}
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
