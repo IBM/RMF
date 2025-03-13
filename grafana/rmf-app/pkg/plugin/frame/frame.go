@@ -69,7 +69,9 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryMo
 			"after", queryModel.CurrentTime.String(),
 			"mintime", queryModel.Mintime,
 			"start", report.TimeData.LocalStart.Time.String(),
-			"end", report.TimeData.LocalEnd.Time.String())
+			"end", report.TimeData.LocalEnd.Time.String(),
+			"prev", report.TimeData.LocalPrev.Time.String(),
+			"next", report.TimeData.LocalNext.Time.String())
 	}
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {

@@ -31,6 +31,7 @@ import (
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
+	"golang.org/x/sync/singleflight"
 )
 
 const UpdateInterval = 15 * time.Minute
@@ -57,7 +58,7 @@ type Client struct {
 	stopChan  chan struct{}
 	closeOnce sync.Once
 	waitGroup sync.WaitGroup
-	mutex     sync.Mutex
+	single    singleflight.Group
 }
 
 func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool, disableCompression bool) *Client {
@@ -105,8 +106,6 @@ func (c *Client) sync() {
 }
 
 func (c *Client) updateCache() {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
 	c.updateTimeData()
 	c.GetHeaders()
 }
@@ -179,8 +178,6 @@ func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, 
 }
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
 	if c.timeData == nil {
 		c.updateTimeData()
 	}
@@ -191,22 +188,23 @@ func (c *Client) GetCachedTimeOffset() time.Duration {
 }
 
 func (c *Client) updateTimeData() {
-	logger := log.Logger.With("func", "getTimeOffset")
-	response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
-	if err != nil {
-		logger.Error("unable to fetch DDS time data", "error", err)
-	}
-	timeData := response.Reports[0].TimeData
-	if timeData == nil {
-		logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
-	}
-	c.timeData = timeData
-	logger.Debug("DDS time data updated")
+	logger := log.Logger.With("func", "updateTimeData")
+	c.single.Do("timeData", func() (any, error) {
+		response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
+		if err != nil {
+			logger.Error("unable to fetch DDS time data", "error", err)
+		}
+		timeData := response.Reports[0].TimeData
+		if timeData == nil {
+			logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
+		}
+		c.timeData = timeData
+		logger.Debug("DDS time data updated")
+		return timeData, nil
+	})
 }
 
 func (c *Client) GetCachedMintime() int {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
 	if c.timeData == nil {
 		c.updateTimeData()
 	}

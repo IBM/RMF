@@ -34,6 +34,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/grafana/grafana-plugin-sdk-go/live"
+	"golang.org/x/sync/singleflight"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
@@ -62,13 +63,13 @@ type RMFDatasource struct {
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
 	dsLock       sync.Mutex
-	waitGroups   map[string]*sync.WaitGroup
+	single       singleflight.Group
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	logger := log.Logger.With("func", "NewRMFDatasource")
-	ds := &RMFDatasource{uid: settings.UID, name: settings.Name, waitGroups: make(map[string]*sync.WaitGroup)}
+	ds := &RMFDatasource{uid: settings.UID, name: settings.Name}
 	config, err := ds.getConfig(settings)
 	if err != nil {
 		logger.Error("failed to get config", "error", err)
@@ -449,6 +450,10 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
 			setQueryTimeRange(histQueryModel, true)
+			if latestNotReady(histQueryModel.CurrentTime, histQueryModel.Mintime) {
+				logger.Debug("interval not yet ready", "time", histQueryModel.CurrentTime.String())
+				continue
+			}
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel); err != nil {
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
@@ -519,72 +524,35 @@ func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *frame.QueryMo
 
 func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *frame.QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
-	var (
-		newFrame *data.Frame
-		err      error
-	)
-
-	newFrame = ds.frameCache.GetFrame(queryModel)
-	if newFrame == nil {
-		key := string(queryModel.CacheKey())
-		defer ds.doneResource(key)
-		for ds.waitResource(key) {
-			newFrame = ds.frameCache.GetFrame(queryModel)
-			if newFrame != nil {
-				return newFrame, nil
-			}
-			log.Logger.Debug("First routine failed to get data", "resource", key)
-		}
+	type Result struct {
+		f *data.Frame
 	}
-
-	// Fetch from the DDS Server and then save to cache if required.
-	if newFrame == nil {
-		newFrame, err = ds.getFrame(ctx, queryModel)
-		if err != nil {
-			return nil, err
-		} else {
-			if err = ds.frameCache.SaveFrame(newFrame, queryModel); err != nil {
+	key := string(queryModel.CacheKey())
+	result, err, _ := ds.single.Do(key, func() (interface{}, error) {
+		var (
+			newFrame *data.Frame
+			err      error
+		)
+		newFrame = ds.frameCache.GetFrame(queryModel)
+		// Fetch from the DDS Server and then save to cache if required.
+		if newFrame == nil {
+			newFrame, err = ds.getFrame(ctx, queryModel)
+			if err != nil {
 				return nil, err
+			} else {
+				if err = ds.frameCache.SaveFrame(newFrame, queryModel); err != nil {
+					return nil, err
+				}
 			}
+		} else {
+			logger.Debug("cached value exist", "key", key)
 		}
+		return Result{f: newFrame}, nil
+	})
+	if result != nil {
+		return result.(Result).f, err
 	} else {
-		logger.Debug("cached value exist", "key", string(queryModel.CacheKey()))
-	}
-	return newFrame, nil
-}
-
-func (ds *RMFDatasource) createWaitGroup(resource string) (*sync.WaitGroup, bool) {
-	ds.dsLock.Lock()
-	defer ds.dsLock.Unlock()
-	wg := ds.waitGroups[resource]
-	if wg == nil {
-		newWg := sync.WaitGroup{}
-		newWg.Add(1)
-		wg = &newWg
-		ds.waitGroups[resource] = wg
-		log.Logger.Debug("WaitGroup added", "resource", resource)
-		return wg, false
-	}
-	return wg, true
-}
-
-func (ds *RMFDatasource) waitResource(resource string) bool {
-	wg, wait := ds.createWaitGroup(resource)
-	if wait {
-		log.Logger.Debug("Wait for first routine", "resource", resource)
-		wg.Wait()
-	}
-	return wait
-}
-
-func (ds *RMFDatasource) doneResource(resource string) {
-	ds.dsLock.Lock()
-	defer ds.dsLock.Unlock()
-	wg := ds.waitGroups[resource]
-	if wg != nil {
-		delete(ds.waitGroups, resource)
-		log.Logger.Debug("WaitGroup removed", "resource", resource)
-		wg.Done()
+		return nil, err
 	}
 }
 
