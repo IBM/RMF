@@ -189,6 +189,7 @@ func (c *Client) GetCachedTimeOffset() time.Duration {
 
 func (c *Client) updateTimeData() {
 	logger := log.Logger.With("func", "updateTimeData")
+	// nolint:errcheck
 	c.single.Do("timeData", func() (any, error) {
 		response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 		if err != nil {

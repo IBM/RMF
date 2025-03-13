@@ -73,6 +73,7 @@ func (c *Client) GetCachedHeaders() HeaderMap {
 
 func (c *Client) GetHeaders() {
 	logger := log.Logger.With("func", "GetHeaderMap")
+	// nolint:errcheck
 	c.single.Do("headers", func() (any, error) {
 		headers := HeaderMap{}
 		raw, err := c.GetRaw(context.Background(), XslHeadersPath)

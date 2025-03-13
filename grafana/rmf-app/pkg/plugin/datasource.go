@@ -62,7 +62,6 @@ type RMFDatasource struct {
 	channelCache *cache.ChannelCache
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
-	dsLock       sync.Mutex
 	single       singleflight.Group
 }
 
