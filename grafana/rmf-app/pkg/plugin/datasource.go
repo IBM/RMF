@@ -274,7 +274,7 @@ func (ds *RMFDatasource) queryTimeSeries(ctx context.Context, pCtx backend.Plugi
 	setQueryTimeRange(query, false)
 	if latestNotReady(query.CurrentTime, query.Mintime) {
 		logger.Debug("interval not yet ready, step back", "time", query.CurrentTime.String())
-		query.CurrentTime = query.CurrentTime.Add(-1 * time.Duration(query.Mintime) * time.Second)
+		moveNextPrevious(query, false)
 	}
 	if newFrame, err = ds.getFrameFromCacheOrServer(ctx, query); err != nil {
 		// nolint:errorlint
@@ -394,9 +394,11 @@ func (ds *RMFDatasource) streamDataAbsolute(ctx context.Context, req *backend.Ru
 			// Send new data periodically.
 			logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime, "to", matchedQueryModel.TimeRangeTo)
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
+				moveNextPrevious(matchedQueryModel, true)
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame", "error", err)
 			}
 			if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+				moveNextPrevious(matchedQueryModel, true)
 				logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
 				continue
 			}
@@ -446,18 +448,20 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 				logger.Debug("finished with historical data", "path", req.Path, "CurrentTime", histQueryModel.CurrentTime.String(), "TimeRangeFrom", matchedQueryModel.TimeRangeFrom.String(), "TimeRangeTo", matchedQueryModel.TimeRangeTo.String())
 				continue
 			}
+			setQueryTimeRange(histQueryModel, true)
 			logger.Debug("executing query for historical data", "query", histQueryModel.SelectedQuery, "current", histQueryModel.CurrentTime, "from", histQueryModel.TimeRangeFrom)
 			// Fetch the data
-			setQueryTimeRange(histQueryModel, true)
 			if latestNotReady(histQueryModel.CurrentTime, histQueryModel.Mintime) {
 				logger.Debug("interval not yet ready", "time", histQueryModel.CurrentTime.String())
 				continue
 			}
 			if newFrame, err = ds.getFrameFromCacheOrServer(ctx, histQueryModel); err != nil {
+				moveNextPrevious(histQueryModel, false)
 				return log.ErrorWithId(logger, log.InternalError, "could not get new frame for historical data", "error", err)
 			}
 			if histQueryModel.CurrentTime.Equal(histQueryModel.LastTime) {
 				logger.Debug("skip frame due to duplication", "time", histQueryModel.CurrentTime.String())
+				moveNextPrevious(histQueryModel, false)
 				continue
 			}
 			histQueryModel.LastTime = histQueryModel.CurrentTime
@@ -484,9 +488,11 @@ func (ds *RMFDatasource) streamDataRelative(ctx context.Context, req *backend.Ru
 				}
 				logger.Debug("executing query", "query", matchedQueryModel.SelectedQuery, "current", matchedQueryModel.CurrentTime)
 				if newFrame, err = ds.getFrameFromCacheOrServer(ctx, matchedQueryModel); err != nil {
+					moveNextPrevious(matchedQueryModel, true)
 					return log.ErrorWithId(logger, log.InternalError, "could not get new frame for relative data", "error", err)
 				}
 				if matchedQueryModel.CurrentTime.Equal(matchedQueryModel.LastTime) {
+					moveNextPrevious(matchedQueryModel, true)
 					logger.Debug("skip frame due to duplication", "time", matchedQueryModel.CurrentTime.String())
 					continue
 				}
@@ -651,4 +657,14 @@ func setQueryTimeRange(queryModel *frame.QueryModel, plotAbsoluteReverse ...bool
 func latestNotReady(t time.Time, m int) bool {
 	var now time.Time = time.Now()
 	return t.Add(time.Second*time.Duration(m/2) + SdsDelay).After(now)
+}
+
+func moveNextPrevious(qm *frame.QueryModel, next bool) {
+	if next {
+		qm.CurrentTime = qm.CurrentTime.Add(time.Duration(qm.Mintime) * time.Second)
+		qm.LocalNext = qm.LocalNext.Add(time.Duration(qm.Mintime) * time.Second)
+	} else {
+		qm.CurrentTime = qm.CurrentTime.Add(-1 * time.Duration(qm.Mintime) * time.Second)
+		qm.LocalPrev = qm.LocalPrev.Add(-1 * time.Duration(qm.Mintime) * time.Second)
+	}
 }
