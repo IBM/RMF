@@ -529,9 +529,6 @@ func (ds *RMFDatasource) getFrame(ctx context.Context, queryModel *frame.QueryMo
 
 func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryModel *frame.QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "getFrameFromCacheOrServer")
-	type Result struct {
-		f *data.Frame
-	}
 	key := string(queryModel.CacheKey())
 	result, err, _ := ds.single.Do(key, func() (interface{}, error) {
 		var (
@@ -552,10 +549,10 @@ func (ds *RMFDatasource) getFrameFromCacheOrServer(ctx context.Context, queryMod
 		} else {
 			logger.Debug("cached value exist", "key", key)
 		}
-		return Result{f: newFrame}, nil
+		return newFrame, nil
 	})
 	if result != nil {
-		return result.(Result).f, err
+		return result.(*data.Frame), err
 	} else {
 		return nil, err
 	}

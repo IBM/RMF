@@ -58,6 +58,7 @@ type Client struct {
 	stopChan  chan struct{}
 	closeOnce sync.Once
 	waitGroup sync.WaitGroup
+	rwMutex   sync.RWMutex
 	single    singleflight.Group
 }
 
@@ -107,7 +108,7 @@ func (c *Client) sync() {
 
 func (c *Client) updateCache() {
 	c.updateTimeData()
-	c.GetHeaders()
+	c.updateHeaders()
 }
 
 func (c *Client) Close() {
@@ -178,19 +179,26 @@ func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, 
 }
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
-	if c.timeData == nil {
-		c.updateTimeData()
-	}
-	if c.timeData != nil {
-		return c.timeData.LocalStart.Sub(c.timeData.UTCStart.Time)
+	timeData := c.ensureTimeData()
+	if timeData != nil {
+		return timeData.LocalStart.Sub(timeData.UTCStart.Time)
 	}
 	return DefaultTimeOffset
 }
 
-func (c *Client) updateTimeData() {
+func (c *Client) ensureTimeData() *TimeData {
+	c.rwMutex.RLock()
+	timeData := c.timeData
+	c.rwMutex.RUnlock()
+	if timeData == nil {
+		timeData = c.updateTimeData()
+	}
+	return timeData
+}
+
+func (c *Client) updateTimeData() *TimeData {
 	logger := log.Logger.With("func", "updateTimeData")
-	// nolint:errcheck
-	c.single.Do("timeData", func() (any, error) {
+	result, _, _ := c.single.Do("timeData", func() (any, error) {
 		response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 		if err != nil {
 			logger.Error("unable to fetch DDS time data", "error", err)
@@ -199,17 +207,21 @@ func (c *Client) updateTimeData() {
 		if timeData == nil {
 			logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
 		}
+		c.rwMutex.Lock()
 		c.timeData = timeData
+		c.rwMutex.Unlock()
 		logger.Debug("DDS time data updated")
 		return timeData, nil
 	})
+	if result != nil {
+		return result.(*TimeData)
+	}
+	return nil
 }
 
 func (c *Client) GetCachedMintime() int {
-	if c.timeData == nil {
-		c.updateTimeData()
-	}
-	if c.timeData != nil {
+	timeData := c.ensureTimeData()
+	if timeData != nil {
 		return c.timeData.MinTime.Value
 	}
 	return 0
