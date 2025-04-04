@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.8 (2025-04-04)
+
+- A new option, Compression, has been added to the data source creation process. This option enables the RMF data source to request HTTP compression from the Data Distributed Server (DDS) during data retrieval, which improves the efficiency of data transfer.
+- Fixed certain scenarios of missing data within dashboards for time series visualizations.
+- Fixed internally found defects.
+
 ## 1.0.7 (2024-11-29)
 
 - Fixed internally found defects.

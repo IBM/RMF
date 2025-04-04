@@ -64,36 +64,38 @@ type XslChoose struct {
 	} `xml:"when"`
 }
 
-func (c *Client) GetCachedHeaders() HeaderMap {
+func (c *Client) GetCachedHeaders() *HeaderMap {
 	c.rwMutex.RLock()
-	current := c.headerMap
+	headerMap := c.headerMap
 	c.rwMutex.RUnlock()
-	if current != nil {
-		return *current
+	if headerMap != nil {
+		return headerMap
 	}
-	return c.GetHeaders()
+	return c.updateHeaders()
 }
 
-func (c *Client) GetHeaders() HeaderMap {
-	c.rwMutex.Lock()
-	defer c.rwMutex.Unlock()
-
+func (c *Client) updateHeaders() *HeaderMap {
 	logger := log.Logger.With("func", "GetHeaderMap")
-	headers := HeaderMap{}
-	raw, err := c.GetRaw(context.Background(), XslHeadersPath)
-	if err != nil {
-		logger.Error("failed to fetch XSL header map", "error", err)
-		return headers
-	}
-	var xslHeaders XslHeaderMap
-	if err = xml.Unmarshal(raw, &xslHeaders); err != nil {
-		logger.Error("failed to unmarshal XLS header map", "error", err)
-		return headers
-	}
-	buildHeaders(headers, NoReport, xslHeaders.Template.Choose)
-	c.headerMap = &headers
-	logger.Debug("header map updated")
-	return headers
+	result, _, _ := c.single.Do("headers", func() (any, error) {
+		headers := HeaderMap{}
+		raw, err := c.GetRaw(context.Background(), XslHeadersPath)
+		if err != nil {
+			logger.Error("failed to fetch XSL header map", "error", err)
+			return &headers, err
+		}
+		var xslHeaders XslHeaderMap
+		if err = xml.Unmarshal(raw, &xslHeaders); err != nil {
+			logger.Error("failed to unmarshal XLS header map", "error", err)
+			return &headers, err
+		}
+		buildHeaders(headers, NoReport, xslHeaders.Template.Choose)
+		c.rwMutex.Lock()
+		c.headerMap = &headers
+		c.rwMutex.Unlock()
+		logger.Debug("header map updated")
+		return &headers, nil
+	})
+	return result.(*HeaderMap)
 }
 
 func buildHeaders(res HeaderMap, report string, choose XslChoose) {

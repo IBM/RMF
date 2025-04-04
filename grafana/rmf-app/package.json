@@ -1,7 +1,7 @@
 {
   "author": "IBM",
   "name": "ibm-rmf",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "IBM RMF for z/OS",
   "license": "Apache-2.0",
   "scripts": {
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint --cache --ignore-path ./.gitignore --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "yarn run lint --fix",
-    "server": "GRAFANA_VERSION=latest docker compose up --build",
+    "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "format": "prettier-eslint --write '**/*.ts*'",
     "antlr": "antlr4-tool --help",

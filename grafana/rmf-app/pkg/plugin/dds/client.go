@@ -31,6 +31,7 @@ import (
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
+	"golang.org/x/sync/singleflight"
 )
 
 const UpdateInterval = 15 * time.Minute
@@ -51,16 +52,17 @@ type Client struct {
 	username   string
 	password   string
 	httpClient *http.Client
-	timeOffset *time.Duration
 	headerMap  *HeaderMap
+	timeData   *TimeData
 
 	stopChan  chan struct{}
 	closeOnce sync.Once
 	waitGroup sync.WaitGroup
 	rwMutex   sync.RWMutex
+	single    singleflight.Group
 }
 
-func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool) *Client {
+func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool, disableCompression bool) *Client {
 	client := &Client{
 		baseUrl:  strings.TrimRight(baseUrl, "/"),
 		username: username,
@@ -68,6 +70,7 @@ func NewClient(baseUrl string, username string, password string, timeout int, tl
 		httpClient: &http.Client{
 			Timeout: time.Duration(timeout) * time.Second,
 			Transport: &http.Transport{
+				DisableCompression: disableCompression,
 				TLSClientConfig: &tls.Config{
 					InsecureSkipVerify: tlsSkipVerify, // #nosec G402
 				},
@@ -85,19 +88,27 @@ func (c *Client) sync() {
 	ticker := time.NewTicker(UpdateInterval)
 	defer c.waitGroup.Done()
 	defer ticker.Stop()
+	defer func() {
+		if r := recover(); r != nil {
+			logger.Debug("DDS background sync stopped", "error", r)
+		}
+	}()
 	logger.Debug("DDS background sync started")
-	c.GetTimeOffset()
-	c.GetHeaders()
+	c.updateCache()
 	for {
 		select {
 		case <-ticker.C:
-			c.GetTimeOffset()
-			c.GetHeaders()
+			c.updateCache()
 		case <-c.stopChan:
 			logger.Debug("DDS background sync stopped")
 			return
 		}
 	}
+}
+
+func (c *Client) updateCache() {
+	c.updateTimeData()
+	c.updateHeaders()
 }
 
 func (c *Client) Close() {
@@ -168,32 +179,50 @@ func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, 
 }
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
-	c.rwMutex.RLock()
-	current := c.timeOffset
-	c.rwMutex.RUnlock()
-	if current != nil {
-		return *current
+	timeData := c.ensureTimeData()
+	if timeData != nil {
+		return timeData.LocalStart.Sub(timeData.UTCStart.Time)
 	}
-	return c.GetTimeOffset()
+	return DefaultTimeOffset
 }
 
-func (c *Client) GetTimeOffset() time.Duration {
-	c.rwMutex.Lock()
-	defer c.rwMutex.Unlock()
-
-	logger := log.Logger.With("func", "getTimeOffset")
-	response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
-	if err != nil {
-		logger.Error("unable to fetch DDS timezone offset", "error", err)
-		return DefaultTimeOffset
-	}
-	timeData := response.Reports[0].TimeData
+func (c *Client) ensureTimeData() *TimeData {
+	c.rwMutex.RLock()
+	timeData := c.timeData
+	c.rwMutex.RUnlock()
 	if timeData == nil {
-		logger.Error("unable to fetch DDS timezone offset", "error", "no time data in DDS response")
-		return DefaultTimeOffset
+		timeData = c.updateTimeData()
 	}
-	latest := timeData.LocalStart.Sub(timeData.UTCStart.Time)
-	c.timeOffset = &latest
-	logger.Debug("DDS timezone offset updated", "offset", latest.String())
-	return latest
+	return timeData
+}
+
+func (c *Client) updateTimeData() *TimeData {
+	logger := log.Logger.With("func", "updateTimeData")
+	result, _, _ := c.single.Do("timeData", func() (any, error) {
+		response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
+		if err != nil {
+			logger.Error("unable to fetch DDS time data", "error", err)
+		}
+		timeData := response.Reports[0].TimeData
+		if timeData == nil {
+			logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
+		}
+		c.rwMutex.Lock()
+		c.timeData = timeData
+		c.rwMutex.Unlock()
+		logger.Debug("DDS time data updated")
+		return timeData, nil
+	})
+	if result != nil {
+		return result.(*TimeData)
+	}
+	return nil
+}
+
+func (c *Client) GetCachedMintime() int {
+	timeData := c.ensureTimeData()
+	if timeData != nil {
+		return c.timeData.MinTime.Value
+	}
+	return 0
 }

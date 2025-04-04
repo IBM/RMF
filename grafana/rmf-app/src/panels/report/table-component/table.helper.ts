@@ -63,23 +63,47 @@ export const applyNearestPercentage = (field: Field, maxVal: number): Field => {
   return field;
 };
 
-export const applySelectedDefaultsAndOverrides = (options: any, fieldConfig: FieldConfigSource, data: DataFrame[]): ReportData => {
+export const applySelectedDefaultsAndOverrides = (
+  options: any,
+  fieldConfig: FieldConfigSource,
+  data: DataFrame[]
+): ReportData => {
   // FIXME: send banner, captions and table data in different frames.
   let result = applyRawFieldOverrides(data);
   let bannerFields: Field[] = [];
   let captionFields: Field[] = [];
-  let tableFields: Field[] = []
+  let tableFields: Field[] = [];
+
+  let targetArray: Field[];
+  let sliceStart: number;
+  let sliceEnd: number | undefined;
+
   for (let i = 0; i < result[0].fields.length; i++) {
-    let field = result[0].fields[i]
+    let field = result[0].fields[i];
     if (field.name.startsWith(BANNER_PREFIX)) {
-      bannerFields.push(field);
+      targetArray = bannerFields;
+      sliceStart = 0;
+      sliceEnd = 1;
     } else if (field.name.startsWith(CAPTION_PREFIX)) {
-      captionFields.push(field);
+      targetArray = captionFields;
+      sliceStart = 0;
+      sliceEnd = 1;
     } else {
-      tableFields.push(field);
+      targetArray = tableFields;
+      sliceStart = 1;
+      sliceEnd = undefined;
     }
+    let values = field.values?.buffer ?? field.values;
+    values = values.slice(sliceStart, sliceEnd);
+    if (field.values?.buffer !== undefined) {
+      field.values.buffer = values;
+    } else {
+      field.values = values;
+    }
+    targetArray.push(field);
   }
   result[0].fields = tableFields;
+  result[0].length -= 1;
 
   // First apply default settings
   result[0].fields.map((field: Field) => {
@@ -92,7 +116,9 @@ export const applySelectedDefaultsAndOverrides = (options: any, fieldConfig: Fie
     field.config.custom = {
       align: 'auto',
       filterable: fieldConfig.defaults.custom.filterable,
-      cellOptions: fieldConfig.defaults.custom.cellOptions.type ? fieldConfig.defaults.custom.cellOptions : { type: fieldConfig.defaults.custom.cellOptions },
+      cellOptions: fieldConfig.defaults.custom.cellOptions.type
+        ? fieldConfig.defaults.custom.cellOptions
+        : { type: fieldConfig.defaults.custom.cellOptions },
     } as TableFieldOptions;
   });
 
@@ -151,9 +177,8 @@ export const applySelectedDefaultsAndOverrides = (options: any, fieldConfig: Fie
       }
     });
   }
-  return { bannerFields: bannerFields, captionFields: captionFields, tableData: result};
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: result };
 };
-
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {
   return applyFieldOverrides({
