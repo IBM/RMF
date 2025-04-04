@@ -9,6 +9,21 @@
             <title>What's new</title>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
+                    <dt>April 2025 v1.0.8</dt>
+                    <dd>
+                        <ul id="ul_kht_spb_k2c">
+                            <li>A new option, <uicontrol>Compression</uicontrol>, has been added to
+                                the data source creation process. This option enables the RMF data
+                                source to request HTTP compression from the Data Distributed Server
+                                (DDS) during data retrieval, which improves the efficiency of data
+                                transfer. See <xref href="create_datasources.dita"/>.</li>
+                            <li>Fixed certain scenarios of missing data within dashboards for time
+                                series visualizations.</li>
+                            <li>Fixed internally found defects.</li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry>
                     <dt>November 2024 v1.0.7</dt>
                     <dd><ph props="pdf">Fixed internally found defects.</ph><ul id="ul_kwg_kmf_ndc"
                             props="html">

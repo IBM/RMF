@@ -2,78 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
       <loc>visual_grafana.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>rn.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>install_grafana_plugin.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>update_plugin.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>create_datasources.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>db_ovw.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>apply_visualize.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>query_lang.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>variables.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>alerts.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>historical_data.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>error_reports.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>ts_issues.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>grafana_via_zosmf.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>prereq_zosmf.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>grafana_config_parms.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>define_grafana_zosmf.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>access_grafana_zosmf.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
    <url>
       <loc>pdf_guide.html</loc>
-      <lastmod>2024-11-27T03:57:07Z</lastmod>
+      <lastmod>2025-04-04T10:38:00Z</lastmod>
    </url>
 </urlset>
