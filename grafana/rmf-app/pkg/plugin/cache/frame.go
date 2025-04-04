@@ -19,9 +19,7 @@ package cache
 
 import (
 	"encoding/json"
-	"errors"
 	"math"
-	"sort"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
@@ -46,102 +44,50 @@ func NewFrameCache(size int) *FrameCache {
 	return &FrameCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (fc *FrameCache) getCacheItemValues(key []byte) ([]CacheItemValue, error) {
-	var cacheItemValues []CacheItemValue
-	byteCacheItemValues := fc.cache.GetBig(nil, key)
-	if byteCacheItemValues == nil {
-		return cacheItemValues, errors.New("no cache item")
-	} else {
-		err := json.Unmarshal(byteCacheItemValues, &cacheItemValues)
+func (fc *FrameCache) getCacheItemValue(key []byte) *CacheItemValue {
+	logger := log.Logger.With("func", "getCacheItemValue")
+	byteCacheItemValue := fc.cache.GetBig(nil, key)
+	if byteCacheItemValue != nil {
+		var cacheItemValue CacheItemValue
+		err := json.Unmarshal(byteCacheItemValue, &cacheItemValue)
 		if err != nil {
-			return nil, err
+			logger.Debug("Unmarshal error", "err", err, "key", string(key))
+			return nil
 		}
+		return &cacheItemValue
 	}
-	return cacheItemValues, nil
+	return nil
 }
 
-func (fc *FrameCache) getFilteredCacheItemValues(cacheItemValues []CacheItemValue, queryModel *frame.QueryModel, plotAbsoluteReverse ...bool) []CacheItemValue {
-	var filteredCacheItemValues []CacheItemValue
-	var plotReverse bool
-	if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
-		plotReverse = true
-	}
-	// Set the Query Model's TimeSeriesTimeRangeFrom and TimeSeriesTimeRangeTo properties
-	if queryModel.AbsoluteTimeSelected { // Absolute time
-		for _, cacheItem := range cacheItemValues {
-			if plotReverse { // Are we plotting the reverse absolute time for a relative timeline?
-				if cacheItem.ValueKey.Before(queryModel.CurrentTime.Add(time.Duration(queryModel.Mintime))) {
-					filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
-				}
-			} else {
-				if cacheItem.ValueKey.After(queryModel.CurrentTime) {
-					filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
-				}
-			}
-		}
-	} else { // Relative time
-		for _, cacheItem := range cacheItemValues {
-			if cacheItem.ValueKey.After(queryModel.CurrentTime) {
-				filteredCacheItemValues = append(filteredCacheItemValues, cacheItem)
-			}
-		}
-	}
-	return filteredCacheItemValues
-}
-
-func (fc *FrameCache) GetFrame(qm *frame.QueryModel, plotAbsoluteReverse ...bool) (*data.Frame, error) {
-	logger := log.Logger.With("func", "GetFrame")
+func (fc *FrameCache) GetFrame(qm *frame.QueryModel) *data.Frame {
 	var (
-		resultframe             *data.Frame
-		filteredCacheItemValues []CacheItemValue
+		resultframe *data.Frame
 	)
-	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
-	if err != nil {
-		logger.Debug("cache item values not obtained", "error", err, "key", string(qm.CacheKey()))
-	}
-	if len(cacheItemValues) > 0 {
-		filteredCacheItemValues = fc.getFilteredCacheItemValues(cacheItemValues, qm, plotAbsoluteReverse...)
-		if len(filteredCacheItemValues) > 0 {
-			var matchedCacheItem *CacheItemValue
-			if len(plotAbsoluteReverse) > 0 && plotAbsoluteReverse[0] {
-				matchedCacheItem = &filteredCacheItemValues[len(filteredCacheItemValues)-1]
-			} else {
-				matchedCacheItem = &filteredCacheItemValues[0]
-			}
-			diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.CurrentTime).Seconds())
-			if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.Mintime) {
-				qm.Update(&matchedCacheItem.ResponseStatus)
-				resultframe = &matchedCacheItem.Value
-			}
-		} else {
-			return nil, errors.New("frame not found in cache in GetFrame()")
+	matchedCacheItem := fc.getCacheItemValue(qm.CacheKey())
+	if matchedCacheItem != nil {
+		diffInSecs := int(matchedCacheItem.ValueKey.Sub(qm.CurrentTime).Seconds())
+		if int(math.Abs(float64(diffInSecs))) <= int(matchedCacheItem.Mintime) {
+			qm.Update(&matchedCacheItem.ResponseStatus)
+			resultframe = &matchedCacheItem.Value
 		}
-	} else {
-		return nil, errors.New("frame not found in cache in GetFrame()")
 	}
-	return resultframe, nil
+	return resultframe
 }
 
 func (fc *FrameCache) SaveFrame(frame *data.Frame, qm *frame.QueryModel) error {
 	logger := log.Logger.With("func", "SaveFrame")
 
-	cacheItemValues, err := fc.getCacheItemValues(qm.CacheKey())
-	if len(cacheItemValues) > 0 {
-		for _, cacheItemValue := range cacheItemValues {
-			if cacheItemValue.CurrentTime.Equal(qm.CurrentTime) {
-				logger.Debug("cache item already exist", "key", string(qm.CacheKey()))
-				return nil
-			}
+	var cacheItemValue *CacheItemValue
+	cacheItemValue = fc.getCacheItemValue(qm.CacheKey())
+	if cacheItemValue != nil {
+		if cacheItemValue.CurrentTime.Equal(qm.CurrentTime) {
+			logger.Debug("cache item already exist", "key", string(qm.CacheKey()))
+			return nil
 		}
 	}
-	if err != nil {
-		logger.Debug("cache item values not obtained", "error", err, "key", string(qm.CacheKey()))
-	}
-	cacheItemValue := fc.createCacheItemValue(frame, qm)
-	cacheItemValues = append(cacheItemValues, cacheItemValue)
-	cacheItemValues = fc.sortCacheItemValuesSlice(cacheItemValues)
+	var newCacheItemValue CacheItemValue = fc.createCacheItemValue(frame, qm)
 
-	if cacheItemValueBytes, err := json.Marshal(cacheItemValues); err != nil {
+	if cacheItemValueBytes, err := json.Marshal(&newCacheItemValue); err != nil {
 		return err
 	} else {
 		fc.cache.SetBig(qm.CacheKey(), cacheItemValueBytes)
@@ -158,14 +104,6 @@ func (fc *FrameCache) createCacheItemValue(frame *data.Frame, qm *frame.QueryMod
 	cacheItemValue.Value = *frame
 	cacheItemValue.Update(&qm.ResponseStatus)
 	return cacheItemValue
-}
-
-func (fc *FrameCache) sortCacheItemValuesSlice(cacheItemValues []CacheItemValue) []CacheItemValue {
-	// Sort the array
-	sort.Slice(cacheItemValues, func(i, j int) bool {
-		return cacheItemValues[i].ValueKey.Before(cacheItemValues[j].ValueKey)
-	})
-	return cacheItemValues
 }
 
 func (fc *FrameCache) Reset() {

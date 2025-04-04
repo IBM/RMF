@@ -34,7 +34,7 @@ const BannerPrefix = "Banner::"
 const CaptionPrefix = "Caption::"
 const ReportDateFormat = "01/02/2006 15:04:05"
 
-func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
@@ -62,7 +62,17 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryMo
 	}
 
 	format := report.Metric.Format
+	timeCopy := queryModel.CurrentTime
 	queryModel.UpdateFromTimeData(report.TimeData)
+	if !queryModel.CurrentTime.Equal(timeCopy) {
+		logger.Debug("CurrentTime updated", "before", timeCopy.String(),
+			"after", queryModel.CurrentTime.String(),
+			"mintime", queryModel.Mintime,
+			"start", report.TimeData.LocalStart.Time.String(),
+			"end", report.TimeData.LocalEnd.Time.String(),
+			"prev", report.TimeData.LocalPrev.Time.String(),
+			"next", report.TimeData.LocalNext.Time.String())
+	}
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
 		newFrame = buildForReport(&report, headers, queryModel)
@@ -159,7 +169,7 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *QueryModel) *data.Frame {
+func buildForReport(report *dds.Report, headers *dds.HeaderMap, qm *QueryModel) *data.Frame {
 	logger := log.Logger.With("func", "buildForReport")
 	frame := data.NewFrame(getFrameName(qm))
 	reportName := report.Metric.Id
