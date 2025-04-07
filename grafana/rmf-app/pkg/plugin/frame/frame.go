@@ -34,7 +34,7 @@ const BannerPrefix = "Banner::"
 const CaptionPrefix = "Caption::"
 const ReportDateFormat = "01/02/2006 15:04:05"
 
-func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
@@ -62,7 +62,17 @@ func Build(ddsResponse *dds.Response, headers dds.HeaderMap, queryModel *QueryMo
 	}
 
 	format := report.Metric.Format
+	timeCopy := queryModel.CurrentTime
 	queryModel.UpdateFromTimeData(report.TimeData)
+	if !queryModel.CurrentTime.Equal(timeCopy) {
+		logger.Debug("CurrentTime updated", "before", timeCopy.String(),
+			"after", queryModel.CurrentTime.String(),
+			"mintime", queryModel.Mintime,
+			"start", report.TimeData.LocalStart.Time.String(),
+			"end", report.TimeData.LocalEnd.Time.String(),
+			"prev", report.TimeData.LocalPrev.Time.String(),
+			"next", report.TimeData.LocalNext.Time.String())
+	}
 	var newFrame *data.Frame
 	if format == dds.ReportFormat {
 		newFrame = buildForReport(&report, headers, queryModel)
@@ -159,7 +169,7 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *QueryModel) *data.Frame {
+func buildForReport(report *dds.Report, headers *dds.HeaderMap, qm *QueryModel) *data.Frame {
 	logger := log.Logger.With("func", "buildForReport")
 	frame := data.NewFrame(getFrameName(qm))
 	reportName := report.Metric.Id
@@ -167,13 +177,14 @@ func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *QueryModel) *
 	for i, col := range report.Headers.Cols {
 		header := headers.Get(reportName, col.Id)
 		var field *data.Field
+		// The first value is a dummy to fit in captions and header.
 		if col.Type == dds.NumericColType {
-			field = data.NewField(header, nil, []*float64{})
+			field = data.NewField(header, nil, []*float64{nil})
 		} else {
 			if col.Type != dds.TextColType {
 				logger.Warn("unsupported column type, considering as string", "type", col.Type)
 			}
-			field = data.NewField(header, nil, []string{})
+			field = data.NewField(header, nil, []string{""})
 		}
 		for _, row := range report.Rows {
 			rawValue := row.Cols[i]
@@ -186,39 +197,35 @@ func buildForReport(report *dds.Report, headers dds.HeaderMap, qm *QueryModel) *
 		frame.Fields = append(frame.Fields, field)
 	}
 
-	// FIXME: if there are no data rows, we skip banner and captions. Send it in separate frames?
-	if len(report.Rows) > 0 {
+	buildField := func(name string, prefix string, value string) *data.Field {
+		// All the frames must have the same number of rows.
+		values := make([]*string, 1+len(report.Rows))
+		values[0] = &value
+		field := data.NewField(prefix+name, nil, values)
+		return field
+	}
 
-		buildField := func(name string, prefix string, value string) *data.Field {
-			// All the frames must have the same number of rows.
-			values := make([]*string, len(report.Rows))
-			values[0] = &value
-			field := data.NewField(prefix+name, nil, values)
-			return field
-		}
+	timeData := report.TimeData
 
-		timeData := report.TimeData
-
-		field := buildField("Samples", BannerPrefix, strconv.Itoa(timeData.NumSamples))
+	field := buildField("Samples", BannerPrefix, strconv.Itoa(timeData.NumSamples))
+	frame.Fields = append(frame.Fields, field)
+	if timeData.NumSystems != nil {
+		field = buildField("Systems", BannerPrefix, strconv.Itoa(*timeData.NumSystems))
 		frame.Fields = append(frame.Fields, field)
-		if timeData.NumSystems != nil {
-			field = buildField("Systems", BannerPrefix, strconv.Itoa(*timeData.NumSystems))
-			frame.Fields = append(frame.Fields, field)
-		}
-		field = buildField("Time range", BannerPrefix,
-			fmt.Sprintf("%s - %s",
-				timeData.LocalStart.Format(ReportDateFormat),
-				timeData.LocalEnd.Format(ReportDateFormat)))
-		frame.Fields = append(frame.Fields, field)
-		field = buildField("Interval", BannerPrefix,
-			timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
-		frame.Fields = append(frame.Fields, field)
+	}
+	field = buildField("Time range", BannerPrefix,
+		fmt.Sprintf("%s - %s",
+			timeData.LocalStart.Format(ReportDateFormat),
+			timeData.LocalEnd.Format(ReportDateFormat)))
+	frame.Fields = append(frame.Fields, field)
+	field = buildField("Interval", BannerPrefix,
+		timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
+	frame.Fields = append(frame.Fields, field)
 
-		for _, caption := range report.Caption.Vars {
-			name := headers.Get(reportName, caption.Name)
-			field := buildField(name, CaptionPrefix, caption.Value)
-			frame.Fields = append(frame.Fields, field)
-		}
+	for _, caption := range report.Caption.Vars {
+		name := headers.Get(reportName, caption.Name)
+		field := buildField(name, CaptionPrefix, caption.Value)
+		frame.Fields = append(frame.Fields, field)
 	}
 
 	return frame

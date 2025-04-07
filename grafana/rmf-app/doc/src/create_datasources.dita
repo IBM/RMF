@@ -3,14 +3,15 @@
 <task id="create_datasources" xml:lang="en-us">
     <title>Creating RMF data sources</title>
     <shortdesc>To access RMF Monitor III metrics in Grafana, you need to connect to the <ph
-            conref="conref.dita#conref/dds_full"/>s by adding an RMF data source.</shortdesc>
+            conref="conref.dita#conref/dds_full"/> (<ph conref="conref.dita#conref/dds_short"/>) by
+        adding an RMF data source.</shortdesc>
     <taskbody>
         <prereq id="prereq_ck1_wmd_qyb">
             <ul id="ul_ngw_hkk_lzb">
                 <li>You must have installed the RMF for z/OS Grafana plugin. See <xref
                         href="install_grafana_plugin.dita"/>.</li>
                 <li>You must know the hostname and port number of <ph
-                        conref="conref.dita#conref/dds_full"/>.</li>
+                        conref="conref.dita#conref/dds_short"/>.</li>
             </ul>
         </prereq>
         <steps>
@@ -53,17 +54,39 @@
                         <strow>
                             <stentry><uicontrol>DDS URL</uicontrol></stentry>
                             <stentry>Enter the URL of the <ph conref="conref.dita#conref/dds_short"
-                                /> in this field.<p>The format of the URL is:
-                                            <filepath>http://<varname>hostname</varname>:<varname>port_number</varname>/<varname>path</varname></filepath>
+                                /> in this field.<p>The format of the URL is
+                                            <filepath>http://<varname>hostname</varname>:<varname>port_number</varname>[/<varname>path</varname>]</filepath>
                                     or
-                                            <filepath>https://<varname>hostname</varname>:<varname>port_number</varname>/<varname>path</varname></filepath></p></stentry>
+                                            <filepath>https://<varname>hostname</varname>:<varname>port_number</varname>[/<varname>path</varname>]</filepath></p><note
+                                    id="note_tng_ryg_h2c" type="important">In the <ph
+                                        conref="conref.dita#conref/dds_short"/> URL, the
+                                            <filepath>/<varname>path</varname></filepath> is
+                                    optional, and you must exclude it in the default network
+                                    configuration. However, it might be required in more advanced
+                                    setups, such as when <ph conref="conref.dita#conref/dds_short"/>
+                                    functions behind a reverse proxy.</note></stentry>
                         </strow>
                         <strow>
                             <stentry><uicontrol>Timeout</uicontrol></stentry>
                             <stentry>Specify the duration, in seconds in this field, for which
-                                Grafana is allowed to wait for a connection to the DDS before it
-                                closes the connection.<p>The default value is
+                                Grafana is allowed to wait for a connection to the <ph
+                                    conref="conref.dita#conref/dds_short"/> before it closes the
+                                    connection.<p>The default value is
                                         <systemoutput>60</systemoutput>.</p></stentry>
+                        </strow>
+                        <strow>
+                            <stentry><uicontrol>Compression</uicontrol></stentry>
+                            <stentry>This option is enabled by default, which means that when RMF
+                                requests data from <ph conref="conref.dita#conref/dds_short"/>, HTTP
+                                compression is utilized, provided that the <ph
+                                    conref="conref.dita#conref/dds_short"/> is operating on a
+                                maintenance level OA67541. The compression setting is ignored if <ph
+                                    conref="conref.dita#conref/dds_short"/> is not at this
+                                maintenance level.<p>You can turn off HTTP compression by setting
+                                    the <uicontrol>Compression</uicontrol> option to
+                                        <systemoutput>OFF</systemoutput>, resulting in <ph
+                                        conref="conref.dita#conref/dds_short"/> data being always
+                                    transferred in an uncompressed format.</p></stentry>
                         </strow>
                     </simpletable>
                 </info>

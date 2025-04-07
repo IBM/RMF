@@ -20,7 +20,7 @@ import {
   DataSourceSettings,
   NullValueMode,
   SelectableValue,
-  ThresholdsMode
+  ThresholdsMode,
 } from '@grafana/data';
 
 export enum visualisationType {
@@ -117,7 +117,8 @@ export interface RMFDataSourceJsonData extends DataSourceJsonData {
   // We store it as a string because of complications of UI input validation
   timeout?: string;
   // Custom config RMF options
-  cacheSize?: string
+  cacheSize?: string;
+  disableCompression?: boolean;
   // Legacy: custom RMF settings. We should ge rid of it at some point.
   path?: string;
   port?: string;
@@ -132,7 +133,7 @@ export interface RMFDataSourceJsonData extends DataSourceJsonData {
  */
 export interface RMFDataSourceSecureJsonData {
   // Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
-  basicAuthPassword?: string
+  basicAuthPassword?: string;
   // Legacy: custom RMF settings. We should ge rid of it at some point.
   userName?: string;
   password?: string;
