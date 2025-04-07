@@ -1,16 +1,16 @@
 name: ibm-rmf-grafana
 
 on:
-   push:
-     branches:
-       - 'staging/v*'
-       - 'release/v*'
-     tags:
-       - 'ibm-rmf-grafana/v*'
-   pull_request:
-     branches:
-       - 'staging/v*'
-       - 'release/v*'
+  push:
+    branches:
+      - "staging/v*"
+      - "release/v*"
+    tags:
+      - "ibm-rmf-grafana/v*"
+  pull_request:
+    branches:
+      - "staging/v*"
+      - "release/v*"
 
 jobs:
   build:
@@ -31,8 +31,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: grafana/rmf-app/.nvmrc
-          cache: 'yarn'
-          cache-dependency-path: 'grafana/rmf-app/yarn.lock'
+          cache: "yarn"
+          cache-dependency-path: "grafana/rmf-app/yarn.lock"
 
       - name: Setup Golang
         uses: actions/setup-go@v5
@@ -66,8 +66,8 @@ jobs:
             grafana/rmf-app/RELEASE_NOTES.md
             grafana/rmf-app/build/ibm-rmf-grafana-*
 
-  sign:
-    runs-on: code-sign
+  release:
+    runs-on: ubuntu-latest
     needs: build
     if: startsWith(github.ref, 'refs/tags/ibm-rmf-grafana/v')
 
@@ -77,37 +77,6 @@ jobs:
         with:
           name: rmf-app-grafana
 
-      - name: Sign
-        run: |
-          $env:Path = 'C:\Program Files (x86)\Garantir\GRS;' + $env:Path
-          gpg-agent
-          gpg --detach-sign -a build/ibm-rmf-grafana-*.zip
-
-      - name: Upload Signature
-        uses: actions/upload-artifact@v4
-        with:
-          name: rmf-app-grafana-signature
-          path: build/ibm-rmf-grafana-*.zip.asc
-
-      - name: Clean up
-        run: rm -r -force *
-
-  release:
-    runs-on: ubuntu-latest
-    needs: sign
-    if: startsWith(github.ref, 'refs/tags/ibm-rmf-grafana/v')
-
-    steps:
-      - name: Download Build
-        uses: actions/download-artifact@v4
-        with:
-          name: rmf-app-grafana
-
-      - name: Download Signature
-        uses: actions/download-artifact@v4
-        with:
-          name: rmf-app-grafana-signature
-
       - name: Release Draft
         uses: softprops/action-gh-release@v2
         with:
@@ -115,5 +84,4 @@ jobs:
           draft: true
           files: |
             build/ibm-rmf-grafana-*
-            ibm-rmf-grafana-*.zip.asc
           body_path: RELEASE_NOTES.md
