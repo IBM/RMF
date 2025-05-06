@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -153,19 +154,28 @@ func buildLongForMetric(report *dds.Report, queryName string) *data.Frame {
 
 // iterateMetricRows parses metric key-value pairs and passes them to `process` while iterating over rows.
 func iterateMetricRows(report *dds.Report, defaultName string, process func(name string, value *float64)) {
+	var sb strings.Builder
 	for _, jsonRow := range report.Rows {
 		cols := jsonRow.Cols
 		name, rawValue := cols[0], cols[1]
 		if name == "*NoData*" {
 			continue
 		}
-		if len(jsonRow.Cols) == 3 {
-			name += "[" + cols[2] + "]"
+		sb.Reset()
+		sb.WriteString(name)
+		if len(jsonRow.Cols) >= 3 {
+			sb.WriteString("[")
+			sb.WriteString(cols[2])
+			if len(jsonRow.Cols) >= 4 && cols[3] != "" {
+				sb.WriteString(".")
+				sb.WriteString(cols[3])
+			}
+			sb.WriteString("]")
 		}
-		if name == "" {
-			name = defaultName
+		if sb.Len() == 0 {
+			sb.WriteString(defaultName)
 		}
-		process(name, parseFloat(rawValue))
+		process(sb.String(), parseFloat(rawValue))
 	}
 }
 
