@@ -98,7 +98,7 @@ func (dt *DateTime) MarshalJSON() ([]byte, error) {
 	if dt == nil {
 		return nil, nil
 	}
-	return []byte(`"` + dt.Time.Format(DateTimeFormat) + `"`), nil
+	return []byte(`"` + dt.Format(DateTimeFormat) + `"`), nil
 }
 
 type Message struct {

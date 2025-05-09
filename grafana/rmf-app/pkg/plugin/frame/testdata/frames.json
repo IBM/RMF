@@ -3,32 +3,21 @@
     "name": "OutOfRange",
     "description": "DDS returns interval different from what we requested for time series",
     "skip": true,
+    "wide": true,
     "ddsResponse": {
       "report": [
         {
           "metric": {
-            "format": "single"
+            "format": "single",
+            "description": "MetricName"
           },
           "row": [
             {
-              "col": [
-                "*NoData*",
-                "NaN"
-              ]
+              "col": ["*NoData*", "NaN"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T02:30:00Z",
-      "timeRangeTo": "2024-01-01T02:30:00Z",
-      "selectedQuery": "Resource.MetricName",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      },
-      "selectedVisualisationType": "TimeSeries"
     },
     "expectedFrame": {},
     "expectedError": "unexpected data in MetricFrameFromJson(): Error = requested time range is out of received interval"
@@ -36,99 +25,59 @@
   {
     "name": "NoReportSections",
     "description": "No reports in DDS response",
+    "wide": true,
     "ddsResponse": {},
-    "queryModel": {
-      "selectedVisualisationType": "TimeSeries"
-    },
     "expectedFrame": {},
     "expectedError": "no reports in DDS response"
   },
   {
     "name": "PositiveTimeSeriesList",
     "description": "Positive time series scenario for list format metric",
+    "wide": true,
     "ddsResponse": {
       "report": [
         {
           "metric": {
-            "format": "list"
+            "format": "list",
+            "description": "MetricName    by    XYZ   "
           },
           "timeData": {
             "utcEnd": "20240101013000"
           },
           "row": [
             {
-              "col": [
-                "ResourceName0",
-                "0"
-              ]
+              "col": ["ResourceName0", "0"]
             },
             {
-              "col": [
-                "ResourceName1",
-                "0.0"
-              ]
+              "col": ["ResourceName1", "0.0"]
             },
             {
-              "col": [
-                "ResourceName2",
-                "-0.0"
-              ]
+              "col": ["ResourceName2", "-0.0"]
             },
             {
-              "col": [
-                "ResourceName3",
-                "10.3"
-              ]
+              "col": ["ResourceName3", "10.3"]
             },
             {
-              "col": [
-                "ResourceName4",
-                "-10"
-              ]
+              "col": ["ResourceName4", "-10"]
             },
             {
-              "col": [
-                "ResourceName5",
-                "NaN"
-              ]
+              "col": ["ResourceName5", "NaN"]
             },
             {
-              "col": [
-                "ResourceName6",
-                "Deact"
-              ]
+              "col": ["ResourceName6", "Deact"]
             },
             {
-              "col": [
-                "ResourceName7",
-                ""
-              ]
+              "col": ["ResourceName7", ""]
             },
             {
-              "col": [
-                "*NoData*",
-                "NaN"
-              ]
+              "col": ["*NoData*", "NaN"]
             },
             {
-              "col": [
-                "*NoData*",
-                "0.0"
-              ]
+              "col": ["*NoData*", "0.0"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName    by    XYZ   ",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      },
-      "selectedVisualisationType": "TimeSeries"
     },
     "expectedFrame": {
       "schema": {
@@ -232,56 +181,27 @@
         ]
       },
       "data": {
-        "values": [
-          [
-            1704072600000
-          ],
-          [
-            0
-          ],
-          [
-            0
-          ],
-          [
-            -0
-          ],
-          [
-            10.3
-          ],
-          [
-            -10
-          ],
-          [
-            null
-          ],
-          [
-            null
-          ],
-          [
-            null
-          ]
-        ]
+        "values": [[1704072600000], [0], [0], [-0], [10.3], [-10], [null], [null], [null]]
       }
     }
   },
   {
     "name": "PositiveTimeSeriesSingle",
     "description": "Positive time series scenario for single format metric",
+    "wide": true,
     "ddsResponse": {
       "report": [
         {
           "metric": {
-            "format": "single"
+            "format": "single",
+            "description": "MetricName"
           },
           "timeData": {
             "utcEnd": "20240101013000"
           },
           "row": [
             {
-              "col": [
-                "",
-                "42"
-              ]
+              "col": ["", "42"]
             }
           ]
         }
@@ -320,25 +240,20 @@
         ]
       },
       "data": {
-        "values": [
-          [
-            1704072600000
-          ],
-          [
-            42
-          ]
-        ]
+        "values": [[1704072600000], [42]]
       }
     }
   },
   {
     "name": "NoRowsTimeSeriesList",
     "description": "No rows returned for time series list format frame",
+    "wide": true,
     "ddsResponse": {
       "report": [
         {
           "metric": {
-            "format": "list"
+            "format": "list",
+            "description": "MetricName"
           },
           "timeData": {
             "utcEnd": "20240101013000"
@@ -347,16 +262,6 @@
         }
       ]
     },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      },
-      "selectedVisualisationType": "TimeSeries"
-    },
     "expectedFrame": {
       "schema": {
         "name": "MetricName",
@@ -371,46 +276,31 @@
         ]
       },
       "data": {
-        "values": [
-          [
-            1704072600000
-          ]
-        ]
+        "values": [[1704072600000]]
       }
     }
   },
   {
     "name": "NoDataTimeSeriesSingle",
     "description": "No data returned for time series single format frame",
+    "wide": true,
     "ddsResponse": {
       "report": [
         {
           "metric": {
-            "format": "single"
+            "format": "single",
+            "description": "MetricName"
           },
           "timeData": {
             "utcEnd": "20240101013000"
           },
           "row": [
             {
-              "col": [
-                "*NoData*",
-                "NaN"
-              ]
+              "col": ["*NoData*", "NaN"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      },
-      "selectedVisualisationType": "TimeSeries"
     },
     "expectedFrame": {
       "schema": {
@@ -435,14 +325,7 @@
         ]
       },
       "data": {
-        "values": [
-          [
-            1704072600000
-          ],
-          [
-            null
-          ]
-        ]
+        "values": [[1704072600000], [null]]
       }
     }
   },
@@ -453,84 +336,46 @@
       "report": [
         {
           "metric": {
-            "format": "list"
+            "format": "list",
+            "description": "MetricName by XYZ "
           },
           "timeData": {
             "utcEnd": "20240101013000"
           },
           "row": [
             {
-              "col": [
-                "ResourceName0",
-                "0"
-              ]
+              "col": ["ResourceName0", "0"]
             },
             {
-              "col": [
-                "ResourceName1",
-                "0.0"
-              ]
+              "col": ["ResourceName1", "0.0"]
             },
             {
-              "col": [
-                "ResourceName2",
-                "-0.0"
-              ]
+              "col": ["ResourceName2", "-0.0"]
             },
             {
-              "col": [
-                "ResourceName3",
-                "10.3"
-              ]
+              "col": ["ResourceName3", "10.3"]
             },
             {
-              "col": [
-                "ResourceName4",
-                "-10"
-              ]
+              "col": ["ResourceName4", "-10"]
             },
             {
-              "col": [
-                "ResourceName5",
-                "NaN"
-              ]
+              "col": ["ResourceName5", "NaN"]
             },
             {
-              "col": [
-                "ResourceName6",
-                "Deact"
-              ]
+              "col": ["ResourceName6", "Deact"]
             },
             {
-              "col": [
-                "ResourceName7",
-                ""
-              ]
+              "col": ["ResourceName7", ""]
             },
             {
-              "col": [
-                "*NoData*",
-                "NaN"
-              ]
+              "col": ["*NoData*", "NaN"]
             },
             {
-              "col": [
-                "*NoData*",
-                "0.0"
-              ]
+              "col": ["*NoData*", "0.0"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName by XYZ ",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      }
     },
     "expectedFrame": {
       "schema": {
@@ -562,13 +407,7 @@
       "data": {
         "values": [
           [
-            1704072600000,
-            1704072600000,
-            1704072600000,
-            1704072600000,
-            1704072600000,
-            1704072600000,
-            1704072600000,
+            1704072600000, 1704072600000, 1704072600000, 1704072600000, 1704072600000, 1704072600000, 1704072600000,
             1704072600000
           ],
           [
@@ -581,16 +420,7 @@
             "ResourceName6",
             "ResourceName7"
           ],
-          [
-            0,
-            0,
-            -0,
-            10.3,
-            -10,
-            null,
-            null,
-            null
-          ]
+          [0, 0, -0, 10.3, -10, null, null, null]
         ]
       }
     }
@@ -602,30 +432,19 @@
       "report": [
         {
           "metric": {
-            "format": "single"
+            "format": "single",
+            "description": "MetricName"
           },
           "timeData": {
             "utcEnd": "20240101013000"
           },
           "row": [
             {
-              "col": [
-                "",
-                "42"
-              ]
+              "col": ["", "42"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      }
     },
     "expectedFrame": {
       "schema": {
@@ -655,17 +474,7 @@
         ]
       },
       "data": {
-        "values": [
-          [
-            1704072600000
-          ],
-          [
-            "MetricName"
-          ],
-          [
-            42
-          ]
-        ]
+        "values": [[1704072600000], ["MetricName"], [42]]
       }
     }
   },
@@ -676,21 +485,13 @@
       "report": [
         {
           "metric": {
-            "format": "list"
+            "format": "list",
+            "description": "MetricName by XYZ "
           },
           "timeData": {},
           "row": []
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName by XYZ ",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      }
     },
     "expectedFrame": {
       "schema": {
@@ -720,11 +521,7 @@
         ]
       },
       "data": {
-        "values": [
-          [],
-          [],
-          []
-        ]
+        "values": [[], [], []]
       }
     }
   },
@@ -735,28 +532,17 @@
       "report": [
         {
           "metric": {
-            "format": "single"
+            "format": "single",
+            "description": "MetricName "
           },
           "timeData": {},
           "row": [
             {
-              "col": [
-                "*NoData*",
-                "NaN"
-              ]
+              "col": ["*NoData*", "NaN"]
             }
           ]
         }
       ]
-    },
-    "queryModel": {
-      "timeRangeFrom": "2024-01-01T01:30:00Z",
-      "timeRangeTo": "2024-01-01T01:30:00Z",
-      "selectedQuery": "Resource.MetricName ",
-      "ServerTimeData": {
-        "localStartTime": "2024-01-01T01:00:00Z",
-        "localEndTime": "2024-01-01T02:00:00Z"
-      }
     },
     "expectedFrame": {
       "schema": {
@@ -786,11 +572,7 @@
         ]
       },
       "data": {
-        "values": [
-          [],
-          [],
-          []
-        ]
+        "values": [[], [], []]
       }
     }
   }

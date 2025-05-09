@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -29,11 +29,6 @@ import (
 const DefaultHttpTimeout = 60
 const DefaultCacheSizeMB = 1024
 const MinimalCacheSizeMB = 128
-
-// There's up to two queries per channel to be cached.
-// One query takes about 1KB of memory.
-// So, 16MB means about 8k channels per data source.
-const ChannelCacheSizeMB = 16
 
 type Config struct {
 	URL       string
@@ -95,7 +90,7 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 		}
 	}
 	if config.CacheSize, err = strconv.Atoi(config.JSON.CacheSizeRaw); err != nil {
-		logger.Warn("cache size is not valid, applying default", "cacheSize", config.JSON.CacheSizeRaw)
+		logger.Warn("cache size is not valid, applying default", "cacheSize", config.JSON.CacheSizeRaw, "err", err)
 		config.CacheSize = DefaultCacheSizeMB
 	}
 	if config.CacheSize < MinimalCacheSizeMB {

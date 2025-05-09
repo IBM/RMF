@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -119,9 +119,17 @@ func (c *Client) Close() {
 	})
 }
 
-func (c *Client) Get(ctx context.Context, path string, params ...string) (*Response, error) {
+func (c *Client) GetByRequest(ctx context.Context, r *Request) (*Response, error) {
+	path, params, err := r.pathWithParams(c.GetCachedTimeOffset())
+	if err != nil {
+		return nil, err
+	}
+	return c.Get(path, params...)
+}
+
+func (c *Client) Get(path string, params ...string) (*Response, error) {
 	var response Response
-	data, err := c.GetRaw(ctx, path, params...)
+	data, err := c.GetRaw(path, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +139,7 @@ func (c *Client) Get(ctx context.Context, path string, params ...string) (*Respo
 	return &response, nil
 }
 
-func (c *Client) GetRaw(ctx context.Context, path string, params ...string) ([]byte, error) {
+func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 	logger := log.Logger.With("func", "GetRaw")
 	path = strings.TrimLeft(path, "/")
 	values := url.Values{}
@@ -142,7 +150,8 @@ func (c *Client) GetRaw(ctx context.Context, path string, params ...string) ([]b
 		values.Add(params[i], params[i+1])
 	}
 	fullURL := fmt.Sprintf("%s/%s?%s", c.baseUrl, path, values.Encode())
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fullURL, http.NoBody)
+	// nolint:noctx
+	req, err := http.NewRequest(http.MethodGet, fullURL, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -167,15 +176,15 @@ func (c *Client) GetRaw(ctx context.Context, path string, params ...string) ([]b
 }
 
 func (c *Client) GetRawIndex(ctx context.Context) ([]byte, error) {
-	return c.GetRaw(ctx, IndexPath)
+	return c.GetRaw(IndexPath)
 }
 
 func (c *Client) GetRoot(ctx context.Context) (*Response, error) {
-	return c.Get(ctx, RootPath)
+	return c.Get(RootPath)
 }
 
 func (c *Client) GetRawContained(ctx context.Context, resource string) ([]byte, error) {
-	return c.GetRaw(ctx, ContainedPath, "resource", resource)
+	return c.GetRaw(ContainedPath, "resource", resource)
 }
 
 func (c *Client) GetCachedTimeOffset() time.Duration {
@@ -199,7 +208,7 @@ func (c *Client) ensureTimeData() *TimeData {
 func (c *Client) updateTimeData() *TimeData {
 	logger := log.Logger.With("func", "updateTimeData")
 	result, _, _ := c.single.Do("timeData", func() (any, error) {
-		response, err := c.Get(context.Background(), PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
+		response, err := c.Get(PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 		if err != nil {
 			logger.Error("unable to fetch DDS time data", "error", err)
 		}
@@ -219,10 +228,10 @@ func (c *Client) updateTimeData() *TimeData {
 	return nil
 }
 
-func (c *Client) GetCachedMintime() int {
+func (c *Client) GetCachedMintime() time.Duration {
 	timeData := c.ensureTimeData()
 	if timeData != nil {
-		return c.timeData.MinTime.Value
+		return time.Duration(c.timeData.MinTime.Value) * time.Second
 	}
 	return 0
 }
