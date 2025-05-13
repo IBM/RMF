@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.9 (2025-05-16)
+
+- IBM RMF for z/OS Grafana plugin has been enhanced to optimize the step size when querying and displaying time series data, based on the selected time range and panel size. This enhancement ensures that panels display the required number of data points.
+- A bug has been fixed that was causing specific data points to be dropped from time series views, resulting in a flat line in the graphs.
+- Fixed internally found defects.
+
 ## 1.0.8 (2025-04-04)
 
 - A new option, Compression, has been added to the data source creation process. This option enables the RMF data source to request HTTP compression from the Data Distributed Server (DDS) during data retrieval, which improves the efficiency of data transfer.
