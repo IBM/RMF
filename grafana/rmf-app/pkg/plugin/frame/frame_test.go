@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ type TestCase struct {
 	Name          string
 	Description   string
 	Skip          bool
-	QueryModel    QueryModel
+	Wide          bool
 	DdsResponse   *dds.Response
 	ExpectedFrame json.RawMessage
 	ExpectedError string
@@ -64,7 +64,7 @@ func TestFrame(t *testing.T) {
 			var expectedJson bytes.Buffer
 			err := json.Indent(&expectedJson, testCase.ExpectedFrame, "", "  ")
 			if assert.NoError(t, err, "failed to indent") {
-				frame, err := Build(testCase.DdsResponse, nil, &testCase.QueryModel)
+				frame, err := Build(testCase.DdsResponse, nil, testCase.Wide)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame, "", "  ")
 					assert.JSONEq(t, expectedJson.String(), string(actualJson), "frames are not identical")

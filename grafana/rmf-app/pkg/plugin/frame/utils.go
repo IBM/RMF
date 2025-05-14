@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,26 +23,6 @@ import (
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
-
-func getFrameName(qm *QueryModel) string {
-	var resultFrameName string
-	if strings.Trim(qm.SelectedQuery, " ") != "" {
-		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
-		if len(splitStringSlice) > 1 {
-			vt := splitStringSlice[1]
-			if strings.ToLower(vt) == "report." {
-				resultFrameName = splitStringSlice[1] + splitStringSlice[2]
-			} else {
-				if strings.Contains(vt, "{") {
-					resultFrameName = vt[:strings.Index(vt, "{")]
-				} else {
-					resultFrameName = vt
-				}
-			}
-		}
-	}
-	return strings.Trim(resultFrameName, " ")
-}
 
 // getFrameLabels builds labels based on DDS metric name and type
 func getFrameLabels(metricType string, queryName string) data.Labels {
