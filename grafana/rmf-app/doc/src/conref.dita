@@ -5,6 +5,7 @@
     <shortdesc/>
     <conbody>
         <p><ph id="plugin_name">IBM RMF for z/OS Grafana</ph></p>
+        <p><ph id="plugin_name_short">RMF for z/OS Grafana</ph></p>
         <p><ph id="rmf_short">RMF for z/OS</ph></p>
         <p><ph id="rmf_full">Resource Measurement Facility for z/OS</ph></p>
         <p><ph id="dds_full">Distributed Data Server</ph></p>
@@ -54,6 +55,7 @@
                         <uicontrol>Verify the server’s certificate chain/hostname</uicontrol> option
                     is also enabled.</note>
             </p>
+            <p id="p_lxj_4jw_hfc">Fixed internally found defects.</p>
         </section>
     </conbody>
 </concept>
