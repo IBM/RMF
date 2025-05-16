@@ -18,32 +18,51 @@
 package plugin
 
 import (
-	"encoding/base64"
 	"errors"
+	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 	"github.com/google/uuid"
 )
 
-const Sep = ":"
+const sep = "-"
 
-func encodeChannelPath(res string, from time.Time, to time.Time, absolute bool, interval time.Duration) string {
+// See "github.com/grafana/grafana-plugin-sdk-go/live" for path id limitations
+var maxChannelLength = 160
+var illegalChar = regexp.MustCompile(`[^A-z0-9/=.]`)
+var escapedChar = regexp.MustCompile(`_(\d+)_`)
+
+func encodeChannelPath(res string, from time.Time, to time.Time, absolute bool, interval time.Duration) (string, error) {
+	res = illegalChar.ReplaceAllStringFunc(
+		res,
+		func(s string) string {
+			return fmt.Sprintf("_%d_", int(s[0]))
+		})
 	absFlag := "0"
 	if absolute {
 		absFlag = "1"
 	}
 	path := res +
-		Sep + strconv.FormatInt(from.Unix(), 10) +
-		Sep + strconv.FormatInt(to.Unix(), 10) +
-		Sep + absFlag +
-		Sep + strconv.FormatInt(int64(interval.Seconds()), 10) +
-		Sep + uuid.NewString()[:8]
-	return base64.StdEncoding.EncodeToString([]byte(path))
+		sep + strconv.FormatInt(from.Unix(), 10) +
+		sep + strconv.FormatInt(to.Unix(), 10) +
+		sep + absFlag +
+		sep + strconv.FormatInt(int64(interval.Seconds()), 10)
+	// Channel path has to be unique to avoid streaming issues
+	// Append at least 8 char long random part
+	if len(path) >= maxChannelLength-8 {
+		return path, errors.New("too long resource value")
+	}
+	path += sep + uuid.NewString()[:min(160-len(path), 36)]
+	return path, nil
 }
 
-func decodeChannelPath(b string) (string, time.Time, time.Time, bool, time.Duration, error) {
+func decodeChannelPath(path string) (string, time.Time, time.Time, bool, time.Duration, error) {
+	logger := log.Logger.With("func", "decodeChannelPath")
 	var (
 		res      string
 		from     time.Time
@@ -51,15 +70,21 @@ func decodeChannelPath(b string) (string, time.Time, time.Time, bool, time.Durat
 		absolute bool
 		interval time.Duration
 	)
-	path, err := base64.StdEncoding.DecodeString(b)
-	if err != nil {
-		return res, from, to, absolute, interval, err
+	parts := strings.Split(path, sep)
+	if len(parts) < 6 {
+		return res, from, to, absolute, interval, errors.New("invalid number of elements in path")
 	}
-	parts := strings.Split(string(path), Sep)
-	if len(parts) != 6 {
-		return res, from, to, absolute, interval, errors.New("invalid number of elements")
-	}
-	res = parts[0]
+	res = escapedChar.ReplaceAllStringFunc(parts[0], func(match string) string {
+		submatches := escapedChar.FindStringSubmatch(match)
+		if len(submatches) > 1 {
+			code, err := strconv.Atoi(submatches[1])
+			if err == nil && code >= 0 && code <= unicode.MaxRune {
+				return string(rune(code))
+			}
+			logger.Error("unable to decode resource value", "error", err, "match", match)
+		}
+		return match
+	})
 	if timestamp, err := strconv.ParseInt(parts[1], 10, 64); err != nil {
 		return res, from, to, absolute, interval, err
 	} else {

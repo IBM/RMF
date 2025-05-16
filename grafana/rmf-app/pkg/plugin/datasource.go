@@ -55,11 +55,12 @@ const SdsDelay = 5 * time.Second
 const TimeSeriesType = "TimeSeries"
 
 type RMFDatasource struct {
-	uid       string
-	name      string
-	cache     *cache.Cache
-	ddsClient *dds.Client
-	single    singleflight.Group
+	uid        string
+	name       string
+	cache      *cache.Cache
+	ddsClient  *dds.Client
+	single     singleflight.Group
+	cacheDelay time.Duration
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -75,9 +76,11 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 	ds.ddsClient = dds.NewClient(config.URL, config.Username, config.Password, config.Timeout,
 		config.JSON.TlsSkipVerify, config.JSON.DisableCompression)
 	ds.cache = cache.NewFrameCache(config.CacheSize)
+	ds.cacheDelay = time.Duration(config.CacheDelay) * time.Millisecond
 	logger.Info("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
-		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
+		"url", config.URL, "timeout", config.Timeout,
+		"cacheSize", config.CacheSize, "cacheDelay", config.CacheDelay,
 		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
 	return ds, nil
 }
@@ -233,29 +236,35 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 
 			if err != nil {
 				response = &backend.DataResponse{Status: backend.StatusBadRequest, Error: err}
+			} else if params.Resource.Value == "" {
+				response = &backend.DataResponse{Status: backend.StatusOK}
 			} else {
 				mintime := ds.ddsClient.GetCachedMintime()
 				if params.VisType == TimeSeriesType {
 					// Initialize time series stream
 					from := q.TimeRange.From
 					f := frame.TaggedFrame(from, "No data yet...")
-					path := encodeChannelPath(params.Resource.Value, from, q.TimeRange.To, params.AbsoluteTime, q.Interval)
-					channel := live.Channel{
-						Scope:     live.ScopeDatasource,
-						Namespace: req.PluginContext.DataSourceInstanceSettings.UID,
-						Path:      path,
+					path, err := encodeChannelPath(params.Resource.Value, from, q.TimeRange.To, params.AbsoluteTime, q.Interval)
+					if err != nil {
+						response = &backend.DataResponse{Status: backend.StatusBadRequest, Error: err}
+					} else {
+						channel := live.Channel{
+							Scope:     live.ScopeDatasource,
+							Namespace: req.PluginContext.DataSourceInstanceSettings.UID,
+							Path:      path,
+						}
+						f.SetMeta(&data.FrameMeta{Channel: channel.String()})
+						response = &backend.DataResponse{Frames: data.Frames{f}}
 					}
-					f.SetMeta(&data.FrameMeta{Channel: channel.String()})
-					response = &backend.DataResponse{Frames: data.Frames{f}}
 				} else {
 					// Query non-timeseries data
 					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From, q.TimeRange.To, mintime)
 					response = &backend.DataResponse{}
 					// FIXME: doesn't it need to be cached?
 					if newFrame, err := ds.getFrame(ctx, r, false); err != nil {
-						// nolint:errorlint
-						if cause, ok := errors.Unwrap(err).(*dds.Message); ok {
-							response.Error = cause
+						var msg *dds.Message
+						if errors.As(err, &msg) {
+							response.Error = err
 							response.Status = backend.StatusBadRequest
 						} else {
 							response.Error = log.FrameErrorWithId(logger, err)
@@ -338,6 +347,11 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 			return nil
 		}
 		r.Add(step)
+		// If network latency is high and volume of data on dashboard is large,
+		// frontend may get too much pressure and not be able to process all the data in time.
+		// If that happens, client gets disconnected, non-processed data points get discarded, and timeline is broken.
+		// Then the client re-connects with a cached channel handler which doesn't allow to re-send the missing frames.
+		time.Sleep(ds.cacheDelay)
 	}
 	if !absolute {
 		// Stream live data as it's being collected
