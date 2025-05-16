@@ -118,6 +118,7 @@ export interface RMFDataSourceJsonData extends DataSourceJsonData {
   timeout?: string;
   // Custom config RMF options
   cacheSize?: string;
+  cacheDelay?: string;
   disableCompression?: boolean;
   // Legacy: custom RMF settings. We should ge rid of it at some point.
   path?: string;

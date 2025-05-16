@@ -30,6 +30,7 @@ const PASSWORD_EDIT_WIDTH = 40;
 const DEFAULT_HTTP_TIMEOUT = '60';
 const DEFAULT_CACHE_SIZE = '1024';
 const MINIMAL_CACHE_SIZE = 128;
+const DEFAULT_CACHE_DELAY = '10';
 
 type Props = DataSourcePluginOptionsEditorProps<RMFDataSourceJsonData, RMFDataSourceSecureJsonData>;
 
@@ -38,6 +39,7 @@ interface State {
   httpTimeoutError?: string;
   basicAuthUserError?: string;
   cacheSizeError?: string;
+  cacheDelayError?: string;
 }
 // TODO: somehow prometherus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
@@ -58,6 +60,8 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       }
       options.jsonData = {
         timeout: DEFAULT_HTTP_TIMEOUT,
+        cacheSize: DEFAULT_CACHE_SIZE,
+        cacheDelay: DEFAULT_CACHE_DELAY,
         tlsSkipVerify: !(jsonData?.skipVerify !== undefined ? jsonData?.skipVerify : true), // NB: the meaning of skipVerify is inverted.
         disableCompression: jsonData?.disableCompression ?? false,
       };
@@ -66,6 +70,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       options.jsonData = {
         timeout: jsonData?.timeout || DEFAULT_HTTP_TIMEOUT,
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
+        cacheDelay: jsonData?.cacheDelay || DEFAULT_CACHE_DELAY,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
       };
@@ -106,6 +111,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       this.setState({ cacheSizeError: undefined });
     } else {
       this.setState({ cacheSizeError: 'Cache size must be ≥ ' + MINIMAL_CACHE_SIZE });
+    }
+  };
+
+  validateCacheDelay = (value: string) => {
+    let numValue = Number(value);
+    if (numValue >= 0 && Number.isInteger(numValue)) {
+      this.setState({ cacheDelayError: undefined });
+    } else {
+      this.setState({ cacheDelayError: 'Cache delay must be ≥ 0' });
     }
   };
 
@@ -284,6 +298,25 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               }}
               onBlur={(event) => {
                 this.validateCacheSize(event.currentTarget.value);
+              }}
+            />
+            {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}
+          </div>
+
+          <div className="gf-form">
+            <FormField
+              label="Delay"
+              labelWidth={FIELD_LABEL_WIDTH}
+              tooltip="Delay (in milliseconds) when streaming data from cache.
+              Required for larger data volumes and higher network latency."
+              placeholder="≥ 0"
+              inputWidth={FIELD_INPUT_WIDTH}
+              value={options.jsonData?.cacheDelay}
+              onChange={(event) => {
+                this.updateSettings({ jsonData: { cacheDelay: event.currentTarget.value } });
+              }}
+              onBlur={(event) => {
+                this.validateCacheDelay(event.currentTarget.value);
               }}
             />
             {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}

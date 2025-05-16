@@ -2,9 +2,9 @@
 
 ## Pre-requisites
 
-- `NodeJS`: >=16
-- `Yarn`: 1.x.x
-- `Go`: >=1.21
+- `NodeJS`: see `package.json`
+- `Yarn`: see `package.json`
+- `Go`: see `go.mod`
 - `GNU Make`: >=3.81
 - `jq`: >=v1.6
 - `zip`:  >=3.0
@@ -16,4 +16,4 @@
 - Navigate to the directory `grafana/rmf-app`.
 - Execute the command: `make all`.  
   This creates the `./build` directory and once successful you can find the
-  `ibm-rmf-grafana-<VERSION>.zip` and `ibm-rmf-grafana-<VERSION>.zip.md5` files there.  
+  `ibm-rmf-grafana-<VERSION>.zip` and `ibm-rmf-grafana-<VERSION>.zip.md5` files there.

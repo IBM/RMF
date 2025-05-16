@@ -29,20 +29,23 @@ import (
 const DefaultHttpTimeout = 60
 const DefaultCacheSizeMB = 1024
 const MinimalCacheSizeMB = 128
+const DefaultCacheDelayMS = 10
 
 type Config struct {
-	URL       string
-	Timeout   int
-	CacheSize int
-	Username  string
-	Password  string
-	JSON      struct {
+	URL        string
+	Timeout    int
+	CacheSize  int
+	CacheDelay int
+	Username   string
+	Password   string
+	JSON       struct {
 		// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
 		TimeoutRaw         string `json:"timeout"`
 		TlsSkipVerify      bool   `json:"tlsSkipVerify"`
 		DisableCompression bool   `json:"disableCompression"`
 		// Custom RMF settings.
-		CacheSizeRaw string `json:"cacheSize"`
+		CacheSizeRaw  string `json:"cacheSize"`
+		CacheDelayRaw string `json:"cacheDelay"`
 		// Legacy custom RMF settings. We should ge rid of these at some point.
 		Server    *string `json:"path"`
 		Port      string  `json:"port"`
@@ -90,12 +93,16 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 		}
 	}
 	if config.CacheSize, err = strconv.Atoi(config.JSON.CacheSizeRaw); err != nil {
-		logger.Warn("cache size is not valid, applying default", "cacheSize", config.JSON.CacheSizeRaw, "err", err)
+		logger.Warn("cache size is not valid, applying default", "cacheSizeRaw", config.JSON.CacheSizeRaw)
 		config.CacheSize = DefaultCacheSizeMB
 	}
 	if config.CacheSize < MinimalCacheSizeMB {
 		logger.Warn("cache size is not small, using minimal value", "cacheSize", config.CacheSize)
 		config.CacheSize = MinimalCacheSizeMB
+	}
+	if config.CacheDelay, err = strconv.Atoi(config.JSON.CacheDelayRaw); err != nil || config.CacheDelay < 0 {
+		logger.Warn("cache delay is not valid, applying default", "cacheDelayRaw", config.JSON.CacheDelayRaw)
+		config.CacheDelay = DefaultCacheDelayMS
 	}
 	return &config, nil
 }
