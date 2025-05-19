@@ -18,6 +18,7 @@
 package frame
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -73,4 +74,46 @@ func RemoveOldFieldNames(fieldMap SeriesFields, cutoffTime time.Time) {
 			delete(fieldMap, name)
 		}
 	}
+}
+
+func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
+	if dst == nil {
+		dst = data.NewFrame(src.Name)
+	}
+	if src == nil {
+		return dst, nil
+	}
+	n, err := dst.RowLen()
+	if err != nil {
+		return nil, err
+	}
+	m, err := src.RowLen()
+	if err != nil {
+		return nil, err
+	}
+	for _, field2 := range src.Fields {
+		field1, _ := dst.FieldByName(field2.Name)
+		if field1 == nil {
+			switch field2.Type() {
+			case data.FieldTypeTime:
+				field1 = data.NewField(field2.Name, field2.Labels, make([]time.Time, n))
+			case data.FieldTypeNullableFloat64:
+				field1 = data.NewField(field2.Name, field2.Labels, make([]*float64, n))
+			default:
+				return nil, errors.New("unsupported field type")
+			}
+			dst.Fields = append(dst.Fields, field1)
+		}
+		for i := range field2.Len() {
+			field1.Append(field2.At(i))
+		}
+	}
+	for _, field1 := range dst.Fields {
+		if field2, _ := dst.FieldByName(field1.Name); field2 == nil {
+			for range m {
+				field1.Append(nil)
+			}
+		}
+	}
+	return dst, nil
 }

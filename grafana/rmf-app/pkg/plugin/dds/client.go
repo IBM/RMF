@@ -36,6 +36,7 @@ import (
 
 const UpdateInterval = 15 * time.Minute
 const DefaultTimeOffset = 0
+const DefaultMinTime = 100
 
 const IndexPath = "/gpm/index.xml"
 const RootPath = "/gpm/root.xml"
@@ -119,7 +120,7 @@ func (c *Client) Close() {
 	})
 }
 
-func (c *Client) GetByRequest(ctx context.Context, r *Request) (*Response, error) {
+func (c *Client) GetByRequest(r *Request) (*Response, error) {
 	path, params, err := r.pathWithParams(c.GetCachedTimeOffset())
 	if err != nil {
 		return nil, err
@@ -211,10 +212,12 @@ func (c *Client) updateTimeData() *TimeData {
 		response, err := c.Get(PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
 		if err != nil {
 			logger.Error("unable to fetch DDS time data", "error", err)
+			return nil, err
 		}
 		timeData := response.Reports[0].TimeData
 		if timeData == nil {
 			logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
+			return nil, err
 		}
 		c.rwMutex.Lock()
 		c.timeData = timeData
@@ -230,8 +233,9 @@ func (c *Client) updateTimeData() *TimeData {
 
 func (c *Client) GetCachedMintime() time.Duration {
 	timeData := c.ensureTimeData()
-	if timeData != nil {
-		return time.Duration(c.timeData.MinTime.Value) * time.Second
+	minTime := DefaultMinTime
+	if timeData != nil && timeData.MinTime.Value != 0 {
+		minTime = timeData.MinTime.Value
 	}
-	return 0
+	return time.Duration(minTime) * time.Second
 }
