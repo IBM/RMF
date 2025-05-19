@@ -83,11 +83,11 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 	if src == nil {
 		return dst, nil
 	}
-	n, err := dst.RowLen()
+	dstLen, err := dst.RowLen()
 	if err != nil {
 		return nil, err
 	}
-	m, err := src.RowLen()
+	srcLen, err := src.RowLen()
 	if err != nil {
 		return nil, err
 	}
@@ -96,21 +96,21 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 		if field1 == nil {
 			switch field2.Type() {
 			case data.FieldTypeTime:
-				field1 = data.NewField(field2.Name, field2.Labels, make([]time.Time, n))
+				field1 = data.NewField(field2.Name, field2.Labels, make([]time.Time, dstLen))
 			case data.FieldTypeNullableFloat64:
-				field1 = data.NewField(field2.Name, field2.Labels, make([]*float64, n))
+				field1 = data.NewField(field2.Name, field2.Labels, make([]*float64, dstLen))
 			default:
 				return nil, errors.New("unsupported field type")
 			}
 			dst.Fields = append(dst.Fields, field1)
 		}
-		for i := range field2.Len() {
+		for i := range srcLen {
 			field1.Append(field2.At(i))
 		}
 	}
 	for _, field1 := range dst.Fields {
-		if field2, _ := dst.FieldByName(field1.Name); field2 == nil {
-			for range m {
+		if field2, _ := src.FieldByName(field1.Name); field2 == nil {
+			for range srcLen {
 				field1.Append(nil)
 			}
 		}
