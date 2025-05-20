@@ -25,51 +25,21 @@ import (
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	"github.com/google/uuid"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/grafana/grafana-plugin-sdk-go/live"
 )
 
 func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) (*data.Frame, error) {
-	ddsResponse, err := ds.ddsClient.GetByRequest(r)
-	if err != nil {
-		return nil, err
-	}
-	headers := ds.ddsClient.GetCachedHeaders()
-	f, err := frame.Build(ddsResponse, headers, wide)
-	if err != nil {
-		return nil, err
-	}
-	return f, nil
-}
-
-func (ds *RMFDatasource) getFrameCached(r *dds.Request, wide bool) (*data.Frame, error) {
-	logger := log.Logger.With("func", "getFrameCached")
 	key := cache.FrameKey(r, wide)
-
 	result, err, _ := ds.single.Do(string(key), func() (interface{}, error) {
-		f := ds.frameCache.Get(r, wide)
-		// Fetch from the DDS Server and then save to cache if required.
-		if f == nil {
-			f, err := ds.getFrame(r, wide)
-			if err != nil {
-				return nil, err
-			} else {
-				// Probably the requested mintime is not ready yet, don't cache it
-				// We still can use it in non-timeseries views
-				t, ok := f.Fields[0].At(0).(time.Time)
-				if !ok || t.Before(r.TimeRange.To) {
-					return f, nil
-				}
-				if err = ds.frameCache.Set(f, r, wide); err != nil {
-					return nil, err
-				}
-			}
-			return f, nil
-		} else {
-			logger.Debug("cached value exists", "key", key)
-			logger.Warn("cached value exists", "key", r.String())
+		ddsResponse, err := ds.ddsClient.GetByRequest(r)
+		if err != nil {
+			return nil, err
+		}
+		headers := ds.ddsClient.GetCachedHeaders()
+		f, err := frame.Build(ddsResponse, headers, wide)
+		if err != nil {
+			return nil, err
 		}
 		return f, nil
 	})
@@ -95,60 +65,34 @@ func getStep(mintime time.Duration, limit time.Duration) time.Duration {
 	return step
 }
 
-type RequestParams struct {
-	Resource struct {
-		Value string `json:"value"`
-	} `json:"selectedResource"`
-	AbsoluteTime bool   `json:"absoluteTimeSelected"`
-	VisType      string `json:"selectedVisualisationType"`
-}
-
-func (ds *RMFDatasource) getFirstTSFrame(params *RequestParams, tr backend.TimeRange, step time.Duration) (*data.Frame, error) {
+// getCachedTSFrames fetches all sequentional time series frames from cache and merges it into one frame.
+// It has to syncronize time series field set passed in `fields`.
+func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step time.Duration, fields frame.SeriesFields) (*data.Frame, time.Duration, error) {
 	var (
-		f   *data.Frame
-		err error
+		f    *data.Frame
+		jump time.Duration
+		err  error
 	)
-	res := params.Resource.Value
-	absolute := params.AbsoluteTime
-
-	r := dds.NewRequest(res, tr.From, tr.From, step)
-	fields := frame.SeriesFields{}
-	for !absolute && r.TimeRange.To.Before(time.Now().Add(-SdsDelay)) || absolute && r.TimeRange.To.Before(tr.To) {
-		next := ds.frameCache.Get(r, true)
+	// Create a copy of the original request - don't alter it
+	cr := dds.NewRequest(r.Resource, r.TimeRange.From, r.TimeRange.To, step)
+	for r.TimeRange.To.Before(stop) {
+		next := ds.frameCache.Get(cr, true)
 		if next == nil {
 			break
 		}
 		frame.SyncFieldNames(fields, next, r.TimeRange.To)
 		f, err = frame.MergeInto(f, next)
 		if err != nil {
-			return nil, err
+			return nil, jump, err
 		}
-		r.Add(step)
+		cr.Add(step)
+		jump += step
 	}
-	if f == nil {
-		f = frame.TaggedFrame(tr.From, "No data yet...")
-	}
-	channel := live.Channel{
-		Scope:     live.ScopeDatasource,
-		Namespace: ds.uid,
-		Path:      uuid.NewString(),
-	}
-	cachedChannel := cache.Channel{
-		Resource:  res,
-		TimeRange: backend.TimeRange{From: r.TimeRange.From, To: tr.To},
-		Absolute:  absolute,
-		Step:      step,
-		Fields:    fields,
-	}
-	if err = ds.channelCache.Set(channel.Path, &cachedChannel); err != nil {
-		return nil, err
-	}
-	f.SetMeta(&data.FrameMeta{Channel: channel.String()})
-	return f, nil
+	return f, jump, err
 }
 
-func (ds *RMFDatasource) serveNextTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
-	logger := log.Logger.With("func", "queryNextTSFrame")
+func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
+	logger := log.Logger.With("func", "serveTSFrame")
 	var f *data.Frame
 	var err error
 
@@ -158,20 +102,25 @@ func (ds *RMFDatasource) serveNextTSFrame(ctx context.Context, sender *backend.S
 		}
 		if !hist {
 			d := time.Until(r.TimeRange.To.Add(SdsDelay))
+			logger.Debug("sleeping", "request", r.String(), "duration", d.String())
 			time.Sleep(d)
 		}
 		logger.Debug("executing query", "request", r.String())
-		f, err = ds.getFrameCached(r, true)
+		f, err = ds.getFrame(r, true)
 		if err != nil {
 			logger.Error("failed to get data", "request", r.String(), "reason", err)
 			f = frame.NoDataFrame(r.TimeRange.To)
-		}
-		if !hist {
-			t, ok := f.Fields[0].At(0).(time.Time)
-			if !ok || t.Before(r.TimeRange.To) {
-				logger.Debug("mintime is not ready yet")
-				time.Sleep(SdsDelay)
-				continue
+		} else {
+			if !hist {
+				t, ok := f.Fields[0].At(0).(time.Time)
+				if !ok || t.Before(r.TimeRange.To) {
+					logger.Debug("mintime is not ready yet")
+					time.Sleep(SdsDelay)
+					continue
+				}
+			}
+			if err := ds.frameCache.Set(f, r, true); err != nil {
+				logger.Error("failed to save data in cache", "request", r.String(), "reason", err)
 			}
 		}
 		break
