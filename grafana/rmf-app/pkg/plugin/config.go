@@ -90,7 +90,7 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 		}
 	}
 	if config.CacheSize, err = strconv.Atoi(config.JSON.CacheSizeRaw); err != nil {
-		logger.Warn("cache size is not valid, applying default", "cacheSize", config.JSON.CacheSizeRaw, "err", err)
+		logger.Warn("cache size is not valid, applying default", "cacheSizeRaw", config.JSON.CacheSizeRaw)
 		config.CacheSize = DefaultCacheSizeMB
 	}
 	if config.CacheSize < MinimalCacheSizeMB {

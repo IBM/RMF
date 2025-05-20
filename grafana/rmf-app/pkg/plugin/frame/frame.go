@@ -150,6 +150,7 @@ func buildLongForMetric(report *dds.Report, frameName string) *data.Frame {
 
 // iterateMetricRows parses metric key-value pairs and passes them to `process` while iterating over rows.
 func iterateMetricRows(report *dds.Report, defaultName string, process func(name string, value *float64)) {
+	colMap := map[string]bool{}
 	var sb strings.Builder
 	for _, jsonRow := range report.Rows {
 		cols := jsonRow.Cols
@@ -171,7 +172,12 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 		if sb.Len() == 0 {
 			sb.WriteString(defaultName)
 		}
-		process(sb.String(), parseFloat(rawValue))
+		colName := sb.String()
+		if _, ok := colMap[colName]; ok {
+			continue
+		}
+		colMap[colName] = true
+		process(colName, parseFloat(rawValue))
 	}
 }
 

@@ -28,19 +28,19 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-type Cache struct {
+type FrameCache struct {
 	cache *fastcache.Cache
 }
 
-func NewFrameCache(size int) *Cache {
-	return &Cache{cache: fastcache.New(size * 1024 * 1024)}
+func NewFrameCache(size int) *FrameCache {
+	return &FrameCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (fc *Cache) Reset() {
+func (fc *FrameCache) Reset() {
 	fc.cache.Reset()
 }
 
-func Key(r *dds.Request, wide bool) []byte {
+func FrameKey(r *dds.Request, wide bool) []byte {
 	format := "long"
 	if wide {
 		format = "wide"
@@ -48,10 +48,10 @@ func Key(r *dds.Request, wide bool) []byte {
 	return []byte(fmt.Sprintf("%s[%s]@%d-%d", r.Resource, format, r.TimeRange.From.UnixMilli(), r.TimeRange.To.UnixMilli()))
 }
 
-func (fc *Cache) GetFrame(r *dds.Request, wide bool) *data.Frame {
+func (fc *FrameCache) Get(r *dds.Request, wide bool) *data.Frame {
 	logger := log.Logger.With("func", "GetFrame")
 	var frame data.Frame
-	key := Key(r, wide)
+	key := FrameKey(r, wide)
 	buf := fc.cache.GetBig(nil, key)
 	if buf != nil {
 		err := json.Unmarshal(buf, &frame)
@@ -65,9 +65,9 @@ func (fc *Cache) GetFrame(r *dds.Request, wide bool) *data.Frame {
 	return nil
 }
 
-func (fc *Cache) SaveFrame(f *data.Frame, r *dds.Request, wide bool) error {
-	key := Key(r, wide)
-	frame := fc.GetFrame(r, wide)
+func (fc *FrameCache) Set(f *data.Frame, r *dds.Request, wide bool) error {
+	key := FrameKey(r, wide)
+	frame := fc.Get(r, wide)
 	if frame != nil {
 		return nil
 	}

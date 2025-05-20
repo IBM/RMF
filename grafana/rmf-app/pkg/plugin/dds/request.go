@@ -39,7 +39,10 @@ func NewRequest(res string, from time.Time, to time.Time, step time.Duration) *R
 
 func (r *Request) Align(d time.Duration) {
 	r.TimeRange.From = r.TimeRange.From.Truncate(d)
-	r.TimeRange.To = r.TimeRange.To.Truncate(d).Add(d)
+	t := r.TimeRange.To.Truncate(d)
+	if t.Equal(r.TimeRange.From) || t.Before(r.TimeRange.To) {
+		r.TimeRange.To = t.Add(d)
+	}
 }
 
 func (r *Request) Add(d time.Duration) {
