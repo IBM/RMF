@@ -246,7 +246,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					// Initialize time series stream
 					step := getStep(mintime, q.Interval)
 					fields := frame.SeriesFields{}
-					start := q.TimeRange.From.Add(-step)
+					start := q.TimeRange.From
 					r := dds.NewRequest(params.Resource.Value, start, start, step)
 					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To, step, fields)
 					if f == nil || err != nil {
