@@ -9,43 +9,90 @@
             <title>What's new</title>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
+                    <dt>May 2025 v1.0.9</dt>
+                    <dd>
+                        <ul id="ul_ezy_k3w_hfc">
+                            <li>
+                                <p><ph conref="conref.dita#conref/plugin_name"/> plugin has been
+                                    enhanced to optimize the step size when querying and displaying
+                                    time series data, based on the selected time range and panel
+                                    size. This enhancement ensures that panels display the required
+                                    number of data points.</p>
+                            </li>
+                            <li>
+                                <p>A bug has been fixed that was causing specific data points to be
+                                    dropped from time series views, resulting in a flat line in the
+                                    graphs.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_ffj_w3w_hfc">
+            <dl id="dl_gfj_w3w_hfc">
+                <dlentry>
                     <dt>April 2025 v1.0.8</dt>
                     <dd>
                         <ul id="ul_kht_spb_k2c">
-                            <li>A new option, <uicontrol>Compression</uicontrol>, has been added to
-                                the data source creation process. This option enables the RMF data
-                                source to request HTTP compression from the Data Distributed Server
-                                (DDS) during data retrieval, which improves the efficiency of data
-                                transfer. See <xref href="create_datasources.dita"/>.</li>
-                            <li>Fixed certain scenarios of missing data within dashboards for time
-                                series visualizations.</li>
-                            <li>Fixed internally found defects.</li>
+                            <li>
+                                <p>A new option, <uicontrol>Compression</uicontrol>, has been added
+                                    to the data source creation process. This option enables the RMF
+                                    data source to request HTTP compression from the Data
+                                    Distributed Server (DDS) during data retrieval, which improves
+                                    the efficiency of data transfer. See <xref
+                                        href="create_datasources.dita"/>.</p>
+                            </li>
+                            <li>
+                                <p>Fixed certain scenarios of missing data within dashboards for
+                                    time series visualizations.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
                         </ul>
                     </dd>
                 </dlentry>
                 <dlentry>
                     <dt>November 2024 v1.0.7</dt>
-                    <dd><ph props="pdf">Fixed internally found defects.</ph><ul id="ul_kwg_kmf_ndc"
-                            props="html">
-                            <li>Fixed internally found defects.</li>
-                            <li>You can now download <ph conref="conref.dita#conref/plugin_name"/>
-                                plugin documentation as a PDF file. See <xref href="pdf_guide.dita"
-                                />.</li>
-                        </ul></dd>
+                    <dd>
+                        <p conref="conref.dita#conref/p_lxj_4jw_hfc" props="pdf"/>
+                        <ul id="ul_kwg_kmf_ndc" props="html">
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                            <li>
+                                <p>You can now download <ph conref="conref.dita#conref/plugin_name"
+                                    /> plugin documentation as a PDF file. See <xref
+                                        href="pdf_guide.dita"/>.</p>
+                            </li>
+                        </ul>
+                    </dd>
                 </dlentry>
                 <dlentry>
                     <dt>October 2024 v1.0.6</dt>
                     <dd>
                         <ul id="ul_mgn_m3g_xcc">
-                            <li>The <ph conref="conref.dita#conref/plugin_name"/> plugin now allows
-                                customizing banner and caption fields in IBM RMF Report
-                                visualizations.</li>
-                            <li>After you modify any <uicontrol
-                                    conref="conref.dita#conref/plugin_name_grafana"/> data source
-                                and save the changes, you no longer need to re-enter the
-                                password.</li>
-                            <li>Improved performance.</li>
-                            <li>Fixed internally found defects.</li>
+                            <li>
+                                <p>The <ph conref="conref.dita#conref/plugin_name"/> plugin now
+                                    allows customizing banner and caption fields in IBM RMF Report
+                                    visualizations.</p>
+                            </li>
+                            <li>
+                                <p>After you modify any <uicontrol
+                                        conref="conref.dita#conref/plugin_name_grafana"/> data
+                                    source and save the changes, you no longer need to re-enter the
+                                    password.</p>
+                            </li>
+                            <li>
+                                <p>Improved performance.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
                         </ul>
                     </dd>
                 </dlentry>
@@ -57,11 +104,17 @@
                     <dt>August 2024 v1.0.5</dt>
                     <dd>
                         <ul id="ul_ssj_xbl_gcc">
-                            <li>When creating the datasource, you now have the option to specify the
-                                desired cache size in megabytes for the datasource.</li>
-                            <li>Fixed internally found defects.</li>
-                            <li>The topic of <xref href="create_datasources.dita"/> has been updated
-                                per the new UI changes.</li>
+                            <li>
+                                <p>When creating the datasource, you now have the option to specify
+                                    the desired cache size in megabytes for the datasource.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                            <li>
+                                <p>The topic of <xref href="create_datasources.dita"/> has been
+                                    updated per the new UI changes.</p>
+                            </li>
                         </ul>
                     </dd>
                 </dlentry>
@@ -69,38 +122,48 @@
                     <dt>June 2024 v1.0.4</dt>
                     <dd>
                         <ul id="ul_u3s_bkt_sbc">
-                            <li>The user interface for creating the datasource has been enhanced to
-                                improve the user experience.</li>
-                            <li>Fixed internally found defects.</li>
-                            <li>The following dashboards are updated:<ul id="ul_n5x_32w_tbc">
-                                    <li>Common Storage Activity (Timeline)</li>
-                                    <li>Common Storage Activity</li>
-                                    <li>Coupling Facility Overview (Timeline)</li>
-                                    <li>Coupling Facility Overview</li>
-                                    <li>Execution Velocity (Timeline)</li>
-                                    <li>Execution Velocity</li>
-                                    <li>General Activity (Timeline)</li>
-                                    <li>General Activity</li>
-                                    <li>Overall Image Activity (Timeline)</li>
-                                    <li>Overall Image Activity</li>
-                                    <li>Performance Index (Timeline)</li>
-                                    <li>Response Time (Timeline)</li>
-                                    <li>Response Time</li>
-                                    <li>XCF Activity (Timeline)</li>
-                                    <li>XCF Activity </li>
-                                    <li>
-                                        <note id="note_vwg_p2w_tbc">You must re-import the
-                                            dashboards to utilize the latest enhancements in the
-                                            dashboards.</note>
-                                    </li>
-                                </ul></li>
-                            <li>The documentation updates for v1.0.4 include the following
-                                    changes:<ul id="ul_aqv_kht_sbc">
-                                    <li>The topic of <xref href="create_datasources.dita"/> has been
-                                        updated as per the new UI changes.</li>
-                                    <li>The <xref href="update_plugin.dita"/> topic is included to
-                                        provide information about the upgrade process.</li>
-                                </ul></li>
+                            <li>
+                                <p>The user interface for creating the datasource has been enhanced
+                                    to improve the user experience.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                            <li>
+                                <p>The following dashboards are updated:<ul id="ul_n5x_32w_tbc">
+                                        <li>Common Storage Activity (Timeline)</li>
+                                        <li>Common Storage Activity</li>
+                                        <li>Coupling Facility Overview (Timeline)</li>
+                                        <li>Coupling Facility Overview</li>
+                                        <li>Execution Velocity (Timeline)</li>
+                                        <li>Execution Velocity</li>
+                                        <li>General Activity (Timeline)</li>
+                                        <li>General Activity</li>
+                                        <li>Overall Image Activity (Timeline)</li>
+                                        <li>Overall Image Activity</li>
+                                        <li>Performance Index (Timeline)</li>
+                                        <li>Response Time (Timeline)</li>
+                                        <li>Response Time</li>
+                                        <li>XCF Activity (Timeline)</li>
+                                        <li>XCF Activity </li>
+                                    </ul><note id="note_qxh_vjw_hfc">You must re-import the
+                                        dashboards to utilize the latest enhancements in the
+                                        dashboards.</note></p>
+                            </li>
+                            <li>
+                                <p>The documentation updates for v1.0.4 include the following
+                                        changes:<ul id="ul_aqv_kht_sbc">
+                                        <li>
+                                            <p>The topic of <xref href="create_datasources.dita"/>
+                                                has been updated as per the new UI changes.</p>
+                                        </li>
+                                        <li>
+                                            <p>The <xref href="update_plugin.dita"/> topic is
+                                                included to provide information about the upgrade
+                                                process.</p>
+                                        </li>
+                                    </ul></p>
+                            </li>
                         </ul>
                     </dd>
                 </dlentry>
@@ -108,45 +171,82 @@
                     <dt>February 2024 v1.0.3</dt>
                     <dd>
                         <ul id="ul_cs3_dkt_sbc">
-                            <li>Fixed specific issues related to the support of Grafana
-                                v10.x.x.</li>
-                            <li>Fixed empty settings issue for IBM RMF data source defined via
-                                    <filepath>Home / Apps / IBM RMF</filepath> page.</li>
-                            <li>Fixed internally found defects.</li>
-                            <li>The documentation updates for v1.0.3 include the following
-                                    changes:<ul id="ul_z4c_r3p_31c">
-                                    <li>The <xref href="grafana_via_zosmf.dita">Grafana through IBM
-                                            z/OS Management Facility</xref> topic explains more
-                                        detailed setup instructions to access Grafana from the
-                                        z/OSMF server.</li>
-                                    <li>The <xref href="install_grafana_plugin.dita"><ph
-                                                conref="conref.dita#conref/rmf_short"/> plugin
-                                            installation</xref> section is updated to provide clear
-                                        information and guidance on installing the <ph
-                                            conref="conref.dita#conref/rmf_short"/> plugin on
-                                        different platforms based on specific requirements.</li>
-                                    <li>The <xref href="ts_issues.dita">troubleshooting</xref> topic
-                                        is provided to help users analyze and resolve common issues
-                                        that may occur while using the <ph
-                                            conref="conref.dita#conref/plugin_name"/> plugin.</li>
-                                </ul></li>
+                            <li>
+                                <p>Fixed specific issues related to the support of Grafana
+                                    v10.x.x.</p>
+                            </li>
+                            <li>
+                                <p>Fixed empty settings issue for IBM RMF data source defined via
+                                        <filepath>Home / Apps / IBM RMF</filepath> page.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                            <li>
+                                <p>The documentation updates for v1.0.3 include the following
+                                        changes:<ul id="ul_z4c_r3p_31c">
+                                        <li>
+                                            <p>The <xref href="grafana_via_zosmf.dita">Grafana
+                                                  through IBM z/OS Management Facility</xref> topic
+                                                explains more detailed setup instructions to access
+                                                Grafana from the z/OSMF server.</p>
+                                        </li>
+                                        <li>
+                                            <p>The <xref href="install_grafana_plugin.dita"><ph
+                                                  conref="conref.dita#conref/rmf_short"/> plugin
+                                                  installation</xref> section is updated to provide
+                                                clear information and guidance on installing the <ph
+                                                  conref="conref.dita#conref/rmf_short"/> plugin on
+                                                different platforms based on specific
+                                                requirements.</p>
+                                        </li>
+                                        <li>
+                                            <p>The <xref href="ts_issues.dita"
+                                                  >troubleshooting</xref> topic is provided to help
+                                                users analyze and resolve common issues that may
+                                                occur while using the <ph
+                                                  conref="conref.dita#conref/plugin_name"/>
+                                                plugin.</p>
+                                        </li>
+                                    </ul></p>
+                            </li>
                         </ul>
                     </dd>
                 </dlentry>
                 <dlentry>
                     <dt>December 2023 v1.0.2</dt>
-                    <dd>Support spaces in Datasource name.</dd>
+                    <dd>
+                        <ul>
+                            <li>
+                                <p>Support spaces in Datasource name.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                        </ul>
+                    </dd>
                 </dlentry>
                 <dlentry>
                     <dt>November 2023 v1.0.1</dt>
-                    <dd>Resolved security issues in dependencies.</dd>
+                    <dd>
+                        <ul>
+                            <li>
+                                <p>Resolved security issues in dependencies.</p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                        </ul>
+                    </dd>
                 </dlentry>
                 <dlentry>
                     <dt>November 2023 v1.0.0</dt>
-                    <dd>The first release of the <ph conref="conref.dita#conref/plugin_name"/>
-                        plugin is in the following GitHub repository: <xref
-                            href="https://github.com/IBM/RMF/releases" format="html"
-                            scope="external">https://github.com/IBM/RMF</xref>.</dd>
+                    <dd>
+                        <p>The first release of the <ph conref="conref.dita#conref/plugin_name"/>
+                            plugin is in the following GitHub repository: <xref
+                                href="https://github.com/IBM/RMF/releases" format="html"
+                                scope="external">https://github.com/IBM/RMF</xref>.</p>
+                    </dd>
                 </dlentry>
             </dl>
         </section>

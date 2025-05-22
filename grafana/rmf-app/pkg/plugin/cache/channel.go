@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -19,39 +19,45 @@ package cache
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
-
 	"github.com/VictoriaMetrics/fastcache"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 type ChannelCache struct {
 	cache *fastcache.Cache
 }
 
+type Channel struct {
+	Resource  string
+	TimeRange backend.TimeRange
+	Absolute  bool
+	Step      time.Duration
+	Fields    frame.SeriesFields
+}
+
 func NewChannelCache(size int) *ChannelCache {
 	return &ChannelCache{cache: fastcache.New(size * 1024 * 1024)}
 }
 
-func (cc *ChannelCache) GetChannelQuery(path string) (*frame.QueryModel, error) {
-	var query frame.QueryModel
-	queryBytes := cc.cache.Get(nil, []byte(path))
-	err := json.Unmarshal(queryBytes, &query)
-	return &query, err
-}
-
-func (cc *ChannelCache) SetChannelQuery(path string, query *frame.QueryModel) error {
-	queryBytes, err := json.Marshal(*query)
-	if err == nil {
-		cc.cache.Set([]byte(path), queryBytes)
-	}
-	return err
-}
-
-func (cc *ChannelCache) HasChannelQuery(path string) bool {
-	return cc.cache.Has([]byte(path))
-}
-
 func (cc *ChannelCache) Reset() {
 	cc.cache.Reset()
+}
+
+func (cc *ChannelCache) Get(path string) (*Channel, error) {
+	var c Channel
+	b := cc.cache.Get(nil, []byte(path))
+	err := json.Unmarshal(b, &c)
+	return &c, err
+}
+
+func (cc *ChannelCache) Set(path string, c *Channel) error {
+	b, err := json.Marshal(*c)
+	if err != nil {
+		return err
+	}
+	cc.cache.Set([]byte(path), b)
+	return nil
 }
