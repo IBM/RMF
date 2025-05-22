@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,31 +18,12 @@
 package frame
 
 import (
+	"errors"
 	"strings"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
-
-func getFrameName(qm *QueryModel) string {
-	var resultFrameName string
-	if strings.Trim(qm.SelectedQuery, " ") != "" {
-		splitStringSlice := strings.SplitAfter(qm.SelectedQuery, ".")
-		if len(splitStringSlice) > 1 {
-			vt := splitStringSlice[1]
-			if strings.ToLower(vt) == "report." {
-				resultFrameName = splitStringSlice[1] + splitStringSlice[2]
-			} else {
-				if strings.Contains(vt, "{") {
-					resultFrameName = vt[:strings.Index(vt, "{")]
-				} else {
-					resultFrameName = vt
-				}
-			}
-		}
-	}
-	return strings.Trim(resultFrameName, " ")
-}
 
 // getFrameLabels builds labels based on DDS metric name and type
 func getFrameLabels(metricType string, queryName string) data.Labels {
@@ -93,4 +74,46 @@ func RemoveOldFieldNames(fieldMap SeriesFields, cutoffTime time.Time) {
 			delete(fieldMap, name)
 		}
 	}
+}
+
+func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
+	if dst == nil {
+		dst = data.NewFrame(src.Name)
+	}
+	if src == nil {
+		return dst, nil
+	}
+	dstLen, err := dst.RowLen()
+	if err != nil {
+		return nil, err
+	}
+	srcLen, err := src.RowLen()
+	if err != nil {
+		return nil, err
+	}
+	for _, field2 := range src.Fields {
+		field1, _ := dst.FieldByName(field2.Name)
+		if field1 == nil {
+			switch field2.Type() {
+			case data.FieldTypeTime:
+				field1 = data.NewField(field2.Name, field2.Labels, make([]time.Time, dstLen))
+			case data.FieldTypeNullableFloat64:
+				field1 = data.NewField(field2.Name, field2.Labels, make([]*float64, dstLen))
+			default:
+				return nil, errors.New("unsupported field type")
+			}
+			dst.Fields = append(dst.Fields, field1)
+		}
+		for i := range srcLen {
+			field1.Append(field2.At(i))
+		}
+	}
+	for _, field1 := range dst.Fields {
+		if field2, _ := src.FieldByName(field1.Name); field2 == nil {
+			for range srcLen {
+				field1.Append(nil)
+			}
+		}
+	}
+	return dst, nil
 }

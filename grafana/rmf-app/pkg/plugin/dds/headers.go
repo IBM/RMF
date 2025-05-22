@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package dds
 
 import (
-	"context"
 	"encoding/xml"
 	"regexp"
 	"strings"
@@ -78,7 +77,7 @@ func (c *Client) updateHeaders() *HeaderMap {
 	logger := log.Logger.With("func", "GetHeaderMap")
 	result, _, _ := c.single.Do("headers", func() (any, error) {
 		headers := HeaderMap{}
-		raw, err := c.GetRaw(context.Background(), XslHeadersPath)
+		raw, err := c.GetRaw(XslHeadersPath)
 		if err != nil {
 			logger.Error("failed to fetch XSL header map", "error", err)
 			return &headers, err
@@ -105,14 +104,15 @@ func buildHeaders(res HeaderMap, report string, choose XslChoose) {
 		match := XslConditionRe.FindStringSubmatch(condition)
 		if len(match) > 0 {
 			key, value := match[1], match[2]
-			if key == "var" {
+			switch key {
+			case "var":
 				if _, ok := res[report]; !ok {
 					res[report] = make(map[string]string)
 				}
 				res[report][value] = strings.TrimSpace(when.Text)
-			} else if key == "report" {
+			case "report":
 				buildHeaders(res, value, when.Choose)
-			} else {
+			default:
 				logger.Error("unexpected condition key in XSL header map", "key", key)
 			}
 		} else {

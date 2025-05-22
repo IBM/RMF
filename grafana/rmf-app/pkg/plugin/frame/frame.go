@@ -1,6 +1,6 @@
 /**
-* (C) Copyright IBM Corp. 2023, 2024.
-* (C) Copyright Rocket Software, Inc. 2023-2024.
+* (C) Copyright IBM Corp. 2023, 2025.
+* (C) Copyright Rocket Software, Inc. 2023-2025.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -34,7 +35,22 @@ const BannerPrefix = "Banner::"
 const CaptionPrefix = "Caption::"
 const ReportDateFormat = "01/02/2006 15:04:05"
 
-func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, queryModel *QueryModel) (*data.Frame, error) {
+func TaggedFrame(t time.Time, tag string) *data.Frame {
+	return data.NewFrame(
+		"",
+		data.NewField("time", nil, []time.Time{t}),
+		data.NewField(tag, nil, []*float64{nil}),
+	)
+}
+
+func NoDataFrame(t time.Time) *data.Frame {
+	return data.NewFrame(
+		"",
+		data.NewField("time", nil, []time.Time{t}),
+	)
+}
+
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
@@ -62,47 +78,28 @@ func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, queryModel *QueryM
 	}
 
 	format := report.Metric.Format
-	timeCopy := queryModel.CurrentTime
-	queryModel.UpdateFromTimeData(report.TimeData)
-	if !queryModel.CurrentTime.Equal(timeCopy) {
-		logger.Debug("CurrentTime updated", "before", timeCopy.String(),
-			"after", queryModel.CurrentTime.String(),
-			"mintime", queryModel.Mintime,
-			"start", report.TimeData.LocalStart.Time.String(),
-			"end", report.TimeData.LocalEnd.Time.String(),
-			"prev", report.TimeData.LocalPrev.Time.String(),
-			"next", report.TimeData.LocalNext.Time.String())
-	}
+	frameName := strings.Trim(report.Metric.Description, " ")
 	var newFrame *data.Frame
+
 	if format == dds.ReportFormat {
-		newFrame = buildForReport(&report, headers, queryModel)
+		newFrame = buildForReport(&report, headers, frameName)
+	} else if wide {
+		return buildWideForMetric(&report, frameName), nil
 	} else {
-		newFrame = buildForMetric(&report, queryModel)
+		return buildLongForMetric(&report, frameName), nil
 	}
 	return newFrame, nil
 }
 
-// buildForMetric parses JSON string and create a data frame either for time series or a regular one.
-func buildForMetric(report *dds.Report, query *QueryModel) *data.Frame {
-	queryName := getFrameName(query)
-
-	if query.SelectedVisualisationType == TimeSeriesType {
-		return buildWideForMetric(report, queryName)
-	} else {
-		return buildLongForMetric(report, queryName)
-	}
-}
-
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.
 // Grafana frame format: wide.
-func buildWideForMetric(report *dds.Report, queryName string) *data.Frame {
-	frameName := queryName
+func buildWideForMetric(report *dds.Report, frameName string) *data.Frame {
 	timestamp := report.TimeData.UTCEnd.Time
 	metricFormat := report.Metric.Format
-	labels := getFrameLabels(metricFormat, queryName)
+	labels := getFrameLabels(metricFormat, frameName)
 	resultFrame := data.NewFrame(frameName, data.NewField("time", nil, []time.Time{timestamp}))
 
-	iterateMetricRows(report, queryName,
+	iterateMetricRows(report, frameName,
 		func(name string, value *float64) {
 			newField := data.NewField(name, labels, []*float64{value})
 			resultFrame.Fields = append(resultFrame.Fields, newField)
@@ -113,7 +110,7 @@ func buildWideForMetric(report *dds.Report, queryName string) *data.Frame {
 	// Solution for single type metric is to send nil values if there's no data.
 	// For list type metrics, we don't have column names to do the same; it has to be fixed differently.
 	if len(resultFrame.Fields) == 1 && metricFormat == "single" {
-		newField := data.NewField(queryName, labels, []*float64{nil})
+		newField := data.NewField(frameName, labels, []*float64{nil})
 		resultFrame.Fields = append(resultFrame.Fields, newField)
 	}
 
@@ -122,15 +119,15 @@ func buildWideForMetric(report *dds.Report, queryName string) *data.Frame {
 
 // buildLongForMetric creates a non time series data frame for a metric from pre-parsed DDS response.
 // Grafana frame format: long.
-func buildLongForMetric(report *dds.Report, queryName string) *data.Frame {
+func buildLongForMetric(report *dds.Report, frameName string) *data.Frame {
 	metricFormat := report.Metric.Format
 	nameField := "metric"
 	timestamp := report.TimeData.UTCEnd.Time
-	valField := queryName
+	valField := frameName
 	if metricFormat == "list" {
-		valField, nameField = splitQueryName(queryName)
+		valField, nameField = splitQueryName(frameName)
 		if nameField == "" {
-			nameField = queryName
+			nameField = frameName
 			valField = "value"
 		}
 	}
@@ -141,7 +138,7 @@ func buildLongForMetric(report *dds.Report, queryName string) *data.Frame {
 		data.NewField(valField, nil, []*float64{}),
 	)
 
-	iterateMetricRows(report, queryName,
+	iterateMetricRows(report, frameName,
 		func(name string, value *float64) {
 			resultFrame.Fields[0].Append(timestamp)
 			resultFrame.Fields[1].Append(name)
@@ -153,25 +150,40 @@ func buildLongForMetric(report *dds.Report, queryName string) *data.Frame {
 
 // iterateMetricRows parses metric key-value pairs and passes them to `process` while iterating over rows.
 func iterateMetricRows(report *dds.Report, defaultName string, process func(name string, value *float64)) {
+	colMap := map[string]bool{}
+	var sb strings.Builder
 	for _, jsonRow := range report.Rows {
 		cols := jsonRow.Cols
 		name, rawValue := cols[0], cols[1]
 		if name == "*NoData*" {
 			continue
 		}
-		if len(jsonRow.Cols) == 3 {
-			name += "[" + cols[2] + "]"
+		sb.Reset()
+		sb.WriteString(name)
+		if len(jsonRow.Cols) >= 3 {
+			sb.WriteString("[")
+			sb.WriteString(cols[2])
+			if len(jsonRow.Cols) >= 4 && cols[3] != "" {
+				sb.WriteString(".")
+				sb.WriteString(cols[3])
+			}
+			sb.WriteString("]")
 		}
-		if name == "" {
-			name = defaultName
+		if sb.Len() == 0 {
+			sb.WriteString(defaultName)
 		}
-		process(name, parseFloat(rawValue))
+		colName := sb.String()
+		if _, ok := colMap[colName]; ok {
+			continue
+		}
+		colMap[colName] = true
+		process(colName, parseFloat(rawValue))
 	}
 }
 
-func buildForReport(report *dds.Report, headers *dds.HeaderMap, qm *QueryModel) *data.Frame {
+func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string) *data.Frame {
 	logger := log.Logger.With("func", "buildForReport")
-	frame := data.NewFrame(getFrameName(qm))
+	frame := data.NewFrame(frameName)
 	reportName := report.Metric.Id
 
 	for i, col := range report.Headers.Cols {
