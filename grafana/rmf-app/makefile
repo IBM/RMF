@@ -16,7 +16,7 @@ all: clean build zip ## Executes clean build and zip tasks
 ##@ Dependencies
 
 node_modules: package.json yarn.lock
-	yarn install --frozen-lockfile
+	yarn install --immutable
 
 deps-frontend: node_modules ## Install Node.js dependencies
 
