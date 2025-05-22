@@ -27,13 +27,16 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/grafana-plugin-sdk-go/live"
 	"golang.org/x/sync/singleflight"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
+	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
 )
 
@@ -181,6 +184,14 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	}
 }
 
+type RequestParams struct {
+	Resource struct {
+		Value string `json:"value"`
+	} `json:"selectedResource"`
+	AbsoluteTime bool   `json:"absoluteTimeSelected"`
+	VisType      string `json:"selectedVisualisationType"`
+}
+
 // QueryData handles multiple queries and returns multiple responses.
 // req contains the queries []DataQuery (where each query contains RefID as a unique identifier).
 // The QueryDataResponse contains a map of RefID to the response for each query, and each response
@@ -234,10 +245,30 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 				if params.VisType == TimeSeriesType {
 					// Initialize time series stream
 					step := getStep(mintime, q.Interval)
-					f, err := ds.getFirstTSFrame(&params, q.TimeRange, step)
+					fields := frame.SeriesFields{}
+					start := q.TimeRange.From
+					r := dds.NewRequest(params.Resource.Value, start, start, step)
+					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To, step, fields)
+					if f == nil || err != nil {
+						f = frame.TaggedFrame(q.TimeRange.From, "No data yet...")
+					}
+					channel := live.Channel{
+						Scope:     live.ScopeDatasource,
+						Namespace: ds.uid,
+						Path:      uuid.NewString(),
+					}
+					cachedChannel := cache.Channel{
+						Resource:  params.Resource.Value,
+						TimeRange: backend.TimeRange{From: start.Add(jump), To: q.TimeRange.To},
+						Absolute:  params.AbsoluteTime,
+						Step:      step,
+						Fields:    fields,
+					}
+					err = ds.channelCache.Set(channel.Path, &cachedChannel)
 					if err != nil {
 						response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
 					} else {
+						f.SetMeta(&data.FrameMeta{Channel: channel.String()})
 						response = &backend.DataResponse{Frames: data.Frames{f}}
 					}
 				} else {
@@ -287,6 +318,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		logger.Error("unable to find channel", "err", err)
 		return nil
 	}
+	res := c.Resource
 	step := c.Step
 	absolute := c.Absolute
 	from := c.TimeRange.From
@@ -294,19 +326,32 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	fields := c.Fields
 
 	logger.Debug("starting streaming", "step", step.String(), "path", req.Path)
-	r := dds.NewRequest(c.Resource, from, from, step)
+	r := dds.NewRequest(res, from, from, step)
 
 	// Stream historical part of time series
-	stopTime := to
+	stop := to
 	for {
 		if !absolute {
-			stopTime = time.Now().Add(-SdsDelay)
+			stop = time.Now().Add(-SdsDelay)
 		}
-		if r.TimeRange.To.After(stopTime) {
+		if r.TimeRange.To.After(stop) {
 			logger.Debug("finished with historical data", "request", r.String(), "path", req.Path)
 			break
 		}
-		if err := ds.serveNextTSFrame(ctx, sender, fields, r, true); err != nil {
+		f, jump, err := ds.getCachedTSFrames(r, stop, step, fields)
+		if err != nil {
+			logger.Info("streaming stopped", "reason", err, "path", req.Path)
+			return nil
+		}
+		if f != nil {
+			if err := sender.SendFrame(f, data.IncludeAll); err != nil {
+				logger.Info("streaming stopped", "reason", err, "path", req.Path)
+				return nil
+			}
+			r.Add(jump)
+			continue
+		}
+		if err := ds.serveTSFrame(ctx, sender, fields, r, true); err != nil {
 			logger.Info("streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
@@ -315,7 +360,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	if !absolute {
 		// Stream live data as it's being collected
 		for {
-			if err := ds.serveNextTSFrame(ctx, sender, fields, r, false); err != nil {
+			if err := ds.serveTSFrame(ctx, sender, fields, r, false); err != nil {
 				logger.Info("streaming stopped", "reason", err, "path", req.Path)
 				return nil
 			}

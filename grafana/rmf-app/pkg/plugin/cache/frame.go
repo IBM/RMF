@@ -49,11 +49,16 @@ func FrameKey(r *dds.Request, wide bool) []byte {
 }
 
 func (fc *FrameCache) Get(r *dds.Request, wide bool) *data.Frame {
-	logger := log.Logger.With("func", "GetFrame")
+	logger := log.Logger.With("func", "FrameCache.Get")
+	defer log.LogAndRecover(logger)
+
 	var frame data.Frame
 	key := FrameKey(r, wide)
 	buf := fc.cache.GetBig(nil, key)
 	if buf != nil {
+		// FIXME
+		// Sometimes it causes panic: "runtime error: index out of range [21] with length 21" and similar
+		// It's a Grafana SDK bug.
 		err := json.Unmarshal(buf, &frame)
 		if err != nil {
 			logger.Error("Unmarshal error", "err", err, "key", key)
