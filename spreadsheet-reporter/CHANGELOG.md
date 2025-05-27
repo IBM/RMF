@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.5.9 (2025-05-27)
+
+- New Java 17 Runtime
+- Fix Secure FTP connection
+
 ## 5.5.8 (2024-09-11)
 
 - The Spreadsheet Reporter has been updated to include the latest Java version 17.
