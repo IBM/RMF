@@ -32,6 +32,29 @@ define(["parseuri"], function(parseUri){
             }
         },
         
+        /**
+	     * Avoid cross site scripting possibility.
+	     *
+	     * @param {string} string The string to process.
+	     * @returns {string} The filtered string.
+	     */
+        sanitize : function (string) {
+        	var sanitizedString = string.replace(/&/g, "");
+        	sanitizedString = sanitizedString.replace(/%26/g, "");
+        	sanitizedString = sanitizedString.replace(/</g, "");
+        	sanitizedString = sanitizedString.replace(/%3C/g, "");
+        	sanitizedString = sanitizedString.replace(/=/g, "");
+        	sanitizedString = sanitizedString.replace(/%3D/g, "");
+        	sanitizedString = sanitizedString.replace(/>/g, "");
+        	sanitizedString = sanitizedString.replace(/%3E/g, "");
+        	sanitizedString = sanitizedString.replace(/"/g, "");
+        	sanitizedString = sanitizedString.replace(/%22/g, "");
+        	sanitizedString = sanitizedString.replace(/'/g, "");
+        	sanitizedString = sanitizedString.replace(/%27/g, "");
+            
+	        return sanitizedString.trim();
+    	},
+
         isLocal : function () {
             this.debug("isLocal()");
             var whLocation = "";

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.10 (2025-05-30)
+
+- Fixed a Windows-specific regression that caused the plugin to serve data points with the incorrect TZ offset.
+
 ## 1.0.9 (2025-05-22)
 
 - IBM RMF for z/OS Grafana plugin has been enhanced to optimize the step size when querying and displaying time series data, based on the selected time range and panel size. This enhancement ensures that panels display the required number of data points.

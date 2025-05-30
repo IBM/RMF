@@ -9,10 +9,6 @@ define(["options", "dom-sanitizer", "jquery", "nav"], function (options, domSani
     $(document).ready ( function() {
 		$(".wh_publication_toc .title").mouseenter(showTocTooltip);
 		$(".wh_publication_toc .title").mouseleave(removeTocTooltip);
-		/* WH-2785 Hide tooltip on window or TOC scroll */
-        $(window).scroll(removeTocTooltip);
-        /* The TOC can display its own scroll bars */
-        $(".wh_publication_toc").scroll(removeTocTooltip);
     
         // Register the click handler for the TOC
         var topicRefExpandBtn = $(".wh_publication_toc .wh-expand-btn");
