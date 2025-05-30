@@ -312,7 +312,6 @@ html[dir='rtl'] .navprev, html[dir='rtl'] .navnext, html[dir='rtl'] .wh_print_li
 
 /* WH-1485: A wide table overflows the topic content area in the Responsive output. */
 .tablenoborder,
-.table-container,
 .simpletable-container {
     overflow-x: auto;
 }

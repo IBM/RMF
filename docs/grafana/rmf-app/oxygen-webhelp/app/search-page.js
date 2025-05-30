@@ -8,12 +8,10 @@ define(["require", "config"], function() {
             'menu',
             'webhelp',
             'codeblock',
+            'wh-sticky',
             'top-menu',
             'template-module-loader'
         ];
-        if(options.getBoolean("webhelp.enable.sticky.header")) {
-        	jsModules.push('wh-sticky');
-        }
         if(!options.getBoolean("webhelp.custom.search.engine.enabled")) {
             require(['search'], function() {
                 jsModules.push('searchAutocomplete');

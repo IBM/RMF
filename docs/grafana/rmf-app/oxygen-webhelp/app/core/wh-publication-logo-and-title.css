@@ -136,7 +136,7 @@
     .wh_top_menu:not(.activated-on-click) ul li:hover > ul {
         display: block;
         visibility: visible;
-        transition: visibility 0.2s 1s;
+        transition: none; /* WH-2521 React immediately on hover */
     }
 
     /* Menu activated on CLICK */

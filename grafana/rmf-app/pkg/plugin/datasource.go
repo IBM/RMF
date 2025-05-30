@@ -246,11 +246,11 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					// Initialize time series stream
 					step := getStep(mintime, q.Interval)
 					fields := frame.SeriesFields{}
-					start := q.TimeRange.From
+					start := q.TimeRange.From.UTC()
 					r := dds.NewRequest(params.Resource.Value, start, start, step)
-					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To, step, fields)
+					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To.UTC(), step, fields)
 					if f == nil || err != nil {
-						f = frame.TaggedFrame(q.TimeRange.From, "No data yet...")
+						f = frame.TaggedFrame(start, "No data yet...")
 					}
 					channel := live.Channel{
 						Scope:     live.ScopeDatasource,
@@ -259,7 +259,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					}
 					cachedChannel := cache.Channel{
 						Resource:  params.Resource.Value,
-						TimeRange: backend.TimeRange{From: start.Add(jump), To: q.TimeRange.To},
+						TimeRange: backend.TimeRange{From: start.Add(jump), To: q.TimeRange.To.UTC()},
 						Absolute:  params.AbsoluteTime,
 						Step:      step,
 						Fields:    fields,
@@ -273,7 +273,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					}
 				} else {
 					// Query non-timeseries data
-					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From, q.TimeRange.To, mintime)
+					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
 					// FIXME: doesn't it need to be cached?
 					if newFrame, err := ds.getFrame(r, false); err != nil {

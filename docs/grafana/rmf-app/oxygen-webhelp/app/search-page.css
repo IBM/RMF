@@ -1,13 +1,13 @@
 /* Topic content styles. */
-@import "topic/topic.css?buildId=2022110310";
+@import "topic/topic.css?buildId=2022012605";
 
 /* Default styles. */
-@import "core/webhelp.css?buildId=2022110310";
+@import "core/webhelp.css?buildId=2022012605";
 
 /* Top Menu and Side TOC components styles. */
-@import "nav-links/nav-links.css?buildId=2022110310";
+@import "nav-links/nav-links.css?buildId=2022012605";
 
 /*
  * Search results styles 
  */
- @import "search/search.css?buildId=2022110310";
+ @import "search/search.css?buildId=2022012605";

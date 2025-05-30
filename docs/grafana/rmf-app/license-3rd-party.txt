@@ -32,7 +32,7 @@ highlight v3                                                                    
 (https://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html)
   - oxygen-webhelp/lib/jquery-highlight/jquery.highlight-3.js
   
-jQuery UI v1.13.2  (http://jqueryui.com)                                        MIT License (https://jquery.org/license/) 
+jQuery UI v1.12.1  (http://jqueryui.com)                                        MIT License (https://jquery.org/license/) 
   - oxygen-webhelp/lib/jquery-ui/jquery-ui.min.css
   - oxygen-webhelp/lib/jquery-ui/jquery-ui.min.js
   
@@ -91,6 +91,8 @@ xsl/dita/original/relpath_util.xsl                             					Apache-2.0 (
 Additional Third Party Code in standalone Oxygen WebHelp distribution:
 
 ../com.oxygenxml.common/lib/ant-contrib-1.0b3.jar              					Apache-2.0 (see ../com.oxygenxml.common/lib/ant.LICENSE.txt)
+../com.oxygenxml.common/lib/log4j-core-2.17.1.jar                   					Apache-2.0 (see ../com.oxygenxml.common/lib/log4j.LICENSE.txt)
+../com.oxygenxml.common/lib/log4j-1.2-api-2.17.1.jar                   					Apache-2.0 (see ../com.oxygenxml.common/lib/log4j.LICENSE.txt) 
 ../com.oxygenxml.common/lib/lucene-analyzers-common-4.7.2.jar   					Apache-2.0  with additional 3rd party licenses (see ../com.oxygenxml.common/lib/lucene.LICENSE.txt)     
 ../com.oxygenxml.common/lib/lucene-analyzers-kuromoji-4.7.2.jar					Apache-2.0  with additional 3rd party licenses (see ../com.oxygenxml.common/lib/lucene.LICENSE.txt)
 ../com.oxygenxml.common/lib/lucene-core-4.7.2.jar              					Apache-2.0  with additional 3rd party license (see ../com.oxygenxml.common/lib/lucene.LICENSE.txt)     

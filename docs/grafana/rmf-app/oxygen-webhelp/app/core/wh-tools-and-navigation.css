@@ -9,12 +9,12 @@
 .wh_navigation_links .navnext,
 .wh_navigation_links .navprev{
     display:inline-block;
+    margin-left:0.5em;
 }
 
 .wh_print_link button {
     border: none;
     background-color: transparent;
-    padding: 0;
 }
 
 .pdf_link img {
@@ -25,6 +25,8 @@
 .pdf_link {
     display: flex;
     align-items: center;
+    margin-left: 0.5em;
+    padding-left: 4px;
 }
 
 .oxy-icon-pdf-link:before {
