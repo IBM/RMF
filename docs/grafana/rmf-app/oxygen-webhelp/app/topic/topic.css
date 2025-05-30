@@ -5,10 +5,10 @@ Copyright (c) 1998-2021 Syncro Soft SRL, Romania.  All rights reserved.
 
 */
 
-@import "elements.css?buildId=2022110310";
-@import "wh-topic-content.css?buildId=2022110310";
-@import "syntax-highlight.css?buildId=2022110310";
-@import "print.css?buildId=2022110310";
+@import "elements.css?buildId=2022012605";
+@import "wh-topic-content.css?buildId=2022012605";
+@import "syntax-highlight.css?buildId=2022012605";
+@import "print.css?buildId=2022012605";
 
 #wh_print_link{
     margin-left: 5px;

@@ -239,8 +239,3 @@ div.rate_response {margin:-14px 0 0 0; }
 caption.tablecap[data-caption-side="bottom"] {
   caption-side: bottom;
 }
-
-img.break {
-  display: block;
-  margin-bottom: 1em;
-}

@@ -2,8 +2,6 @@ define(["options", "dom-sanitizer", 'util', 'jquery', 'jquery.highlight'], funct
     // Add some Bootstrap classes when document is ready
     var highlighted = false;
 
-    var DEFAULT_MARGIN_STICKY_HEADER_DISABLED = 20;
-
     /* WH-2521 - Mark the document when it was fully loaded.
 	 * This will allow us, for example, to apply transitions only if the document has been fully loaded.
      * Otherwise, there will be color transitions between styles from different CSS files noticeable during page loading. */
@@ -13,17 +11,20 @@ define(["options", "dom-sanitizer", 'util', 'jquery', 'jquery.highlight'], funct
 
     $(document).ready(function () {
         var scrollPosition = $(window).scrollTop();
-        handlePublicationTocPosition(scrollPosition);
-        handleTopicTocPosition(scrollPosition);
+        handleSideTocPosition(scrollPosition);
+        handlePageTocPosition(scrollPosition);
+        handleCloseTocButtonPosition('#wh_close_publication_toc_button');
 
         $(window).scroll(function() {
-            scrollPosition = handlePublicationTocPosition(scrollPosition);
-            handleTopicTocPosition(scrollPosition);
+            scrollPosition = handleSideTocPosition(scrollPosition);
+            scrollPosition = handlePageTocPosition(scrollPosition);
+            scrollPosition = handleCloseTocButtonPosition('#wh_close_publication_toc_button');
         });
         $(window).resize(function(){
             $("#wh_publication_toc").removeAttr('style');
-            scrollPosition = handlePublicationTocPosition(scrollPosition);
-            handleTopicTocPosition(scrollPosition);
+            scrollPosition = handleSideTocPosition(scrollPosition);
+            scrollPosition = handlePageTocPosition(scrollPosition);
+            scrollPosition = handleCloseTocButtonPosition('#wh_close_publication_toc_button');
         });
         
         // WH-2740 Current topic should always be selected and visible in the publication toc
@@ -159,7 +160,7 @@ define(["options", "dom-sanitizer", 'util', 'jquery', 'jquery.highlight'], funct
                     }
                     
                     var tocWidth =  parseInt(pageToc.outerWidth()) - parseInt(pageToc.css("padding-left")) - parseInt(pageToc.css("padding-right"));
-                    $("#wh_topic_toc_content").css("width", tocWidth);
+                    $(".wh_topic_toc").css("width", tocWidth);
                  }
                  
                  $(this).css('right', Math.round($("#wh_topic_toc").outerWidth()) * (-1) + 5);
@@ -249,48 +250,6 @@ define(["options", "dom-sanitizer", 'util', 'jquery', 'jquery.highlight'], funct
         });
     });
 
-
-/* *
- * @description Computes the position for the elements that are required to position the publication
- * and topic toc.
- */
-function computeStickyElementsPositions() {
-    var searchHeight = $('.wh_search_input').outerHeight(true);
-    var breadcrumbHeight = $(".wh_tools").parent().outerHeight();
-    var headerHeight = $(".wh_header").outerHeight();
-    var visibleSearchHeight = 0;
-    var topOffset = 0;
-    var visibleAreaHeight = 0;
-    var buttonOffset = 0;
-    
-    if(options.getBoolean("webhelp.enable.sticky.header")) {
-        buttonOffset = searchHeight;
-        if ($(window).scrollTop() > searchHeight) {
-            visibleSearchHeight = 0;
-        } else {
-            visibleSearchHeight = searchHeight - $(window).scrollTop();
-        }
-        topOffset = breadcrumbHeight + headerHeight + visibleSearchHeight;
-        visibleAreaHeight = parseInt($(window).height()) - topOffset;
-	} else {
-        buttonOffset = breadcrumbHeight + headerHeight + searchHeight - DEFAULT_MARGIN_STICKY_HEADER_DISABLED;
-	    var visibleHeader = breadcrumbHeight + headerHeight + searchHeight;
-	    if($(window).scrollTop() > visibleHeader) {
-	        visibleHeader = DEFAULT_MARGIN_STICKY_HEADER_DISABLED;
-	    } else {
-	        visibleHeader = visibleHeader - $(window).scrollTop();
-	    }
-	    topOffset = visibleHeader;
-	    visibleAreaHeight = parseInt($(window).height()) - topOffset;
-	}
-	
-	return {
-	    topOffset: topOffset,
-	    visibleAreaHeight: visibleAreaHeight,
-        buttonOffset: buttonOffset
-	}
-}
-
 /* *
  * @description Toggles the expand/collapse for the publication toc.
  */
@@ -312,9 +271,10 @@ function closePublicationToc(sideToc, pageToc) {
             $('#wh_toc_button').attr('aria-expanded', false);
             $('#wh_close_publication_toc_button').addClass("clicked");
             sideToc.removeClass(`col-lg-${publicationTocColumns} col-md-${publicationTocColumns}`);
-            sideToc.removeClass("d-block");
+            sideToc.removeClass("d-sm-block");
             sideToc.removeClass("d-md-block");
             sideToc.addClass("d-none");
+            sideToc.addClass("d-sm-none");
             sideToc.addClass("d-md-none");
             
             var topicContentParent = $('.wh_topic_content').parent();
@@ -329,8 +289,9 @@ function closePublicationToc(sideToc, pageToc) {
             $('#wh_close_publication_toc_button').removeClass("clicked");
             sideToc.addClass(`col-lg-${publicationTocColumns} col-md-${publicationTocColumns}`);
             sideToc.removeClass("d-none");
+            sideToc.removeClass("d-sm-none");
             sideToc.removeClass("d-md-none");
-            sideToc.addClass("d-block");
+            sideToc.addClass("d-sm-block");
             sideToc.addClass("d-md-block");
             
             var topicContentParent = $('.wh_topic_content').parent();
@@ -341,11 +302,28 @@ function closePublicationToc(sideToc, pageToc) {
             }
             
             var tocWidth = parseInt(sideToc.outerWidth()) - parseInt(sideToc.css("padding-left")) - parseInt(sideToc.css("padding-right"));
-            $("#wh_publication_toc_content").css("width", tocWidth);
+            $(".wh_publication_toc").css("width", tocWidth);
          }
          
          $('#wh_close_publication_toc_button').css('left', $("#wh_publication_toc").outerWidth() * (-1) + 5);
     }
+}
+
+/* *
+ * @description Handle the vertical position for the close page and publication toc buttons.
+ */
+function handleCloseTocButtonPosition(buttonId) {
+    var searchHeight = $('.wh_search_input').outerHeight(true);
+
+    $(buttonId).css('left', $("#wh_publication_toc").outerWidth() * (-1) + 5);
+    if($(window).scrollTop() > searchHeight) {
+        var offset = $(window).scrollTop() - searchHeight;
+        $(buttonId).css('top', offset - 5);
+    } else {
+        $(buttonId).css('top', '-5px');
+    }
+    
+    return $(window).scrollTop();
 }
 
 /**
@@ -369,48 +347,84 @@ function displayActiveTopicInPublicationToc() {
 /**
  * @description Handle the vertical position of the side toc
  */
-function handlePublicationTocPosition(scrollPosition) {
+function handleSideTocPosition(scrollPosition) {
     var scrollPosition = scrollPosition !== undefined ? scrollPosition : 0;
-    var $publicationToc = $(".wh_publication_toc");
-    var $navPublicationToc = $("#wh_publication_toc");
-    var $topicBody = $('#wh_topic_body');
-    var $publicationTocContent = $("#wh_publication_toc_content");
-
+    var $sideToc = $(".wh_publication_toc");
+    var $sideTocID = $("#wh_publication_toc");
+    var $navSection = $(".wh_tools");
+    var bottomNavOffset = 0;
+    var $slideSection = $('#wh_topic_body');
     
-    if ($publicationToc.length > 0 && $topicBody.length > 0 && options.getBoolean("webhelp.enable.sticky.publication.toc")) {
-        var positions = computeStickyElementsPositions();
-        var topOffset = positions.topOffset;
-        var visibleAreaHeight = positions.visibleAreaHeight;
-        var buttonOffset = positions.buttonOffset;
-
-        var tocWidth = parseInt($navPublicationToc.outerWidth()) - parseInt($navPublicationToc.css("padding-left")) - parseInt($navPublicationToc.css("padding-right"));
+    var searchHeight = $('.wh_search_input').outerHeight(true);
+    var visibleSearchHeight;
     
-        if(parseInt($(window).width()) > 767) {
-            $publicationTocContent.css("top", topOffset + "px").css("width", tocWidth + "px").css("position", "fixed").css("z-index", "997").css("display", "flex").css("flex-direction", "column");
-            $publicationToc.css("overflow-y", "auto").css("overflow-x", "hidden");
-
-            // Adjust publication toc height when the footer apears in the viewport.
-            var footerPosition = $(".wh_footer")[0].getBoundingClientRect().top;
-            if(visibleAreaHeight + topOffset > footerPosition) {
-                $publicationTocContent.css("max-height", visibleAreaHeight - ($(window).height() - footerPosition) - 30);
-            } else {
-                $publicationTocContent.css("max-height", visibleAreaHeight - 30);
-            }
-
-            // Find the position for the close publication toc button.
-            if($(window).scrollTop() > buttonOffset) {
-                $('#wh_close_publication_toc_button').css('top', $(window).scrollTop() - buttonOffset - 5);
-            } else {
-                $('#wh_close_publication_toc_button').css('top', '-5px');
-            }
-            $('#wh_close_publication_toc_button').css('left', $navPublicationToc.outerWidth() * (-1) + 5);  
-        } else {
-            $publicationTocContent.removeAttr('style');
-            $publicationToc.removeAttr('style');
-        }
+    if ($(window).scrollTop() > searchHeight) {
+      visibleSearchHeight = 0;
     } else {
-        $('#wh_close_publication_toc_button').css('top', '-5px');
-        $('#wh_close_publication_toc_button').css('left', $navPublicationToc.outerWidth() * (-1) + 5); 
+      visibleSearchHeight = searchHeight - $(window).scrollTop();
+    }
+    
+    var topOffset = $(".wh_tools").parent().outerHeight() + $(".wh_header").outerHeight() + visibleSearchHeight;
+    var visibleAreaHeight = parseInt($(window).height()) - parseInt($(".wh_footer").outerHeight()) - topOffset;
+
+    if ($sideToc.length > 0 && $slideSection.length > 0) {
+        var minVisibleOffset = $(window).scrollTop();
+        var tocHeight = parseInt($sideToc.height()) + parseInt($sideToc.css("padding-top")) + parseInt($sideToc.css("padding-bottom")) + parseInt($sideToc.css("margin-top")) + parseInt($sideToc.css("margin-bottom"));
+        var tocWidth = parseInt($sideTocID.outerWidth()) - parseInt($sideTocID.css("padding-left")) - parseInt($sideTocID.css("padding-right"));
+        var tocXNav = parseInt($slideSection.offset().left) - tocWidth;
+    
+        if (scrollPosition > $(window).scrollTop()) {
+            if ($sideToc.offset().top < $sideToc.parent().offset().top) {
+                $sideToc.css('position', 'inherit');
+            }
+        } else {
+            if (tocHeight > $(window).height()) {
+                $sideToc.css('position', 'inherit');
+            }
+        }
+
+        if ($navSection.length > 0) {
+            bottomNavOffset = parseInt($navSection.offset().top) + parseInt($navSection.height()) + parseInt($navSection.css("padding-top")) + parseInt($navSection.css("padding-bottom")) + parseInt($navSection.css("margin-top")) + parseInt($navSection.css("margin-bottom"));
+        }
+        if (bottomNavOffset > minVisibleOffset) {
+            minVisibleOffset = bottomNavOffset;
+        }
+        
+        if (tocHeight <= visibleAreaHeight + visibleSearchHeight) {
+            var cHeight = parseInt($('.wh_content_area').height());
+            if (parseInt(minVisibleOffset - topOffset) <=  $(window).scrollTop() && parseInt($(window).width()) > 767) {
+                $('.wh_content_area').css('min-height', cHeight+'px');
+                $sideToc.css("top", topOffset + "px").css("width", tocWidth + "px").css("position", "fixed").css("z-index", "997").css("overflow-y", "auto").css("overflow-x", "hidden");
+                if(visibleAreaHeight + topOffset > $(".wh_footer").offset().top) {
+                    $sideToc.css("max-height", $(".wh_footer").offset().top - topOffset - parseInt($(".wh_footer").css("margin-top")))
+                } else {
+                    if($(".wh_footer")[0].getBoundingClientRect().top < $(window).height()) {
+                        $sideToc.css("max-height", visibleAreaHeight - parseInt($(".wh_footer").css("margin-top")));
+                    } else {
+                        $sideToc.css("max-height", visibleAreaHeight);
+                    }
+                }
+            } else {
+                $sideToc.removeAttr('style');
+            }
+        } else if (parseInt($(window).width()) < 767) {
+            $sideToc.removeAttr('style');
+        } else {
+            $sideToc.css("position", "fixed").css("z-index", "997").css("width", tocWidth + "px").css("overflow-y", "auto").css("overflow-x", "hidden");
+            if(scrollPosition > 0) {
+                $sideToc.css("top", topOffset + "px");
+            }
+            if(visibleAreaHeight + topOffset > $(".wh_footer").offset().top) {
+                $sideToc.css("max-height", $(".wh_footer").offset().top - topOffset - parseInt($(".wh_footer").css("margin-top")))
+            } else {
+                if($(".wh_footer")[0].getBoundingClientRect().top < $(window).height()) {
+                    $sideToc.css("max-height", visibleAreaHeight - parseInt($(".wh_footer").css("margin-top")));
+                } else {
+                    $sideToc.css("max-height", visibleAreaHeight);
+                }
+            }
+        }
+        
     }
 
 	return $(window).scrollTop();
@@ -458,41 +472,63 @@ function pageTocHighlightNode(scrollPosition) {
 /**
  * @description Handle the vertical position of the page toc
  */
-function handleTopicTocPosition(scrollPosition) {
+function handlePageTocPosition(scrollPosition) {
     scrollPosition = scrollPosition !== undefined ? scrollPosition : 0;
-    var $navTopicToc = $("#wh_topic_toc");
-    var $topicToc = $(".wh_topic_toc");
-    var $topicTocContent = $("#wh_topic_toc_content");
-    
-    if ($topicToc.length > 0 && options.getBoolean("webhelp.enable.sticky.topic.toc")) {
-        var positions = computeStickyElementsPositions();
-        var topOffset = positions.topOffset;
-        var visibleAreaHeight = positions.visibleAreaHeight;
-        var buttonOffset = positions.buttonOffset;
+    var $pageTOCID = $("#wh_topic_toc");
+    var $pageTOC = $(".wh_topic_toc");
+    var $navSection = $(".wh_tools");
+    var bottomNavOffset = 0;
 
+    var searchHeight = $('.wh_search_input').outerHeight(true);
+    var visibleSearchHeight;
+
+    if ($(window).scrollTop() > searchHeight) {
+      visibleSearchHeight = 0;
+    } else {
+      visibleSearchHeight = searchHeight - $(window).scrollTop();
+    }
+
+    var topOffset = $(".wh_tools").parent().outerHeight() + $(".wh_header").outerHeight() + visibleSearchHeight;
+    
+    var $contentBody = $(".wh_topic_content");
+
+    if ($pageTOC.length > 0) {
         pageTocHighlightNode(scrollPosition);
         
-        var tocHeight = parseInt($topicToc.height()) + parseInt($topicToc.css("padding-top")) + parseInt($topicToc.css("padding-bottom")) + parseInt($topicToc.css("margin-top")) + parseInt($topicToc.css("margin-bottom"));
-        var tocWidth =  parseInt($navTopicToc.outerWidth()) - parseInt($navTopicToc.css("padding-left")) - parseInt($navTopicToc.css("padding-right"));
+        var visibleAreaHeight = parseInt($(window).height()) - parseInt($(".wh_footer").outerHeight()) - topOffset;
+        
+        var tocHeight = parseInt($pageTOC.height()) + parseInt($pageTOC.css("padding-top")) + parseInt($pageTOC.css("padding-bottom")) + parseInt($pageTOC.css("margin-top")) + parseInt($pageTOC.css("margin-bottom"));
+        
+        var tocWidth =  parseInt($pageTOCID.outerWidth()) - parseInt($pageTOCID.css("padding-left")) - parseInt($pageTOCID.css("padding-right"));
 
-        if (tocHeight < visibleAreaHeight && parseInt($(window).width()) > 767) {
-            $topicTocContent.css("top", topOffset + "px").css("position", "fixed").css("width", tocWidth + "px");
+        var minVisibleOffset = $(window).scrollTop();
+        if ($navSection.length > 0) {
+            bottomNavOffset = parseInt($navSection.offset().top) + parseInt($navSection.height()) + parseInt($navSection.css("padding-top")) + parseInt($navSection.css("padding-bottom")) + parseInt($navSection.css("margin-top")) + parseInt($navSection.css("margin-bottom"));
+        }
+        if (bottomNavOffset > minVisibleOffset) {
+            minVisibleOffset = bottomNavOffset;
+        }
 
-            // Find the position for the close publication toc button.
-            if($(window).scrollTop() > buttonOffset) {
-                $('#wh_close_topic_toc_button').css('top', $(window).scrollTop() - buttonOffset - 5);
+        if (tocHeight < visibleAreaHeight && (bottomNavOffset-topOffset) <= $(window).scrollTop() && tocHeight < $contentBody.height()) {
+            if (parseInt(minVisibleOffset - topOffset) <=  $(window).scrollTop() && parseInt($(window).width()) > 767) {
+                $pageTOC.css("top", topOffset + "px").css("position", "fixed").css("width", tocWidth + "px");
+                $('#wh_close_topic_toc_button').css('right', Math.round($pageTOCID.outerWidth()) * (-1) + 5);
+                if($(window).scrollTop() > searchHeight) {
+                    var offset = $(window).scrollTop() - searchHeight;
+                    $('#wh_close_topic_toc_button').css('top', offset - 5);
+                } else {
+                    $('#wh_close_topic_toc_button').css('top', '-5px');
+                }
             } else {
+                $pageTOC.removeAttr('style');
+                $('#wh_close_topic_toc_button').css('right', Math.round($pageTOCID.outerWidth()) * (-1) + 5);
                 $('#wh_close_topic_toc_button').css('top', '-5px');
             }
-            $('#wh_close_topic_toc_button').css('right', Math.round($navTopicToc.outerWidth()) * (-1) + 5);
         } else {
-            $topicTocContent.removeAttr('style');
+            $pageTOC.removeAttr('style');
+            $('#wh_close_topic_toc_button').css('right', Math.round($pageTOCID.outerWidth()) * (-1) + 5);
             $('#wh_close_topic_toc_button').css('top', '-5px');
-            $('#wh_close_topic_toc_button').css('right', Math.round($navTopicToc.outerWidth()) * (-1) + 5);
         }
-    } else {
-        $('#wh_close_topic_toc_button').css('top', '-5px');
-        $('#wh_close_topic_toc_button').css('right', Math.round($navTopicToc.outerWidth()) * (-1) + 5);
     }
 }
 

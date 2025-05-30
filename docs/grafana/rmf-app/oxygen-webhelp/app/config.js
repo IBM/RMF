@@ -20,13 +20,9 @@ define(function() {
         // search
         "search-init" : "search/search-init",
         "search" : "search/search",
-        "searchAPI" : "search/searchAPI",
-        "searchEngine" : "search/searchEngine",
-        "searchPresenter" : "search/searchPresenter",
         "nwSearchFnt" : "search/nwSearchFnt",
         "searchAutocomplete" : "search/searchAutocomplete",
         "searchHistoryItems" : "search/searchHistoryItems",
-        "webhelpSearchEngine" : "search/webhelpSearchEngine",
         // search index
         "index" : "search/index/index",
         "link2parent" : "search/index/link-to-parent",
@@ -110,11 +106,11 @@ define(function() {
         paths : modulePaths,
         shim : shimConfig,
         urlArgs: function(id, url) {
-            var args = '2022110310';
+            var args = '2022012605';
         	
             if(id === 'index-1' || id === 'index-2' || id === 'index-3' || id === 'stopwords' 
             ||id === 'htmlFileInfoList' || id === 'keywords') {
-                args = '20250513175015';
+                args = '20250529171030';
         	} 
 	
 	        return (url.indexOf('?') === -1 ? '?' : '&') + args;
