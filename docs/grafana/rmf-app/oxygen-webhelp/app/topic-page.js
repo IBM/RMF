@@ -9,6 +9,7 @@ define(["require", "config"], function() {
             'toc',
             'webhelp',
             'codeblock',
+            'wh-sticky',
             'top-menu',
             'search-init',
             'expand',
@@ -17,9 +18,6 @@ define(["require", "config"], function() {
             'template-module-loader',
             'bootstrap'
         ];
-        if(options.getBoolean("webhelp.enable.sticky.header")) {
-        	jsModules.push('wh-sticky');
-        }
         if(!options.getBoolean("webhelp.custom.search.engine.enabled")) {
             jsModules.push('searchAutocomplete');
         } 

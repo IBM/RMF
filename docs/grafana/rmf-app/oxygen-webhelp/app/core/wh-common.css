@@ -126,6 +126,9 @@ body {
 .custom-toggler {
     border-color: #347bb7;
 }
+#wh_toc_button {
+    margin-left: 1em;
+}
 
 .navbar {
 	background: white;

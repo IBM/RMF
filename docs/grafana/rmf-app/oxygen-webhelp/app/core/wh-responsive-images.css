@@ -3,10 +3,8 @@
  */
 .image {
     max-width: 100%;
-    background-repeat: no-repeat;
-}
-.image:not(img[height]) {
     height: auto;
+    background-repeat: no-repeat;
 }
 img.image.zoom:not(img[usemap]) {
     cursor: pointer;

@@ -1,11 +1,11 @@
 /* Changes and comments, as side-notes. */
-@import "side-notes/p-side-notes.css?buildId=2022110310";
+@import "side-notes/p-side-notes.css?buildId=2022012605";
 
 /* Topic content styles. */
-@import "topic/topic.css?buildId=2022110310";
+@import "topic/topic.css?buildId=2022012605";
 
 /* Default styles. */
-@import "core/webhelp.css?buildId=2022110310";
+@import "core/webhelp.css?buildId=2022012605";
 
 /* Top Menu and Publication(Side) TOC components styles. */
-@import "nav-links/nav-links.css?buildId=2022110310";
+@import "nav-links/nav-links.css?buildId=2022012605";

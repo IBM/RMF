@@ -12,6 +12,121 @@
  *
  * See the accompanying LICENSE file for applicable license.
  */
+.hazardstatement td,
+.hazardstatement th {
+  padding: 0.5rem;
+}
+
+.hazardstatement th {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hazardstatement--caution {
+  background-color: #ffd100;
+}
+
+.hazardstatement--danger {
+  background-color: #c8102e;
+  border-color: #000;
+  color: #fff;
+}
+
+.hazardstatement--warning {
+  background-color: #ff8200;
+}
+
+.hazardstatement--attention, .hazardstatement--fastpath, .hazardstatement--important, .hazardstatement--note, .hazardstatement--notice, .hazardstatement--other, .hazardstatement--remember, .hazardstatement--restriction, .hazardstatement--tip {
+  background-color: #0072ce;
+  border-color: #000;
+  color: #fff;
+}
+
+.codeblock {
+	font-family: monospace;
+}
+
+.codeph {
+	font-family: monospace;
+}
+
+.kwd {
+	font-weight: bold;
+}
+
+.parmname {
+	font-weight: bold;
+}
+
+.var {
+	font-style: italic;
+}
+
+.filepath {
+	font-family: monospace;
+}
+
+div.tasklabel {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+h2.tasklabel,
+h3.tasklabel,
+h4.tasklabel,
+h5.tasklabel,
+h6.tasklabel {
+	font-size: 100%;
+}
+
+.screen {
+	padding: 5px 5px 5px 5px;
+	border: outset;
+	background-color: #CCCCCC;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	white-space: pre;
+}
+
+.wintitle {
+	font-weight: bold;
+}
+
+.numcharref {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.parameterentity {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.textentity {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.xmlatt {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.xmlelement {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.xmlnsname {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.xmlpi {
+	color: #663399;
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
 .frame-top {
 	border-top: solid 1px;
 	border-right: 0;
@@ -100,154 +215,19 @@
 	width: 100%;
 }
 
-.hazardstatement td,
-.hazardstatement th {
-  padding: 0.5rem;
-}
-.hazardstatement th {
-  text-align: center;
-  text-transform: uppercase;
-}
-.hazardstatement--caution {
-  background-color: #ffd100;
-}
-.hazardstatement--danger {
-  background-color: #c8102e;
-  border-color: #000;
-  color: #fff;
-}
-.hazardstatement--warning {
-  background-color: #ff8200;
-}
-.hazardstatement--attention, .hazardstatement--fastpath, .hazardstatement--important, .hazardstatement--note, .hazardstatement--notice, .hazardstatement--other, .hazardstatement--remember, .hazardstatement--restriction, .hazardstatement--tip {
-  background-color: #0072ce;
-  border-color: #000;
-  color: #fff;
-}
-
-.line-through {
-  text-decoration: line-through;
-}
-
-.overline {
-  text-decoration: overline;
-}
-
-.codeblock {
-	font-family: monospace;
-}
-
-.syntaxdiagram {
-  border: 1 black solid;
-  color: maroon;
-  display: block;
-  margin-bottom: 6pt;
-  padding: 2pt;
-}
-
-.codeph {
-	font-family: monospace;
-}
-
-.kwd {
-	font-weight: bold;
-}
-
-.parmname {
-	font-weight: bold;
-}
-
-.var {
-	font-style: italic;
-}
-
-.filepath {
-	font-family: monospace;
-}
-
-div.tasklabel {
-	margin-top: 1em;
-	margin-bottom: 1em;
-}
-
-h2.tasklabel,
-h3.tasklabel,
-h4.tasklabel,
-h5.tasklabel,
-h6.tasklabel {
-	font-size: 100%;
-}
-
-.lq div {
-  text-align: right;
-}
-
-.boolean {
-  color: green;
-}
-
-.state {
-  color: red;
-}
-
-.screen {
-	padding: 5px 5px 5px 5px;
-	border: outset;
-	background-color: #CCCCCC;
-	margin-top: 2px;
-	margin-bottom: 2px;
-	white-space: pre;
-}
-
-.wintitle {
-	font-weight: bold;
-}
-
-.numcharref {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.parameterentity {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.textentity {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.xmlatt {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.xmlelement {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.xmlnsname {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-.xmlpi {
-	color: #663399;
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
 .fig {
 	/* Default of italics to set apart figure captions */
 	/* Use @frame to create frames on figures */
 }
+
 .figcap {
 	font-style: italic;
 }
+
 .figdesc {
 	font-style: normal;
 }
+
 .figborder {
 	border-color: Silver;
 	border-style: solid;
@@ -256,6 +236,7 @@ h6.tasklabel {
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
 .figsides {
 	border-color: Silver;
 	border-left: 2px solid;
@@ -264,15 +245,18 @@ h6.tasklabel {
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
 .figtop {
 	border-color: Silver;
 	border-top: 2px solid;
 	margin-top: 1em;
 }
+
 .figbottom {
 	border-bottom: 2px solid;
 	border-color: Silver;
 }
+
 .figtopbot {
 	border-bottom: 2px solid;
 	border-color: Silver;
@@ -338,12 +322,6 @@ div.imagejustify {
 	margin-top: 1em;
 }
 
-.indexterm {
-  background-color: #fdf;
-  border: 1pt #000 solid;
-  margin: 1pt;
-}
-
 /* Most link groups are created with <div>. Ensure they have space before and after. */
 .ullinks {
 	list-style-type: none;
@@ -368,11 +346,6 @@ ul.linklist {
   margin-top: 0;
   list-style-type: none;
   padding-left: 0;
-}
-
-li.linklist {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 .linklistwithchild {
@@ -604,10 +577,6 @@ table .desc {
 	border-bottom: 1px solid;
 }
 
-.entry.rotate {
-  writing-mode: vertical-rl;
-}
-
 .stentry {
 	border-right: 1px solid;
 	border-bottom: 1px solid;
@@ -624,11 +593,6 @@ table .desc {
 /* Add space for top level topics */
 .nested0 {
 	margin-top: 1em;
-}
-
-/* div with class=p is used for paragraphs that contain blocks, to keep the XHTML valid */
-.p {
-  margin-top: 1em;
 }
 
 .linklist {
@@ -667,23 +631,6 @@ dt.prereq {
 
 .nocellnorowborder {
 	border-left: hidden;
-}
-
-/* flagging styles */
-.flag__style--italics {
-  font-style: italic;
-}
-.flag__style--bold {
-  font-weight: bold;
-}
-.flag__style--underline {
-  text-decoration: underline;
-}
-.flag__style--double-underline {
-  text-decoration: double-underline;
-}
-.flag__style--overline {
-  text-decoration: overline;
 }
 
  /*Overrides for right-to-left languages*/

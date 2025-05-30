@@ -7,6 +7,15 @@
     <refbody>
         <section id="section_y2g_rfq_pyb">
             <title>What's new</title>
+            <dl id="dl_sdl_gr3_mfc">
+                <dlentry>
+                    <dt>May 2025 v1.0.10</dt>
+                    <dd>
+                        <p>Fixed a Windows-specific regression that caused the plugin to serve data
+                            points with the incorrect TZ offset.</p>
+                    </dd>
+                </dlentry>
+            </dl>
             <dl id="dl_f15_njt_sbc">
                 <dlentry>
                     <dt>May 2025 v1.0.9</dt>

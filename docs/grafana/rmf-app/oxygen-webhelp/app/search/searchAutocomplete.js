@@ -194,7 +194,7 @@ define(["keywords", "dom-sanitizer", "searchHistoryItems", "options", "jquery", 
                                     var spanHg = $("<span>", {
                                         class: "search-autocomplete-proposal-hg"
                                     }).text(cpw);
-                                    domSanitizer.appendHtmlNode(spanHg, proposalLabel);
+                                    proposalLabel.append(spanHg);
                                     added = true;
                                     break;
                                 }
