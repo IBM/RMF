@@ -24,10 +24,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"mime"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
@@ -38,13 +40,20 @@ const UpdateInterval = 15 * time.Minute
 const DefaultTimeOffset = 0
 const DefaultMinTime = 100
 
-const IndexPath = "/gpm/index.xml"
-const RootPath = "/gpm/root.xml"
-const ContainedPath = "/gpm/contained.xml"
-const PerformPath = "/gpm/perform.xml"
+const IndexPath = "/gpm/index"
+const RootPath = "/gpm/root"
+const ContainedPath = "/gpm/contained"
+const PerformPath = "/gpm/perform"
 const XslHeadersPath = "/gpm/include/reptrans.xsl"
-const FullReportPath = "/gpm/rmfm3.xml"
+const FullReportPath = "/gpm/rmfm3"
 
+var MayHaveExt = map[string]bool{
+	"/gpm/index":     true,
+	"/gpm/root":      true,
+	"/gpm/contained": true,
+	"/gpm/perform":   true,
+	"/gpm/rmfm3":     true,
+}
 var ErrParse = errors.New("unable to parse DDS response")
 var ErrUnauthorized = errors.New("not authorized to access DDS")
 
@@ -55,6 +64,7 @@ type Client struct {
 	httpClient *http.Client
 	headerMap  *HeaderMap
 	timeData   *TimeData
+	useXmlExt  atomic.Bool
 
 	stopChan  chan struct{}
 	closeOnce sync.Once
@@ -142,6 +152,14 @@ func (c *Client) Get(path string, params ...string) (*Response, error) {
 
 func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 	logger := log.Logger.With("func", "GetRaw")
+
+	_, mayHaveExt := MayHaveExt[path]
+	useXmlExt := c.useXmlExt.Load()
+	ofs := 0
+	if useXmlExt {
+		ofs = 1
+	}
+
 	path = strings.TrimLeft(path, "/")
 	values := url.Values{}
 	for i := 0; i < len(params)-1; i += 2 {
@@ -150,30 +168,50 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 		}
 		values.Add(params[i], params[i+1])
 	}
-	fullURL := fmt.Sprintf("%s/%s?%s", c.baseUrl, path, values.Encode())
-	// nolint:noctx
-	req, err := http.NewRequest(http.MethodGet, fullURL, http.NoBody)
-	if err != nil {
-		return nil, err
+
+	// Newer versions of DDS have JSON endpoints without the XML extension.
+	// Also, it may run in a mode not fully compliant with HTTP emulating DDS v1 behavior.
+	// We need to support either variation.
+	for i := range 2 {
+		if mayHaveExt && (i+ofs)%2 == 1 {
+			path += ".xml"
+		}
+		fullURL := fmt.Sprintf("%s/%s?%s", c.baseUrl, path, values.Encode())
+		// nolint:noctx
+		req, err := http.NewRequest(http.MethodGet, fullURL, http.NoBody)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Add("Accept", "application/json")
+		if strings.TrimSpace(c.username) != "" {
+			req.SetBasicAuth(c.username, c.password)
+		}
+		logger.Debug("requesting DDS data", "url", fullURL)
+		response, err := c.httpClient.Do(req)
+		if err != nil {
+			logger.Debug("failed to fetch DDS data", "error", err)
+			return nil, err
+		}
+		logger.Debug("fetched DDS data", "url", fullURL, "status", response.Status)
+		mediaType, _, err := mime.ParseMediaType(response.Header.Get("Content-Type"))
+		if response.StatusCode == http.StatusUnauthorized {
+			return nil, ErrUnauthorized
+		} else if mayHaveExt && i == 0 &&
+			( // DDS v2 version without JSON only endpoints (no extention)
+			response.StatusCode == http.StatusNotFound ||
+				// Future DDS v2 version without JSON support for old XML endpoints
+				response.StatusCode == http.StatusNotAcceptable ||
+				// DDS v1 compatible mode
+				err != nil || mediaType != "application/json") {
+			c.useXmlExt.Store(!useXmlExt)
+			continue
+		} else if response.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("unexpected HTTP status (%s)", response.Status)
+		}
+		defer response.Body.Close()
+		return io.ReadAll(response.Body)
 	}
-	req.Header.Add("Accept", "application/json")
-	if strings.TrimSpace(c.username) != "" {
-		req.SetBasicAuth(c.username, c.password)
-	}
-	logger.Debug("requesting DDS data", "url", fullURL)
-	response, err := c.httpClient.Do(req)
-	if err != nil {
-		logger.Debug("failed to fetch DDS data", "error", err)
-		return nil, err
-	}
-	logger.Debug("fetched DDS data", "url", fullURL, "status", response.Status)
-	if response.StatusCode == http.StatusUnauthorized {
-		return nil, ErrUnauthorized
-	} else if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected HTTP status (%s)", response.Status)
-	}
-	defer response.Body.Close()
-	return io.ReadAll(response.Body)
+	return nil, errors.New("unexpected return while requesting DDS data")
 }
 
 func (c *Client) GetRawIndex(ctx context.Context) ([]byte, error) {

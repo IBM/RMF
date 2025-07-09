@@ -210,22 +210,14 @@ export const queryValidation = (query: string, resourceBaseData: any): QueryVali
             !retRsType.result ? (resTypeFound = false) : (resource_type = retRsType.strResult);
 
             resourceFound = true;
-            if (resource_name !== '*' || (resource_name === '*' && resource_type.indexOf('ALL_')) > -1) {
+            if (resource_name !== '*' || (resource_name === '*' && resource_type.indexOf('ALL_') > -1)) {
               queryResult.resourceCommand = ulq + ',' + resource_name + ',' + resource_type;
-            } else if (resource_name === '*') {
+            } else {
               let path = getAllResKeyPath(resourceBaseData, resource_type);
               if (path === '') {
                 resourceFound = false;
               } else {
                 queryResult.resourceCommand = path.replace('<0>', ulq.trim());
-              }
-            } else {
-              let path = getResKeyPath(resourceBaseData, resource_type);
-              if (path === '') {
-                resourceFound = false;
-              } else {
-                path = path.replace('<0>', ulq.trim());
-                queryResult.resourceCommand = path.replace('<1>', resource_name);
               }
             }
             queryResult.filterTypes = filter;
