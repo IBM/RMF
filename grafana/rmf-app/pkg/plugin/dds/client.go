@@ -48,11 +48,11 @@ const XslHeadersPath = "/gpm/include/reptrans.xsl"
 const FullReportPath = "/gpm/rmfm3"
 
 var MayHaveExt = map[string]bool{
-	"/gpm/index":     true,
-	"/gpm/root":      true,
-	"/gpm/contained": true,
-	"/gpm/perform":   true,
-	"/gpm/rmfm3":     true,
+	IndexPath:      true,
+	RootPath:       true,
+	ContainedPath:  true,
+	PerformPath:    true,
+	FullReportPath: true,
 }
 var ErrParse = errors.New("unable to parse DDS response")
 var ErrUnauthorized = errors.New("not authorized to access DDS")
