@@ -156,10 +156,10 @@
               "value": "8D0630"
             }
           ],
-          "selectedQuery": "SYSPLEX.# active users by MVS image",
+          "selectedQuery": "SYSPLEX.# active users by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D0630&resource=,,SYSPLEX",
-            "value": "id=8D0630&resource=,,SYSPLEX"
+            "label": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         },
@@ -179,10 +179,10 @@
               "value": "8D0D60"
             }
           ],
-          "selectedQuery": "SYSPLEX.# users by MVS image",
+          "selectedQuery": "SYSPLEX.# users by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D0D60&resource=,,SYSPLEX",
-            "value": "id=8D0D60&resource=,,SYSPLEX"
+            "label": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
@@ -284,10 +284,10 @@
               "value": "8D0450"
             }
           ],
-          "selectedQuery": "SYSPLEX.% CPU utilization (CP) by MVS image",
+          "selectedQuery": "SYSPLEX.% CPU utilization (CP) by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D0450&resource=,,SYSPLEX",
-            "value": "id=8D0450&resource=,,SYSPLEX"
+            "label": "id=8D0450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
@@ -388,10 +388,10 @@
               "value": "8D1FE0"
             }
           ],
-          "selectedQuery": "SYSPLEX.unreferenced interval count by MVS image",
+          "selectedQuery": "SYSPLEX.unreferenced interval count by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D1FE0&resource=,,SYSPLEX",
-            "value": "id=8D1FE0&resource=,,SYSPLEX"
+            "label": "id=8D1FE0&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D1FE0&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
@@ -492,10 +492,10 @@
               "value": "8D1210"
             }
           ],
-          "selectedQuery": "SYSPLEX.transaction ended rate by MVS image",
+          "selectedQuery": "SYSPLEX.transaction ended rate by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D1210&resource=,,SYSPLEX",
-            "value": "id=8D1210&resource=,,SYSPLEX"
+            "label": "id=8D1210&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D1210&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
