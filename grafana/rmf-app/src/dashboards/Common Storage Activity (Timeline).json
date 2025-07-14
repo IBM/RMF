@@ -155,10 +155,10 @@
               "value": "8D2410"
             }
           ],
-          "selectedQuery": "SYSPLEX.% CSA utilization by MVS image",
+          "selectedQuery": "SYSPLEX.% CSA utilization by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D2410&resource=,,SYSPLEX",
-            "value": "id=8D2410&resource=,,SYSPLEX"
+            "label": "id=8D2410&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D2410&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         },
@@ -178,10 +178,10 @@
               "value": "8D2430"
             }
           ],
-          "selectedQuery": "SYSPLEX.% ECSA utilization by MVS image",
+          "selectedQuery": "SYSPLEX.% ECSA utilization by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D2430&resource=,,SYSPLEX",
-            "value": "id=8D2430&resource=,,SYSPLEX"
+            "label": "id=8D2430&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D2430&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
@@ -285,10 +285,10 @@
               "value": "8D2470"
             }
           ],
-          "selectedQuery": "SYSPLEX.% SQA utilization by MVS image",
+          "selectedQuery": "SYSPLEX.% SQA utilization by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D2470&resource=,,SYSPLEX",
-            "value": "id=8D2470&resource=,,SYSPLEX"
+            "label": "id=8D2470&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D2470&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         },
@@ -308,10 +308,10 @@
               "value": "8D2450"
             }
           ],
-          "selectedQuery": "SYSPLEX.% ESQA utilization by MVS image",
+          "selectedQuery": "SYSPLEX.% ESQA utilization by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D2450&resource=,,SYSPLEX",
-            "value": "id=8D2450&resource=,,SYSPLEX"
+            "label": "id=8D2450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D2450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "TimeSeries"
         }
@@ -403,7 +403,7 @@
           },
           "refId": "A",
           "rmfPanelGuid": "e0bde46f-4da8-44b3-9d7a-47a1885e9c4c",
-          "selectedQuery": "SYSPLEX.% CSA utilization by job{filter=HI=10}",
+          "selectedQuery": "SYSPLEX.% CSA utilization by job {filter=HI=10}",
           "selectedResource": {
             "label": "id=8D2420&resource=,,SYSPLEX&filter=HI=10",
             "value": "id=8D2420&resource=,,SYSPLEX&filter=HI=10"
@@ -498,7 +498,7 @@
           },
           "refId": "A",
           "rmfPanelGuid": "38368e80-de64-4bac-ae20-c18a53ad82e6",
-          "selectedQuery": "SYSPLEX.% SQA utilization by job{filter=HI=10}",
+          "selectedQuery": "SYSPLEX.% SQA utilization by job {filter=HI=10}",
           "selectedResource": {
             "label": "id=8D2480&resource=,,SYSPLEX&filter=HI=10",
             "value": "id=8D2480&resource=,,SYSPLEX&filter=HI=10"
