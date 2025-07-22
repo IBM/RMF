@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { AppPlugin } from '@grafana/data';
-import { Config, RootPage } from './components';
+import { Config, App } from './components';
 import { GlobalSettings } from './types';
 
 /**
  * Application Plugin
  */
-export const plugin = new AppPlugin<GlobalSettings>().setRootPage(RootPage).addConfigPage({
+export const plugin = new AppPlugin<GlobalSettings>().setRootPage(App).addConfigPage({
   title: 'Config',
   body: Config,
   id: 'config',

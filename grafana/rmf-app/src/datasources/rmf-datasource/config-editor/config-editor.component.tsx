@@ -51,7 +51,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     if (jsonData?.path !== undefined || jsonData?.port !== undefined) {
       // Convert from the legacy format if possible
       options.url = `http${jsonData?.ssl ? 's' : ''}://${jsonData.path}${jsonData?.port ? ':' + jsonData.port : ''}`;
-      let username = (jsonData?.userName || '').trim();
+      const username = (jsonData?.userName || '').trim();
       if (username) {
         options.basicAuth = true;
         options.basicAuthUser = username;

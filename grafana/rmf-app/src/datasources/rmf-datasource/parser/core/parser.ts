@@ -53,7 +53,7 @@ export class Parser {
     const isReport = tree.REPORT() !== null;
     const identifier = (tree.identifier()?.getText() || '').trim();
 
-    let qualifierValues = {};
+    let qualifierValues = { name: '', ulq: '', workscope: '' };
     let filters: string[] = [];
     for (let qual of tree.qualifiers()?.qualifier_list() || []) {
       let q;

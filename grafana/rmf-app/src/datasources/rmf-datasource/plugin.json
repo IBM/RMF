@@ -9,19 +9,18 @@
   "alerting": true,
   "routes": [
     {
-    "path": "proxy",
-    "method":"GET",
-    "url": "http://{{ .JsonData.path }}:{{ .JsonData.port }}/"
-  }],
+      "path": "proxy",
+      "method": "GET",
+      "url": "http://{{ .JsonData.path }}:{{ .JsonData.port }}/"
+    }
+  ],
   "info": {
     "description": "IBM",
     "author": {
       "name": "IBM",
       "url": "http://www.ibm.com"
     },
-    "keywords": [
-      "rmf"
-    ],
+    "keywords": ["rmf"],
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"
