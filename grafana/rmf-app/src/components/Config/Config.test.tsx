@@ -17,7 +17,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { setLocationSrv } from '@grafana/runtime';
-import { ApplicationRoot } from '../../constants';
+import { APP_BASE_URL } from '../../constants';
 import { Config } from './Config';
 
 /*
@@ -149,7 +149,7 @@ describe('Config', () => {
       const wrapper = shallow<Config>(<Config plugin={plugin} query={null as any} />);
       wrapper.instance().goHome();
       expect(updateLocationMock).toHaveBeenCalledWith({
-        path: ApplicationRoot,
+        path: APP_BASE_URL,
         partial: false,
       });
     });
