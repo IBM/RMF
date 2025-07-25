@@ -110,7 +110,7 @@ define(function() {
         	
             if(id === 'index-1' || id === 'index-2' || id === 'index-3' || id === 'stopwords' 
             ||id === 'htmlFileInfoList' || id === 'keywords') {
-                args = '20250529171030';
+                args = '20250725185622';
         	} 
 	
 	        return (url.indexOf('?') === -1 ? '?' : '&') + args;
