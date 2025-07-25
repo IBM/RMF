@@ -11,7 +11,7 @@
 	- Overall Image Activity (Timeline)
 	- Overall Image Activity
 
-   **Note:** You may need to re-import the dashboards to utilize the latest enhancements in the dashboards depending on    your installation method. 
+   **Note:** You may need to re-import the dashboards to utilize the latest enhancements in the dashboards, depending on    your installation method. 
 - Fixed internally found defects.
    
 ## 1.0.10 (2025-05-30)
