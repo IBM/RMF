@@ -42,7 +42,7 @@ ul,
 
 /* Create the caret/arrow with a unicode, and style it */
 .caret_tree::before {
-  content: "\25B6";
+  content: '\25B6';
   color: black;
   display: inline-block;
   margin-right: 6px;
@@ -147,5 +147,4 @@ ul,
   display: inline-flex;
   padding-top: 5px;
   width: 81%;
-  position: absolute;
 }

@@ -7,6 +7,33 @@
     <refbody>
         <section id="section_y2g_rfq_pyb">
             <title>What's new</title>
+            <dl id="dl_w3g_byf_cgc">
+                <dlentry>
+                    <dt>July 2025 v1.0.11</dt>
+                    <dd>
+                        <ul id="ul_zv3_11g_cgc">
+                            <li>Fixed issues that caused dashboards showing maximum 20 systems per
+                                sysplex.</li>
+                            <li>
+                                <p>The following dashboards are updated:<ul id="ul_rbt_c1g_cgc">
+                                        <li>Common Storage Activity (Timeline)</li>
+                                        <li>Common Storage Activity</li>
+                                        <li>General Activity (Timeline)</li>
+                                        <li>General Activity</li>
+                                        <li>Overall Image Activity (Timeline)</li>
+                                        <li>Overall Image Activity</li>
+                                    </ul><note id="note_sbt_c1g_cgc">You may need to re-import the
+                                        dashboards to utilize the latest enhancements in the
+                                        dashboards, depending on your installation
+                                    method.</note></p>
+                            </li>
+                            <li>
+                                <p conref="conref.dita#conref/p_lxj_4jw_hfc"/>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
             <dl id="dl_sdl_gr3_mfc">
                 <dlentry>
                     <dt>May 2025 v1.0.10</dt>
