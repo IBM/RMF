@@ -27,7 +27,7 @@ import {
 } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { TableFieldOptions } from '@grafana/ui';
-import { defaultThresholds, CAPTION_PREFIX, BANNER_PREFIX, ReportData } from '../types';
+import { defaultThresholds, CAPTION_PREFIX, BANNER_PREFIX, ReportData, V9CompatField } from '../types';
 
 export const InitFrameData = (data: PanelData): DataFrame[] => {
   let frameData: DataFrame[] = [
@@ -79,7 +79,7 @@ export const applySelectedDefaultsAndOverrides = (
   let sliceEnd: number | undefined;
 
   for (let i = 0; i < result[0].fields.length; i++) {
-    let field = result[0].fields[i];
+    let field: V9CompatField<any> = result[0].fields[i];
     if (field.name.startsWith(BANNER_PREFIX)) {
       targetArray = bannerFields;
       sliceStart = 0;

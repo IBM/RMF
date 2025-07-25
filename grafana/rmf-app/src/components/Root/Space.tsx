@@ -1,6 +1,6 @@
 /**
- * (C) Copyright IBM Corp. 2023.
- * (C) Copyright Rocket Software, Inc. 2023.
+ * (C) Copyright IBM Corp. 2023, 2025.
+ * (C) Copyright Rocket Software, Inc. 2023-2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,4 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './DataSourceList';
+import React from 'react';
+
+interface SpaceProps {
+  layout?: string;
+  h?: number;
+  v?: number;
+}
+
+// `Space` from @grafana/ui is available only in Grafana v11+
+export const Space: React.FC<SpaceProps> = ({ layout = 'block', h = 0, v = 0 }) => {
+  let style = {
+    display: layout == 'inline' ? 'inline-block' : 'block',
+    paddingRight: `${h * 8}px`,
+    paddingBottom: `${v * 8}px`,
+  };
+  return <div style={style} />;
+};
