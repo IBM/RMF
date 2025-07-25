@@ -144,7 +144,7 @@
         ]
       },
       "gridPos": {
-        "h": 14,
+        "h": 18,
         "w": 12,
         "x": 0,
         "y": 0
@@ -187,10 +187,10 @@
               "value": "8D0630"
             }
           ],
-          "selectedQuery": "SYSPLEX.# active users by MVS image",
+          "selectedQuery": "SYSPLEX.# active users by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D0630&resource=,,SYSPLEX",
-            "value": "id=8D0630&resource=,,SYSPLEX"
+            "label": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "bargauge"
         },
@@ -210,10 +210,10 @@
               "value": "8D0D60"
             }
           ],
-          "selectedQuery": "SYSPLEX.# users by MVS image",
+          "selectedQuery": "SYSPLEX.# users by MVS image {filter=hi=1000;ord=na}",
           "selectedResource": {
-            "label": "id=8D0D60&resource=,,SYSPLEX",
-            "value": "id=8D0D60&resource=,,SYSPLEX"
+            "label": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
           },
           "selectedVisualisationType": "bargauge"
         }
@@ -451,7 +451,7 @@
         ]
       },
       "gridPos": {
-        "h": 3,
+        "h": 5,
         "w": 12,
         "x": 12,
         "y": 8
@@ -570,7 +570,7 @@
         ]
       },
       "gridPos": {
-        "h": 3,
+        "h": 5,
         "w": 12,
         "x": 12,
         "y": 11
@@ -628,10 +628,7 @@
   "refresh": "1m",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": [
-    "RMF",
-    "BARCHART"
-  ],
+  "tags": ["RMF", "BARCHART"],
   "templating": {
     "list": [
       {
