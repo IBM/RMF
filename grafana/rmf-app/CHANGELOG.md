@@ -10,6 +10,8 @@
 	- General Activity
 	- Overall Image Activity (Timeline)
 	- Overall Image Activity
+
+   **Note:** You must re-import the dashboards to utilize the latest enhancements in the dashboards.
 - Fixed internally found defects.
    
 ## 1.0.10 (2025-05-30)
