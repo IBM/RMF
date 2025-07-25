@@ -1,5 +1,17 @@
 # Change Log
 
+## 1.0.11 (2025-07-25)
+
+- Fixed issues that caused dashboards showing maximum 20 systems per sysplex. 
+- The following dashboards are updated:
+	- Common Storage Activity (Timeline)
+	- Common Storage Activity
+	- General Activity (Timeline)
+	- General Activity
+	- Overall Image Activity (Timeline)
+	- Overall Image Activity
+- Fixed internally found defects.
+   
 ## 1.0.10 (2025-05-30)
 
 - Fixed a Windows-specific regression that caused the plugin to serve data points with the incorrect TZ offset.
