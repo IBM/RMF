@@ -101,18 +101,6 @@
         }
       ],
       "title": "Current CPC Capacity (percent)",
-      "transformations": [
-        {
-          "disabled": true,
-          "id": "reduce",
-          "options": {
-            "includeTimeField": false,
-            "labelsToFields": false,
-            "mode": "seriesToRows",
-            "reducers": ["median", "min", "mean", "max", "last"]
-          }
-        }
-      ],
       "type": "gauge"
     },
     {
@@ -268,7 +256,7 @@
       "interval": "${mintime}",
       "options": {
         "legend": {
-          "calcs": ["last", "median", "min", "max"],
+          "calcs": ["last", "mean", "min", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
