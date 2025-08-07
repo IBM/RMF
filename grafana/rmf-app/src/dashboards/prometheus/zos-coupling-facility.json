@@ -261,7 +261,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 6
       },
       "panels": [],
       "title": "Usage History",
@@ -332,7 +332,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 7
       },
       "interval": "${mintime}",
       "options": {
@@ -429,7 +429,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 7
       },
       "interval": "${mintime}",
       "options": {
@@ -527,7 +527,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 17
       },
       "interval": "${mintime}",
       "options": {
@@ -626,7 +626,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 17
       },
       "interval": "${mintime}",
       "options": {

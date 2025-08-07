@@ -47,20 +47,6 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "links": [
-    {
-      "asDropdown": false,
-      "icon": "dashboard",
-      "includeVars": false,
-      "keepTime": false,
-      "tags": [],
-      "targetBlank": false,
-      "title": "RMF Dashboards",
-      "tooltip": "RMF Dashboards",
-      "type": "link",
-      "url": "/d/kCJN4Vh4z/dashboards?orgId=1"
-    }
-  ],
   "liveNow": false,
   "panels": [
     {
@@ -556,7 +542,6 @@
   "timepicker": {},
   "timezone": "",
   "title": "Overall Image Activity (Timeline)",
-  "uid": "OJ3OfR-4k",
   "version": 1,
   "weekStart": ""
 }
