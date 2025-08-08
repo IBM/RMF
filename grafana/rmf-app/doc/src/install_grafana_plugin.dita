@@ -163,37 +163,25 @@
                 </substeps>
             </step>
             <step importance="optional">
-                <cmd>Verify the signature of the IBM RMF Grafana plugin, which is signed with the
-                    GPG key, by performing the following sub-steps:</cmd>
+                <cmd>To install the sample dashboards, perform the following sub-steps:</cmd>
                 <substeps id="substeps_drl_gry_g1c">
                     <substep>
-                        <cmd>Download the <filepath>PUBLIC_KEY.asc</filepath> (GPG public key)
-                            file.</cmd>
-                        <info>The location of the file is as
-                            follows:<lines id="lines_bjx_z35_lzb"><xref href="https://github.com/IBM/RMF/blob/main/grafana/rmf-app/PUBLIC_KEY.asc" format="asc" scope="external"/></lines></info>
+                        <cmd> Go to <uicontrol>IBM RMF App</uicontrol> by selecting the
+                                <uicontrol>Go to IBM RMF App</uicontrol> option on the plugin
+                            configuration or the  <uicontrol>More Apps</uicontrol> option from the
+                            sidebar menu. </cmd>
                     </substep>
                     <substep>
-                        <cmd>Follow the instructions in the <xref
-                                href="https://www.gnupg.org/gph/en/manual.html#AEN84" format="html"
-                                scope="external">Importing a public key</xref> section of the GPG
-                            user guide.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Download the <ph conref="conref.dita#conref/plugin_name"/> plugin
-                                (<filepath>ibm-rmf-grafana-x.y.z.zip</filepath>) and signature file
-                                (<filepath>ibm-rmf-grafana-x.y.z.zip.asc</filepath>) from <xref
-                                href="https://github.com/IBM/RMF/releases" format="html"
-                                scope="external">https://github.com/IBM/RMF/releases</xref>.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Run the following command to verify the signature:</cmd>
+                        <cmd>On the <wintitle>IBM RMF App</wintitle> page, follow the instructions
+                            provided to manage the sample dashboard deployment.</cmd>
                         <info>
-                            <codeblock id="codeblock_mch_3h5_lzb">gpg --verify <varname>ibm-rmf-grafana-x.y.z.zip.asc</varname> <varname>ibm-rmf-grafana-x.y.z.zip</varname></codeblock>
-                            <p>Where <codeph><varname>x.y.z</varname></codeph> is the version number
-                                of the <ph conref="conref.dita#conref/plugin_name"/> plugin.</p>
-                            <p>For more information, refer to the <xref
-                                    href="https://www.gnupg.org/gph/en/manual.html#AEN161"
-                                    format="html" scope="external">GPG</xref> user guide.</p>
+                            <note id="note_as5_xlz_fgc">Clicking <uicontrol>Install</uicontrol>
+                                creates a folder with a reserved UID and the sample dashboards are
+                                added to the folder. Neither the folder or dashboards are owned by
+                                the plugin and can be managed by users. </note>
+                            <note class="- topic/note " id="note_np4_rr2_ggc" type="important">After
+                                the installation completes, you may need to reload the page to see
+                                the folders under the Dashboards section.</note>
                         </info>
                     </substep>
                 </substeps>

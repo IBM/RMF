@@ -75,44 +75,25 @@
                         </ul></note>
                 </info>
             </step>
-            <step id="step_x1p_1ss_sbc">
-                <cmd>Perform the following sub-steps to re-import the dashboards.</cmd>
-                <info>After upgrading the plugin to a new version, it is essential to re-import the
-                    dashboard. This ensures that you are utilizing the most up-to-date features in
-                    the dashboards.<note id="note_kwr_trs_sbc" type="tip">You can find the updated
-                        dashboards for each release by referring to the <xref
-                            href="https://github.com/IBM/RMF/releases" format="html"
-                            scope="external">CHANGELOG</xref> of the plugin. You do not need to
-                        re-import all the dashboards.</note></info>
-                <substeps id="substeps_bqp_zqs_sbc">
+            <step importance="optional">
+                <cmd>To update the sample dashboards, perform the following sub-steps:</cmd>
+                <substeps id="substeps_drl_gry_g1c">
                     <substep>
-                        <cmd>Enter the URL of Grafana in your web browser.</cmd>
+                        <cmd> Go to <uicontrol>IBM RMF App</uicontrol> by selecting the
+                                <uicontrol>Go to IBM RMF App</uicontrol> option on the plugin
+                            configuration or the  <uicontrol>More Apps</uicontrol> option from the
+                            sidebar menu. </cmd>
                     </substep>
                     <substep>
-                        <cmd>Enter the username and password of Grafana on the
-                                <wintitle>sign-in</wintitle> page.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Go to <menucascade>
-                                <uicontrol>Administration</uicontrol>
-                                <uicontrol>Plugins</uicontrol>
-                            </menucascade>.</cmd>
+                        <cmd>On the <wintitle>IBM RMF App</wintitle> page, follow the instructions
+                            provided to manage the sample dashboard deployment.</cmd>
                         <info>
-                            <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_slz_dgb_fzb"
-                            />
+                            <note id="note_as5_xlz_fgc">After clicking the <uicontrol>Update/
+                                    Reset</uicontrol> or <uicontrol>Delete</uicontrol> option, the
+                                destination folder containing the reserved UID is deleted.</note>
+                            <note id="note_tyq_1s2_ggc" type="important">If you rename or move the
+                                reserved folder, it retains the same UID and will reset. </note>
                         </info>
-                    </substep>
-                    <substep>
-                        <cmd>Enter <keyword>RMF</keyword> in the <uicontrol>Search</uicontrol> bar
-                            on the <wintitle>Plugins</wintitle> page.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Click <uicontrol conref="conref.dita#conref/plugin_name_grafana"/> in
-                            the search results.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Click <uicontrol>Dashboards</uicontrol>, and then click
-                                <uicontrol>Re-import</uicontrol> to re-import the dashboards.</cmd>
                     </substep>
                 </substeps>
             </step>

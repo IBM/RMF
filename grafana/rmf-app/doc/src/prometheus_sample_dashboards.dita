@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="prometheus_sample_dashboards_1">
+    <title>Prometheus Sample Dashboards</title>
+    <titlealts>
+        <navtitle>Prometheus Sample Dashboards</navtitle>
+    </titlealts>
+    <shortdesc>The <ph conref="conref.dita#conref/rmf_short"/> DDS exposes Monitor III data to
+        third-party tools using the OpenMetrics exposition format.</shortdesc>
+    <conbody>
+        <p>Some examples of the tools are:<ul id="ul_fcd_2f2_ggc">
+                <li><xref href="https://prometheus.io" format="html" scope="external"
+                        >Prometheus</xref></li>
+                <li><xref href="https://victoriametrics.com" format="html" scope="external"
+                        >VictoriaMetrics</xref></li>
+                <li><xref href="https://www.influxdata.com/time-series-platform/telegraf/"
+                        format="html" scope="external">Telegraf</xref></li>
+            </ul></p>
+        <p>The Monitor III data is exposed through the <filepath>/metrics/m3</filepath>
+            endpoint.</p>
+        <p>The endpoint accepts an optional <parmname>groups</parmname> parameter to request
+            specific metric groups:</p>
+        <p><codeph>GET /gpm/metrics?groups=&lt;metric-groups></codeph></p>
+        <p>where <parmname>&lt;metric-groups></parmname> is a comma-separated list of metric groups
+            to be expose retrieved. For more information, see <ph
+                conref="conref.dita#conref/rmf_short"/> DDS documentation.</p>
+        <p>The Prometheus dashboards are included in the plugin. To be able to use them, follow the
+            steps below:<ol id="ol_xwm_rp2_ggc">
+                <li>Install the plugin and deploy it. For more information, see <xref
+                        href="install_grafana_plugin.dita">Installing the RMF for z/OS plugin on
+                        Grafana</xref>.</li>
+                <li>
+                    <p>Configure Prometheus to scrape the metrics exposed by <ph
+                            conref="conref.dita#conref/rmf_short"/> DDS. For more information, see
+                        the <xref
+                            href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config"
+                            format="html" scope="external">Prometheus</xref> documentation.</p>
+                    <p>Some of the scrape target definition examples for Prometheus are as
+                        follows:</p>
+                    <p>To expose scrape for all the configured metrics as defined in DDS GPMOMC:</p>
+                    <codeblock id="codeblock_byw_sq2_ggc">- job_name: "m3@plex00"
+ scrape_interval: 100s # Should be equal to the Monitor III mintime
+ scrape_timeout: 50s
+ metrics_path: /gpm/metrics
+ static_configs:
+ - targets: [ "ddshostname:8803" ]</codeblock>
+                    <p>To expose scrape for all the CPC and LPAR related metrics as defined in DDS
+                        GPMOMC:<codeblock id="codeblock_nf1_cr2_ggc">- job_name: "m3@plex00"
+    scrape_interval: 100s  # Should be equal to the Monitor III mintime
+    scrape_timeout: 50s
+    metrics_path: /gpm/metrics
+    params:
+        groups: cpcs,lpars   
+    static_configs:
+      - targets: [ "ddshostname:8803" ]
+</codeblock></p>
+                </li>
+                <li>Create a Prometheus data source that points to the Prometheus server. For more
+                    information, see the <xref
+                        href="https://grafana.com/docs/grafana/latest/datasources/prometheus/"
+                        format="html" scope="external">Grafana</xref> documentation.</li>
+            </ol></p>
+    </conbody>
+</concept>
