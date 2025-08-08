@@ -1,0 +1,547 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "d0561874-0abf-4f8f-8ad8-77acf6ad9b6e",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "# active users by MVS image",
+              "value": "8D0630"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.# active users by MVS image {filter=hi=1000;ord=na}",
+          "selectedResource": {
+            "label": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0630&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "d0561874-0abf-4f8f-8ad8-77acf6ad9b6e",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "# users by MVS image",
+              "value": "8D0D60"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.# users by MVS image {filter=hi=1000;ord=na}",
+          "selectedResource": {
+            "label": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0D60&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Address Spaces",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "57bac808-50a5-42eb-984b-b0b356e5557f",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% CPU utilization (CP) by MVS image",
+              "value": "8D0450"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% CPU utilization (CP) by MVS image {filter=hi=1000;ord=na}",
+          "selectedResource": {
+            "label": "id=8D0450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D0450&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Processor",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "6fa02334-83c1-420f-b5ef-facb93cbe976",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "unreferenced interval count by MVS image",
+              "value": "8D1FE0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.unreferenced interval count by MVS image {filter=hi=1000;ord=na}",
+          "selectedResource": {
+            "label": "id=8D1FE0&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D1FE0&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Storage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "f0bac2fe-d454-428a-9f83-997d40bdba29",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "transaction ended rate by MVS image",
+              "value": "8D1210"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.transaction ended rate by MVS image {filter=hi=1000;ord=na}",
+          "selectedResource": {
+            "label": "id=8D1210&resource=,,SYSPLEX&filter=hi=1000%3Bord=na",
+            "value": "id=8D1210&resource=,,SYSPLEX&filter=hi=1000%3Bord=na"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Transactions",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "TIMELINE"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Overall Image Activity (Timeline)",
+  "version": 1,
+  "weekStart": ""
+}

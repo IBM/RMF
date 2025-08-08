@@ -1,0 +1,377 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "zFS Overview",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "interval": "1m",
+      "maxDataPoints": 1,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "56006a7e-0517-4de8-80c8-29db0310d5a6",
+          "selectedQuery": "SYSPLEX.REPORT.ZFSOVW",
+          "selectedResource": {
+            "label": "report=ZFSOVW&resource=,,SYSPLEX",
+            "value": "report=ZFSOVW&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "ZFSOVW",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "# Allocated Vnodes": true,
+              "# Extended Vnodes": true,
+              "# Open Vnodes": true,
+              "# USS Held Vnodes": true,
+              "Active Time (sec)": true,
+              "Async Request %": true,
+              "Async Request Count": true,
+              "Avg Failed Operation Time": true,
+              "Avg Synchronous Operation Delay": true,
+              "CF Name 2": true,
+              "Capacity Actual": true,
+              "Capacity Def": true,
+              "Capacity Max": true,
+              "Capacity Min": true,
+              "Conv Time (ms)": true,
+              "Conv Time (sec)": true,
+              "Duration": true,
+              "Extended Vnode Structure Size": true,
+              "Goaltype": true,
+              "Group Name (DDS)": true,
+              "Honor Priority": true,
+              "I/O Details # Cancels (1)": true,
+              "I/O Details # Cancels (2)": true,
+              "I/O Details # Cancels (3)": true,
+              "I/O Details # Merges (1)": true,
+              "I/O Details # Merges (2)": true,
+              "I/O Details # Merges (3)": true,
+              "I/O Details # Requests (1)": true,
+              "I/O Details # Requests (2)": true,
+              "I/O Details # Requests (3)": true,
+              "I/O Details # Waits (1)": true,
+              "I/O Details # Waits (2)": true,
+              "I/O Details # Waits (3)": true,
+              "I/O Details Type (1)": true,
+              "I/O Details Type (2)": true,
+              "I/O Details Type (3)": true,
+              "Include Specialty Processors": true,
+              "Ineligible Queue Time (ms)": true,
+              "Ineligible Queue Time (sec)": true,
+              "Memory Limit": true,
+              "Metadata Cache # Buffers": true,
+              "Metadata Cache # Partial Writes": true,
+              "Metadata Cache # Requests": true,
+              "Metadata Cache # Updates": true,
+              "Metadata Cache Size": true,
+              "Metadata Cache Storage fixed": true,
+              "Path1 Adapter ID": true,
+              "Path1 Adapter Port Number": true,
+              "Path1 CHID": true,
+              "Path1 Degraded": true,
+              "Path1 Distance": true,
+              "Path1 ID": true,
+              "Path1 IOP IDs": true,
+              "Path1 Operation Mode": true,
+              "Path1 Type": true,
+              "Path2 Adapter ID": true,
+              "Path2 Adapter Port Number": true,
+              "Path2 CHID": true,
+              "Path2 Degraded": true,
+              "Path2 Distance": true,
+              "Path2 ID": true,
+              "Path2 IOP IDs": true,
+              "Path2 Operation Mode": true,
+              "Path2 Type": true,
+              "Path3 Adapter ID": true,
+              "Path3 Adapter Port Number": true,
+              "Path3 CHID": true,
+              "Path3 Degraded": true,
+              "Path3 Distance": true,
+              "Path3 ID": true,
+              "Path3 IOP IDs": true,
+              "Path3 Operation Mode": true,
+              "Path3 Type": true,
+              "Path4 Adapter ID": true,
+              "Path4 Adapter Port Number": true,
+              "Path4 CHID": true,
+              "Path4 Degraded": true,
+              "Path4 Distance": true,
+              "Path4 ID": true,
+              "Path4 IOP IDs": true,
+              "Path4 Operation Mode": true,
+              "Path4 Type": true,
+              "Path5 Adapter ID": true,
+              "Path5 Adapter Port Number": true,
+              "Path5 CHID": true,
+              "Path5 Degraded": true,
+              "Path5 Distance": true,
+              "Path5 ID": true,
+              "Path5 IOP IDs": true,
+              "Path5 Operation Mode": true,
+              "Path5 Type": true,
+              "Path6 Adapter ID": true,
+              "Path6 Adapter Port Number": true,
+              "Path6 CHID": true,
+              "Path6 Degraded": true,
+              "Path6 Distance": true,
+              "Path6 ID": true,
+              "Path6 IOP IDs": true,
+              "Path6 Operation Mode": true,
+              "Path6 Type": true,
+              "Path7 Adapter ID": true,
+              "Path7 Adapter Port Number": true,
+              "Path7 CHID": true,
+              "Path7 Degraded": true,
+              "Path7 Distance": true,
+              "Path7 ID": true,
+              "Path7 IOP IDs": true,
+              "Path7 Operation Mode": true,
+              "Path7 Type": true,
+              "Path8 Adapter ID": true,
+              "Path8 Adapter Port Number": true,
+              "Path8 CHID": true,
+              "Path8 Degraded": true,
+              "Path8 Distance": true,
+              "Path8 ID": true,
+              "Path8 IOP IDs": true,
+              "Path8 Operation Mode": true,
+              "Path8 Type": true,
+              "Period (DDS)": true,
+              "Queue Time (ms)": true,
+              "Queue Time (sec)": true,
+              "RT Actual (sec)": true,
+              "RT Goal (sec)": true,
+              "Res/Sys Affinity Time (ms)": true,
+              "Res/Sys Affinity Time (sec)": true,
+              "Resource Group": true,
+              "Storage/CPU Critical": true,
+              "Subchannels Generated": true,
+              "Subchannels Max": true,
+              "Subchannels in Use": true,
+              "Sync Request %": true,
+              "Sync Request Count": true,
+              "Sync to Async Conversion Count": true,
+              "Tenant Report Class": true,
+              "Total Request Count": true,
+              "Total Time (sec)": true,
+              "Type (DDS)": true,
+              "User Cache Async Read Rate": true,
+              "User Cache Dly%": true,
+              "User Cache Free Pages": true,
+              "User Cache Fsynchs": true,
+              "User Cache Page Reclaim Writes": true,
+              "User Cache Read Dly%": true,
+              "User Cache Read Hit%": true,
+              "User Cache Read Rate": true,
+              "User Cache Read%": true,
+              "User Cache Scheduled Write Rate": true,
+              "User Cache Segments": true,
+              "User Cache Size": true,
+              "User Cache Storage fixed": true,
+              "User Cache Total Pages": true,
+              "User Cache Write Dly%": true,
+              "User Cache Write Hit%": true,
+              "User Cache Write Rate": true,
+              "Vnode Cache # Allocs": true,
+              "Vnode Cache # Deletes": true,
+              "Vnode Cache # Requests": true,
+              "Vnode Cache Size": true,
+              "Vnode Structure Size": true,
+              "Wait Time (sec)": true
+            },
+            "indexByName": {
+              "Active Time (ms)": 13,
+              "Active Time (sec)": 40,
+              "Avg Enclave Trans Execution Time (ms)": 20,
+              "Capacity Actual": 27,
+              "Capacity Def": 24,
+              "Capacity Max": 26,
+              "Capacity Min": 25,
+              "Conv Time (ms)": 18,
+              "Conv Time (sec)": 45,
+              "Description": 36,
+              "Duration": 22,
+              "Enclave Trans/sec": 19,
+              "Execution Vel Actual": 5,
+              "Execution Vel Goal": 4,
+              "Goaltype": 21,
+              "Group Name (DDS)": 33,
+              "Caption::Activated at": 49,
+              "Caption::Active Policy": 48,
+              "Caption::Installed at": 47,
+              "Caption::Service Definition": 46,
+              "Honor Priority": 30,
+              "Imp": 2,
+              "Include Specialty Processors": 28,
+              "Ineligible Queue Time (ms)": 17,
+              "Ineligible Queue Time (sec)": 44,
+              "Memory Actual": 32,
+              "Memory Limit": 31,
+              "Name": 0,
+              "PI": 10,
+              "Period (DDS)": 35,
+              "Queue Time (ms)": 14,
+              "Queue Time (sec)": 42,
+              "RT Actual %": 9,
+              "RT Actual (ms)": 8,
+              "RT Actual (sec)": 38,
+              "RT Goal %": 7,
+              "RT Goal (ms)": 6,
+              "RT Goal (sec)": 37,
+              "Res/Sys Affinity Time (ms)": 16,
+              "Res/Sys Affinity Time (sec)": 43,
+              "Resource Group": 23,
+              "Storage/CPU Critical": 29,
+              "Tenant Report Class": 3,
+              "Total Time (ms)": 15,
+              "Total Time (sec)": 41,
+              "Tran/sec": 11,
+              "Type": 1,
+              "Type (DDS)": 34,
+              "Wait Time (ms)": 12,
+              "Wait Time (sec)": 39
+            },
+            "renameByName": {
+              "Active Time (ms)": "Execution Time (ms)",
+              "Avg Response Time I/O%": "",
+              "CF Name 1": "CF Name",
+              "System Name": "System"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "description": "Sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "ZFSOVW",
+  "version": 1,
+  "weekStart": ""
+}

@@ -24,10 +24,10 @@ export interface ReportData {
 }
 
 export interface FieldProps {
-  fields: Field[]
+  fields: Field[];
 }
 
-export const BANNER_PREFIX= 'Banner::';
+export const BANNER_PREFIX = 'Banner::';
 export const CAPTION_PREFIX = 'Caption::';
 
 export const displayModes: Array<SelectableValue<any>> = [
@@ -37,7 +37,7 @@ export const displayModes: Array<SelectableValue<any>> = [
   { value: TableCellDisplayMode.Gauge, label: 'Gauge' },
   { value: TableCellDisplayMode.JSONView, label: 'JSON View' },
   { value: TableCellDisplayMode.Image, label: 'Image' },
-]
+];
 
 export const defaultThresholds: ThresholdsConfig = {
   steps: [
@@ -53,4 +53,13 @@ export interface TableBanner {
   systems?: string;
   timeRange?: string;
   range?: string;
+}
+
+// Interfaces for Grafana v9 compatibility
+interface ArrayWithBuffer<T> extends Array<T> {
+  buffer?: T[];
+}
+
+export interface V9CompatField<T = any> extends Field<T> {
+  values: ArrayWithBuffer<T>;
 }

@@ -39,7 +39,7 @@ interface State {
   basicAuthUserError?: string;
   cacheSizeError?: string;
 }
-// TODO: somehow prometherus can validate fields from "run and test" in v11
+// TODO: somehow prometheus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -50,19 +50,19 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
     if (jsonData?.path !== undefined || jsonData?.port !== undefined) {
       // Convert from the legacy format if possible
-      options.url = `http${jsonData?.ssl ? 's' : ''}://${jsonData.path}${jsonData?.port ? ':' + jsonData.port : ''}`;
-      let username = (jsonData?.userName || '').trim();
+      options.url = `http${jsonData.ssl ? 's' : ''}://${jsonData.path}${jsonData.port ? ':' + jsonData.port : ''}`;
+      const username = (jsonData.userName || '').trim();
       if (username) {
         options.basicAuth = true;
         options.basicAuthUser = username;
       }
       options.jsonData = {
         timeout: DEFAULT_HTTP_TIMEOUT,
-        tlsSkipVerify: !(jsonData?.skipVerify !== undefined ? jsonData?.skipVerify : true), // NB: the meaning of skipVerify is inverted.
-        disableCompression: jsonData?.disableCompression ?? false,
+        tlsSkipVerify: !(jsonData.skipVerify !== undefined ? jsonData.skipVerify : true), // NB: the meaning of skipVerify is inverted.
+        disableCompression: jsonData.disableCompression ?? false,
       };
     } else {
-      // Initialize jsonData and secureJsonData if needed
+      // Initialize jsonData if needed
       options.jsonData = {
         timeout: jsonData?.timeout || DEFAULT_HTTP_TIMEOUT,
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
@@ -139,7 +139,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
   render() {
     const { options } = this.props;
     const { urlError, httpTimeoutError, basicAuthUserError, cacheSizeError } = this.state;
-    const isPasswordSet = options?.secureJsonFields?.basicAuthPassword || options?.secureJsonFields?.password || false;
+    const isPasswordSet = options.secureJsonFields?.basicAuthPassword || options.secureJsonFields?.password || false;
 
     return (
       <div className="gf-form-group">
@@ -184,7 +184,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               <InlineSwitch
                 // Negative flags aren't good for UX.
                 // However, it's more consistent to keep it consistent with Golang DisableCompression option in the backend.
-                value={!options.jsonData.disableCompression}
+                value={!options.jsonData?.disableCompression}
                 onChange={(event) => {
                   this.updateSettings({ jsonData: { disableCompression: !event.currentTarget.checked } });
                 }}
