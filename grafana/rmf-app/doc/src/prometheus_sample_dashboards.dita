@@ -6,8 +6,9 @@
         <navtitle>Prometheus Sample Dashboards</navtitle>
     </titlealts>
     <shortdesc>The RMF Distributed Data Server exposes Monitor III data to third-party tools using
-        the OpenMetrics exposition format.</shortdesc>
+        the OpenMetrics exposition format. </shortdesc>
     <conbody>
+        <note id="note_ils_jjg_ggc">OA67701 has to be applied for the feature.</note>
         <p>Some examples of the tools are:<ul id="ul_fcd_2f2_ggc">
                 <li><xref href="https://prometheus.io" format="html" scope="external"
                         >Prometheus</xref></li>
