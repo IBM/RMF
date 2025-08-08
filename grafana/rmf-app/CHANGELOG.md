@@ -3,7 +3,7 @@
 ## 1.1.0 (2025-08-12)
 
 - Change in Sample Dashboards Deployment method.
-  -Sample dashboards are now deployed through the IBM RMF application instead of using the standard Grafana bundling  process. Users can manage the deployment of sample dashboards directly on the app page.
+  Sample dashboards are now deployed through the IBM RMF application instead of using the standard Grafana bundling  process. Users can manage the deployment of sample dashboards directly on the app page.
 - Sample dashboards are deployed into dedicated IBM RMF folders.
   
 ## 1.0.11 (2025-07-25)
