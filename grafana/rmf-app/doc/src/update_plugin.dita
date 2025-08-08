@@ -24,8 +24,9 @@
                 <strow>
                     <stentry>Upgrading the plugin in the Grafana within the Docker
                         environment.</stentry>
-                    <stentry>Perfrom steps <xref href="#update_plugin/step_wzb_bss_sbc"/> to <xref
-                            href="#update_plugin/step_x1p_1ss_sbc"/>.</stentry>
+                    <stentry>Perform steps <xref href="#update_plugin/step_wzb_bss_sbc"/> to <xref
+                            href="#update_plugin/substeps_drl_gry_g1c" format="dita"
+                        >7</xref>.</stentry>
                 </strow>
             </simpletable></context>
         <steps>
@@ -46,7 +47,7 @@
             </step>
             <step id="step_l11_1ss_sbc">
                 <cmd>Restart the Grafana server, and then go to step <xref
-                        href="#update_plugin/step_x1p_1ss_sbc"/>.</cmd>
+                        href="#update_plugin/substeps_drl_gry_g1c" format="dita">7</xref>.</cmd>
             </step>
             <step id="step_wzb_bss_sbc">
                 <cmd>Run the following command to stop the docker container:</cmd>
@@ -90,9 +91,9 @@
                         <info>
                             <note id="note_as5_xlz_fgc">After clicking the <uicontrol>Update/
                                     Reset</uicontrol> or <uicontrol>Delete</uicontrol> option, the
-                                destination folder containing the reserved UID is deleted.</note>
+                                destination folder with the reserved UID is deleted.</note>
                             <note id="note_tyq_1s2_ggc" type="important">If you rename or move the
-                                reserved folder, it retains the same UID and will reset. </note>
+                                reserved folder, it retains the same UID and will be reset. </note>
                         </info>
                     </substep>
                 </substeps>

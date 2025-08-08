@@ -177,10 +177,10 @@
                         <info>
                             <note id="note_as5_xlz_fgc">Clicking <uicontrol>Install</uicontrol>
                                 creates a folder with a reserved UID and the sample dashboards are
-                                added to the folder. Neither the folder or dashboards are owned by
+                                added to the folder. Neither the folder nor dashboards are owned by
                                 the plugin and can be managed by users. </note>
                             <note class="- topic/note " id="note_np4_rr2_ggc" type="important">After
-                                the installation completes, you may need to reload the page to see
+                                the installation is complete, you may need to reload the page to see
                                 the folders under the Dashboards section.</note>
                         </info>
                     </substep>
