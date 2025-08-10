@@ -10,8 +10,8 @@
         <topicref href="rn.dita"/>
         <topicref href="install_grafana_plugin.dita"/>
         <topicref href="update_plugin.dita"/>
+        <topicref href="prometheus_sample_dashboards.dita"/>
         <topicref href="create_datasources.dita"/>
-        <topicref href="db_ovw.dita"/>
         <topicref href="apply_visualize.dita"/>
         <topicref href="query_lang.dita"/>
         <topicref href="variables.dita"/>

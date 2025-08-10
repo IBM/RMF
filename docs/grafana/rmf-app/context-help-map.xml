@@ -4,8 +4,9 @@
    <appContext helpID="rn" path="rn.html"/>
    <appContext helpID="install_grafana_plugin" path="install_grafana_plugin.html"/>
    <appContext helpID="update_plugin" path="update_plugin.html"/>
+   <appContext helpID="prometheus_sample_dashboards_1"
+               path="prometheus_sample_dashboards.html"/>
    <appContext helpID="create_datasources" path="create_datasources.html"/>
-   <appContext helpID="db_ovw" path="db_ovw.html"/>
    <appContext helpID="apply_visualize" path="apply_visualize.html"/>
    <appContext helpID="query_lang" path="query_lang.html"/>
    <appContext helpID="variables" path="variables.html"/>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\nkanga\OneDrive - Rocket Software, Inc\Documents\RMF_Grafana\grafana\rmf-app\doc\src\temp?><?workdir-uri file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/temp/?><?path2project?><?path2project-uri ./?><?path2rootmap-uri ./?><?doctype-public -//OASIS//DTD DITA Reference//EN?><?doctype-system reference.dtd?><reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" id="ts_issues" xml:lang="en-us" ditaarch:DITAArchVersion="1.3" domains="(topic reference) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" class="- topic/topic       reference/reference " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="reference:1;3:44" specializations="@props/deliveryTarget">
+    <title class="- topic/title " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="title:1;4:12">Troubleshooting issues</title>
+    <shortdesc class="- topic/shortdesc " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="shortdesc:1;5:16">This section guides how to analyze and address typical issues that may arise when
+        using the <tm tmtype="reg" class="- topic/tm " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="tm:1;6:36">IBM</tm> RMF for z/OS Grafana plugin.</shortdesc>
+    <refbody class="- topic/body        reference/refbody " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="refbody:1;7:14">
+        <section class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="section:1;8:18">
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="p:1;9:16">This article is regularly updated with the latest information on discovering and
+                solving issues that may arise. You can search through the article to find the
+                precise information you need.</p>
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="p:2;12:16">You can open a case by navigating to <xref href="https://www.ibm.com/mysupport/s/" format="html" scope="external" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="xref:1;13:52"><?ditaot usertext?>IBM support</xref> if you cannot find any
+                solutions for the issue you encountered. Before opening a case, gather all the
+                required information and provide the details to IBM support for further
+                investigation.</p>
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="p:3;17:16">The following table describes the details of issues and the resolutions you can apply
+                to fix the problems:</p>
+            <table frame="all" rowsep="1" colsep="1" id="table_vjv_yxq_31c" class="- topic/table " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="table:1;19:77">
+                <tgroup cols="3" align="left" class="- topic/tgroup " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="tgroup:1;20:47">
+                    <colspec colname="col1" colnum="1" class="- topic/colspec " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="colspec:1;21:55"/>
+                    <colspec colname="col2" colnum="2" class="- topic/colspec " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="colspec:2;22:55"/>
+                    <colspec colname="col3" colnum="3" class="- topic/colspec " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="colspec:3;23:55"/>
+                    <thead class="- topic/thead " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="thead:1;24:28">
+                        <row class="- topic/row " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="row:1;25:30">
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:1;26:36" colname="col1" dita-ot:x="1" dita-ot:y="1">Issues</entry>
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:2;27:36" colname="col2" dita-ot:x="2" dita-ot:y="1">Cause</entry>
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:3;28:36" colname="col3" dita-ot:x="3" dita-ot:y="1">Resolutions</entry>
+                        </row>
+                    </thead>
+                    <tbody class="- topic/tbody " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="tbody:1;31:28">
+                        <row class="- topic/row " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="row:2;32:30">
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:4;33:36" colname="col1" dita-ot:x="1" dita-ot:y="2">RMF Time Series dashboards do not plot the Monitor 3 metrics
+                                data, whereas RMF Reports and RMF Charts dashboards plot
+                                correctly.</entry>
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:5;36:36" colname="col2" dita-ot:x="2" dita-ot:y="2">The proxy settings configured by your network administrator block
+                                web socket connections from the Grafana server.
+                                <lines id="lines_mvl_xty_31c" xml:space="preserve" class="- topic/lines " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="lines:1;38:63">The <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin streams time series data to the clients through web socket connections.</lines></entry>
+                            <entry class="- topic/entry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="entry:6;39:36" colname="col3" dita-ot:x="3" dita-ot:y="2">Unblocking web sockets and configuring the appropriate proxy
+                                settings is necessary to ensure that web sockets with the name
+                                    "<systemoutput class="+ topic/ph sw-d/systemoutput " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="systemoutput:1;41:52">ws</systemoutput>" in the URI work correctly with
+                                the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph>
+                                plugin.<lines id="lines_mdt_3yq_31c" xml:space="preserve" class="- topic/lines " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="lines:2;43:70">You can contact your network administrator to modify the proxy configuration settings.</lines></entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+    </refbody>
+</reference>

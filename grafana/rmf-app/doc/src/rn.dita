@@ -7,6 +7,21 @@
     <refbody>
         <section id="section_y2g_rfq_pyb">
             <title>What's new</title>
+            <dl id="dl_gtk_wlf_ggc">
+                <dlentry>
+                    <dt>August 2025 v1.1.0</dt>
+                    <dd>
+                        <ul id="ul_htk_wlf_ggc">
+                            <li>Change in deployment method for sample dashboards.<p>Sample
+                                    dashboards are now deployed through the IBM RMF application
+                                    instead of using the standard Grafana bundling process. Users
+                                    can manage the deployment of sample dashboards directly on the
+                                    app page.</p></li>
+                            <li>Sample dashboards are deployed into dedicated IBM RMF folders.</li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
             <dl id="dl_w3g_byf_cgc">
                 <dlentry>
                     <dt>July 2025 v1.0.11</dt>

@@ -29,7 +29,7 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     this.dashboardName = '';
   }
 
-  applyTemplateVariables(query: RMFQuery, scopedVars: ScopedVars): Record<string, any> {
+  applyTemplateVariables(query: RMFQuery, scopedVars: ScopedVars): RMFQuery {
     let currentTime = new Date();
     let newquery = getTemplateSrv().replace(query.selectedResource?.label, scopedVars);
     let CurrentDashbaordName = getTemplateSrv().replace('${__dashboard.uid}', scopedVars);
@@ -38,7 +38,7 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     let toDate = new Date(parseInt(timestamp));
 
     var seconds = (currentTime.getTime() - toDate.getTime()) / 1000;
-    let isRelative = seconds < 61
+    let isRelative = seconds < 61;
 
     let dashboardChanged: boolean;
     dashboardChanged = false;
@@ -98,7 +98,7 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
               } else if (queryResult.filterTypes.trim() === '') {
                 retResult.push({ text: itemName });
               }
-            } catch (errorObj) { }
+            } catch (errorObj) {}
           });
           return retResult;
         })

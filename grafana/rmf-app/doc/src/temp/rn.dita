@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\nkanga\OneDrive - Rocket Software, Inc\Documents\RMF_Grafana\grafana\rmf-app\doc\src\temp?><?workdir-uri file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/temp/?><?path2project?><?path2project-uri ./?><?path2rootmap-uri ./?><?doctype-public -//OASIS//DTD DITA Reference//EN?><?doctype-system reference.dtd?><reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" id="rn" xml:lang="en-us" ditaarch:DITAArchVersion="1.3" domains="(topic reference) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" class="- topic/topic       reference/reference " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="reference:1;3:37" specializations="@props/deliveryTarget">
+    <title class="- topic/title " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="title:1;4:12">Release notes</title>
+    <shortdesc class="- topic/shortdesc " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="shortdesc:1;5:16">This article covers the new features, system requirements, and known issues of the
+            <tm tmtype="reg" class="- topic/tm " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="tm:1;6:30">IBM</tm> RMF for z/OS Grafana plugin.</shortdesc>
+    <refbody class="- topic/body        reference/refbody " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="refbody:1;7:14">
+        <section id="section_y2g_rfq_pyb" class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="section:1;8:43">
+            <title class="- topic/title " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="title:2;9:20">What's new</title>
+            <dl id="dl_gtk_wlf_ggc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:1;10:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:1;11:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:1;12:25">August 2025 v1.1.0</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:1;13:25">
+                        <ul id="ul_htk_wlf_ggc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:1;14:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:1;15:33">Change in deployment method for sample dashboards.<p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:1;15:86">Sample
+                                    dashboards are now deployed through the IBM RMF application
+                                    instead of using the standard Grafana bundling process. Users
+                                    can manage the deployment of sample dashboards directly on the
+                                    app page.</p></li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:2;20:33">Sample dashboards are deployed into dedicated IBM RMF folders.</li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+            <dl id="dl_w3g_byf_cgc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:2;25:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:2;26:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:2;27:25">July 2025 v1.0.11</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:2;28:25">
+                        <ul id="ul_zv3_11g_cgc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:2;29:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:3;30:33">Fixed issues that caused dashboards showing maximum 20 systems per
+                                sysplex.</li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:4;32:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:2;33:36">The following dashboards are updated:<ul id="ul_rbt_c1g_cgc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:3;33:97">
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:5;34:45">Common Storage Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:6;35:45">Common Storage Activity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:7;36:45">General Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:8;37:45">General Activity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:9;38:45">Overall Image Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:10;39:45">Overall Image Activity</li>
+                                    </ul><note id="note_sbt_c1g_cgc" class="- topic/note " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="note:1;40:70">You may need to re-import the
+                                        dashboards to utilize the latest enhancements in the
+                                        dashboards, depending on your installation
+                                    method.</note></p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:11;45:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+            <dl id="dl_sdl_gr3_mfc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:3;52:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:3;53:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:3;54:25">May 2025 v1.0.10</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:3;55:25">
+                        <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:4;56:28">Fixed a Windows-specific regression that caused the plugin to serve data
+                            points with the incorrect TZ offset.</p>
+                    </dd>
+                </dlentry>
+            </dl>
+            <dl id="dl_f15_njt_sbc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:4;61:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:4;62:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:4;63:25">May 2025 v1.0.9</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:4;64:25">
+                        <ul id="ul_ezy_k3w_hfc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:4;65:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:12;66:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:5;67:36"><ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin has been
+                                    enhanced to optimize the step size when querying and displaying
+                                    time series data, based on the selected time range and panel
+                                    size. This enhancement ensures that panels display the required
+                                    number of data points.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:13;73:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:6;74:36">A bug has been fixed that was causing specific data points to be
+                                    dropped from time series views, resulting in a flat line in the
+                                    graphs.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:14;78:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_ffj_w3w_hfc" class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="section:2;86:43">
+            <dl id="dl_gfj_w3w_hfc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:5;87:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:5;88:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:5;89:25">April 2025 v1.0.8</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:5;90:25">
+                        <ul id="ul_kht_spb_k2c" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:5;91:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:15;92:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:8;93:36">A new option, <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="uicontrol:1;93:61">Compression</uicontrol>, has been added
+                                    to the data source creation process. This option enables the RMF
+                                    data source to request HTTP compression from the Data
+                                    Distributed Server (DDS) during data retrieval, which improves
+                                    the efficiency of data transfer. See <xref href="create_datasources.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:1;98:73" type="task"><?ditaot gentext?>Creating RMF data sources<?ditaot genshortdesc?><desc class="- topic/desc ">To access RMF Monitor III metrics in Grafana, you need to connect to the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:5;11:30">Distributed Data Server</ph> (<ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:6;12:31">DDS</ph>) by         adding an RMF data source.</desc></xref>.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:16;100:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:9;101:36">Fixed certain scenarios of missing data within dashboards for
+                                    time series visualizations.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:17;104:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:6;110:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:6;111:25">November 2024 v1.0.7</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:6;112:25">
+                        <p props="pdf" class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                        
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:7;126:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:7;127:25">October 2024 v1.0.6</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:7;128:25">
+                        <ul id="ul_mgn_m3g_xcc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:7;129:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:20;130:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:14;131:36">The <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin now
+                                    allows customizing banner and caption fields in IBM RMF Report
+                                    visualizations.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:21;135:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:15;136:36">After you modify any <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="uicontrol:1;14:48">IBM RMF</uicontrol> data
+                                    source and save the changes, you no longer need to re-enter the
+                                    password.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:22;141:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:16;142:36">Improved performance.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:23;144:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_qc4_m3g_xcc" class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="section:3;152:43">
+            <dl id="dl_rc4_m3g_xcc" class="- topic/dl " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dl:6;153:37">
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:8;154:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:8;155:25">August 2024 v1.0.5</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:8;156:25">
+                        <ul id="ul_ssj_xbl_gcc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:8;157:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:24;158:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:18;159:36">When creating the datasource, you now have the option to specify
+                                    the desired cache size in megabytes for the datasource.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:25;162:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:26;165:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:20;166:36">The topic of <xref href="create_datasources.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:3;166:87" type="task"><?ditaot gentext?>Creating RMF data sources<?ditaot genshortdesc?><desc class="- topic/desc ">To access RMF Monitor III metrics in Grafana, you need to connect to the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:5;11:30">Distributed Data Server</ph> (<ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:6;12:31">DDS</ph>) by         adding an RMF data source.</desc></xref> has been
+                                    updated per the new UI changes.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:9;172:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:9;173:25">June 2024 v1.0.4</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:9;174:25">
+                        <ul id="ul_u3s_bkt_sbc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:9;175:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:27;176:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:21;177:36">The user interface for creating the datasource has been enhanced
+                                    to improve the user experience.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:28;180:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:29;183:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:23;184:36">The following dashboards are updated:<ul id="ul_n5x_32w_tbc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:10;184:97">
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:30;185:45">Common Storage Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:31;186:45">Common Storage Activity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:32;187:45">Coupling Facility Overview (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:33;188:45">Coupling Facility Overview</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:34;189:45">Execution Velocity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:35;190:45">Execution Velocity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:36;191:45">General Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:37;192:45">General Activity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:38;193:45">Overall Image Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:39;194:45">Overall Image Activity</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:40;195:45">Performance Index (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:41;196:45">Response Time (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:42;197:45">Response Time</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:43;198:45">XCF Activity (Timeline)</li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:44;199:45">XCF Activity </li>
+                                    </ul><note id="note_qxh_vjw_hfc" class="- topic/note " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="note:2;200:70">You must re-import the
+                                        dashboards to utilize the latest enhancements in the
+                                        dashboards.</note></p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:45;204:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:24;205:36">The documentation updates for v1.0.4 include the following
+                                        changes:<ul id="ul_aqv_kht_sbc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:11;206:73">
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:46;207:45">
+                                            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:25;208:48">The topic of <xref href="create_datasources.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:4;208:99" type="task"><?ditaot gentext?>Creating RMF data sources<?ditaot genshortdesc?><desc class="- topic/desc ">To access RMF Monitor III metrics in Grafana, you need to connect to the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:5;11:30">Distributed Data Server</ph> (<ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:6;12:31">DDS</ph>) by         adding an RMF data source.</desc></xref>
+                                                has been updated as per the new UI changes.</p>
+                                        </li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:47;211:45">
+                                            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:26;212:48">The <xref href="update_plugin.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:5;212:85" type="task"><?ditaot gentext?>Upgrading the RMF for z/OS plugin on Grafana<?ditaot genshortdesc?><desc class="- topic/desc ">You must ensure that the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin is up         to date to leverage its enhanced functionalities. You can do so by either installing or         upgrading to the latest version of the plugin.</desc></xref> topic is
+                                                included to provide information about the upgrade
+                                                process.</p>
+                                        </li>
+                                    </ul></p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:10;221:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:10;222:25">February 2024 v1.0.3</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:10;223:25">
+                        <ul id="ul_cs3_dkt_sbc" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:12;224:49">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:48;225:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:27;226:36">Fixed specific issues related to the support of Grafana
+                                    v10.x.x.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:49;229:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:28;230:36">Fixed empty settings issue for IBM RMF data source defined via
+                                        <filepath class="+ topic/ph sw-d/filepath " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="filepath:1;231:51">Home / Apps / IBM RMF</filepath> page.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:50;233:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:51;236:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:30;237:36">The documentation updates for v1.0.3 include the following
+                                        changes:<ul id="ul_z4c_r3p_31c" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:13;238:73">
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:52;239:45">
+                                            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:31;240:48">The <xref href="grafana_via_zosmf.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:6;240:88" type="concept"><?ditaot usertext?>Grafana
+                                                  through IBM z/OS Management Facility<?ditaot genshortdesc?><desc class="- topic/desc ">When you use <tm tmtype="reg" class="- topic/tm " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/grafana_via_zosmf.dita" xtrc="tm:1;8:46">IBM</tm> z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:9;16:33">z/OSMF</ph>.</desc></xref> topic
+                                                explains more detailed setup instructions to access
+                                                Grafana from the z/OSMF server.</p>
+                                        </li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:53;245:45">
+                                            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:32;246:48">The <xref href="install_grafana_plugin.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:7;246:93" type="task"><?ditaot usertext?><ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:3;9:31">RMF for z/OS</ph> plugin
+                                                  installation<?ditaot genshortdesc?><desc class="- topic/desc ">You must install the <tm tmtype="reg" class="- topic/tm " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/install_grafana_plugin.dita" xtrc="tm:1;8:54">IBM</tm> RMF for z/OS Grafana plugin to analyze         and visualize RMF Monitor III metrics and reports.</desc></xref> section is updated to provide
+                                                clear information and guidance on installing the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:3;9:31">RMF for z/OS</ph> plugin on
+                                                different platforms based on specific
+                                                requirements.</p>
+                                        </li>
+                                        <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:54;254:45">
+                                            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:33;255:48">The <xref href="ts_issues.dita" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:8;256:52" type="reference"><?ditaot usertext?>troubleshooting<?ditaot genshortdesc?><desc class="- topic/desc ">This section guides how to analyze and address typical issues that may arise when         using the <tm tmtype="reg" class="- topic/tm " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/ts_issues.dita" xtrc="tm:1;6:36">IBM</tm> RMF for z/OS Grafana plugin.</desc></xref> topic is provided to help
+                                                users analyze and resolve common issues that may
+                                                occur while using the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph>
+                                                plugin.</p>
+                                        </li>
+                                    </ul></p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:11;267:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:11;268:25">December 2023 v1.0.2</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:11;269:25">
+                        <ul class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:14;270:29">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:55;271:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:34;272:36">Support spaces in Datasource name.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:56;274:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:12;280:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:12;281:25">November 2023 v1.0.1</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:12;282:25">
+                        <ul class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:15;283:29">
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:57;284:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:36;285:36">Resolved security issues in dependencies.</p>
+                            </li>
+                            <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:58;287:33">
+                                <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="p:22;58:35">Fixed internally found defects.</p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+                <dlentry class="- topic/dlentry " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dlentry:13;293:26">
+                    <dt class="- topic/dt " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dt:13;294:25">November 2023 v1.0.0</dt>
+                    <dd class="- topic/dd " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="dd:13;295:25">
+                        <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:38;296:28">The first release of the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph>
+                            plugin is in the following GitHub repository: <xref href="https://github.com/IBM/RMF/releases" format="html" scope="external" class="- topic/xref " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="xref:9;299:50"><?ditaot usertext?>https://github.com/IBM/RMF</xref>.</p>
+                    </dd>
+                </dlentry>
+            </dl>
+        </section>
+        <section id="section_zls_5fq_pyb" class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="section:4;304:43">
+            <title class="- topic/title " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="title:3;305:20">Requirements</title>
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="p:39;306:16">You must have the following software to use the <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin:<ul id="ul_iqp_wfq_pyb" class="- topic/ul " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="ul:16;307:94">
+                    <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:59;308:25"><ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:4;10:30">Resource Measurement Facility for z/OS</ph>
+                        <ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:7;13:25">3.1</ph></li>
+                    <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:60;310:25"><ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:5;11:30">Distributed Data Server</ph></li>
+                    <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:61;311:25"><ph class="- topic/ph " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/conref.dita" xtrc="ph:1;7:33">IBM RMF for z/OS Grafana</ph> plugin 1.0.x</li>
+                    <li class="- topic/li " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/rn.dita" xtrc="li:62;312:25">Grafana 9.5.1 or later</li>
+                </ul></p>
+        </section>
+        
+    </refbody>
+</reference>

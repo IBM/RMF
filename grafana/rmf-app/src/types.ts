@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 import { DataQuery, DataSourceInstanceSettings, DataSourceJsonData } from '@grafana/data';
-import { ClientTypeValue } from './constants';
 
 /**
  * Global Settings
  */
-export interface GlobalSettings {}
+export type GlobalSettings = object;
 
 /**
  * SVG
@@ -102,13 +101,6 @@ export interface RmfDataSourceOptions extends DataSourceJsonData {
    * @type {boolean}
    */
   tlsSkipVerify: boolean;
-
-  /**
-   * Client Type
-   *
-   * @type {ClientTypeValue}
-   */
-  client: ClientTypeValue;
 
   /**
    * Sentinel Master group name

@@ -14,44 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Data Source types
- */
-export enum DataSourceType {
-  RMFTYPE = 'ibm-rmf-datasource',
-}
 
-/**
- * New Data Source names
- */
-export enum DataSourceName {
-  RMFNAME = 'IBM RMF for z/OS',
-}
+import appPluginJson from './plugin.json';
+import dataSourcePluginJson from './datasources/rmf-datasource/plugin.json';
 
-/**
- * RMF commands
- */
-export enum RmfCommand {
-  COMMAND = 'command',
-}
-
-/**
- * Client Type Values
- */
-export enum ClientTypeValue {
-  CLUSTER = 'cluster',
-  SENTINEL = 'sentinel',
-  SOCKET = 'socket',
-  STANDALONE = 'standalone',
-}
-
-/**
- * Application root page
- */
-export const ApplicationRoot = '/a/ibm-rmf';
-
-/**
- * Application
- */
-export const ApplicationName = 'IBM RMF';
-export const ApplicationSubTitle = 'IBM RMF Plugin Manager';
+export const APP_NAME = appPluginJson.name;
+export const APP_DESC = appPluginJson.info.description;
+export const APP_LOGO = appPluginJson.info.logos.large;
+export const APP_LOGO_URL = `public/plugins/${appPluginJson.id}/${appPluginJson.info.logos.large}`;
+export const APP_BASE_URL = `/a/${appPluginJson.id}`;
+export const DATA_SOURCE_TYPE = dataSourcePluginJson.id;
+export const DATA_SOURCE_NAME = dataSourcePluginJson.name;
+export const DDS_OPEN_METRICS_DOC_URL =
+  'https://www.ibm.com/docs/en/zos/3.1.0?topic=functions-setting-up-distributed-data-server-zos';

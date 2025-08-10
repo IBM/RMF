@@ -1,0 +1,554 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "7cf88de5-c050-4fc2-9218-50e785ec1113",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "response time by WLM service class period",
+              "value": "8D1180"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.response time by WLM service class period",
+          "selectedResource": {
+            "label": "id=8D1180&resource=,,SYSPLEX",
+            "value": "id=8D1180&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "7cf88de5-c050-4fc2-9218-50e785ec1113",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "response time goal by WLM service class period",
+              "value": "8D11C0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.response time goal by WLM service class period",
+          "selectedResource": {
+            "label": "id=8D11C0&resource=,,SYSPLEX",
+            "value": "id=8D11C0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Service Class Periods",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "4a7dcaff-0ff6-4ae6-b8dd-0cd525d78f3f",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "percentile achieving response time goal by WLM service class period",
+              "value": "8D0FF0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.percentile achieving response time goal by WLM service class period",
+          "selectedResource": {
+            "label": "id=8D0FF0&resource=,,SYSPLEX",
+            "value": "id=8D0FF0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "4a7dcaff-0ff6-4ae6-b8dd-0cd525d78f3f",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "response time goal percentile by WLM service class period",
+              "value": "8D11E0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.response time goal percentile by WLM service class period",
+          "selectedResource": {
+            "label": "id=8D11E0&resource=,,SYSPLEX",
+            "value": "id=8D11E0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Service Class Periods (Percentile)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "id": 4,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "45977a94-5c8e-4f31-b562-01e5f59562c3",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "response time by WLM report class period",
+              "value": "8D31B0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.response time by WLM report class period",
+          "selectedResource": {
+            "label": "id=8D31B0&resource=,,SYSPLEX",
+            "value": "id=8D31B0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Report Class Periods",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "displayName": "${__field.name}"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 2,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "63b26478-2d66-47aa-a1fa-f5819bf83d61",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "percentile achieving response time goal by WLM report class period",
+              "value": "8D3100"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.percentile achieving response time goal by WLM report class period",
+          "selectedResource": {
+            "label": "id=8D3100&resource=,,SYSPLEX",
+            "value": "id=8D3100&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "TimeSeries"
+        }
+      ],
+      "title": "Report Class Periods (Percentile)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "TIMELINE"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Response Time (Timeline)",
+  "version": 1,
+  "weekStart": ""
+}

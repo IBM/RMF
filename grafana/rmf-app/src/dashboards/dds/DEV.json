@@ -1,0 +1,207 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Device delays",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "b088b1b8-86f7-4a06-ed7c-33f4859c3030",
+          "selectedQuery": "MVS_IMAGE.REPORT.DEV{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=DEV&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=DEV&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "DEV",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "ASID (dec)": true,
+              "Channel Measurement Group": true,
+              "FICON Deferred Operation Rate": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "% Connect": 6,
+              "% Delay": 4,
+              "% Delay (1)": 7,
+              "% Delay (2)": 9,
+              "% Delay (3)": 11,
+              "% Delay (4)": 13,
+              "% Using": 5,
+              "ASID (dec)": 1,
+              "Job Class": 2,
+              "Job Name": 0,
+              "Service Class": 3,
+              "Volume Name (1)": 8,
+              "Volume Name (2)": 10,
+              "Volume Name (3)": 12,
+              "Volume Name (4)": 14
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "DEV",
+  "version": 1,
+  "weekStart": ""
+}

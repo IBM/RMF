@@ -15,5 +15,4 @@
  * limitations under the License.
  */
 export * from './Config';
-export * from './DataSourceList';
-export * from './RootPage';
+export * from './Root';
