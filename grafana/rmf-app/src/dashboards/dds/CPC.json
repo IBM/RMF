@@ -1,0 +1,352 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Central Processor Complex",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "de465562-c3f1-4548-93fb-d19e0cdb70e6",
+          "selectedQuery": "MVS_IMAGE.REPORT.CPC{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=CPC&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=CPC&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "CPC",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "# Online Processors/Cores Dedicated": true,
+              "# Online Processors/Cores Shared": true,
+              "Absolute Capping Limit (CPUs)": true,
+              "Central Storage Online (MB)": false,
+              "Channel Measurement Group": true,
+              "Current LPAR Weight": true,
+              "FICON Deferred Operation Rate": true,
+              "Group Capacity Limit": true,
+              "Group Capacity Max Entitlement": true,
+              "Group Capacity Min Entitlement": true,
+              "Group Capacity Name": true,
+              "Hardware Group Capping Limit (CPUs)": true,
+              "Hardware Group Name": true,
+              "Caption::# AAP Processors": true,
+              "Caption::# CBP Processors": true,
+              "Caption::# CP Processors": true,
+              "Caption::# Dedicated AAPs": true,
+              "Caption::# Dedicated CBPs": true,
+              "Caption::# Dedicated CPs": true,
+              "Caption::# Dedicated IIPs": true,
+              "Caption::# ICF Processors": true,
+              "Caption::# IFL Processors": true,
+              "Caption::# IIP Processors/Cores": true,
+              "Caption::# Shared physical AAPs": true,
+              "Caption::# Shared physical CBPs": true,
+              "Caption::# Shared physical CPs": true,
+              "Caption::# Shared physical IIPs": true,
+              "Caption::% Capacity Used": true,
+              "Caption::4h Unused Group Capacity Average": true,
+              "Caption::Average Thread Density CP": true,
+              "Caption::Average Thread Density IIP": true,
+              "Caption::Boost Class": true,
+              "Caption::CPC name": true,
+              "Caption::CPC sequence number": true,
+              "Caption::CPU zCBP Model": true,
+              "Caption::Capacity Adjustment Indicator": true,
+              "Caption::Capacity Change Reason": true,
+              "Caption::Capacity Group Limit": false,
+              "Caption::Configured Partitions": true,
+              "Caption::Less than 4h in Capacity Group": true,
+              "Caption::MT CP Core Productivity": true,
+              "Caption::MT Capacity Factor CP": true,
+              "Caption::MT Capacity Factor IIP": true,
+              "Caption::MT Max Capacity Factor CP": true,
+              "Caption::MT Max Capacity Factor IIP": true,
+              "Caption::MT Mode CP": true,
+              "Caption::Physical Total % of shared AAPs": true,
+              "Caption::Physical Total % of shared CBPs": true,
+              "Caption::Physical Total % of shared ICFs": true,
+              "Caption::Physical Total % of shared IFLs": true,
+              "Caption::Physical Total % of shared IIPs": true,
+              "Caption::Proj Time until Capping": true,
+              "Caption::Proj Time until Group Capping": true,
+              "Caption::Vary CPU management available": true,
+              "Caption::WLM LPAR management enabled": true,
+              "Caption::Wait Completion": true,
+              "Hiper Dispatch: # High": true,
+              "Hiper Dispatch: # Low": true,
+              "Hiper Dispatch: # Medium": true,
+              "Initial Capping Option": true,
+              "Initial Weight": true,
+              "LPAR Cluster Name": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type": true,
+              "Line Type (DDS)": true,
+              "Logical Processor Share %": true,
+              "Max Weight": true,
+              "Min Weight": true,
+              "Operating System Name": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Speed Boost": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "User Partition ID": true,
+              "zHPF Deferred Operation Rate": true,
+              "zIIP Boost": true
+            },
+            "indexByName": {
+              "# Logical Processors/Cores Online": 4,
+              "# Online Processors/Cores Dedicated": 12,
+              "# Online Processors/Cores Shared": 11,
+              "Absolute Capping Limit (CPUs)": 30,
+              "Actual MSU/h": 2,
+              "Capping Option": 3,
+              "Central Storage Online (MB)": 27,
+              "Current LPAR Weight": 13,
+              "Defined MSU/h": 1,
+              "Group Capacity Limit": 24,
+              "Group Capacity Max Entitlement": 26,
+              "Group Capacity Min Entitlement": 25,
+              "Group Capacity Name": 23,
+              "Hardware Group Capping Limit (CPUs)": 32,
+              "Hardware Group Name": 31,
+              "Caption::# AAP Processors": 57,
+              "Caption::# CBP Processors": 58,
+              "Caption::# CP Processors": 56,
+              "Caption::# Dedicated AAPs": 66,
+              "Caption::# Dedicated CBPs": 67,
+              "Caption::# Dedicated CPs": 65,
+              "Caption::# Dedicated IIPs": 68,
+              "Caption::# ICF Processors": 59,
+              "Caption::# IFL Processors": 60,
+              "Caption::# IIP Processors/Cores": 61,
+              "Caption::# Shared physical AAPs": 70,
+              "Caption::# Shared physical CBPs": 71,
+              "Caption::# Shared physical CPs": 69,
+              "Caption::# Shared physical IIPs": 72,
+              "Caption::% Capacity Used": 64,
+              "Caption::4h MSU Average": 41,
+              "Caption::4h MSU Maximum": 42,
+              "Caption::4h Unused Group Capacity Average": 53,
+              "Caption::Absolute MSU Capping": 50,
+              "Caption::Average Thread Density CP": 83,
+              "Caption::Average Thread Density IIP": 82,
+              "Caption::Boost Class": 86,
+              "Caption::Boost Type": 38,
+              "Caption::CPC Capacity (MSU/h)": 39,
+              "Caption::CPC name": 55,
+              "Caption::CPC sequence number": 54,
+              "Caption::CPU Model": 37,
+              "Caption::CPU Type": 36,
+              "Caption::CPU zCBP Model": 85,
+              "Caption::Capacity Adjustment Indicator": 75,
+              "Caption::Capacity Change Reason": 76,
+              "Caption::Capacity Group Limit": 46,
+              "Caption::Capacity Group Name": 43,
+              "Caption::Configured Partitions": 62,
+              "Caption::Image Capacity": 44,
+              "Caption::Less than 4h in Capacity Group": 47,
+              "Caption::MT CP Core Productivity": 77,
+              "Caption::MT Capacity Factor CP": 81,
+              "Caption::MT Capacity Factor IIP": 80,
+              "Caption::MT IIP Core Productivity": 49,
+              "Caption::MT Max Capacity Factor CP": 79,
+              "Caption::MT Max Capacity Factor IIP": 78,
+              "Caption::MT Mode CP": 84,
+              "Caption::MT Mode IIP": 48,
+              "Caption::Partition Name": 35,
+              "Caption::Physical Total % of shared AAPs": 88,
+              "Caption::Physical Total % of shared CBPs": 89,
+              "Caption::Physical Total % of shared CPs": 87,
+              "Caption::Physical Total % of shared ICFs": 91,
+              "Caption::Physical Total % of shared IFLs": 92,
+              "Caption::Physical Total % of shared IIPs": 90,
+              "Caption::Proj Time until Capping": 51,
+              "Caption::Proj Time until Group Capping": 52,
+              "Caption::Vary CPU management available": 73,
+              "Caption::WLM Capping %": 45,
+              "Caption::WLM LPAR management enabled": 74,
+              "Caption::Wait Completion": 63,
+              "Caption::Weight % of Max": 40,
+              "Hiper Dispatch: # High": 15,
+              "Hiper Dispatch: # Low": 17,
+              "Hiper Dispatch: # Medium": 16,
+              "Initial Capping Option": 29,
+              "Initial Weight": 20,
+              "LPAR Cluster Name": 19,
+              "LPAR Mgmt %": 7,
+              "LPAR Name": 0,
+              "Line Type": 10,
+              "Logical Effective %": 5,
+              "Logical Processor Share %": 14,
+              "Logical Total %": 6,
+              "Max Weight": 22,
+              "Min Weight": 21,
+              "Operating System Name": 18,
+              "Physical Effective %": 8,
+              "Physical Total %": 9,
+              "Speed Boost": 34,
+              "User Partition ID": 28,
+              "zIIP Boost": 33
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CPC",
+  "version": 1,
+  "weekStart": ""
+}

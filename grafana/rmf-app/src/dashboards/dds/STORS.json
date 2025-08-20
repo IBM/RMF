@@ -1,0 +1,245 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Storage by WLM class",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "4289baf1-221c-4be3-b469-ad2ec1c31848",
+          "selectedQuery": "MVS_IMAGE.REPORT.STORS{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=STORS&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=STORS&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "STORS",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Channel Measurement Group": true,
+              "DDS Group": true,
+              "DDS Period": true,
+              "DDS Type": true,
+              "Delay % HIPR": true,
+              "Delay % VIO": true,
+              "Delay % XMEM": true,
+              "FICON Deferred Operation Rate": true,
+              "Caption::# Frames Available": false,
+              "Caption::# Frames and Slots Available": true,
+              "Caption::# Slots Available": true,
+              "Caption::1 MB Frames Fixed": true,
+              "Caption::1 MB MemObjs Fixed": true,
+              "Caption::2 GB Frames Fixed": true,
+              "Caption::2 GB MemObjs Fixed": true,
+              "Caption::Pagein Rate": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Tenant Report Class": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "ACTV Frames": 14,
+              "Active Users": 4,
+              "DDS Group": 18,
+              "DDS Period": 20,
+              "DDS Type": 19,
+              "Delay % ANY": 5,
+              "Delay % COMM": 6,
+              "Delay % HIPR": 12,
+              "Delay % LOCL": 7,
+              "Delay % OTHER": 13,
+              "Delay % OUTR": 10,
+              "Delay % SWAP": 9,
+              "Delay % VIO": 8,
+              "Delay % XMEM": 11,
+              "FIXED Frames": 16,
+              "Group Name": 0,
+              "Group Type": 1,
+              "Caption::# Frames Available": 23,
+              "Caption::# Frames and Slots Available": 34,
+              "Caption::# Slots Available": 33,
+              "Caption::% Active Frames": 28,
+              "Caption::% Available Frames": 30,
+              "Caption::% CSA Frames": 26,
+              "Caption::% Idle Frames": 29,
+              "Caption::% LPA Frames": 27,
+              "Caption::% Nucleus Frames": 24,
+              "Caption::% SQA Frames": 25,
+              "Caption::% Shared Frames": 31,
+              "Caption::1 MB Frames Fixed": 36,
+              "Caption::1 MB MemObjs Fixed": 35,
+              "Caption::2 GB Frames Fixed": 38,
+              "Caption::2 GB MemObjs Fixed": 37,
+              "Caption::Pagein Rate": 32,
+              "Caption::Real Storage Frames": 22,
+              "Caption::System UIC": 21,
+              "IDLE Frames": 15,
+              "Page-In Rate": 17,
+              "Tenant Report Class": 2,
+              "Total Users": 3
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "STORS",
+  "version": 1,
+  "weekStart": ""
+}

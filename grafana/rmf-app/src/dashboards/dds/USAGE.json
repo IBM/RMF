@@ -1,0 +1,239 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.8"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    },
+    {
+      "type": "panel",
+      "id": "ibm-rmf-report",
+      "name": "Report for IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "description": "Job Oriented Usage",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "aa2f5d29-d19b-4e8f-b782-32468729ab3f",
+          "selectedQuery": "MVS_IMAGE.REPORT.USAGE{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=USAGE&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=USAGE&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "USAGE",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "ASID (dec)": true,
+              "Channel Measurement Group": true,
+              "Dispatching Priority": true,
+              "FICON Deferred Operation Rate": true,
+              "Fixed Frames Above": true,
+              "Fixed Frames Below": true,
+              "Fixed Frames High": true,
+              "Job Class": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Period": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "QSCAN Request Time Std.Dev.": true,
+              "QSCAN Resource Count Std.Dev.": true,
+              "Recovery Process Boost": true,
+              "Specific QSCAN Requests": true,
+              "Total CPU Time": true,
+              "Total Device Connect Time": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "Total TCB Time": true,
+              "Transaction Active Time": true,
+              "Transaction Count": true,
+              "Transaction Resident Time": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {
+              "ASID (dec)": 1,
+              "CPU Time": 9,
+              "Device Connect Time": 7,
+              "Dispatching Priority": 6,
+              "EXCP Rate": 8,
+              "Fixed Frames": 15,
+              "Fixed Frames Above": 17,
+              "Fixed Frames Below": 18,
+              "Fixed Frames High": 16,
+              "Job Class": 2,
+              "Job Class Ext": 3,
+              "Job Name": 0,
+              "Period": 5,
+              "QSCAN Request Time": 26,
+              "QSCAN Request Time Std.Dev.": 27,
+              "QSCAN Requests": 22,
+              "QSCAN Resource Count": 24,
+              "QSCAN Resource Count Std.Dev.": 25,
+              "Recovery Process Boost": 28,
+              "Service Class": 4,
+              "Specific QSCAN Requests": 23,
+              "TCB Time": 10,
+              "Total CPU Time": 20,
+              "Total Device Connect Time": 19,
+              "Total Frames": 14,
+              "Total TCB Time": 21,
+              "Transaction Active Time": 11,
+              "Transaction Count": 13,
+              "Transaction Resident Time": 12
+            },
+            "renameByName": {
+              "Job Class Ext": "Job Class"
+            }
+          }
+        }
+      ],
+      "type": "ibm-rmf-report"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["RMF", "REPORT"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${sysplex}",
+          "value": "${sysplex}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${sysplex}"
+        },
+        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "USAGE",
+  "version": 1,
+  "weekStart": ""
+}

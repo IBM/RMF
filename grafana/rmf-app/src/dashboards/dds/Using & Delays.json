@@ -1,0 +1,635 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.5.1"
+    },
+    {
+      "type": "datasource",
+      "id": "ibm-rmf-datasource",
+      "name": "IBM RMF for z/OS",
+      "version": "%VERSION%"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% using"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#005d5d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% using for processor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1192e8",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% using for i/o"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6929c4",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "2f3fa0f4-d9b1-4278-b732-2610b0094a45",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using",
+              "value": "8D04A0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using",
+          "selectedResource": {
+            "label": "id=8D04A0&resource=,,SYSPLEX",
+            "value": "id=8D04A0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "2f3fa0f4-d9b1-4278-b732-2610b0094a45",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using for processor",
+              "value": "8D1DB0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using for processor",
+          "selectedResource": {
+            "label": "id=8D1DB0&resource=,,SYSPLEX",
+            "value": "id=8D1DB0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "C",
+          "rmfPanelGuid": "2f3fa0f4-d9b1-4278-b732-2610b0094a45",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% using for i/o",
+              "value": "8D1D40"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% using for i/o",
+          "selectedResource": {
+            "label": "id=8D1D40&resource=,,SYSPLEX",
+            "value": "id=8D1D40&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "Using",
+      "transformations": [],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${sysplex}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#005d5d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for processor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1192e8",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for i/o"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6929c4",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for storage"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#570408",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for enqueue"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#fa4d56",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for swsub"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#9f1853",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% delay for operator"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ee538b",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "loadDataSource": "METRICS",
+          "refId": "A",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay",
+              "value": "8D0160"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay",
+          "selectedResource": {
+            "label": "id=8D0160&resource=,,SYSPLEX",
+            "value": "id=8D0160&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "B",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for processor",
+              "value": "8D1B40"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for processor",
+          "selectedResource": {
+            "label": "id=8D1B40&resource=,,SYSPLEX",
+            "value": "id=8D1B40&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "C",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for i/o",
+              "value": "8D1A80"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for i/o",
+          "selectedResource": {
+            "label": "id=8D1A80&resource=,,SYSPLEX",
+            "value": "id=8D1A80&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "D",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for storage",
+              "value": "8D1BA0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for storage",
+          "selectedResource": {
+            "label": "id=8D1BA0&resource=,,SYSPLEX",
+            "value": "id=8D1BA0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "E",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for enqueue",
+              "value": "8D1A20"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for enqueue",
+          "selectedResource": {
+            "label": "id=8D1A20&resource=,,SYSPLEX",
+            "value": "id=8D1A20&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "F",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for swsub",
+              "value": "8D1C00"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for swsub",
+          "selectedResource": {
+            "label": "id=8D1C00&resource=,,SYSPLEX",
+            "value": "id=8D1C00&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${sysplex}"
+          },
+          "hide": false,
+          "loadDataSource": "METRICS",
+          "refId": "G",
+          "rmfPanelGuid": "e52b7576-c93f-4254-83c0-3b09b7482f2d",
+          "selectedMetrics": [
+            {
+              "description": "auto",
+              "label": "% delay for operator",
+              "value": "8D1AE0"
+            }
+          ],
+          "selectedQuery": "SYSPLEX.% delay for operator",
+          "selectedResource": {
+            "label": "id=8D1AE0&resource=,,SYSPLEX",
+            "value": "id=8D1AE0&resource=,,SYSPLEX"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "title": "Delay",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "RMF",
+    "BARCHART"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "https_data",
+          "value": "https_data"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sysplex",
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Using & Delays",
+  "version": 2,
+  "weekStart": ""
+}

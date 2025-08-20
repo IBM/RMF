@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\nkanga\OneDrive - Rocket Software, Inc\Documents\RMF_Grafana\grafana\rmf-app\doc\src\temp?><?workdir-uri file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/temp/?><?path2project?><?path2project-uri ./?><?path2rootmap-uri ./?><?doctype-public -//OASIS//DTD DITA Reference//EN?><?doctype-system reference.dtd?><reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" id="historical_data" xml:lang="en-us" ditaarch:DITAArchVersion="1.3" domains="(topic reference) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" class="- topic/topic       reference/reference " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="reference:1;3:50" specializations="@props/deliveryTarget">
+    <title class="- topic/title " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="title:1;4:12">Historical data collection</title>
+    <titlealts class="- topic/titlealts " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="titlealts:1;5:16">
+        <navtitle class="- topic/navtitle " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="navtitle:1;6:19">Historical data</navtitle>
+    </titlealts>
+    <shortdesc class="- topic/shortdesc " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="shortdesc:1;8:16">In Grafana, you can view historical data using absolute and relative time
+        ranges.</shortdesc>
+    <refbody class="- topic/body        reference/refbody " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="refbody:1;10:14">
+        <section id="section_n33_prq_syb" class="- topic/section " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="section:1;11:43">
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="p:1;12:16">Viewing historical data is a common practice across organizations for various
+                purposes. The importance and use of historical data are significant in
+                decision-making, research, analysis, and planning. Analyzing historical data
+                provides valuable insights into the status, usage, performance, and health of
+                various resources.</p>
+            <p class="- topic/p " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="p:2;17:16">You can also access cached metric data for queries, data sources, and timestamp
+                combinations that have already viewed by other user on Grafana. This means that if
+                any user requests metrics data for the same query, datasource, and timestamp, the
+                cached data can be displayed faster than a service call from DDS. If data for a
+                particular timestamp is not found in the cache, it will be fetched by a service call
+                from DDS. This feature can save you time and provide a faster experience accessing
+                metric data.</p>
+            <note id="note_rh5_h4x_kdc" type="caution" class="- topic/note " xtrf="file:/C:/Users/nkanga/OneDrive%20-%20Rocket%20Software,%20Inc/Documents/RMF_Grafana/grafana/rmf-app/doc/src/historical_data.dita" xtrc="note:1;24:56">When you view data over extended time ranges,
+                the system may require considerable CPU resources on the host.</note>
+            
+            
+            
+            
+        </section>
+    </refbody>
+</reference>
