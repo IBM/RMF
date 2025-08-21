@@ -50,6 +50,27 @@ func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) (*data.Frame, error
 	}
 }
 
+func (ds *RMFDatasource) getFrame2(r *dds.Request) ([]*data.Frame, error) {
+	key := cache.FrameKey(r, false)
+	result, err, _ := ds.single.Do(string(key), func() (interface{}, error) {
+		ddsResponse, err := ds.ddsClient.GetByRequest(r)
+		if err != nil {
+			return nil, err
+		}
+		headers := ds.ddsClient.GetCachedHeaders()
+		fms, err := frame.Build2(ddsResponse, headers)
+		if err != nil {
+			return nil, err
+		}
+		return fms, nil
+	})
+	if result != nil {
+		return result.([]*data.Frame), err
+	} else {
+		return nil, err
+	}
+}
+
 // getStep calculates the most appropriate time series step.
 // There's no ideal solution. We assume that it aligns with one hour.
 // If it doesn't, streaming will still work, but some queries will miss cache.

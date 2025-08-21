@@ -276,7 +276,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
 					// FIXME: doesn't it need to be cached?
-					if newFrame, err := ds.getFrame(r, false); err != nil {
+					if fms, err := ds.getFrame2(r); err != nil {
 						var msg *dds.Message
 						if errors.As(err, &msg) {
 							response.Error = err
@@ -285,8 +285,10 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							response.Error = log.FrameErrorWithId(logger, err)
 							response.Status = backend.StatusInternal
 						}
-					} else if newFrame != nil {
-						response.Frames = append(response.Frames, newFrame)
+					} else if fms != nil {
+						for _, f := range fms {
+							response.Frames = append(response.Frames, f)
+						}
 					}
 				}
 			}
