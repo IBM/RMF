@@ -79,34 +79,26 @@ func validateResponse(ddsResponse *dds.Response) error {
 	return nil
 }
 
-func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
+func Build(sysplex string, ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) ([]*data.Frame, error) {
 	err := validateResponse(ddsResponse)
 	if err != nil {
 		return nil, err
 	}
 	report := ddsResponse.Reports[0]
-
 	format := report.Metric.Format
 	frameName := strings.Trim(report.Metric.Description, " ")
-	var newFrame *data.Frame
 
 	if format == dds.ReportFormat {
-		newFrame = buildForReport(&report, headers, frameName)
+		return buildForReport(sysplex, &report, headers), nil
 	} else if wide {
-		return buildWideForMetric(&report, frameName), nil
+		result := make([]*data.Frame, 1)
+		result[0] = buildWideForMetric(&report, frameName)
+		return result, nil
 	} else {
-		return buildLongForMetric(&report, frameName), nil
+		result := make([]*data.Frame, 1)
+		result[0] = buildLongForMetric(&report, frameName)
+		return result, nil
 	}
-	return newFrame, nil
-}
-
-func Build2(ddsResponse *dds.Response, headers *dds.HeaderMap) ([]*data.Frame, error) {
-	err := validateResponse(ddsResponse)
-	if err != nil {
-		return nil, err
-	}
-	report := ddsResponse.Reports[0]
-	return buildForReport2(&report, headers), nil
 }
 
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.
@@ -199,72 +191,10 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string) *data.Frame {
-	logger := log.Logger.With("func", "buildForReport")
-	frame := data.NewFrame(frameName)
+func buildForReport(sysplex string, report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
 	reportName := report.Metric.Id
-
-	for i, col := range report.Headers.Cols {
-		header := headers.Get(reportName, col.Id)
-		var field *data.Field
-		// The first value is a dummy to fit in captions and header.
-		if col.Type == dds.NumericColType {
-			field = data.NewField(header, nil, []*float64{nil})
-		} else {
-			if col.Type != dds.TextColType {
-				logger.Warn("unsupported column type, considering as string", "type", col.Type)
-			}
-			field = data.NewField(header, nil, []string{""})
-		}
-		for _, row := range report.Rows {
-			rawValue := row.Cols[i]
-			if col.Type == dds.NumericColType {
-				field.Append(parseFloat(rawValue))
-			} else {
-				field.Append(rawValue)
-			}
-		}
-		frame.Fields = append(frame.Fields, field)
-	}
-
-	buildField := func(name string, prefix string, value string) *data.Field {
-		// All the frames must have the same number of rows.
-		values := make([]*string, 1+len(report.Rows))
-		values[0] = &value
-		field := data.NewField(prefix+name, nil, values)
-		return field
-	}
-
-	timeData := report.TimeData
-
-	field := buildField("Samples", BannerPrefix, strconv.Itoa(timeData.NumSamples))
-	frame.Fields = append(frame.Fields, field)
-	if timeData.NumSystems != nil {
-		field = buildField("Systems", BannerPrefix, strconv.Itoa(*timeData.NumSystems))
-		frame.Fields = append(frame.Fields, field)
-	}
-	field = buildField("Time range", BannerPrefix,
-		fmt.Sprintf("%s - %s",
-			timeData.LocalStart.Format(ReportDateFormat),
-			timeData.LocalEnd.Format(ReportDateFormat)))
-	frame.Fields = append(frame.Fields, field)
-	field = buildField("Interval", BannerPrefix,
-		timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
-	frame.Fields = append(frame.Fields, field)
-
-	for _, caption := range report.Caption.Vars {
-		name := headers.Get(reportName, caption.Name)
-		field := buildField(name, CaptionPrefix, caption.Value)
-		frame.Fields = append(frame.Fields, field)
-	}
-
-	return frame
-}
-
-func buildForReport2(report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
-	reportName := report.Metric.Id
-	captionFrame := data.NewFrame(reportName + "_CAP")
-	intervalFrame := data.NewFrame(reportName + "_INT")
+	captionFrame := data.NewFrame("Caption::" + reportName)
+	intervalFrame := data.NewFrame("Banner::" + reportName)
 	reportFrame := data.NewFrame(reportName)
 
 	for i, col := range report.Headers.Cols {
@@ -286,7 +216,9 @@ func buildForReport2(report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
 				field.Append(rawValue)
 			}
 		}
-		reportFrame.Fields = append(reportFrame.Fields, field)
+		if field != nil {
+			reportFrame.Fields = append(reportFrame.Fields, field)
+		}
 	}
 
 	buildField := func(name string, prefix string, value string) *data.Field {
@@ -312,6 +244,11 @@ func buildForReport2(report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
 	intervalFrame.Fields = append(intervalFrame.Fields, field)
 	field = buildField("Interval", BannerPrefix,
 		timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
+	intervalFrame.Fields = append(intervalFrame.Fields, field)
+
+	field = buildField("Sysplex", BannerPrefix, sysplex)
+	intervalFrame.Fields = append(intervalFrame.Fields, field)
+	field = buildField("Name", BannerPrefix, report.Resource.GetName())
 	intervalFrame.Fields = append(intervalFrame.Fields, field)
 
 	for _, caption := range report.Caption.Vars {

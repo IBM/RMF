@@ -43,20 +43,31 @@ export const InitFrameData = (data: PanelData): DataFrame[] => {
     data.series.length > 0 &&
     data.series[0].fields !== undefined
   ) {
-    frameData = [
-      {
+    frameData = [] as DataFrame[];
+    if (data.series.length > 0 && !data.series[0].name?.startsWith(BANNER_PREFIX) && !data.series[0].name?.startsWith(CAPTION_PREFIX)) {
+      frameData.push({
+        name: data.series[0].name,
         fields: data.series[0].fields,
         length: data.series[0].fields[0].values.length,
-      } as DataFrame,
-      {
+      } as DataFrame)
+    } else {
+      frameData.push({
+        fields: [],
+        length: 0,
+      } as DataFrame)
+    }
+    if (data.series.length > 1) {
+      frameData.push({
         fields: data.series[1].fields,
         length: data.series[1].fields[0].values.length,
-      } as DataFrame,
-      {
+      } as DataFrame)
+    }
+    if (data.series.length > 2) {
+      frameData.push({
         fields: data.series[2].fields,
         length: data.series[2].fields[0].values.length,
-      } as DataFrame,
-    ] as DataFrame[];
+      } as DataFrame)
+    }
   }
 
   return frameData;
@@ -77,12 +88,17 @@ export const applySelectedDefaultsAndOverrides = (
   data: DataFrame[]
 ): ReportData => {
   let frames = applyRawFieldOverrides(data);
-  let reportFrame: DataFrame = frames[0];
-  let intervalFrame: DataFrame = frames[1];
-  let captionFrame: DataFrame = frames[2];
-  let bannerFields: Field[] = intervalFrame.fields;
-  let captionFields: Field[] = captionFrame.fields;
-  let tableFields: Field[] = reportFrame.fields;
+  let tableFields: Field[] = frames[0].fields;
+
+  let bannerFields: Field[] = []
+  if (frames.length > 1) {
+    bannerFields = frames[1].fields;
+  }
+  
+  let captionFields: Field[] = [];
+  if (frames.length > 2) {
+    captionFields = frames[2].fields;
+  }
 
   // First apply default settings
   tableFields.map((field: Field) => {
@@ -156,7 +172,7 @@ export const applySelectedDefaultsAndOverrides = (
       }
     });
   }
-  return { bannerFields: bannerFields, captionFields: captionFields, tableData: frames };
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: [{fields: tableFields, length: tableFields.length} as DataFrame] };
 };
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {

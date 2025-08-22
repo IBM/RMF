@@ -64,6 +64,7 @@ type Client struct {
 	httpClient *http.Client
 	headerMap  *HeaderMap
 	timeData   *TimeData
+	resource   *Resource
 	useXmlExt  atomic.Bool
 
 	stopChan  chan struct{}
@@ -257,8 +258,13 @@ func (c *Client) updateTimeData() *TimeData {
 			logger.Error("unable to fetch DDS time data", "error", "no time data in DDS response")
 			return nil, err
 		}
+		resource := response.Reports[0].Resource
+		if resource == nil {
+			logger.Error("unable to fetch DDS resource", "error", "no resource data in DDS response")
+		}
 		c.rwMutex.Lock()
 		c.timeData = timeData
+		c.resource = resource
 		c.rwMutex.Unlock()
 		logger.Debug("DDS time data updated")
 		return timeData, nil
@@ -276,4 +282,12 @@ func (c *Client) GetCachedMintime() time.Duration {
 		minTime = timeData.MinTime.Value
 	}
 	return time.Duration(minTime) * time.Second
+}
+
+func (c *Client) GetSysplex() string {
+	c.ensureTimeData()
+	if c.resource != nil {
+		return c.resource.GetName()
+	}
+	return ""
 }
