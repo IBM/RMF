@@ -36,9 +36,10 @@ query: WS* RES_TYPE (DOT REPORT)? DOT identifier WS* qualifiers? WS* EOF;
 // string literals which we also support.
 identifier: stringSpaced;
 qualifiers: LBRACE WS* qualifier WS* (COMMA WS* qualifier WS*)* RBRACE;
-qualifier: ulq | name | filter | workscope;
+qualifier: ulq | name | filter | workscope | frame;
 ulq: ULQ EQUAL string;
 name: NAME EQUAL string;
+frame: FRAME EQUAL string;
 filter: FILTER EQUAL filterValue;
 filterValue: filterItem (SEMI filterItem)*;
 filterItem: pat | lb | ub | hi | lo | ord;
@@ -55,12 +56,13 @@ workscopeValue: string? COMMA string? COMMA WORKSCOPE_TYPE;
 number: INTEGER | DECIMAL;
 stringUnquoted
   : IDENTIFIER | RES_TYPE | REPORT | WORKSCOPE | RANGE | ULQ | NAME | FILTER
-  | PAT | LB | UB | HI | LO | ORD | ORD_OPTION | INTEGER | STRING_UNQUOTED;
+  | PAT | LB | UB | HI | LO | ORD | ORD_OPTION | INTEGER | STRING_UNQUOTED | FRAME;
 stringSpaced: stringUnquoted (WS + stringUnquoted)*;
 stringDotted: stringUnquoted (DOT stringUnquoted)*;
 string: stringDotted | STRING_QUOTED;
 
 
+FRAME: F R A M E;
 REPORT: R E P O R T;
 WORKSCOPE: W O R K S C O P E;
 RANGE: R A N G E;

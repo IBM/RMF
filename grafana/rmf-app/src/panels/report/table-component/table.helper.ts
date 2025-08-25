@@ -172,7 +172,7 @@ export const applySelectedDefaultsAndOverrides = (
       }
     });
   }
-  return { bannerFields: bannerFields, captionFields: captionFields, tableData: [{fields: tableFields, length: tableFields.length} as DataFrame] };
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: frames };
 };
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {

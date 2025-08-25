@@ -20,6 +20,7 @@ package dds
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -29,11 +30,19 @@ import (
 type Request struct {
 	Resource  string
 	TimeRange data.TimeRange
+	Frame     int
 }
 
 func NewRequest(res string, from time.Time, to time.Time, step time.Duration) *Request {
+	frame := -1
+	i := strings.Index(res, "&frame=")
+	if i > 0 {
+		frame, _ = strconv.Atoi(res[i+7 : i+8])
+		res = res[:i]
+	}
 	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}}
 	q.Align(step)
+	q.Frame = frame
 	return &q
 }
 

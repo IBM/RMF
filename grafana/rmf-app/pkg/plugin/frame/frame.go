@@ -204,14 +204,14 @@ func buildForReport(sysplex string, report *dds.Report, headers *dds.HeaderMap) 
 			rawValue := row.Cols[i]
 			if field == nil {
 				if col.Type == dds.NumericColType {
-					field = data.NewField(header, nil, []*float64{parseFloat(rawValue)})
+					field = data.NewField(header, nil, []float64{parseFloat2(rawValue)})
 				} else {
 					field = data.NewField(header, nil, []string{rawValue})
 				}
 				continue
 			}
 			if col.Type == dds.NumericColType {
-				field.Append(parseFloat(rawValue))
+				field.Append(parseFloat2(rawValue))
 			} else {
 				field.Append(rawValue)
 			}
@@ -270,4 +270,12 @@ func parseFloat(value string) *float64 {
 		return &parsed
 	}
 	return nil
+}
+
+func parseFloat2(value string) float64 {
+	// Value can contain different kinds of text meaning n/a: NaN, blank value, Deact, etc.
+	if parsed, err := strconv.ParseFloat(value, 64); err == nil && !math.IsNaN(parsed) {
+		return parsed
+	}
+	return 0.0
 }

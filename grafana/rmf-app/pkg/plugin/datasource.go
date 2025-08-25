@@ -286,8 +286,12 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							response.Status = backend.StatusInternal
 						}
 					} else if fms != nil {
-						for _, f := range fms {
-							response.Frames = append(response.Frames, f)
+						if r.Frame < 0 {
+							for _, f := range fms {
+								response.Frames = append(response.Frames, f)
+							}
+						} else {
+							response.Frames = append(response.Frames, fms[r.Frame])
 						}
 					}
 				}

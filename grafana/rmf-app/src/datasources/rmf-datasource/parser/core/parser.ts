@@ -53,7 +53,7 @@ export class Parser {
     const isReport = tree.REPORT() !== null;
     const identifier = (tree.identifier()?.getText() || '').trim();
 
-    let qualifierValues = { name: '', ulq: '', workscope: '' };
+    let qualifierValues = { name: '', ulq: '', workscope: '', frame: '' };
     let filters: string[] = [];
     for (let qual of tree.qualifiers()?.qualifier_list() || []) {
       let q;
@@ -66,6 +66,9 @@ export class Parser {
       if ((q = qual.workscope())) {
         qualifierValues['workscope'] = (q.workscopeValue()?.getText() || '').trim().toUpperCase();
       }
+      if ((q = qual.frame())) {
+        qualifierValues['frame'] = (q.string_()?.getText() || '').trim().toUpperCase();
+      }
       if ((q = qual.filter())) {
         let filterValue = (q.filterValue()?.getText() || '').trim();
         for (let value of filterValue.split(';')) {
@@ -76,12 +79,16 @@ export class Parser {
 
     let resource = `${qualifierValues['ulq'] || ''},${qualifierValues['name'] || ''},${resType}`;
     let workscope = qualifierValues['workscope'];
+    let frame = qualifierValues['frame'];
     let query = `${isReport ? 'report' : 'id'}=${identifier}&resource=${resource}`;
     if (filters.length > 0) {
       query += `&filter=${filters.join('%3B')}`;
     }
     if (workscope) {
       query += `&workscope=${workscope}`;
+    }
+    if (frame) {
+      query += `&frame=${frame}`;
     }
     parserGrammarResult.query = query;
 
