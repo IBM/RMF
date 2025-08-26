@@ -149,6 +149,12 @@ export const queryValidation = (query: string, resourceBaseData: any): QueryVali
     columnName: '',
     errorMessage: '',
   };
+  if ("sysplex" == query.toLowerCase() ||
+      "systems" == query.toLowerCase()) {
+    queryResult.result = true
+    queryResult.resourceCommand = query
+    return queryResult
+  }
   let result = true;
   if (query === '' || query.length < 20) {
     result = false;

@@ -76,6 +76,15 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
     return new Promise((resolve) => {
       const metricFindValue = this.loadDataFromService(resourceString, id, options)
         .then((resp: any) => {
+          if ("sysplex" == queryResult.resourceCommand.toLowerCase() ||
+              "systems" == queryResult.resourceCommand.toLowerCase()) {
+            const retResult: MetricFindValue[] = [];
+            let lines = (resp.data as string).split('\n');
+            for (var line of lines) {
+              retResult.push({ text: line });
+            }
+            return retResult;
+          }
           const result = JSON.parse(resp.data);
           let resNames = getResourceName(result);
           const retResult: MetricFindValue[] = [];

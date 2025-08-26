@@ -65,6 +65,7 @@ type Client struct {
 	headerMap  *HeaderMap
 	timeData   *TimeData
 	resource   *Resource
+	systems    []string
 	useXmlExt  atomic.Bool
 
 	stopChan  chan struct{}
@@ -248,7 +249,7 @@ func (c *Client) ensureTimeData() *TimeData {
 func (c *Client) updateTimeData() *TimeData {
 	logger := log.Logger.With("func", "updateTimeData")
 	result, _, _ := c.single.Do("timeData", func() (any, error) {
-		response, err := c.Get(PerformPath, "resource", ",,SYSPLEX", "id", "8D0D50")
+		response, err := c.Get(PerformPath, "resource", ",,SYSPLEX", "id", "8D0D60")
 		if err != nil {
 			logger.Error("unable to fetch DDS time data", "error", err)
 			return nil, err
@@ -262,9 +263,11 @@ func (c *Client) updateTimeData() *TimeData {
 		if resource == nil {
 			logger.Error("unable to fetch DDS resource", "error", "no resource data in DDS response")
 		}
+		systems := response.Reports[0].GetRowNames()
 		c.rwMutex.Lock()
 		c.timeData = timeData
 		c.resource = resource
+		c.systems = systems
 		c.rwMutex.Unlock()
 		logger.Debug("DDS time data updated")
 		return timeData, nil
@@ -290,4 +293,9 @@ func (c *Client) GetSysplex() string {
 		return c.resource.GetName()
 	}
 	return ""
+}
+
+func (c *Client) GetSystems() []string {
+	c.ensureTimeData()
+	return c.systems
 }

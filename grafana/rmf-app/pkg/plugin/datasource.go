@@ -23,6 +23,7 @@ import (
 	"errors"
 	"net/http"
 	"runtime/debug"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -148,13 +149,26 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	switch req.Path {
 	// FIXME: it's a contained.xml request for M3 resource tree. Re-factor accordingly.
 	case "variablequery":
-		// Extract the query parameter from the POST request
-		jsonStr := string(req.Body)
 		varRequest := VariableQueryRequest{}
-		err := json.Unmarshal([]byte(jsonStr), &varRequest)
+		err := json.Unmarshal(req.Body, &varRequest)
 		if err != nil {
 			return log.ErrorWithId(logger, log.InternalError, "could not unmarshal data", "error", err)
 		}
+		q := varRequest.Query
+		q = strings.Trim(q, " ")
+		q = strings.ToLower(q)
+
+		if "sysplex" == q {
+			sysplex := ds.ddsClient.GetSysplex()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: []byte(sysplex)})
+		} else if "systems" == q {
+			systems := ds.ddsClient.GetSystems()
+			slices.Sort(systems)
+			result := strings.Join(systems, "\n")
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: []byte(result)})
+		}
+
+		// Extract the query parameter from the POST request
 		ddsResource := varRequest.Query
 		if len(strings.TrimSpace(ddsResource)) == 0 {
 			return log.ErrorWithId(logger, log.InputError, "variable query cannot be blank")

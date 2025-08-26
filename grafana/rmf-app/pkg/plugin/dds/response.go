@@ -63,6 +63,16 @@ type Report struct {
 	Rows []Row `json:"row"`
 }
 
+func (r Report) GetRowNames() []string {
+	var names []string
+	if r.Rows != nil {
+		for _, row := range r.Rows {
+			names = append(names, row.Cols[0])
+		}
+	}
+	return names
+}
+
 type TimeData struct {
 	// FIXME: don't use these in report headers: they are in DDS timezone. Remove from the mapping.
 	LocalStart DateTime `json:"localStart"`
