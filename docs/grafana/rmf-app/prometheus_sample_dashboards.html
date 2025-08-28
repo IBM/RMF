@@ -154,7 +154,7 @@
             endpoint.</p>
         <p class="- topic/p p">The endpoint accepts an optional <span class="+ topic/keyword pr-d/parmname keyword parmname">groups</span> parameter to request
             specific metric groups:</p>
-        <p class="- topic/p p"><code class="+ topic/ph pr-d/codeph ph codeph">GET /gpm/metrics?groups=&lt;metric-groups&gt;</code></p>
+        <p class="- topic/p p"><code class="+ topic/ph pr-d/codeph ph codeph">GET /metrics/m3?groups=&lt;metric-groups&gt;</code></p>
         <p class="- topic/p p">where <span class="+ topic/keyword pr-d/parmname keyword parmname">&lt;metric-groups&gt;</span> is a comma-separated list of metric groups
             to be expose retrieved. For more information, see RMF Distributed Data Server
             documentation.</p>
@@ -172,14 +172,14 @@
                     <pre class="+ topic/pre pr-d/codeblock pre codeblock" id="prometheus_sample_dashboards_1__codeblock_byw_sq2_ggc" data-ofbid="prometheus_sample_dashboards_1__codeblock_byw_sq2_ggc"><code>- job_name: "m3@plex00"
  scrape_interval: 100s # Should be equal to the Monitor III mintime
  scrape_timeout: 50s
- metrics_path: /gpm/metrics
+ metrics_path: /metrics/m3
  static_configs:
  - targets: [ "ddshostname:8803" ]</code></pre>
                     <div class="- topic/p p">To scrape all the CPC and LPAR related metrics as defined in DDS
                         GPMOMC:<pre class="+ topic/pre pr-d/codeblock pre codeblock" id="prometheus_sample_dashboards_1__codeblock_nf1_cr2_ggc" data-ofbid="prometheus_sample_dashboards_1__codeblock_nf1_cr2_ggc"><code>- job_name: "m3@plex00"
     scrape_interval: 100s  # Should be equal to the Monitor III mintime
     scrape_timeout: 50s
-    metrics_path: /gpm/metrics
+    metrics_path: /metrics/m3
     params:
         groups: cpcs,lpars   
     static_configs:
