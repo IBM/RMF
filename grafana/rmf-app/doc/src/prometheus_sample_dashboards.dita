@@ -21,7 +21,7 @@
             endpoint.</p>
         <p>The endpoint accepts an optional <parmname>groups</parmname> parameter to request
             specific metric groups:</p>
-        <p><codeph>GET /gpm/metrics?groups=&lt;metric-groups></codeph></p>
+        <p><codeph>GET /metrics/m3?groups=&lt;metric-groups></codeph></p>
         <p>where <parmname>&lt;metric-groups></parmname> is a comma-separated list of metric groups
             to be expose retrieved. For more information, see RMF Distributed Data Server
             documentation.</p>
@@ -41,14 +41,14 @@
                     <codeblock id="codeblock_byw_sq2_ggc">- job_name: "m3@plex00"
  scrape_interval: 100s # Should be equal to the Monitor III mintime
  scrape_timeout: 50s
- metrics_path: /gpm/metrics
+ metrics_path: /metrics/m3
  static_configs:
  - targets: [ "ddshostname:8803" ]</codeblock>
                     <p>To scrape all the CPC and LPAR related metrics as defined in DDS
                         GPMOMC:<codeblock id="codeblock_nf1_cr2_ggc">- job_name: "m3@plex00"
     scrape_interval: 100s  # Should be equal to the Monitor III mintime
     scrape_timeout: 50s
-    metrics_path: /gpm/metrics
+    metrics_path: /metrics/m3
     params:
         groups: cpcs,lpars   
     static_configs:
