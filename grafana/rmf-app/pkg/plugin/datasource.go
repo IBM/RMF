@@ -64,6 +64,7 @@ type RMFDatasource struct {
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
 	single       singleflight.Group
+	omegamonDs   string
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -80,6 +81,7 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 		config.JSON.TlsSkipVerify, config.JSON.DisableCompression)
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
+	ds.omegamonDs = config.JSON.OmegamonDs
 	logger.Info("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
@@ -159,13 +161,15 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 		q = strings.ToLower(q)
 
 		if "sysplex" == q {
-			sysplex := ds.ddsClient.GetSysplex()
-			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: []byte(sysplex)})
+			data, _ := ds.sysplexContainedJson()
+			logger.Info("### " + string(data))
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
 		} else if "systems" == q {
-			systems := ds.ddsClient.GetSystems()
-			slices.Sort(systems)
-			result := strings.Join(systems, "\n")
-			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: []byte(result)})
+			data, _ := ds.systemsContainedJson()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
+		} else if "omegamonds" == q {
+			data, _ := ds.omegamonContainedJson()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
 		}
 
 		// Extract the query parameter from the POST request
@@ -196,6 +200,50 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	default:
 		return sender.Send(&backend.CallResourceResponse{Status: http.StatusNotFound, Body: nil})
 	}
+}
+
+func (ds *RMFDatasource) sysplexContainedJson() ([]byte, error) {
+	sysplex := ds.ddsClient.GetSysplex()
+	return toContainedJson([]string{sysplex})
+}
+
+func (ds *RMFDatasource) systemsContainedJson() ([]byte, error) {
+	systems := ds.ddsClient.GetSystems()
+	slices.Sort(systems)
+	return toContainedJson(systems)
+}
+
+func (ds *RMFDatasource) omegamonContainedJson() ([]byte, error) {
+	return toContainedJson([]string{ds.omegamonDs})
+}
+
+func toContainedJson(resources []string) ([]byte, error) {
+	type Resource struct {
+		Reslabel string `json:"reslabel"`
+	}
+	type Contained struct {
+		Resource []Resource `json:"resource"`
+	}
+	type ContainedResource struct {
+		Contained Contained `json:"contained"`
+	}
+	type Ddsml struct {
+		ContainedResourcesList []ContainedResource `json:"containedResourcesList"`
+	}
+
+	contained := Contained{Resource: []Resource{}}
+	for _, res := range resources {
+		contained.Resource = append(contained.Resource, Resource{Reslabel: "," + res + ","})
+	}
+
+	result := Ddsml{
+		ContainedResourcesList: []ContainedResource{
+			ContainedResource{
+				Contained: contained,
+			},
+		},
+	}
+	return json.Marshal(result)
 }
 
 type RequestParams struct {

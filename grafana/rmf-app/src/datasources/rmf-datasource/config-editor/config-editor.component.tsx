@@ -68,6 +68,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
+        omegamonDs: jsonData?.omegamonDs ?? "",
       };
     }
     onOptionsChange({ ...options });
@@ -287,6 +288,22 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               }}
             />
             {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}
+          </div>
+        </div>
+
+        <h3 className="page-heading">Omegamon Data source (Experimental)</h3>
+        <div className="gf-form-group">
+          <div className="gf-form">
+            <FormField
+              label="Name"
+              labelWidth={FIELD_LABEL_WIDTH}
+              tooltip="Name of Omegamon Falcon UI data source associated"
+              inputWidth={FIELD_INPUT_WIDTH}
+              value={options.jsonData?.omegamonDs}
+              onChange={(event) => {
+                this.updateSettings({ jsonData: { omegamonDs: event.currentTarget.value } });
+              }}
+            />
           </div>
         </div>
       </div>

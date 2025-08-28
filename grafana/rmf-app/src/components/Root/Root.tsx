@@ -24,7 +24,7 @@ import { GlobalSettings } from '../../types';
 import { DASHBOARDS as DDS_DASHBOARDS } from '../../dashboards/dds';
 import { DASHBOARDS as PROM_DASHBOARDS } from '../../dashboards/prometheus';
 import { findFolder, deleteFolder, installDashboards } from './utils';
-import { FolderStatus, Operation, OperCode, OperStatus } from './types';
+import { FolderStatus, Operation, OperCode, OperStatus, FalconStatus } from './types';
 import { StatusIcon } from './StatusIcon';
 import { Space } from './Space';
 import { Header } from './Header';
@@ -34,12 +34,15 @@ const DDS_FOLDER_NAME = 'IBM RMF (DDS)';
 const PROM_FOLDER_UID = 'ibm-rmf-prometheus';
 const PROM_FOLDER_NAME = 'IBM RMF (Prometheus)';
 const DATASOURCE_API = '/api/datasources';
+const FALCON_AS_DASHBOARD = "d/de6imy1nncd1cf/system-cpu-overview"
+const FALCON_SYS_DASHBOARD = "d/eefk6eunuubk0e/z-os-enterprise-overview"
 
 interface Props extends AppRootProps<GlobalSettings> {}
 
 interface State {
   dds: FolderStatus;
   prom: FolderStatus;
+  falcon: FalconStatus;
 }
 
 export class Root extends PureComponent<Props, State> {
@@ -56,6 +59,11 @@ export class Root extends PureComponent<Props, State> {
         installed: false,
         operation: { code: OperCode.None, status: OperStatus.None },
       },
+      falcon: {
+        enabled: false,
+        asDashboard: FALCON_AS_DASHBOARD,
+        sysDashboard: FALCON_SYS_DASHBOARD,
+      }
     };
   }
 
@@ -78,6 +86,9 @@ export class Root extends PureComponent<Props, State> {
           installed: promFolderPath !== undefined,
           folderPath: promFolderPath || PROM_FOLDER_NAME,
         },
+        falcon: {
+          ...prevState.falcon,
+        }
       }));
     } catch (error) {
       console.error('failed to update state', error);
@@ -113,7 +124,7 @@ export class Root extends PureComponent<Props, State> {
     }));
   };
 
-  processFolder = async (folderUid: string, operCode: OperCode) => {
+  processFolder = async (folderUid: string, operCode: OperCode, falcon: FalconStatus) => {
     const isDds = folderUid === DDS_FOLDER_UID;
     const defaultFolderName = isDds ? DDS_FOLDER_NAME : PROM_FOLDER_NAME;
     const dashboards = isDds ? DDS_DASHBOARDS : PROM_DASHBOARDS;
@@ -128,7 +139,7 @@ export class Root extends PureComponent<Props, State> {
         await deleteFolder(folderUid);
       }
       if (operCode === OperCode.Reset || operCode === OperCode.Install) {
-        await installDashboards(folderUid, defaultFolderName, dashboards);
+        await installDashboards(folderUid, defaultFolderName, dashboards, falcon);
       }
       this.setFolderState(isDds, {
         code: operCode,
@@ -153,7 +164,7 @@ export class Root extends PureComponent<Props, State> {
   };
 
   render() {
-    const { dds, prom } = this.state;
+    const { dds, prom, falcon } = this.state;
     const isBusy = dds.operation.status === OperStatus.InProgress || prom.operation.status === OperStatus.InProgress;
 
     return (
@@ -196,6 +207,21 @@ export class Root extends PureComponent<Props, State> {
               <Space layout={'inline'} h={2} />
               <span style={{ color: 'gray' }}>[UID=&apos;{DDS_FOLDER_UID}&apos;]</span>
             </p>
+            <p>
+              Link it with Omegamon Falcon UI (Experimental):
+              <Space layout={'inline'} h={2} />
+              <input type="checkbox" name="falconChk" defaultChecked={falcon.enabled} onChange={e => {falcon.enabled = e.target.checked;}}/>
+              <p>
+                Address Space Details Dashboard:
+                <Space layout={'inline'} h={2} />
+                <input type="url" style={{ width:"400px" }} name="falconAs" defaultValue={falcon.asDashboard} onChange={e => {falcon.asDashboard = e.target.value;}}/>
+              </p>
+              <p>
+                LPAR Details Dashboard:
+                <Space layout={'inline'} h={2} />
+                <input type="url" style={{ width:"400px" }} name="falconSys" defaultValue={falcon.sysDashboard} onChange={e => {falcon.sysDashboard = e.target.value;}}/>
+              </p>
+            </p>
             <Button disabled={isBusy} variant="primary" fill="outline" icon={'plus'} onClick={this.createDataSource}>
               Create Data Source
             </Button>
@@ -213,7 +239,7 @@ export class Root extends PureComponent<Props, State> {
                         dds.operation.code === OperCode.Install || dds.operation.code === OperCode.Reset
                       )
                   : async () => {
-                      await this.processFolder(DDS_FOLDER_UID, OperCode.Install);
+                      await this.processFolder(DDS_FOLDER_UID, OperCode.Install, falcon);
                     }
               }
             >
@@ -229,7 +255,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'process'}
               onClick={async () => {
-                await this.processFolder(DDS_FOLDER_UID, OperCode.Reset);
+                await this.processFolder(DDS_FOLDER_UID, OperCode.Reset, falcon);
               }}
             >
               Update / Reset
@@ -243,7 +269,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'trash-alt'}
               onClick={async () => {
-                await this.processFolder(DDS_FOLDER_UID, OperCode.Delete);
+                await this.processFolder(DDS_FOLDER_UID, OperCode.Delete, falcon);
               }}
             >
               Delete
@@ -289,7 +315,7 @@ export class Root extends PureComponent<Props, State> {
                         prom.operation.code === OperCode.Install || prom.operation.code === OperCode.Reset
                       )
                   : async () => {
-                      await this.processFolder(PROM_FOLDER_UID, OperCode.Install);
+                      await this.processFolder(PROM_FOLDER_UID, OperCode.Install, falcon);
                     }
               }
             >
@@ -305,7 +331,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'process'}
               onClick={async () => {
-                await this.processFolder(PROM_FOLDER_UID, OperCode.Reset);
+                await this.processFolder(PROM_FOLDER_UID, OperCode.Reset, falcon);
               }}
             >
               Update / Reset
@@ -319,7 +345,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'trash-alt'}
               onClick={async () => {
-                await this.processFolder(PROM_FOLDER_UID, OperCode.Delete);
+                await this.processFolder(PROM_FOLDER_UID, OperCode.Delete, falcon);
               }}
             >
               Delete

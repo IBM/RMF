@@ -149,10 +149,13 @@ export const queryValidation = (query: string, resourceBaseData: any): QueryVali
     columnName: '',
     errorMessage: '',
   };
+  //TODO remove when deprecated
   if ("sysplex" == query.toLowerCase() ||
-      "systems" == query.toLowerCase()) {
+      "systems" == query.toLowerCase() ||
+      "omegamonds" == query.toLowerCase()) {
     queryResult.result = true
     queryResult.resourceCommand = query
+    queryResult.columnName = "RESLABEL"
     return queryResult
   }
   let result = true;

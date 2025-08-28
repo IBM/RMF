@@ -39,3 +39,9 @@ export interface FolderStatus {
   installed: boolean;
   operation: Operation;
 }
+
+export interface FalconStatus {
+  enabled: boolean;
+  asDashboard: string
+  sysDashboard: string
+}

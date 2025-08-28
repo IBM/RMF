@@ -79,7 +79,7 @@ func validateResponse(ddsResponse *dds.Response) error {
 	return nil
 }
 
-func Build(sysplex string, ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) ([]*data.Frame, error) {
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) ([]*data.Frame, error) {
 	err := validateResponse(ddsResponse)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func Build(sysplex string, ddsResponse *dds.Response, headers *dds.HeaderMap, wi
 	frameName := strings.Trim(report.Metric.Description, " ")
 
 	if format == dds.ReportFormat {
-		return buildForReport(sysplex, &report, headers), nil
+		return buildForReport(&report, headers), nil
 	} else if wide {
 		result := make([]*data.Frame, 1)
 		result[0] = buildWideForMetric(&report, frameName)
@@ -191,7 +191,7 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(sysplex string, report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
+func buildForReport(report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
 	reportName := report.Metric.Id
 	captionFrame := data.NewFrame("Caption::" + reportName)
 	intervalFrame := data.NewFrame("Banner::" + reportName)
@@ -244,11 +244,6 @@ func buildForReport(sysplex string, report *dds.Report, headers *dds.HeaderMap) 
 	intervalFrame.Fields = append(intervalFrame.Fields, field)
 	field = buildField("Interval", BannerPrefix,
 		timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
-	intervalFrame.Fields = append(intervalFrame.Fields, field)
-
-	field = buildField("Sysplex", BannerPrefix, sysplex)
-	intervalFrame.Fields = append(intervalFrame.Fields, field)
-	field = buildField("Name", BannerPrefix, report.Resource.GetName())
 	intervalFrame.Fields = append(intervalFrame.Fields, field)
 
 	for _, caption := range report.Caption.Vars {

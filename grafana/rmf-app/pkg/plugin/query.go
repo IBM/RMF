@@ -37,8 +37,7 @@ func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) ([]*data.Frame, err
 			return nil, err
 		}
 		headers := ds.ddsClient.GetCachedHeaders()
-		sysplex := ds.ddsClient.GetSysplex()
-		fms, err := frame.Build(sysplex, ddsResponse, headers, wide)
+		fms, err := frame.Build(ddsResponse, headers, wide)
 		if err != nil {
 			return nil, err
 		}
