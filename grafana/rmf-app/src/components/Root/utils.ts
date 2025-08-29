@@ -18,7 +18,8 @@ import { FalconStatus } from './types';
 
 const FOLDERS_API = '/api/folders';
 const DASHBOARDS_API = '/api/dashboards/db';
-const SYSPLEX_NAME = "sysplex_name";
+const RMF_DATASOURCE_EXPR = "${datasource}"
+const SYSPLEX_NAME = "sysplex";
 const LPAR = "LPAR";
 const OMEGAMON_DS = "OmegamonDs";
 const OMEG_PLEX_LPAR_MVSSYS_EXPR = "${" + SYSPLEX_NAME + "}:${" + LPAR + "}:MVSSYS";
@@ -134,7 +135,7 @@ function addVars(dashboard: any) {
       name: SYSPLEX_NAME,
       datasource: {
         type: "ibm-rmf-datasource",
-        uid: "${sysplex}"
+        uid: RMF_DATASOURCE_EXPR
       },
       type: "query",
       query: "sysplex",
@@ -152,11 +153,11 @@ function addVars(dashboard: any) {
       description: "Omegamon Data source (optional)",
       datasource: {
         type: "ibm-rmf-datasource",
-        uid: "${sysplex}"
+        uid: RMF_DATASOURCE_EXPR
       },
       type: "query",
       query: "OmegamonDs",
-      hide: 0,
+      hide: 2,
       includeAll: false,
       multi: false,
       allowCustomValue: false,
