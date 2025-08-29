@@ -113,7 +113,7 @@
             "excludeByName": {
               "1 MB Frames Fixed": true,
               "2 GB Frames Fixed": true,
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "Channel Measurement Group": true,
               "FICON Deferred Operation Rate": true,
               "Freemained Frames": true,

@@ -95,11 +95,14 @@ export async function installDashboards(folderUid: string, defaultFolderName: st
 }
 
 export const FALCON_JOB_RELATED = [
-  "PROC", "PROCU", "STOR", "STORC", "STORM", "USAGE"//TODO add more
+  "DELAY", "OPD", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "USAGE"
 ];
 
 export const FALCON_SYSTEM_RELATED = [
-  "CPC",//TODO add more
+  ...FALCON_JOB_RELATED,
+  "CHANNEL", "CPC", "DELAY", "DEV", "DEVR", "DSND", "EADM", "ENCLAVE", "ENQ", "HSM", "JES", "IOQ", "LOCKSP", "LOCKSU",
+  "OPD", "PCIE", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "STORR", "STORS", "SYSINFO", "USAGE",
+  "Overall Image Activity", "Overall Image Activity (Timeline)",
 ];
 
 function falconJobRelated(dashboard: any): boolean {
@@ -111,42 +114,55 @@ function falconSystemRelated(dashboard: any): boolean {
 }
 
 function addVars(dashboard: any) {
+  var sysplex_name_exist: boolean = false;
+  var omegamon_ds_exist: boolean = false;
   dashboard.templating.list.forEach((t: any) => {
     if (t.name === LPAR) {
       t.query = "systems";
       t.definition = t.query;
     }
+    if (t.name === SYSPLEX_NAME) {
+      sysplex_name_exist = true;
+    }
+    if (t.name === OMEGAMON_DS) {
+      omegamon_ds_exist = true;
+    }
   })
 
-  dashboard.templating.list.push({
-    name: SYSPLEX_NAME,
-    datasource: {
-      type: "ibm-rmf-datasource",
-      uid: "${sysplex}"
-    },
-    type: "query",
-    query: "sysplex",
-    hide: 1,
-    includeAll: false,
-    multi: false,
-    allowCustomValue: false,
-  })
-
-  dashboard.templating.list.push({
-    name: OMEGAMON_DS,
-    label: "Omegamon Data source",
-    description: "Omegamon Data source (optional)",
-    datasource: {
-      type: "ibm-rmf-datasource",
-      uid: "${sysplex}"
-    },
-    type: "query",
-    query: "OmegamonDs",
-    hide: 0,
-    includeAll: false,
-    multi: false,
-    allowCustomValue: false,
-  })
+  if (!sysplex_name_exist) {
+    dashboard.templating.list.push({
+      name: SYSPLEX_NAME,
+      datasource: {
+        type: "ibm-rmf-datasource",
+        uid: "${sysplex}"
+      },
+      type: "query",
+      query: "sysplex",
+      hide: 1,
+      includeAll: false,
+      multi: false,
+      allowCustomValue: false,
+    })
+  }
+  
+  if (!omegamon_ds_exist) {
+    dashboard.templating.list.push({
+      name: OMEGAMON_DS,
+      label: "Omegamon Data source",
+      description: "Omegamon Data source (optional)",
+      datasource: {
+        type: "ibm-rmf-datasource",
+        uid: "${sysplex}"
+      },
+      type: "query",
+      query: "OmegamonDs",
+      hide: 0,
+      includeAll: false,
+      multi: false,
+      allowCustomValue: false,
+    })
+  }
+  
 }
 
 function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
@@ -165,7 +181,7 @@ function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
     p.fieldConfig.defaults.links = [];
     p.fieldConfig.defaults.links.push({
       targetBlank: true,
-      title: "Job Details ${__data.fields[\"Job Name\"]}",
+      title: "Omegamon details for " + JOB_NAME_EXPR,
       url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
         + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR 
         + "&var-_addressSpaceName=" + JOB_NAME_EXPR 

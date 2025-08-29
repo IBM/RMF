@@ -114,7 +114,7 @@
               "% Delay HIPR": true,
               "% Delay VIO": true,
               "% Delay XMEM": true,
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "Active Frames": true,
               "Channel Measurement Group": true,
               "FICON Deferred Operation Rate": true,

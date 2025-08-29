@@ -122,7 +122,7 @@
               "% Delay Mount": true,
               "% Delay Quiesce": true,
               "% Delay XCF": true,
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "Channel Measurement Group": true,
               "FICON Deferred Operation Rate": true,
               "LPAR MSG Rate": true,

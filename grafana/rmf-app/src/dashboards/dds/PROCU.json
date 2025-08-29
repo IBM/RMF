@@ -113,7 +113,7 @@
             "excludeByName": {
               "AAP EAppl %": true,
               "AAP Time on CP %": true,
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "CBP EAppl %": true,
               "CBP Time on CP %": true,
               "Channel Measurement Group": true,
