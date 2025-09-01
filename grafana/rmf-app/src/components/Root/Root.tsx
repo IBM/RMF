@@ -19,7 +19,7 @@ import { PanelContainer, Button, TextLink, Box, Icon, Alert } from '@grafana/ui'
 import { locationService, getBackendSrv, getDataSourceSrv, getAppEvents } from '@grafana/runtime';
 import { AppRootProps, AppEvents } from '@grafana/data';
 
-import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL } from '../../constants';
+import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL, FALCON_AS_DASHBOARD, FALCON_SYS_DASHBOARD } from '../../constants';
 import { GlobalSettings } from '../../types';
 import { DASHBOARDS as DDS_DASHBOARDS } from '../../dashboards/dds';
 import { DASHBOARDS as PROM_DASHBOARDS } from '../../dashboards/prometheus';
@@ -34,8 +34,6 @@ const DDS_FOLDER_NAME = 'IBM RMF (DDS)';
 const PROM_FOLDER_UID = 'ibm-rmf-prometheus';
 const PROM_FOLDER_NAME = 'IBM RMF (Prometheus)';
 const DATASOURCE_API = '/api/datasources';
-const FALCON_AS_DASHBOARD = "d/de6imy1nncd1cf/system-cpu-overview"
-const FALCON_SYS_DASHBOARD = "d/eefk6eunuubk0e/z-os-enterprise-overview"
 
 interface Props extends AppRootProps<GlobalSettings> {}
 

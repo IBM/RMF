@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
+import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
+import { getBackendSrv } from '@grafana/runtime';
 
 require('./config-editor.component.css');
 
@@ -38,6 +40,7 @@ interface State {
   httpTimeoutError?: string;
   basicAuthUserError?: string;
   cacheSizeError?: string;
+  omegOptionsArray?: Array<ReactNode>;
 }
 // TODO: somehow prometheus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
@@ -136,6 +139,24 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       secureJsonFields: { basicAuthPassword: false },
     });
   };
+
+  async componentDidMount() {
+    await this.updateDatasourceList(OMEGAMON_DS_TYPE_NAME);
+  }
+
+  updateDatasourceList = async (type: string) => {
+    var optionsArray: Array<ReactNode> = new Array;
+    var datasources: any = await getBackendSrv().get("/api/datasources")
+    datasources.forEach((ds: any) => {
+      if (ds.type === type) {
+        optionsArray.push(React.createElement("option", null, ds.name));
+      }
+    });
+    this.setState((prevState) => ({
+      ...prevState,
+      omegOptionsArray: optionsArray
+    }));
+  }
 
   render() {
     const { options } = this.props;
@@ -294,16 +315,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         <h3 className="page-heading">Omegamon Data source (Experimental)</h3>
         <div className="gf-form-group">
           <div className="gf-form">
-            <FormField
-              label="Name"
-              labelWidth={FIELD_LABEL_WIDTH}
-              tooltip="Name of Omegamon Falcon UI data source associated"
-              inputWidth={FIELD_INPUT_WIDTH}
+            <select name="selectedDs" 
+              className="gf-form-input width-20"
               value={options.jsonData?.omegamonDs}
               onChange={(event) => {
                 this.updateSettings({ jsonData: { omegamonDs: event.currentTarget.value } });
               }}
-            />
+            >
+              {this.state.omegOptionsArray}
+            </select>
           </div>
         </div>
       </div>
