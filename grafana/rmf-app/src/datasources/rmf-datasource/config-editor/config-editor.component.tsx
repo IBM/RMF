@@ -146,6 +146,9 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
   updateDatasourceList = async (type: string) => {
     var optionsArray: Array<ReactNode> = new Array;
+    if (this.props.options.jsonData?.omegamonDs) {
+      optionsArray.push(React.createElement("option", null, this.props.options.jsonData?.omegamonDs));
+    }
     var datasources: any = await getBackendSrv().get("/api/datasources")
     datasources.forEach((ds: any) => {
       if (ds.type === type) {

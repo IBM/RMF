@@ -206,9 +206,11 @@ export class Root extends PureComponent<Props, State> {
               <span style={{ color: 'gray' }}>[UID=&apos;{DDS_FOLDER_UID}&apos;]</span>
             </p>
             <p>
-              Link it with Omegamon Falcon UI (Experimental):
-              <Space layout={'inline'} h={2} />
-              <input type="checkbox" name="falconChk" defaultChecked={falcon.enabled} onChange={e => {falcon.enabled = e.target.checked;}}/>
+              <p>
+                Link it with Omegamon Falcon UI (Experimental):
+                <Space layout={'inline'} h={2} />
+                <input type="checkbox" name="falconChk" defaultChecked={falcon.enabled} onChange={e => {falcon.enabled = e.target.checked;}}/>
+              </p>
               <p>
                 Address Space Details Dashboard:
                 <Space layout={'inline'} h={2} />
