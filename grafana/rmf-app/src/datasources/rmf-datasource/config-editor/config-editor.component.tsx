@@ -16,7 +16,7 @@
  */
 import React, { PureComponent, ReactNode } from 'react';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput } from '@grafana/ui';
+import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Combobox, ComboboxOption } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
 import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
 import { getBackendSrv } from '@grafana/runtime';
@@ -140,31 +140,24 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     });
   };
 
-  async componentDidMount() {
-    await this.updateDatasourceList(OMEGAMON_DS_TYPE_NAME);
-  }
-
-  updateDatasourceList = async (type: string) => {
+  loadDatasourceList = async (inputValue: string) => {
     var items: Set<string> =  new Set();
-    var optionsArray: Array<ReactNode> = new Array;
+    var optionsArray: Array<ComboboxOption<string | number>> = new Array;
     if (this.props.options.jsonData?.omegamonDs) {
       items.add(this.props.options.jsonData?.omegamonDs);
-      optionsArray.push(React.createElement("option", null, this.props.options.jsonData?.omegamonDs));
+      optionsArray.push({value: this.props.options.jsonData?.omegamonDs} as ComboboxOption<string>);
     } else {
-      optionsArray.push(React.createElement("option", null, "<select>"));
+      optionsArray.push({value: "<select>"} as ComboboxOption<string>);
     }
     var datasources: any = await getBackendSrv().get("/api/datasources")
     datasources.forEach((ds: any) => {
-      if (ds.type === type && !items.has(ds.name)) {
+      if (ds.type === OMEGAMON_DS_TYPE_NAME && !items.has(ds.name)) {
         items.add(ds.name);
-        optionsArray.push(React.createElement("option", null, ds.name));
+        optionsArray.push({value: ds.name} as ComboboxOption<string>);
       }
     });
-    this.setState((prevState) => ({
-      ...prevState,
-      omegOptionsArray: optionsArray
-    }));
-  }
+    return optionsArray;
+  };
 
   render() {
     const { options } = this.props;
@@ -320,18 +313,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
           </div>
         </div>
 
-        <h3 className="page-heading">Omegamon Data source (Experimental)</h3>
+        <h3 className="page-heading">OMEGAMON Data source (Experimental)</h3>
         <div className="gf-form-group">
           <div className="gf-form">
-            <select name="selectedDs" 
-              className="gf-form-input width-20"
+            <Combobox createCustomValue={true}	
               value={options.jsonData?.omegamonDs}
+              options={this.loadDatasourceList} 
               onChange={(event) => {
-                this.updateSettings({ jsonData: { omegamonDs: event.currentTarget.value } });
-              }}
-            >
-              {this.state.omegOptionsArray}
-            </select>
+                this.updateSettings({ jsonData: { omegamonDs: String(event.value) } });
+              }}/>
           </div>
         </div>
       </div>

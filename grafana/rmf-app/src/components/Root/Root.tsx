@@ -207,7 +207,7 @@ export class Root extends PureComponent<Props, State> {
             </p>
             <p>
               <p>
-                Link it with Omegamon Falcon UI (Experimental):
+                Link it with OMEGAMON Falcon UI (Experimental):
                 <Space layout={'inline'} h={2} />
                 <input type="checkbox" name="falconChk" defaultChecked={falcon.enabled} onChange={e => {falcon.enabled = e.target.checked;}}/>
               </p>

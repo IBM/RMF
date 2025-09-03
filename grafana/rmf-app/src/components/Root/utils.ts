@@ -149,8 +149,8 @@ function addVars(dashboard: any) {
   if (!omegamon_ds_exist) {
     dashboard.templating.list.push({
       name: OMEGAMON_DS,
-      label: "Omegamon Data source",
-      description: "Omegamon Data source (optional)",
+      label: "OMEGAMON Data source",
+      description: "OMEGAMON Data source (optional)",
       datasource: {
         type: "ibm-rmf-datasource",
         uid: RMF_DATASOURCE_EXPR
@@ -182,7 +182,7 @@ function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
     p.fieldConfig.defaults.links = [];
     p.fieldConfig.defaults.links.push({
       targetBlank: true,
-      title: "Omegamon details for " + JOB_NAME_EXPR,
+      title: "OMEGAMON details for " + JOB_NAME_EXPR,
       url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
         + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR 
         + "&var-_addressSpaceName=" + JOB_NAME_EXPR 
