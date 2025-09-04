@@ -30,7 +30,7 @@ Examples:
 grammar RMFQuery;
 
 
-query: WS* RES_TYPE (DOT REPORT)? DOT identifier WS* qualifiers? WS* EOF;
+query: WS* RES_TYPE (DOT (REPORT | REPORTONLY | REPORTBANNER | REPORTCAPTION))? DOT identifier WS* qualifiers? WS* EOF;
 // A workaround: some reports are also resource TYPES (e.g. CPC).
 // In general, the problem is that we define keywords that are not distiguashable for antlr from
 // string literals which we also support.
@@ -55,7 +55,7 @@ workscopeValue: string? COMMA string? COMMA WORKSCOPE_TYPE;
 // Another workaround: it won't work on token level.
 number: INTEGER | DECIMAL;
 stringUnquoted
-  : IDENTIFIER | RES_TYPE | REPORT | WORKSCOPE | RANGE | ULQ | NAME | FILTER
+  : IDENTIFIER | RES_TYPE | REPORT | REPORTONLY | REPORTBANNER | REPORTCAPTION | WORKSCOPE | RANGE | ULQ | NAME | FILTER
   | PAT | LB | UB | HI | LO | ORD | ORD_OPTION | INTEGER | STRING_UNQUOTED | FRAME;
 stringSpaced: stringUnquoted (WS + stringUnquoted)*;
 stringDotted: stringUnquoted (DOT stringUnquoted)*;
@@ -64,6 +64,9 @@ string: stringDotted | STRING_QUOTED;
 
 FRAME: F R A M E;
 REPORT: R E P O R T;
+REPORTONLY: R E P O R T O N L Y;
+REPORTBANNER: R E P O R T B A N N E R;
+REPORTCAPTION: R E P O R T C A P T I O N;
 WORKSCOPE: W O R K S C O P E;
 RANGE: R A N G E;
 ULQ: U L Q;
