@@ -153,10 +153,10 @@ export const queryValidation = (query: string, resourceBaseData: any): QueryVali
   if ("sysplex" == query.toLowerCase() ||
       "systems" == query.toLowerCase() ||
       "omegamonds" == query.toLowerCase()) {
-    queryResult.result = true
-    queryResult.resourceCommand = query
-    queryResult.columnName = "RESLABEL"
-    return queryResult
+    queryResult.result = true;
+    queryResult.resourceCommand = query;
+    queryResult.columnName = "RESLABEL";
+    return queryResult;
   }
   let result = true;
   if (query === '' || query.length < 20) {

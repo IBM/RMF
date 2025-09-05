@@ -64,7 +64,7 @@ func TestFrame(t *testing.T) {
 			var expectedJson bytes.Buffer
 			err := json.Indent(&expectedJson, testCase.ExpectedFrame, "", "  ")
 			if assert.NoError(t, err, "failed to indent") {
-				frame, err := Build("", testCase.DdsResponse, nil, testCase.Wide)
+				frame, err := Build(testCase.DdsResponse, nil, testCase.Wide)
 				if err == nil {
 					actualJson, _ := json.MarshalIndent(frame[0], "", "  ")
 					assert.JSONEq(t, expectedJson.String(), string(actualJson), "frames are not identical")
