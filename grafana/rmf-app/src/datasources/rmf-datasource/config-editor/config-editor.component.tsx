@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput } from '@grafana/ui';
+import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Combobox, ComboboxOption } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
+import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
+import { getBackendSrv } from '@grafana/runtime';
 
 require('./config-editor.component.css');
 
@@ -38,6 +40,7 @@ interface State {
   httpTimeoutError?: string;
   basicAuthUserError?: string;
   cacheSizeError?: string;
+  omegOptionsArray?: Array<ReactNode>;
 }
 // TODO: somehow prometheus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
@@ -68,6 +71,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
+        omegamonDs: jsonData?.omegamonDs ?? "",
       };
     }
     onOptionsChange({ ...options });
@@ -134,6 +138,25 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       secureJsonData: { basicAuthPassword: '' },
       secureJsonFields: { basicAuthPassword: false },
     });
+  };
+
+  loadDatasourceList = async (inputValue: string) => {
+    var items: Set<string> =  new Set();
+    var optionsArray: Array<ComboboxOption<string | number>> = new Array;
+    if (this.props.options.jsonData?.omegamonDs) {
+      items.add(this.props.options.jsonData?.omegamonDs);
+      optionsArray.push({value: this.props.options.jsonData?.omegamonDs} as ComboboxOption<string>);
+    } else {
+      optionsArray.push({value: "<select>"} as ComboboxOption<string>);
+    }
+    var datasources: any = await getBackendSrv().get("/api/datasources")
+    datasources.forEach((ds: any) => {
+      if (ds.type === OMEGAMON_DS_TYPE_NAME && !items.has(ds.name)) {
+        items.add(ds.name);
+        optionsArray.push({value: ds.name} as ComboboxOption<string>);
+      }
+    });
+    return optionsArray;
   };
 
   render() {
@@ -287,6 +310,18 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               }}
             />
             {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}
+          </div>
+        </div>
+
+        <h3 className="page-heading">OMEGAMON Data source (Experimental)</h3>
+        <div className="gf-form-group">
+          <div className="gf-form">
+            <Combobox createCustomValue={true}	
+              value={options.jsonData?.omegamonDs}
+              options={this.loadDatasourceList} 
+              onChange={(event) => {
+                this.updateSettings({ jsonData: { omegamonDs: String(event.value) } });
+              }}/>
           </div>
         </div>
       </div>

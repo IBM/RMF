@@ -50,45 +50,55 @@ func NoDataFrame(t time.Time) *data.Frame {
 	)
 }
 
-func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
+func validateResponse(ddsResponse *dds.Response) error {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
 	if reportsNum == 0 {
-		return nil, errors.New("no reports in DDS response")
+		return errors.New("no reports in DDS response")
 	} else if reportsNum > 1 {
-		return nil, fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
+		return fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
 	}
 	report := ddsResponse.Reports[0]
 	if message := report.Message; message != nil {
 		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
-			return nil, message
+			return message
 		} else {
 			logger.Debug(message.Error())
 		}
 	}
 	if report.TimeData == nil {
-		return nil, errors.New("no time data in DDS response")
+		return errors.New("no time data in DDS response")
 	}
 	if report.Metric == nil {
-		return nil, errors.New("no metric data in DDS response")
+		return errors.New("no metric data in DDS response")
 	}
 	if _, ok := dds.SupportedFormats[report.Metric.Format]; !ok {
-		return nil, fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
+		return fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
 	}
+	return nil
+}
 
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) ([]*data.Frame, error) {
+	err := validateResponse(ddsResponse)
+	if err != nil {
+		return nil, err
+	}
+	report := ddsResponse.Reports[0]
 	format := report.Metric.Format
 	frameName := strings.Trim(report.Metric.Description, " ")
-	var newFrame *data.Frame
 
 	if format == dds.ReportFormat {
-		newFrame = buildForReport(&report, headers, frameName)
+		return buildForReport(&report, headers), nil
 	} else if wide {
-		return buildWideForMetric(&report, frameName), nil
+		result := make([]*data.Frame, 1)
+		result[0] = buildWideForMetric(&report, frameName)
+		return result, nil
 	} else {
-		return buildLongForMetric(&report, frameName), nil
+		result := make([]*data.Frame, 1)
+		result[0] = buildLongForMetric(&report, frameName)
+		return result, nil
 	}
-	return newFrame, nil
 }
 
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.
@@ -181,32 +191,34 @@ func iterateMetricRows(report *dds.Report, defaultName string, process func(name
 	}
 }
 
-func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string) *data.Frame {
-	logger := log.Logger.With("func", "buildForReport")
-	frame := data.NewFrame(frameName)
+func buildForReport(report *dds.Report, headers *dds.HeaderMap) []*data.Frame {
 	reportName := report.Metric.Id
+	captionFrame := data.NewFrame("Caption::" + reportName)
+	intervalFrame := data.NewFrame("Banner::" + reportName)
+	reportFrame := data.NewFrame(reportName)
 
 	for i, col := range report.Headers.Cols {
 		header := headers.Get(reportName, col.Id)
-		var field *data.Field
-		// The first value is a dummy to fit in captions and header.
-		if col.Type == dds.NumericColType {
-			field = data.NewField(header, nil, []*float64{nil})
-		} else {
-			if col.Type != dds.TextColType {
-				logger.Warn("unsupported column type, considering as string", "type", col.Type)
-			}
-			field = data.NewField(header, nil, []string{""})
-		}
+		var field *data.Field = nil
 		for _, row := range report.Rows {
 			rawValue := row.Cols[i]
+			if field == nil {
+				if col.Type == dds.NumericColType {
+					field = data.NewField(header, nil, []float64{parseFloat2(rawValue)})
+				} else {
+					field = data.NewField(header, nil, []string{rawValue})
+				}
+				continue
+			}
 			if col.Type == dds.NumericColType {
-				field.Append(parseFloat(rawValue))
+				field.Append(parseFloat2(rawValue))
 			} else {
 				field.Append(rawValue)
 			}
 		}
-		frame.Fields = append(frame.Fields, field)
+		if field != nil {
+			reportFrame.Fields = append(reportFrame.Fields, field)
+		}
 	}
 
 	buildField := func(name string, prefix string, value string) *data.Field {
@@ -220,27 +232,31 @@ func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string
 	timeData := report.TimeData
 
 	field := buildField("Samples", BannerPrefix, strconv.Itoa(timeData.NumSamples))
-	frame.Fields = append(frame.Fields, field)
+	intervalFrame.Fields = append(intervalFrame.Fields, field)
 	if timeData.NumSystems != nil {
 		field = buildField("Systems", BannerPrefix, strconv.Itoa(*timeData.NumSystems))
-		frame.Fields = append(frame.Fields, field)
+		intervalFrame.Fields = append(intervalFrame.Fields, field)
 	}
 	field = buildField("Time range", BannerPrefix,
 		fmt.Sprintf("%s - %s",
 			timeData.LocalStart.Format(ReportDateFormat),
 			timeData.LocalEnd.Format(ReportDateFormat)))
-	frame.Fields = append(frame.Fields, field)
+	intervalFrame.Fields = append(intervalFrame.Fields, field)
 	field = buildField("Interval", BannerPrefix,
 		timeData.LocalEnd.Sub(timeData.LocalStart.Time).String())
-	frame.Fields = append(frame.Fields, field)
+	intervalFrame.Fields = append(intervalFrame.Fields, field)
 
 	for _, caption := range report.Caption.Vars {
 		name := headers.Get(reportName, caption.Name)
 		field := buildField(name, CaptionPrefix, caption.Value)
-		frame.Fields = append(frame.Fields, field)
+		captionFrame.Fields = append(captionFrame.Fields, field)
 	}
 
-	return frame
+	result := make([]*data.Frame, 3)
+	result[0] = reportFrame
+	result[1] = intervalFrame
+	result[2] = captionFrame
+	return result
 }
 
 func parseFloat(value string) *float64 {
@@ -249,4 +265,12 @@ func parseFloat(value string) *float64 {
 		return &parsed
 	}
 	return nil
+}
+
+func parseFloat2(value string) float64 {
+	// Value can contain different kinds of text meaning n/a: NaN, blank value, Deact, etc.
+	if parsed, err := strconv.ParseFloat(value, 64); err == nil && !math.IsNaN(parsed) {
+		return parsed
+	}
+	return 0.0
 }

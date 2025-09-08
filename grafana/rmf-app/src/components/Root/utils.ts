@@ -14,8 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { FalconStatus } from './types';
+
 const FOLDERS_API = '/api/folders';
 const DASHBOARDS_API = '/api/dashboards/db';
+const RMF_DATASOURCE_EXPR = "${datasource}"
+const SYSPLEX_NAME = "sysplex";
+const LPAR = "LPAR";
+const OMEGAMON_DS = "OmegamonDs";
+const OMEG_PLEX_LPAR_MVSSYS_EXPR = "${" + SYSPLEX_NAME + "}:${" + LPAR + "}:MVSSYS";
 
 // Don't use `getBackendSrv` to avoid built-in notifications: they won't work as we need them.
 
@@ -60,7 +67,13 @@ export async function deleteFolder(uid: string) {
   }
 }
 
-async function createDashboard(folderUid: string, dashboard: object) {
+async function createDashboard(folderUid: string, dashboard: object, falcon: FalconStatus) {
+  if (falcon.enabled && falconJobRelated(dashboard)) {
+    falconJobUpdate(falcon, dashboard);
+  }
+  if (falcon.enabled && falconSystemRelated(dashboard)) {
+    falconSystemUpdate(falcon, dashboard);
+  }
   // Don't use `getBackendSrv` to avoid notifications
   const res = await fetch(DASHBOARDS_API, {
     method: 'POST',
@@ -74,10 +87,134 @@ async function createDashboard(folderUid: string, dashboard: object) {
   }
 }
 
-export async function installDashboards(folderUid: string, defaultFolderName: string, dashboards: object[]) {
+export async function installDashboards(folderUid: string, defaultFolderName: string, dashboards: object[], falcon: FalconStatus) {
   const folderPath = await findFolder(folderUid);
   if (folderPath === undefined) {
     await createFolder(folderUid, defaultFolderName);
   }
-  await Promise.all(dashboards.map((dashboard) => createDashboard(folderUid, dashboard)));
+  await Promise.all(dashboards.map((dashboard) => createDashboard(folderUid, dashboard, falcon)));
+}
+
+export const FALCON_JOB_RELATED = [
+  "DELAY", "OPD", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "USAGE"
+];
+
+export const FALCON_SYSTEM_RELATED = [
+  ...FALCON_JOB_RELATED,
+  "CHANNEL", "CPC", "DELAY", "DEV", "DEVR", "DSND", "EADM", "ENCLAVE", "ENQ", "HSM", "JES", "IOQ", "LOCKSP", "LOCKSU",
+  "OPD", "PCIE", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "STORR", "STORS", "SYSINFO", "USAGE",
+  "Overall Image Activity", "Overall Image Activity (Timeline)",
+];
+
+function falconJobRelated(dashboard: any): boolean {
+  return FALCON_JOB_RELATED.indexOf(dashboard.title) > -1;
+}
+
+function falconSystemRelated(dashboard: any): boolean {
+  return FALCON_SYSTEM_RELATED.indexOf(dashboard.title) > -1;
+}
+
+function addVars(dashboard: any) {
+  var sysplex_name_exist: boolean = false;
+  var omegamon_ds_exist: boolean = false;
+  dashboard.templating.list.forEach((t: any) => {
+    if (t.name === LPAR) {
+      t.query = "systems";
+      t.definition = t.query;
+    }
+    if (t.name === SYSPLEX_NAME) {
+      sysplex_name_exist = true;
+    }
+    if (t.name === OMEGAMON_DS) {
+      omegamon_ds_exist = true;
+    }
+  })
+
+  if (!sysplex_name_exist) {
+    dashboard.templating.list.push({
+      name: SYSPLEX_NAME,
+      datasource: {
+        type: "ibm-rmf-datasource",
+        uid: RMF_DATASOURCE_EXPR
+      },
+      type: "query",
+      query: "sysplex",
+      hide: 1,
+      includeAll: false,
+      multi: false,
+      allowCustomValue: false,
+    })
+  }
+  
+  if (!omegamon_ds_exist) {
+    dashboard.templating.list.push({
+      name: OMEGAMON_DS,
+      label: "OMEGAMON Data source",
+      description: "OMEGAMON Data source (optional)",
+      datasource: {
+        type: "ibm-rmf-datasource",
+        uid: RMF_DATASOURCE_EXPR
+      },
+      type: "query",
+      query: "OmegamonDs",
+      hide: 2,
+      includeAll: false,
+      multi: false,
+      allowCustomValue: false,
+    })
+  }
+  
+}
+
+function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
+  addVars(dashboard);
+
+  const JOB_NAME_EXPR = "${__data.fields[\"Job Name\"]}";
+  const ASID_EXPR = "${__data.fields[\"ASID (dec)\"]}";
+  let baseUrl = falcon.asDashboard;
+  if (baseUrl.indexOf("?") > -1) {
+    baseUrl += "&";
+  } else {
+    baseUrl += "?";
+  }
+  
+  dashboard.panels.forEach((p: any) => {
+    p.fieldConfig.defaults.links = [];
+    p.fieldConfig.defaults.links.push({
+      targetBlank: true,
+      title: "OMEGAMON details for " + JOB_NAME_EXPR,
+      url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
+        + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR 
+        + "&var-_addressSpaceName=" + JOB_NAME_EXPR 
+        + "&var-_ASID=" + ASID_EXPR 
+        + "&var-_iAddressSpaceName=" + JOB_NAME_EXPR 
+        + "&var-_iASID=" + ASID_EXPR
+        + "&from=$__from"
+        + "&to=$__to",
+    });
+  });
+}
+
+function falconSystemUpdate(falcon: FalconStatus, dashboard: any) {
+  addVars(dashboard);
+  let baseUrl = falcon.sysDashboard;
+  if (baseUrl.indexOf("?") > -1) {
+    baseUrl += "&";
+  } else {
+    baseUrl += "?";
+  }
+  
+  if (!dashboard.links) {
+    dashboard.links = [];
+  }
+
+  dashboard.links.push({
+    type: "link",
+    icon: "dashboard",
+    keepTime: true,
+    targetBlank: true,
+    title: "z/OS Enterprise Overview",
+    url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
+      + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR,
+  });
 }

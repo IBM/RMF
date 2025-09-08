@@ -19,6 +19,7 @@ package dds
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -55,10 +56,21 @@ type Report struct {
 	Metric   *Metric
 	Message  *Message
 	Caption  Caption
+	Resource *Resource `json:"resource"`
 	Headers  struct {
 		Cols []Col `json:"col"`
 	} `json:"columnHeaders"`
 	Rows []Row `json:"row"`
+}
+
+func (r Report) GetRowNames() []string {
+	var names []string
+	if r.Rows != nil {
+		for _, row := range r.Rows {
+			names = append(names, row.Cols[0])
+		}
+	}
+	return names
 }
 
 type TimeData struct {
@@ -79,6 +91,19 @@ type TimeData struct {
 		Unit  string `json:"unit"`
 		Value int    `json:"value"`
 	} `json:"dataRange"`
+}
+
+type Resource struct {
+	Reslabel string `json:"reslabel"`
+	Restype  string `json:"restype"`
+}
+
+func (r Resource) GetName() string {
+	ss := strings.Split(r.Reslabel, ",")
+	if len(ss) > 1 {
+		return ss[1]
+	}
+	return r.Reslabel
 }
 
 type DateTime struct {

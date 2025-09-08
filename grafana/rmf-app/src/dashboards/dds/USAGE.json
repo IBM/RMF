@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "description": "Job Oriented Usage",
       "fieldConfig": {
@@ -93,7 +93,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "aa2f5d29-d19b-4e8f-b782-32468729ab3f",
@@ -111,7 +111,7 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "Channel Measurement Group": true,
               "Dispatching Priority": true,
               "FICON Deferred Operation Rate": true,
@@ -191,14 +191,14 @@
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -210,15 +210,34 @@
       {
         "datasource": {
           "type": "ibm-rmf-datasource",
-          "uid": "${sysplex}"
+          "uid": "${datasource}"
         },
-        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "systems",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "LPAR",
         "options": [],
-        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "query": "systems",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

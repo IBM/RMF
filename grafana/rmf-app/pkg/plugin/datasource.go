@@ -23,6 +23,7 @@ import (
 	"errors"
 	"net/http"
 	"runtime/debug"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -63,6 +64,7 @@ type RMFDatasource struct {
 	frameCache   *cache.FrameCache
 	ddsClient    *dds.Client
 	single       singleflight.Group
+	omegamonDs   string
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -79,6 +81,7 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 		config.JSON.TlsSkipVerify, config.JSON.DisableCompression)
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
+	ds.omegamonDs = config.JSON.OmegamonDs
 	logger.Info("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
@@ -148,13 +151,28 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	switch req.Path {
 	// FIXME: it's a contained.xml request for M3 resource tree. Re-factor accordingly.
 	case "variablequery":
-		// Extract the query parameter from the POST request
-		jsonStr := string(req.Body)
 		varRequest := VariableQueryRequest{}
-		err := json.Unmarshal([]byte(jsonStr), &varRequest)
+		err := json.Unmarshal(req.Body, &varRequest)
 		if err != nil {
 			return log.ErrorWithId(logger, log.InternalError, "could not unmarshal data", "error", err)
 		}
+		q := varRequest.Query
+		q = strings.Trim(q, " ")
+		q = strings.ToLower(q)
+
+		switch q {
+		case "sysplex":
+			data, _ := ds.sysplexContainedJson()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
+		case "systems":
+			data, _ := ds.systemsContainedJson()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
+		case "omegamonds":
+			data, _ := ds.omegamonContainedJson()
+			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
+		}
+
+		// Extract the query parameter from the POST request
 		ddsResource := varRequest.Query
 		if len(strings.TrimSpace(ddsResource)) == 0 {
 			return log.ErrorWithId(logger, log.InputError, "variable query cannot be blank")
@@ -182,6 +200,50 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 	default:
 		return sender.Send(&backend.CallResourceResponse{Status: http.StatusNotFound, Body: nil})
 	}
+}
+
+func (ds *RMFDatasource) sysplexContainedJson() ([]byte, error) {
+	sysplex := ds.ddsClient.GetSysplex()
+	return toContainedJson([]string{sysplex})
+}
+
+func (ds *RMFDatasource) systemsContainedJson() ([]byte, error) {
+	systems := ds.ddsClient.GetSystems()
+	slices.Sort(systems)
+	return toContainedJson(systems)
+}
+
+func (ds *RMFDatasource) omegamonContainedJson() ([]byte, error) {
+	return toContainedJson([]string{ds.omegamonDs})
+}
+
+func toContainedJson(resources []string) ([]byte, error) {
+	type Resource struct {
+		Reslabel string `json:"reslabel"`
+	}
+	type Contained struct {
+		Resource []Resource `json:"resource"`
+	}
+	type ContainedResource struct {
+		Contained Contained `json:"contained"`
+	}
+	type Ddsml struct {
+		ContainedResourcesList []ContainedResource `json:"containedResourcesList"`
+	}
+
+	contained := Contained{Resource: []Resource{}}
+	for _, res := range resources {
+		contained.Resource = append(contained.Resource, Resource{Reslabel: "," + res + ","})
+	}
+
+	var containedResource = ContainedResource{
+		Contained: contained,
+	}
+
+	result := Ddsml{
+		ContainedResourcesList: []ContainedResource{containedResource},
+	}
+	return json.Marshal(result)
 }
 
 type RequestParams struct {
@@ -276,7 +338,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
 					// FIXME: doesn't it need to be cached?
-					if newFrame, err := ds.getFrame(r, false); err != nil {
+					if fms, err := ds.getFrame(r, false); err != nil {
 						var msg *dds.Message
 						if errors.As(err, &msg) {
 							response.Error = err
@@ -285,8 +347,14 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							response.Error = log.FrameErrorWithId(logger, err)
 							response.Status = backend.StatusInternal
 						}
-					} else if newFrame != nil {
-						response.Frames = append(response.Frames, newFrame)
+					} else if fms != nil {
+						if r.Frame < 0 {
+							for _, f := range fms {
+								response.Frames = append(response.Frames, f)
+							}
+						} else {
+							response.Frames = append(response.Frames, fms[r.Frame])
+						}
 					}
 				}
 			}

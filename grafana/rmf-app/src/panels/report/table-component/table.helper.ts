@@ -43,12 +43,31 @@ export const InitFrameData = (data: PanelData): DataFrame[] => {
     data.series.length > 0 &&
     data.series[0].fields !== undefined
   ) {
-    frameData = [
-      {
+    frameData = [] as DataFrame[];
+    if (data.series.length > 0 && !data.series[0].name?.startsWith(BANNER_PREFIX) && !data.series[0].name?.startsWith(CAPTION_PREFIX)) {
+      frameData.push({
+        name: data.series[0].name,
         fields: data.series[0].fields,
         length: data.series[0].fields[0].values.length,
-      } as DataFrame,
-    ] as DataFrame[];
+      } as DataFrame)
+    } else {
+      frameData.push({
+        fields: [],
+        length: 0,
+      } as DataFrame)
+    }
+    if (data.series.length > 1) {
+      frameData.push({
+        fields: data.series[1].fields,
+        length: data.series[1].fields[0].values.length,
+      } as DataFrame)
+    }
+    if (data.series.length > 2) {
+      frameData.push({
+        fields: data.series[2].fields,
+        length: data.series[2].fields[0].values.length,
+      } as DataFrame)
+    }
   }
 
   return frameData;
@@ -68,45 +87,21 @@ export const applySelectedDefaultsAndOverrides = (
   fieldConfig: FieldConfigSource,
   data: DataFrame[]
 ): ReportData => {
-  // FIXME: send banner, captions and table data in different frames.
-  let result = applyRawFieldOverrides(data);
-  let bannerFields: Field[] = [];
-  let captionFields: Field[] = [];
-  let tableFields: Field[] = [];
+  let frames = applyRawFieldOverrides(data);
+  let tableFields: Field[] = frames[0].fields;
 
-  let targetArray: Field[];
-  let sliceStart: number;
-  let sliceEnd: number | undefined;
-
-  for (let i = 0; i < result[0].fields.length; i++) {
-    let field: V9CompatField<any> = result[0].fields[i];
-    if (field.name.startsWith(BANNER_PREFIX)) {
-      targetArray = bannerFields;
-      sliceStart = 0;
-      sliceEnd = 1;
-    } else if (field.name.startsWith(CAPTION_PREFIX)) {
-      targetArray = captionFields;
-      sliceStart = 0;
-      sliceEnd = 1;
-    } else {
-      targetArray = tableFields;
-      sliceStart = 1;
-      sliceEnd = undefined;
-    }
-    let values = field.values?.buffer ?? field.values;
-    values = values.slice(sliceStart, sliceEnd);
-    if (field.values?.buffer !== undefined) {
-      field.values.buffer = values;
-    } else {
-      field.values = values;
-    }
-    targetArray.push(field);
+  let bannerFields: Field[] = []
+  if (frames.length > 1) {
+    bannerFields = frames[1].fields;
   }
-  result[0].fields = tableFields;
-  result[0].length -= 1;
+  
+  let captionFields: Field[] = [];
+  if (frames.length > 2) {
+    captionFields = frames[2].fields;
+  }
 
   // First apply default settings
-  result[0].fields.map((field: Field) => {
+  tableFields.map((field: Field) => {
     if (fieldConfig.defaults.thresholds !== undefined) {
       field.config.thresholds = fieldConfig.defaults.thresholds;
     }
@@ -128,7 +123,7 @@ export const applySelectedDefaultsAndOverrides = (
       if (ovItem.matcher.id === 'byName') {
         ovItem.properties.map((ovrProp) => {
           if (ovrProp.id === 'custom.cellOptions') {
-            result[0].fields.map((field: Field, index: number) => {
+            tableFields.map((field: Field, index: number) => {
               if (field.name === ovItem.matcher.options) {
                 field = applyNearestPercentage(field, 100);
                 field.config.custom = {
@@ -138,7 +133,7 @@ export const applySelectedDefaultsAndOverrides = (
             });
           }
           if (ovrProp.id === 'custom.filterable') {
-            result[0].fields.map((field: Field, index: number) => {
+            tableFields.map((field: Field, index: number) => {
               if (field.name === ovItem.matcher.options) {
                 if (field.config.custom !== undefined && field.config.custom.cellOptions !== undefined) {
                   field.config.custom = {
@@ -154,7 +149,7 @@ export const applySelectedDefaultsAndOverrides = (
             });
           }
           if (ovrProp.id === 'color') {
-            result[0].fields.map((field: Field) => {
+            tableFields.map((field: Field) => {
               if (field.name === ovItem.matcher.options && ovrProp && ovrProp.value && ovrProp.value.mode) {
                 field.config.color = {
                   mode: ovrProp.value.mode,
@@ -164,7 +159,7 @@ export const applySelectedDefaultsAndOverrides = (
             });
           }
           if (ovrProp.id === 'thresholds') {
-            result[0].fields.map((field: Field) => {
+            tableFields.map((field: Field) => {
               if (field.name === ovItem.matcher.options && ovrProp && ovrProp.value && ovrProp.value.mode) {
                 field.config.thresholds = {
                   mode: ovrProp.value.mode,
@@ -177,7 +172,7 @@ export const applySelectedDefaultsAndOverrides = (
       }
     });
   }
-  return { bannerFields: bannerFields, captionFields: captionFields, tableData: result };
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: frames };
 };
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {

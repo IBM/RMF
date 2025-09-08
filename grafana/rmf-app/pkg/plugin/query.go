@@ -29,22 +29,22 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) (*data.Frame, error) {
-	key := cache.FrameKey(r, wide)
+func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) ([]*data.Frame, error) {
+	key := cache.FrameKey(r, false)
 	result, err, _ := ds.single.Do(string(key), func() (interface{}, error) {
 		ddsResponse, err := ds.ddsClient.GetByRequest(r)
 		if err != nil {
 			return nil, err
 		}
 		headers := ds.ddsClient.GetCachedHeaders()
-		f, err := frame.Build(ddsResponse, headers, wide)
+		fms, err := frame.Build(ddsResponse, headers, wide)
 		if err != nil {
 			return nil, err
 		}
-		return f, nil
+		return fms, nil
 	})
 	if result != nil {
-		return result.(*data.Frame), err
+		return result.([]*data.Frame), err
 	} else {
 		return nil, err
 	}
@@ -93,6 +93,7 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 
 func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
 	logger := log.Logger.With("func", "serveTSFrame")
+	var fa []*data.Frame
 	var f *data.Frame
 	var err error
 
@@ -106,11 +107,12 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 			time.Sleep(d)
 		}
 		logger.Debug("executing query", "request", r.String())
-		f, err = ds.getFrame(r, true)
+		fa, err = ds.getFrame(r, true)
 		if err != nil {
 			logger.Error("failed to get data", "request", r.String(), "reason", err)
 			f = frame.NoDataFrame(r.TimeRange.To)
 		} else {
+			f = fa[0]
 			if !hist {
 				t, ok := f.Fields[0].At(0).(time.Time)
 				if !ok || t.Before(r.TimeRange.To) {

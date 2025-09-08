@@ -67,7 +67,8 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
         {( tableData && tableData.length > 0 && tableData[0].fields && tableData[0].fields.length > 0) ? (
           <Table
             key={'dataTable'}
-            data={finalTableData[0]}
+            //data={finalTableData[0]}
+            data={tableData[0]}
             height={actTableHeight}
             width={width}
             enablePagination={enablePagination}
