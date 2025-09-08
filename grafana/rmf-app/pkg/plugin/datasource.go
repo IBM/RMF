@@ -160,13 +160,14 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 		q = strings.Trim(q, " ")
 		q = strings.ToLower(q)
 
-		if q == "sysplex" {
+		switch q {
+		case "sysplex":
 			data, _ := ds.sysplexContainedJson()
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
-		} else if q == "systems" {
+		case "systems":
 			data, _ := ds.systemsContainedJson()
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
-		} else if q == "omegamonds" {
+		case "omegamonds":
 			data, _ := ds.omegamonContainedJson()
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
 		}
