@@ -160,14 +160,13 @@ func (ds *RMFDatasource) CallResource(ctx context.Context, req *backend.CallReso
 		q = strings.Trim(q, " ")
 		q = strings.ToLower(q)
 
-		if "sysplex" == q {
+		if q == "sysplex" {
 			data, _ := ds.sysplexContainedJson()
-			logger.Info("### " + string(data))
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
-		} else if "systems" == q {
+		} else if q == "systems" {
 			data, _ := ds.systemsContainedJson()
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
-		} else if "omegamonds" == q {
+		} else if q == "omegamonds" {
 			data, _ := ds.omegamonContainedJson()
 			return sender.Send(&backend.CallResourceResponse{Status: http.StatusOK, Body: data})
 		}
@@ -236,12 +235,12 @@ func toContainedJson(resources []string) ([]byte, error) {
 		contained.Resource = append(contained.Resource, Resource{Reslabel: "," + res + ","})
 	}
 
+	var containedResource = ContainedResource{
+		Contained: contained,
+	}
+
 	result := Ddsml{
-		ContainedResourcesList: []ContainedResource{
-			ContainedResource{
-				Contained: contained,
-			},
-		},
+		ContainedResourcesList: []ContainedResource{containedResource},
 	}
 	return json.Marshal(result)
 }
