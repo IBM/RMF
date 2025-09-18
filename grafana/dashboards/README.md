@@ -31,10 +31,10 @@ A target definition example to scrape all the metrics as defined in GPMOMC (to l
   tls_config:
   insecure_skip_verify: false # Change to “true” if self-signed certificates are used
   basic_auth: # Use DDS credentials or remove if DDS authentication is disabled
-  username: ‘DDSUSER'
+  username: 'DDSUSER'
   password: 'XXXXXXX'
   static_configs:
-  - targets: [ "ddshostname:8803” ]
+  - targets: [ "ddshostname:8803" ]
 ```
 
 Refer to [z/OS Resource Measurement Facility User's Guide](https://www.ibm.com/docs/en/zos/latest?topic=rmf-zos-resource-measurement-facility-users-guide) for more information.
