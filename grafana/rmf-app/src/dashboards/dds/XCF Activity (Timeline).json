@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -130,7 +130,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "3bdf9ae8-f62b-40ec-b854-6ed5b66656a0",
@@ -144,7 +144,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "hide": false,
           "refId": "B",
@@ -163,7 +163,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -241,7 +241,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "e074ed81-e389-4db3-bee6-ce27191643a2",
@@ -255,7 +255,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "hide": false,
           "refId": "B",
@@ -274,7 +274,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -352,7 +352,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "ab9c1f60-2901-4a38-9500-b775cd4df2b5",
@@ -370,7 +370,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -448,7 +448,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "03d3c3a6-1ba1-4c49-969b-2b904b785419",
@@ -473,14 +473,14 @@
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -488,6 +488,25 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },

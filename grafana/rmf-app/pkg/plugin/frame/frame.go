@@ -50,45 +50,51 @@ func NoDataFrame(t time.Time) *data.Frame {
 	)
 }
 
-func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
+func validateResponse(ddsResponse *dds.Response) error {
 	logger := log.Logger.With("func", "Build")
 
 	reportsNum := len(ddsResponse.Reports)
 	if reportsNum == 0 {
-		return nil, errors.New("no reports in DDS response")
+		return errors.New("no reports in DDS response")
 	} else if reportsNum > 1 {
-		return nil, fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
+		return fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
 	}
 	report := ddsResponse.Reports[0]
 	if message := report.Message; message != nil {
 		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
-			return nil, message
+			return message
 		} else {
 			logger.Debug(message.Error())
 		}
 	}
 	if report.TimeData == nil {
-		return nil, errors.New("no time data in DDS response")
+		return errors.New("no time data in DDS response")
 	}
 	if report.Metric == nil {
-		return nil, errors.New("no metric data in DDS response")
+		return errors.New("no metric data in DDS response")
 	}
 	if _, ok := dds.SupportedFormats[report.Metric.Format]; !ok {
-		return nil, fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
+		return fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
 	}
+	return nil
+}
 
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
+	err := validateResponse(ddsResponse)
+	if err != nil {
+		return nil, err
+	}
+	report := ddsResponse.Reports[0]
 	format := report.Metric.Format
 	frameName := strings.Trim(report.Metric.Description, " ")
-	var newFrame *data.Frame
 
 	if format == dds.ReportFormat {
-		newFrame = buildForReport(&report, headers, frameName)
+		return buildForReport(&report, headers, frameName), nil
 	} else if wide {
 		return buildWideForMetric(&report, frameName), nil
 	} else {
 		return buildLongForMetric(&report, frameName), nil
 	}
-	return newFrame, nil
 }
 
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.
@@ -191,7 +197,7 @@ func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string
 		var field *data.Field
 		// The first value is a dummy to fit in captions and header.
 		if col.Type == dds.NumericColType {
-			field = data.NewField(header, nil, []*float64{nil})
+			field = data.NewField(header, nil, []float64{0}) //?
 		} else {
 			if col.Type != dds.TextColType {
 				logger.Warn("unsupported column type, considering as string", "type", col.Type)
@@ -200,8 +206,16 @@ func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string
 		}
 		for _, row := range report.Rows {
 			rawValue := row.Cols[i]
+			if field == nil {
+				if col.Type == dds.NumericColType {
+					field = data.NewField(header, nil, []float64{parseFloat2(rawValue)}) //?
+				} else {
+					field = data.NewField(header, nil, []string{rawValue})
+				}
+				continue
+			}
 			if col.Type == dds.NumericColType {
-				field.Append(parseFloat(rawValue))
+				field.Append(parseFloat2(rawValue)) //?
 			} else {
 				field.Append(rawValue)
 			}
@@ -249,4 +263,12 @@ func parseFloat(value string) *float64 {
 		return &parsed
 	}
 	return nil
+}
+
+func parseFloat2(value string) float64 {
+	// Value can contain different kinds of text meaning n/a: NaN, blank value, Deact, etc.
+	if parsed, err := strconv.ParseFloat(value, 64); err == nil && !math.IsNaN(parsed) {
+		return parsed
+	}
+	return 0.0
 }

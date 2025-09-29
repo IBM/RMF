@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "description": "Coupling Facility Activity",
       "fieldConfig": {
@@ -95,7 +95,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "26f5f14b-f506-4c31-907c-9f32ccd314e4",
@@ -406,15 +406,15 @@
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
-        "description": "Sysplex",
+        "description": "Data source",
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -422,6 +422,25 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },

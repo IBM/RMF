@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 import React, { PureComponent } from 'react';
-import { PanelContainer, Button, TextLink, Box, Icon, Alert } from '@grafana/ui';
+import { PanelContainer, Button, TextLink, Box, Icon, Alert, InlineSwitch, Input, InlineField } from '@grafana/ui';
 import { locationService, getBackendSrv, getDataSourceSrv, getAppEvents } from '@grafana/runtime';
 import { AppRootProps, AppEvents } from '@grafana/data';
 
-import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL } from '../../constants';
+import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL, FALCON_AS_DASHBOARD, FALCON_SYS_DASHBOARD } from '../../constants';
 import { GlobalSettings } from '../../types';
 import { DASHBOARDS as DDS_DASHBOARDS } from '../../dashboards/dds';
 import { DASHBOARDS as PROM_DASHBOARDS } from '../../dashboards/prometheus';
-import { findFolder, deleteFolder, installDashboards } from './utils';
-import { FolderStatus, Operation, OperCode, OperStatus } from './types';
+import { findFolder, deleteFolder, installDashboards, findDashboard } from './utils';
+import { FolderStatus, Operation, OperCode, OperStatus, FalconStatus } from './types';
 import { StatusIcon } from './StatusIcon';
 import { Space } from './Space';
 import { Header } from './Header';
@@ -40,6 +40,7 @@ interface Props extends AppRootProps<GlobalSettings> {}
 interface State {
   dds: FolderStatus;
   prom: FolderStatus;
+  falcon: FalconStatus;
 }
 
 export class Root extends PureComponent<Props, State> {
@@ -56,6 +57,11 @@ export class Root extends PureComponent<Props, State> {
         installed: false,
         operation: { code: OperCode.None, status: OperStatus.None },
       },
+      falcon: {
+        enabled: false,
+        asDashboard: FALCON_AS_DASHBOARD,
+        sysDashboard: FALCON_SYS_DASHBOARD,
+      }
     };
   }
 
@@ -67,6 +73,8 @@ export class Root extends PureComponent<Props, State> {
     try {
       const ddsFolderPath = await findFolder(DDS_FOLDER_UID);
       const promFolderPath = await findFolder(PROM_FOLDER_UID);
+      const asDashboard = await findDashboard("Job CPU Details", ["omegamon", "zos", "lpar", "cpu"]);
+      const sysDashboard = await findDashboard("z/OS Enterprise Overview", ["omegamon", "zos", "enterprise"]);
       this.setState((prevState) => ({
         dds: {
           ...prevState.dds,
@@ -78,6 +86,11 @@ export class Root extends PureComponent<Props, State> {
           installed: promFolderPath !== undefined,
           folderPath: promFolderPath || PROM_FOLDER_NAME,
         },
+        falcon: {
+          ...prevState.falcon,
+          asDashboard: asDashboard !== undefined ? asDashboard : FALCON_AS_DASHBOARD,
+          sysDashboard: sysDashboard !== undefined ? sysDashboard : FALCON_SYS_DASHBOARD,
+        }
       }));
     } catch (error) {
       console.error('failed to update state', error);
@@ -113,7 +126,7 @@ export class Root extends PureComponent<Props, State> {
     }));
   };
 
-  processFolder = async (folderUid: string, operCode: OperCode) => {
+  processFolder = async (folderUid: string, operCode: OperCode, falcon: FalconStatus) => {
     const isDds = folderUid === DDS_FOLDER_UID;
     const defaultFolderName = isDds ? DDS_FOLDER_NAME : PROM_FOLDER_NAME;
     const dashboards = isDds ? DDS_DASHBOARDS : PROM_DASHBOARDS;
@@ -128,7 +141,7 @@ export class Root extends PureComponent<Props, State> {
         await deleteFolder(folderUid);
       }
       if (operCode === OperCode.Reset || operCode === OperCode.Install) {
-        await installDashboards(folderUid, defaultFolderName, dashboards);
+        await installDashboards(folderUid, defaultFolderName, dashboards, falcon);
       }
       this.setFolderState(isDds, {
         code: operCode,
@@ -153,7 +166,7 @@ export class Root extends PureComponent<Props, State> {
   };
 
   render() {
-    const { dds, prom } = this.state;
+    const { dds, prom, falcon } = this.state;
     const isBusy = dds.operation.status === OperStatus.InProgress || prom.operation.status === OperStatus.InProgress;
 
     return (
@@ -196,6 +209,40 @@ export class Root extends PureComponent<Props, State> {
               <Space layout={'inline'} h={2} />
               <span style={{ color: 'gray' }}>[UID=&apos;{DDS_FOLDER_UID}&apos;]</span>
             </p>
+            <p>
+              <p>
+                Link it with OMEGAMON Falcon UI (Experimental):
+                <Space layout={'inline'} h={2} />
+                <InlineSwitch transparent={true} defaultChecked={falcon.enabled} 
+                  onChange={e => {
+                    falcon.enabled = e.currentTarget.checked;
+                    this.updateFolderState();
+                  }} 
+                />
+              </p>
+              {falcon.enabled && (
+                <>
+                  <p>
+                    <InlineField label="Address Space Details Dashboard:" labelWidth={30}>
+                      <Input type="url" width={61} defaultValue={falcon.asDashboard} 
+                        onChange={e => {
+                          falcon.asDashboard = e.target.value;
+                        }}
+                      />
+                    </InlineField>
+                  </p>
+                  <p>
+                    <InlineField label="LPAR Details Dashboard:" labelWidth={30}>
+                      <Input type="url" width={61} defaultValue={falcon.sysDashboard} 
+                        onChange={e => {
+                          falcon.sysDashboard = e.target.value;
+                        }}
+                      />
+                    </InlineField>
+                  </p>
+                </>
+              )}
+            </p>
             <Button disabled={isBusy} variant="primary" fill="outline" icon={'plus'} onClick={this.createDataSource}>
               Create Data Source
             </Button>
@@ -213,7 +260,7 @@ export class Root extends PureComponent<Props, State> {
                         dds.operation.code === OperCode.Install || dds.operation.code === OperCode.Reset
                       )
                   : async () => {
-                      await this.processFolder(DDS_FOLDER_UID, OperCode.Install);
+                      await this.processFolder(DDS_FOLDER_UID, OperCode.Install, falcon);
                     }
               }
             >
@@ -229,7 +276,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'process'}
               onClick={async () => {
-                await this.processFolder(DDS_FOLDER_UID, OperCode.Reset);
+                await this.processFolder(DDS_FOLDER_UID, OperCode.Reset, falcon);
               }}
             >
               Update / Reset
@@ -243,7 +290,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'trash-alt'}
               onClick={async () => {
-                await this.processFolder(DDS_FOLDER_UID, OperCode.Delete);
+                await this.processFolder(DDS_FOLDER_UID, OperCode.Delete, falcon);
               }}
             >
               Delete
@@ -289,7 +336,7 @@ export class Root extends PureComponent<Props, State> {
                         prom.operation.code === OperCode.Install || prom.operation.code === OperCode.Reset
                       )
                   : async () => {
-                      await this.processFolder(PROM_FOLDER_UID, OperCode.Install);
+                      await this.processFolder(PROM_FOLDER_UID, OperCode.Install, falcon);
                     }
               }
             >
@@ -305,7 +352,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'process'}
               onClick={async () => {
-                await this.processFolder(PROM_FOLDER_UID, OperCode.Reset);
+                await this.processFolder(PROM_FOLDER_UID, OperCode.Reset, falcon);
               }}
             >
               Update / Reset
@@ -319,7 +366,7 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'trash-alt'}
               onClick={async () => {
-                await this.processFolder(PROM_FOLDER_UID, OperCode.Delete);
+                await this.processFolder(PROM_FOLDER_UID, OperCode.Delete, falcon);
               }}
             >
               Delete

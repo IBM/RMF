@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -161,7 +161,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "loadDataSource": "METRICS",
           "refId": "A",
@@ -183,7 +183,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "hide": false,
           "loadDataSource": "METRICS",
@@ -219,7 +219,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "description": "",
       "fieldConfig": {
@@ -302,7 +302,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "loadDataSource": "METRICS",
           "refId": "A",
@@ -324,7 +324,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "hide": false,
           "loadDataSource": "METRICS",
@@ -347,7 +347,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "hide": false,
           "loadDataSource": "METRICS",
@@ -375,7 +375,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -468,7 +468,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "loadDataSource": "METRICS",
           "refId": "A",
@@ -494,7 +494,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -587,7 +587,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "loadDataSource": "METRICS",
           "refId": "A",
@@ -625,9 +625,9 @@
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -635,6 +635,25 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },

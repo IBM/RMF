@@ -27,3 +27,5 @@ export class ConfigSettings {
     IMAGE_URL: `/gpm/include/`,
   };
 }
+
+export const OMEGAMON_DS_TYPE_NAME = "omegamon-datasource";

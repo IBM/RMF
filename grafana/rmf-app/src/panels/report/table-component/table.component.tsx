@@ -20,7 +20,6 @@ import { BannerComponent } from '../banner-component/banner.component';
 import { CaptionsComponent } from '../captions-component/captions.component';
 import {
   InitFrameData,
-  applyFieldOverridesForBarGauge,
   applySelectedDefaultsAndOverrides,
   getPaginationFlagFromFieldConfig,
 } from './table.helper';
@@ -35,7 +34,7 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
   const reportData  = applySelectedDefaultsAndOverrides(options, fieldConfig, frameData);
   const tableData = reportData.tableData
   const captionData = reportData.captionFields
-  const finalTableData = applyFieldOverridesForBarGauge(reportData.tableData);
+  //const finalTableData = applyFieldOverridesForBarGauge(reportData.tableData);
   const enablePagination: boolean = getPaginationFlagFromFieldConfig(fieldConfig);
 
   // Setting the scroll properties
@@ -64,10 +63,10 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
         ''
       )}
       <div className="panel-table-container">
-        {( tableData && tableData.length > 0 && tableData[0].fields && tableData[0].fields.length > 0) ? (
+        {( tableData && tableData.length > 0 && tableData.fields && tableData.fields.length > 0) ? (
           <Table
             key={'dataTable'}
-            data={finalTableData[0]}
+            data={tableData}
             height={actTableHeight}
             width={width}
             enablePagination={enablePagination}
