@@ -18,7 +18,7 @@ import { FalconStatus } from './types';
 
 const FOLDERS_API = '/api/folders';
 const DASHBOARDS_API = '/api/dashboards/db';
-const RMF_DATASOURCE_EXPR = "${datasource}"
+const RMF_DATASOURCE_EXPR = "${datasource}";
 const SYSPLEX_NAME = "sysplex";
 const LPAR = "LPAR";
 const OMEGAMON_DS = "OmegamonDs";

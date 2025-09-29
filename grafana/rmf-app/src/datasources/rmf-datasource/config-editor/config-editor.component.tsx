@@ -16,7 +16,7 @@
  */
 import React, { PureComponent, ReactNode } from 'react';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Label, Combobox, ComboboxOption } from '@grafana/ui';
+import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Combobox, ComboboxOption } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
 import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
 import { getBackendSrv } from '@grafana/runtime';
