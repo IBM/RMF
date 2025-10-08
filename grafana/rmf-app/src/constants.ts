@@ -16,7 +16,7 @@
  */
 
 import appPluginJson from './plugin.json';
-import dataSourcePluginJson from './datasources/rmf-datasource/plugin.json';
+import dataSourcePluginJson from './datasource/plugin.json';
 
 export const APP_NAME = appPluginJson.name;
 export const APP_DESC = appPluginJson.info.description;
