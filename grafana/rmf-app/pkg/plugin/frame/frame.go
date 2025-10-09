@@ -51,7 +51,7 @@ func NoDataFrame(t time.Time) *data.Frame {
 }
 
 func validateResponse(ddsResponse *dds.Response) error {
-	logger := log.Logger.With("func", "Build")
+	logger := log.Logger.With("func", "validateResponse")
 
 	reportsNum := len(ddsResponse.Reports)
 	if reportsNum == 0 {
@@ -197,7 +197,7 @@ func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string
 		var field *data.Field
 		// The first value is a dummy to fit in captions and header.
 		if col.Type == dds.NumericColType {
-			field = data.NewField(header, nil, []float64{0}) //?
+			field = data.NewField(header, nil, []*float64{nil})
 		} else {
 			if col.Type != dds.TextColType {
 				logger.Warn("unsupported column type, considering as string", "type", col.Type)
@@ -206,16 +206,8 @@ func buildForReport(report *dds.Report, headers *dds.HeaderMap, frameName string
 		}
 		for _, row := range report.Rows {
 			rawValue := row.Cols[i]
-			if field == nil {
-				if col.Type == dds.NumericColType {
-					field = data.NewField(header, nil, []float64{parseFloat2(rawValue)}) //?
-				} else {
-					field = data.NewField(header, nil, []string{rawValue})
-				}
-				continue
-			}
 			if col.Type == dds.NumericColType {
-				field.Append(parseFloat2(rawValue)) //?
+				field.Append(parseFloat(rawValue))
 			} else {
 				field.Append(rawValue)
 			}
@@ -263,12 +255,4 @@ func parseFloat(value string) *float64 {
 		return &parsed
 	}
 	return nil
-}
-
-func parseFloat2(value string) float64 {
-	// Value can contain different kinds of text meaning n/a: NaN, blank value, Deact, etc.
-	if parsed, err := strconv.ParseFloat(value, 64); err == nil && !math.IsNaN(parsed) {
-		return parsed
-	}
-	return 0.0
 }

@@ -120,7 +120,7 @@ func (c *Client) sync() {
 }
 
 func (c *Client) updateCache() {
-	c.updateTimeData()
+	c.updateMetadata()
 	c.updateHeaders()
 }
 
@@ -241,13 +241,13 @@ func (c *Client) ensureTimeData() *TimeData {
 	timeData := c.timeData
 	c.rwMutex.RUnlock()
 	if timeData == nil {
-		timeData = c.updateTimeData()
+		timeData = c.updateMetadata()
 	}
 	return timeData
 }
 
-func (c *Client) updateTimeData() *TimeData {
-	logger := log.Logger.With("func", "updateTimeData")
+func (c *Client) updateMetadata() *TimeData {
+	logger := log.Logger.With("func", "updateMetadata")
 	result, _, _ := c.single.Do("timeData", func() (any, error) {
 		response, err := c.Get(PerformPath, "resource", ",,SYSPLEX", "id", "8D0D60")
 		if err != nil {

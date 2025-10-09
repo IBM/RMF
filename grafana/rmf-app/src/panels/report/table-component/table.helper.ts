@@ -111,6 +111,11 @@ export const applySelectedDefaultsAndOverrides = (
         return {} as Array<LinkModel<Field>>;
       };
     }
+    for (let k = 0; k < newField.values.length; k++) {
+      if (newField.values[k] === null) {
+        newField.values[k] = "";
+      }
+    }
     targetArray.push(newField);
   }
   let dataFrame : DataFrame = {} as DataFrame;

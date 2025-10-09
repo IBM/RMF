@@ -34,7 +34,6 @@ export const TableComponent: React.FC<Props> = ({ options, fieldConfig, data, wi
   const reportData  = applySelectedDefaultsAndOverrides(options, fieldConfig, frameData);
   const tableData = reportData.tableData
   const captionData = reportData.captionFields
-  //const finalTableData = applyFieldOverridesForBarGauge(reportData.tableData);
   const enablePagination: boolean = getPaginationFlagFromFieldConfig(fieldConfig);
 
   // Setting the scroll properties
