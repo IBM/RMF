@@ -147,8 +147,6 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     if (this.props.options.jsonData?.omegamonDs) {
       items.add(this.props.options.jsonData?.omegamonDs);
       optionsArray.push({value: this.props.options.jsonData?.omegamonDs} as ComboboxOption<string>);
-    } else {
-      optionsArray.push({value: "<select>"} as ComboboxOption<string>);
     }
     var datasources: any = await getBackendSrv().get("/api/datasources")
     datasources.forEach((ds: any) => {

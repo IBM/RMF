@@ -531,6 +531,7 @@
         "includeAll": false,
         "multi": false,
         "name": "sysplex",
+        "label": "Sysplex",
         "options": [],
         "query": "sysplex",
         "refresh": 1,

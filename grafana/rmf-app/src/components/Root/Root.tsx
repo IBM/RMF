@@ -211,7 +211,7 @@ export class Root extends PureComponent<Props, State> {
             </p>
             <p>
               <p>
-                Link it with OMEGAMON dashboards(Experimental):
+                Link it with OMEGAMON dashboards (experimental):
                 <Space layout={'inline'} h={2} />
                 <InlineSwitch transparent={true} defaultChecked={falcon.enabled} 
                   onChange={e => {
@@ -239,6 +239,10 @@ export class Root extends PureComponent<Props, State> {
                         }}
                       />
                     </InlineField>
+                  </p>
+                  <p>
+                    <Space layout={'inline'} h={1} />
+                    Note: You must associate RMF data source with OMEGAMON data source (see RMF data source edit page)
                   </p>
                 </>
               )}
