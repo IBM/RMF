@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.6.6 (2024-09-11)
+- The Performance Monitoring has been updated to include the latest Java version 17.
+
+## 2.6.5 (2024-06-05)
+- PM doesn't gather any data fix
+
 ## 2.6.4 (2024-03-04)
 
 - Upgrade to Java 17.
