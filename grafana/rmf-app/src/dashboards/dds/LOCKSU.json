@@ -52,7 +52,7 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
       "description": "Suspend Lock Report",
       "fieldConfig": {
@@ -93,7 +93,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "8003e165-ab46-4b61-94b7-a37f69adc5c8",
@@ -142,14 +142,14 @@
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -161,15 +161,35 @@
       {
         "datasource": {
           "type": "ibm-rmf-datasource",
-          "uid": "${sysplex}"
+          "uid": "${datasource}"
         },
-        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "label": "Sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "systems",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "LPAR",
         "options": [],
-        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "query": "systems",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

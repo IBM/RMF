@@ -24,10 +24,12 @@ import {
   FieldConfigSource,
   PanelData,
   ThresholdsConfig,
+  ValueLinkConfig,
+  LinkModel,
 } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { TableFieldOptions } from '@grafana/ui';
-import { defaultThresholds, CAPTION_PREFIX, BANNER_PREFIX, ReportData, V9CompatField } from '../types';
+import { defaultThresholds, CAPTION_PREFIX, BANNER_PREFIX, ReportData } from '../types';
 
 export const InitFrameData = (data: PanelData): DataFrame[] => {
   let frameData: DataFrame[] = [
@@ -79,7 +81,7 @@ export const applySelectedDefaultsAndOverrides = (
   let sliceEnd: number | undefined;
 
   for (let i = 0; i < result[0].fields.length; i++) {
-    let field: V9CompatField<any> = result[0].fields[i];
+    let field = result[0].fields[i];
     if (field.name.startsWith(BANNER_PREFIX)) {
       targetArray = bannerFields;
       sliceStart = 0;
@@ -93,17 +95,32 @@ export const applySelectedDefaultsAndOverrides = (
       sliceStart = 1;
       sliceEnd = undefined;
     }
-    let values = field.values?.buffer ?? field.values;
-    values = values.slice(sliceStart, sliceEnd);
-    if (field.values?.buffer !== undefined) {
-      field.values.buffer = values;
-    } else {
-      field.values = values;
+    field.values = field.values.slice(sliceStart, sliceEnd);
+    
+    let newField : Field = {...field};
+    if (field.getLinks) {
+      newField.getLinks = (config: ValueLinkConfig): Array<LinkModel<Field>> => {
+        if (config.valueRowIndex) {
+          config.valueRowIndex += 1;
+        } else {
+          config.valueRowIndex = 1;
+        }
+        if (field.getLinks) {
+          return field.getLinks(config);
+        }
+        return {} as Array<LinkModel<Field>>;
+      };
     }
-    targetArray.push(field);
+    for (let k = 0; k < newField.values.length; k++) {
+      if (newField.values[k] === null) {
+        newField.values[k] = "";
+      }
+    }
+    targetArray.push(newField);
   }
-  result[0].fields = tableFields;
-  result[0].length -= 1;
+  let dataFrame : DataFrame = {} as DataFrame;
+  dataFrame.fields = tableFields;
+  dataFrame.length = result[0].length - 1;
 
   // First apply default settings
   result[0].fields.map((field: Field) => {
@@ -177,7 +194,7 @@ export const applySelectedDefaultsAndOverrides = (
       }
     });
   }
-  return { bannerFields: bannerFields, captionFields: captionFields, tableData: result };
+  return { bannerFields: bannerFields, captionFields: captionFields, tableData: dataFrame };
 };
 
 export const applyFieldOverridesForBarGauge = (finalData: DataFrame[]): DataFrame[] => {
