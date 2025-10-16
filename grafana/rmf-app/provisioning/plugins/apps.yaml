@@ -1,6 +1,6 @@
 apiVersion: 1
 
 apps:
-  - type: 'ibm-rmf'
+  - type: 'ibm-rmf-app'
     org_id: 1
     disabled: false

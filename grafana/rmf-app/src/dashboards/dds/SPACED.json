@@ -16,7 +16,7 @@
     },
     {
       "type": "panel",
-      "id": "ibm-rmf-report",
+      "id": "ibm-rmf-panel",
       "name": "Report for IBM RMF for z/OS",
       "version": "%VERSION%"
     }
@@ -285,7 +285,7 @@
           }
         }
       ],
-      "type": "ibm-rmf-report"
+      "type": "ibm-rmf-panel"
     }
   ],
   "schemaVersion": 37,
