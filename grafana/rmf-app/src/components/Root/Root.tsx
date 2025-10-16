@@ -211,7 +211,7 @@ export class Root extends PureComponent<Props, State> {
             </p>
             <p>
               <p>
-                Link it with OMEGAMON dashboards (experimental):
+                Link with IBM Z OMEGAMON Web UI dashboards:
                 <Space layout={'inline'} h={2} />
                 <InlineSwitch transparent={true} defaultChecked={falcon.enabled} 
                   onChange={e => {

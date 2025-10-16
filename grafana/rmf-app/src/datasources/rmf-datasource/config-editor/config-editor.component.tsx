@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { PureComponent, ReactNode } from 'react';
-import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Combobox, ComboboxOption } from '@grafana/ui';
+import React, { PureComponent } from 'react';
+import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
+import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Select, ComboboxOption } from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
 import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
 import { getBackendSrv } from '@grafana/runtime';
@@ -41,7 +41,7 @@ interface State {
   httpTimeoutError?: string;
   basicAuthUserError?: string;
   cacheSizeError?: string;
-  omegOptionsArray?: Array<ReactNode>;
+  omegOptionsArray?: SelectableValue<string>[];
 }
 // TODO: somehow prometheus can validate fields from "run and test" in v11
 export default class ConfigEditor extends PureComponent<Props, State> {
@@ -157,6 +157,32 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     });
     return optionsArray;
   };
+
+  async componentDidMount() {
+    await this.updateDatasourceList(OMEGAMON_DS_TYPE_NAME);
+  }
+
+  updateDatasourceList = async (type: string) => {
+    var items: Set<string> = new Set();
+    var optionsArray: Array<SelectableValue<string>> = new Array;
+    items.add("");
+    optionsArray.push({label: "", value: "" } as SelectableValue);
+    if (this.props.options.jsonData?.omegamonDs && !items.has(this.props.options.jsonData?.omegamonDs)) {
+      items.add(this.props.options.jsonData?.omegamonDs);
+      optionsArray.push({label: this.props.options.jsonData?.omegamonDs, value: this.props.options.jsonData?.omegamonDs } as SelectableValue);
+    }
+    var datasources: any = await getBackendSrv().get("/api/datasources");
+    datasources.forEach((ds: any) => {
+      if (ds.type === type && !items.has(ds.name)) {
+        items.add(ds.name);
+        optionsArray.push({label: ds.name, value: ds.name } as SelectableValue);
+      }
+    });
+    this.setState((prevState) => ({
+      ...prevState,
+      omegOptionsArray: optionsArray
+    }));
+  }
 
   render() {
     const { options } = this.props;
@@ -312,16 +338,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
           </div>
         </div>
 
-        <h3 className="page-heading">OMEGAMON (Experimental)</h3>
+        <h3 className="page-heading">OMEGAMON (optional)</h3>
         <div className="gf-form-group">
           <div className="gf-form">
             <InlineField label="Data Source" labelWidth={INLINE_LABEL_WIDTH} tooltip="Linked OMEGAMON data source">
-              <Combobox 
+              <Select
                 width={DATASOURCE_COMBO_WIDTH}
-                loading={true}
-                createCustomValue={true}	
+                allowCustomValue={true}	
                 value={options.jsonData?.omegamonDs}
-                options={this.loadDatasourceList} 
+                options={this.state.omegOptionsArray} 
                 onChange={(event) => {
                   this.updateSettings({ jsonData: { omegamonDs: String(event.value) } });
                 }}
