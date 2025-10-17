@@ -113,14 +113,49 @@ export async function installDashboards(folderUid: string, defaultFolderName: st
 }
 
 export const FALCON_JOB_RELATED = [
-  "DELAY", "OPD", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "USAGE"
+  "DELAY - All kinds of delays",
+  "OPD - OMVS Process Data",
+  "PROC - Processor Delays",
+  "PROCU - Processor Usage",
+  "STOR - Storage Delay",
+  "STORC - Common Storag",
+  "STORCR - Common Storage Remaining",
+  "STORF - Storage Frames Overview",
+  "STORM - Storage Memory Objects",
+  "USAGE - Job Oriented Usage",
 ];
 
 export const FALCON_SYSTEM_RELATED = [
   ...FALCON_JOB_RELATED,
-  "CHANNEL", "CPC", "DELAY", "DEV", "DEVR", "DSND", "EADM", "ENCLAVE", "ENQ", "HSM", "JES", "IOQ", "LOCKSP", "LOCKSU",
-  "OPD", "PCIE", "PROC", "PROCU", "STOR", "STORC", "STORCR", "STORF", "STORM", "STORR", "STORS", "SYSINFO", "USAGE",
-  "Overall Image Activity", "Overall Image Activity (Timeline)",
+  "CHANNEL - I/O Channels",
+  "CPC - Central Processor Complex",
+  "DELAY - All kinds of delays",
+  "DEV - Device delays",
+  "DEVR - Device Resource Delays",
+  "DSND - Dataset Delays",
+  "EADM - Extended Asynchronous Data Mover",
+  "ENCLAVE - Enclaves",
+  "ENQ - Enqueue Delays",
+  "HSM - Hierarchical Storage Manager Delays",
+  "IOQ - I/O Queuing",
+  "JES - Job Entry Subsystem Delays",
+  "LOCKSP - Spin Lock Report",
+  "LOCKSU - Suspend Lock Report",
+  "OPD - OMVS Process Data",
+  "PCIE - PCIE Activity",
+  "PROC - Processor Delays",
+  "PROCU - Processor Usage",
+  "STOR - Storage Delays",
+  "STORC - Common Storage",
+  "STORCR - Common Storage Remaining",
+  "STORF - Storage Frames Overview",
+  "STORM - Storage Memory Objects",
+  "STORR - Storage Resource Delays",
+  "STORS - Storage by WLM class",
+  "SYSINFO - System Info by WLM class",
+  "USAGE - Job Oriented Usage",
+  "Overall Image Activity",
+  "Overall Image Activity (Timeline)",
 ];
 
 function falconJobRelated(dashboard: any): boolean {
@@ -162,7 +197,7 @@ function addVars(dashboard: any) {
       allowCustomValue: false,
     })
   }
-  
+
   if (!omegamon_ds_exist) {
     dashboard.templating.list.push({
       name: OMEGAMON_DS,
@@ -180,7 +215,7 @@ function addVars(dashboard: any) {
       allowCustomValue: false,
     })
   }
-  
+
 }
 
 function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
@@ -194,7 +229,7 @@ function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
   } else {
     baseUrl += "?";
   }
-  
+
   dashboard.panels.forEach((p: any) => {
     p.fieldConfig.overrides = [];
     p.fieldConfig.overrides.push({
@@ -209,11 +244,11 @@ function falconJobUpdate(falcon: FalconStatus, dashboard: any) {
             {
               targetBlank: true,
               title: "OMEGAMON details for " + JOB_NAME_EXPR,
-              url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
-                + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR 
-                + "&var-_addressSpaceName=" + JOB_NAME_EXPR 
-                + "&var-_ASID=" + ASID_EXPR 
-                + "&var-_iAddressSpaceName=" + JOB_NAME_EXPR 
+              url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}"
+                + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR
+                + "&var-_addressSpaceName=" + JOB_NAME_EXPR
+                + "&var-_ASID=" + ASID_EXPR
+                + "&var-_iAddressSpaceName=" + JOB_NAME_EXPR
                 + "&var-_iASID=" + ASID_EXPR
                 + "&from=$__from"
                 + "&to=$__to",
@@ -233,7 +268,7 @@ function falconSystemUpdate(falcon: FalconStatus, dashboard: any) {
   } else {
     baseUrl += "?";
   }
-  
+
   if (!dashboard.links) {
     dashboard.links = [];
   }
@@ -244,7 +279,7 @@ function falconSystemUpdate(falcon: FalconStatus, dashboard: any) {
     keepTime: true,
     targetBlank: true,
     title: "z/OS Enterprise Overview",
-    url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}" 
+    url: baseUrl + "var-dataSource=${" + OMEGAMON_DS + "}"
       + "&var-managedSystem=" + OMEG_PLEX_LPAR_MVSSYS_EXPR,
   });
 }
