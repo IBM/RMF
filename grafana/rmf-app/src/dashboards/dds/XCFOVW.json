@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "XCF Systems Overview",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "XCFOVW",
+      "title": "XCFOVW - XCF Systems Overview",
       "transformations": [
         {
           "id": "organize",
@@ -294,7 +293,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -345,7 +347,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "XCFOVW",
+  "title": "XCFOVW - XCF Systems Overview",
   "version": 1,
   "weekStart": ""
 }

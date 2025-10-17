@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "I/O Queuing",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "IOQ",
+      "title": "IOQ - I/O Queuing",
       "transformations": [
         {
           "id": "organize",
@@ -154,7 +153,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -222,7 +224,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "IOQ",
+  "title": "IOQ - I/O Queuing",
   "version": 1,
   "weekStart": ""
 }

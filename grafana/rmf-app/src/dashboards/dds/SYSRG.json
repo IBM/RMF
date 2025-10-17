@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Sysplex WLM Resource Group Activity",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "SYSRG",
+      "title": "SYSRG - Sysplex WLM Resource Group Activity",
       "transformations": [
         {
           "id": "organize",
@@ -262,7 +261,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -313,7 +315,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "SYSRG",
+  "title": "SYSRG - Sysplex WLM Resource Group Activity",
   "version": 1,
   "weekStart": ""
 }

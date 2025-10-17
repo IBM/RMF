@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "(zFS Kernel",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "ZFSKN",
+      "title": "ZFSKN - zFS Kernel",
       "transformations": [
         {
           "id": "organize",
@@ -290,7 +289,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -341,7 +343,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ZFSKN",
+  "title": "ZFSKN - zFS Kernel",
   "version": 1,
   "weekStart": ""
 }

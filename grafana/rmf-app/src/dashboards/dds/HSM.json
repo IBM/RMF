@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Hierarchical Storage Manager Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "HSM",
+      "title": "HSM - Hierarchical Storage Manager Delays",
       "transformations": [
         {
           "id": "organize",
@@ -143,7 +142,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -211,7 +213,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "HSM",
+  "title": "HSM - Hierarchical Storage Manager Delays",
   "version": 1,
   "weekStart": ""
 }

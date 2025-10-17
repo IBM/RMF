@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Enqueue Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "ENQ",
+      "title": "ENQ - Enqueue Delays",
       "transformations": [
         {
           "id": "organize",
@@ -136,7 +135,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -204,7 +206,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ENQ",
+  "title": "ENQ - Enqueue Delays",
   "version": 1,
   "weekStart": ""
 }

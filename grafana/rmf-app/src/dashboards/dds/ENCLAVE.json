@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Enclaves",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "ENCLAVE",
+      "title": "ENCLAVE - Enclaves",
       "transformations": [
         {
           "id": "organize",
@@ -299,7 +298,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -367,7 +369,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ENCLAVE",
+  "title": "ENCLAVE - Enclaves",
   "version": 1,
   "weekStart": ""
 }

@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Dataset Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "DSND",
+      "title": "DSND - Dataset Delays",
       "transformations": [
         {
           "id": "organize",
@@ -136,7 +135,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -204,7 +206,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "DSND",
+  "title": "DSND - Dataset Delays",
   "version": 1,
   "weekStart": ""
 }

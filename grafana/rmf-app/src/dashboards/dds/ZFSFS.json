@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "zFS File System",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "ZFSFS",
+      "title": "ZFSFS - zFS File System",
       "transformations": [
         {
           "id": "organize",
@@ -310,7 +309,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -361,7 +363,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "ZFSFS",
+  "title": "ZFSFS - zFS File System",
   "version": 1,
   "weekStart": ""
 }

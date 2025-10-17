@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Crypto Hardware Overview",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "CRYOVW",
+      "title": "CRYOVW - Crypto Hardware Overview",
       "transformations": [
         {
           "id": "organize",
@@ -318,7 +317,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -369,7 +371,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CRYOVW",
+  "title": "CRYOVW - Crypto Hardware Overview",
   "version": 1,
   "weekStart": ""
 }
