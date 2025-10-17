@@ -21,152 +21,154 @@
       "version": "%VERSION%"
     }
   ],
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "datasource",
-            "uid": "grafana"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "target": {
-            "limit": 100,
-            "matchAny": false,
-            "tags": [],
-            "type": "dashboard"
-          },
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": null,
-    "liveNow": false,
-    "panels": [
+  "annotations": {
+    "list": [
       {
+        "builtIn": 1,
         "datasource": {
-          "type": "ibm-rmf-datasource",
-          "uid": "${datasource}"
+          "type": "datasource",
+          "uid": "grafana"
         },
-        "description": "OMVS Process Data",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "displayMode": "Auto",
-              "enablePagination": false,
-              "filterable": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
         },
-        "gridPos": {
-          "h": 22,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 2,
-        "targets": [
-          {
-            "datasource": {
-              "type": "ibm-rmf-datasource",
-              "uid": "${datasource}"
-            },
-            "refId": "A",
-            "rmfPanelGuid": "1af174dd-1466-4d45-8c07-41f3f574f692",
-            "selectedQuery": "MVS_IMAGE.REPORT.OPD{name=$LPAR}",
-            "selectedResource": {
-              "label": "report=OPD&resource=,$LPAR,MVS_IMAGE",
-              "value": "report=OPD&resource=,$LPAR,MVS_IMAGE"
-            },
-            "selectedVisualisationType": "table"
-          }
-        ],
-        "title": "OPD",
-        "transformations": [
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "ASID (hex)": true,
-                "Active Files": true,
-                "Channel Measurement Group": true,
-                "FICON Deferred Operation Rate": true,
-                "LPAR MSG Rate": true,
-                "LPAR MSG Size": true,
-                "LPAR Receive Fail": true,
-                "LPAR Send Fail": true,
-                "Line Type (DDS)": true,
-                "Max. Files": true,
-                "Physical Network ID Port 1": true,
-                "Physical Network ID Port 2": true,
-                "Process State Description 1": true,
-                "Process State Description 2": true,
-                "Process State Description 3": true,
-                "Process State Description 4": true,
-                "Process State Description 5": true,
-                "Start Time and Date": true,
-                "Total MSG Rate": true,
-                "Total MSG Size": true,
-                "Total Receive Fail": true,
-                "zHPF Deferred Operation Rate": true
-              },
-              "indexByName": {},
-              "renameByName": {}
-            }
-          }
-        ],
-        "type": "ibm-rmf-panel"
+        "type": "dashboard"
       }
-    ],
-    "refresh": "1m",
-    "schemaVersion": 37,
-    "style": "dark",
-    "tags": ["RMF", "REPORT"],
-    "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "${datasource}",
-            "value": "${datasource}"
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
           },
-          "hide": 0,
-          "includeAll": false,
-          "label": "Data source",
-          "multi": false,
-          "name": "datasource",
-          "options": [],
-          "query": "ibm-rmf-datasource",
-          "queryValue": "",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "type": "datasource"
+          "custom": {
+            "displayMode": "Auto",
+            "enablePagination": false,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
         },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "1af174dd-1466-4d45-8c07-41f3f574f692",
+          "selectedQuery": "MVS_IMAGE.REPORT.OPD{name=$LPAR}",
+          "selectedResource": {
+            "label": "report=OPD&resource=,$LPAR,MVS_IMAGE",
+            "value": "report=OPD&resource=,$LPAR,MVS_IMAGE"
+          },
+          "selectedVisualisationType": "table"
+        }
+      ],
+      "title": "OPD - OMVS Process Data",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "ASID (hex)": true,
+              "Active Files": true,
+              "Channel Measurement Group": true,
+              "FICON Deferred Operation Rate": true,
+              "LPAR MSG Rate": true,
+              "LPAR MSG Size": true,
+              "LPAR Receive Fail": true,
+              "LPAR Send Fail": true,
+              "Line Type (DDS)": true,
+              "Max. Files": true,
+              "Physical Network ID Port 1": true,
+              "Physical Network ID Port 2": true,
+              "Process State Description 1": true,
+              "Process State Description 2": true,
+              "Process State Description 3": true,
+              "Process State Description 4": true,
+              "Process State Description 5": true,
+              "Start Time and Date": true,
+              "Total MSG Rate": true,
+              "Total MSG Size": true,
+              "Total Receive Fail": true,
+              "zHPF Deferred Operation Rate": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "ibm-rmf-panel"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "${datasource}",
+          "value": "${datasource}"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "ibm-rmf-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
       {
         "datasource": {
           "type": "ibm-rmf-datasource",
@@ -187,33 +189,33 @@
         "type": "query",
         "allowCustomValue": false
       },
-        {
-          "datasource": {
-            "type": "ibm-rmf-datasource",
-            "uid": "${datasource}"
-          },
-          "definition": "systems",
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "LPAR",
-          "options": [],
-          "query": "systems",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        }
-      ]
-    },
-    "time": {
-      "from": "now-1m",
-      "to": "now"
-    },
-    "timepicker": {},
-    "timezone": "",
-    "title": "OPD",
-    "version": 1,
-    "weekStart": ""
-  }
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "systems",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "LPAR",
+        "options": [],
+        "query": "systems",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "OPD - OMVS Process Data",
+  "version": 1,
+  "weekStart": ""
+}

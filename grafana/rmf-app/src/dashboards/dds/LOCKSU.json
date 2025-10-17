@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Suspend Lock Report",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "LOCKSU",
+      "title": "LOCKSU - Suspend Lock Report",
       "transformations": [
         {
           "id": "organize",
@@ -136,7 +135,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -204,7 +206,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "LOCKSU",
+  "title": "LOCKSU - Suspend Lock Report",
   "version": 1,
   "weekStart": ""
 }

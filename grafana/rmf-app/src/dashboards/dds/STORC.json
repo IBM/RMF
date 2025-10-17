@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Common Storage",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "STORC",
+      "title": "STORC - Common Storage",
       "transformations": [
         {
           "id": "organize",
@@ -200,7 +199,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -268,7 +270,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "STORC",
+  "title": "STORC - Common Storage",
   "version": 1,
   "weekStart": ""
 }

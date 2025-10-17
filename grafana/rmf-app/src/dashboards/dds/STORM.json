@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Storage Memory Objects",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "STORM",
+      "title": "STORM - Storage Memory Objects",
       "transformations": [
         {
           "id": "organize",
@@ -225,7 +224,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -293,7 +295,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "STORM",
+  "title": "STORM - Storage Memory Objects",
   "version": 1,
   "weekStart": ""
 }

@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Sysplex WLM Classes Summary Report",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "SYSSUM",
+      "title": "SYSSUM - Sysplex WLM Classes Summary Report",
       "transformations": [
         {
           "id": "organize",
@@ -290,7 +289,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -341,7 +343,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "SYSSUM",
+  "title": "SYSSUM - Sysplex WLM Classes Summary Report",
   "version": 1,
   "weekStart": ""
 }

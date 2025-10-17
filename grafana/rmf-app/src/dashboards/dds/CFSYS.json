@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Coupling Facility Systems View",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "CFSYS",
+      "title": "CFSYS - Coupling Facility Systems View",
       "transformations": [
         {
           "id": "organize",
@@ -291,7 +290,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -342,7 +344,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CFSYS",
+  "title": "CFSYS - Coupling Facility Systems View",
   "version": 1,
   "weekStart": ""
 }

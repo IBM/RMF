@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Coupling Facility Activity",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "CFACT",
+      "title": "CFACT - Coupling Facility Activity",
       "transformations": [
         {
           "id": "organize",
@@ -400,7 +399,10 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -451,7 +453,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CFACT",
+  "title": "CFACT - Coupling Facility Activity",
   "version": 1,
   "weekStart": ""
 }

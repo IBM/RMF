@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Processor Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "PROC",
+      "title": "PROC - Processor Delays",
       "transformations": [
         {
           "id": "organize",
@@ -179,7 +178,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -247,7 +249,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "PROC",
+  "title": "PROC - Processor Delays",
   "version": 1,
   "weekStart": ""
 }

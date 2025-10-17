@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Storage by WLM class",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "STORS",
+      "title": "STORS - Storage by WLM class",
       "transformations": [
         {
           "id": "organize",
@@ -191,7 +190,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -259,7 +261,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "STORS",
+  "title": "STORS - Storage by WLM class",
   "version": 1,
   "weekStart": ""
 }

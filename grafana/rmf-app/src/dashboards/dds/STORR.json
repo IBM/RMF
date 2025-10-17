@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Storage Resource Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "STORR",
+      "title": "STORR - Storage Resource Delays",
       "transformations": [
         {
           "id": "organize",
@@ -218,7 +217,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -286,7 +288,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "STORR",
+  "title": "STORR - Storage Resource Delays",
   "version": 1,
   "weekStart": ""
 }

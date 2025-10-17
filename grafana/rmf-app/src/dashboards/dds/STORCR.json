@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "Common Storage Remaining",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "STORCR",
+      "title": "STORCR - Common Storage Remaining",
       "transformations": [
         {
           "id": "organize",
@@ -138,7 +137,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -206,7 +208,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "STORCR",
+  "title": "STORCR - Common Storage Remaining",
   "version": 1,
   "weekStart": ""
 }

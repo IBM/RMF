@@ -54,7 +54,6 @@
         "type": "ibm-rmf-datasource",
         "uid": "${datasource}"
       },
-      "description": "PCIE Activity",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -106,7 +105,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "PCIE",
+      "title": "PCIE - PCIE Activity",
       "transformations": [
         {
           "id": "organize",
@@ -175,7 +174,10 @@
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
@@ -243,7 +245,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "PCIE",
+  "title": "PCIE - PCIE Activity",
   "version": 1,
   "weekStart": ""
 }
