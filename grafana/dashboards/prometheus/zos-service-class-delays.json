@@ -1,0 +1,558 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 3298,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text"
+              },
+              {
+                "color": "#EAB839",
+                "value": 40
+              },
+              {
+                "color": "red",
+                "value": 60
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sysplex"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Sysname"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.* Delay/"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Service Class"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 131
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "Service class delays per job",
+                    "url": "/d/b381ec9f-ca66-4bf0-9761-74bce803bb4e/delays-prom?from=$__from&to=$__to&var-datasource=${datasource}﻿&var-sysplex=﻿${__data.fields[\"Sysplex\"]}﻿&var-mintime=﻿${mintime}﻿&var-sysname=﻿${__data.fields[\"Sysname\"]}﻿&var-service_class=${__data.fields[\"Service Class\"]}&var-jobname=$__all"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Processor Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Operator Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 137
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "JES Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 104
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HSM Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 107
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 123
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Enqueue Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 135
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Storage Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 131
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Subsystem Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 152
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "XCF Delay"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 105
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 23,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Total Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_proc_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Processor Delay\",\n    \"\",\n    \".*\"\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_oper_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Operator Delay\",\n    \"\",\n    \".*\"\n)",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_jes_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"JES Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_hsm_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"HSM Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_dev_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Device Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_enq_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Enqueue Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_stor_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Storage Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_subs_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"Subsystem Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\n    avg_over_time(mvs_wlm_group_delay_xcf_percent{group_type=\"S\",period=\"\",sysplex=~\"${sysplex}\",sysname=~\"${sysname}\"}[$__range]),\n    \"__name__\",\n    \"XCF Delay\",\n    \"\",\n    \".*\"\n)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "J"
+        }
+      ],
+      "title": "Average Service Class Delays",
+      "transformations": [
+        {
+          "id": "joinByLabels",
+          "options": {
+            "value": "__name__"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "group_type": true,
+              "instance": true,
+              "job": true,
+              "mvs_wlm_batch_ai": true,
+              "sysname": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Device Delay": 11,
+              "Enqueue Delay": 12,
+              "HSM Delay": 10,
+              "JES Delay": 9,
+              "Operator Delay": 8,
+              "Processor Delay": 7,
+              "Storage Delay": 13,
+              "Subsystem Delay": 14,
+              "Total Delay": 6,
+              "XCF Delay": 15,
+              "group_name": 0,
+              "group_type": 1,
+              "instance": 2,
+              "job": 3,
+              "sysname": 5,
+              "sysplex": 4
+            },
+            "renameByName": {
+              "group_name": "Service Class",
+              "sysname": "Sysname",
+              "sysplex": "Sysplex"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": false,
+        "includeAll": false,
+        "label": "Data Source",
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(mvs_rmf_m3_mintime,sysplex)",
+        "includeAll": true,
+        "label": "Sysplex",
+        "multi": true,
+        "name": "sysplex",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(mvs_rmf_m3_mintime,sysplex)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allowCustomValue": false,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "query_result(max(mvs_rmf_m3_mintime{sysplex=~\"${sysplex}\"}))",
+        "hide": 2,
+        "name": "mintime",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(max(mvs_rmf_m3_mintime{sysplex=~\"${sysplex}\"}))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/\\S* (\\d+) \\d*/",
+        "type": "query"
+      },
+      {
+        "allowCustomValue": true,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(mvs_wlm_group_delay_percent{sysplex=~\"$sysplex\"},sysname)",
+        "includeAll": true,
+        "label": "Sysname",
+        "multi": true,
+        "name": "sysname",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(mvs_wlm_group_delay_percent{sysplex=~\"$sysplex\"},sysname)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "z/OS Service Class Delays",
+  "uid": "39ee8644-ed8c-4e7c-baaa-d70c9e3f9c7e",
+  "version": 1
+}
