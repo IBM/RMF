@@ -11,7 +11,7 @@ The directory contains Grafana sample dashboards for Prometheus and VictoriaMetr
 Note: VictoriaMetrics is a drop-in replacement for Prometheus, the same dashboards can be used with both.
 
 **Notes**:
-- The "z/OS Job Delays" sample dashboard uses the `service_class` tag that is skipped by DDS in the default configuration.  
+- The "z/OS Job Delays" and "z/OS Delays (combined)" sample dashboards uses the `service_class` tag that is skipped by DDS in the default configuration.  
 To populate the dashboard completely, edit the DDS OpenMetrics configuration file (see GPMOMC DD in the GPMSERVE proclib):  
   - Set `job_delays.fields.JDEPSVCL.skip` to `false` or just remove the `skip` field for the entry.
   - Reload configuration using the RELOADOM modify command, e.g. `F GPMSERVE,APPL=RELOADOM`.
