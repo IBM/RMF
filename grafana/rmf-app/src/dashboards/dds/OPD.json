@@ -104,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "OPD - OMVS Process Data",
+      "title": "OPD - USS Processes",
       "transformations": [
         {
           "id": "organize",
@@ -215,7 +215,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "OPD - OMVS Process Data",
+  "title": "OPD - USS Processes",
   "version": 1,
   "weekStart": ""
 }
