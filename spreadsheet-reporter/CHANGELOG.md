@@ -1,5 +1,10 @@
 # Change Log
 
+## 5.5.10 (2025-09-12)
+
+ - Power Consumption charts added to Lpar Trend Report
+ - Power Usage chart added to WLM Activity Trend Report
+
 ## 5.5.9 (2025-05-27)
 
 - New Java 17 Runtime
