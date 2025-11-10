@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.1 (2025-11-10)
+- The following plugin names have been changed to meet Grafana naming conventions:
+  - `ibm-rmf` to `ibm-rmf-app`
+  - `ibm-rmf-report` to `ibm-rmf-panel`
+- The new plugin names must be added to the `allow_loading_unsigned_plugins` instead of the old ones. The new value is `ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-panel`
+    
 ## 1.1.0 (2025-08-12)
 
 - Change in deployment method for sample dashboards.
