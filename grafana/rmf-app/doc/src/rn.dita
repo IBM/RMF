@@ -7,6 +7,27 @@
     <refbody>
         <section id="section_y2g_rfq_pyb">
             <title>What's new</title>
+            <dl id="dl_gzb_jfb_fhc">
+                <dlentry>
+                    <dt>November 2025 v1.1.1</dt>
+                    <dd>
+                        <ul id="ul_bdt_zgb_fhc">
+                            <li>The following plugin names have been changed to meet Grafana naming
+                                    conventions:<ul id="ul_vss_chb_fhc">
+                                    <li><varname>ibm-rmf</varname> to
+                                        <varname>ibm-rmf-app</varname></li>
+                                    <li><varname>ibm-rmf-report</varname> to
+                                            <varname>ibm-rmf-panel</varname></li>
+                                </ul></li>
+                            <li>The new plugin names must be added to the
+                                    <parmname>allow_loading_unsigned_plugins</parmname> instead of
+                                the old ones. The new value is
+                                    <varname>ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-panel</varname>.
+                            </li>
+                        </ul>
+                    </dd>
+                </dlentry>
+            </dl>
             <dl id="dl_gtk_wlf_ggc">
                 <dlentry>
                     <dt>August 2025 v1.1.0</dt>
@@ -309,7 +330,7 @@
                         <ph conref="conref.dita#conref/v31"/></li>
                     <li><ph conref="conref.dita#conref/dds_full"/></li>
                     <li><ph conref="conref.dita#conref/plugin_name"/> plugin 1.0.x</li>
-                    <li>Grafana 9.5.1 or later</li>
+                    <li>Grafana 10.0 or later</li>
                 </ul></p>
         </section>
         <!--<section id="section_llw_3gq_pyb"><title>Known issues</title><p>There are no known issues in this release.</p></section>-->
