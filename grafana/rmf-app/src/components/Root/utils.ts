@@ -114,11 +114,11 @@ export async function installDashboards(folderUid: string, defaultFolderName: st
 
 export const FALCON_JOB_RELATED = [
   "DELAY - All kinds of delays",
-  "OPD - OMVS Process Data",
+  "OPD - USS Processes",
   "PROC - Processor Delays",
   "PROCU - Processor Usage",
-  "STOR - Storage Delay",
-  "STORC - Common Storag",
+  "STOR - Storage Delays",
+  "STORC - Common Storage",
   "STORCR - Common Storage Remaining",
   "STORF - Storage Frames Overview",
   "STORM - Storage Memory Objects",
@@ -141,7 +141,7 @@ export const FALCON_SYSTEM_RELATED = [
   "JES - Job Entry Subsystem Delays",
   "LOCKSP - Spin Lock Report",
   "LOCKSU - Suspend Lock Report",
-  "OPD - OMVS Process Data",
+  "OPD - USS Processes",
   "PCIE - PCIE Activity",
   "PROC - Processor Delays",
   "PROCU - Processor Usage",

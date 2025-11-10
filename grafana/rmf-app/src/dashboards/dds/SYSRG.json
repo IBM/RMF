@@ -106,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "SYSRG - Sysplex WLM Resource Group Activity",
+      "title": "SYSRG - WLM Resource Group Activity",
       "transformations": [
         {
           "id": "organize",
@@ -315,7 +315,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "SYSRG - Sysplex WLM Resource Group Activity",
+  "title": "SYSRG - WLM Resource Group Activity",
   "version": 1,
   "weekStart": ""
 }

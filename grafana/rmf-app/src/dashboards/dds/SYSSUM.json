@@ -106,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "SYSSUM - Sysplex WLM Classes Summary Report",
+      "title": "SYSSUM - WLM Classes Summary Report",
       "transformations": [
         {
           "id": "organize",
@@ -343,7 +343,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "SYSSUM - Sysplex WLM Classes Summary Report",
+  "title": "SYSSUM - WLM Classes Summary Report",
   "version": 1,
   "weekStart": ""
 }
