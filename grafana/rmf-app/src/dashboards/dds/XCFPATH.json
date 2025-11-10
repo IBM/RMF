@@ -16,7 +16,7 @@
     },
     {
       "type": "panel",
-      "id": "ibm-rmf-report",
+      "id": "ibm-rmf-panel",
       "name": "Report for IBM RMF for z/OS",
       "version": "%VERSION%"
     }
@@ -52,9 +52,8 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
-      "description": "XCF Path Statistics",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -122,7 +121,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "3282dc77-1ad7-4380-9a9a-0f846ea8af6a",
@@ -134,7 +133,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "XCFPATH",
+      "title": "XCFPATH - XCF Path Statistics",
       "transformations": [
         {
           "id": "organize",
@@ -295,26 +294,29 @@
           }
         }
       ],
-      "type": "ibm-rmf-report"
+      "type": "ibm-rmf-panel"
     }
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "description": "Sysplex",
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -322,6 +324,26 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "label": "Sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },
@@ -331,7 +353,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "XCFPATH",
+  "title": "XCFPATH - XCF Path Statistics",
   "version": 1,
   "weekStart": ""
 }

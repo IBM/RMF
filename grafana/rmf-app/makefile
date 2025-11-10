@@ -3,9 +3,9 @@ default: help
 
 GRAFANA_PLUGIN_ID := $(shell jq -r '.id' src/plugin.json)
 GRAFANA_PLUGIN_VERSION := $(shell jq -r '.version' package.json)
-GRAFANA_PLUGIN_ARTIFACT := $(GRAFANA_PLUGIN_ID)-grafana-$(GRAFANA_PLUGIN_VERSION).zip
+GRAFANA_PLUGIN_ARTIFACT := ibm-rmf-grafana-$(GRAFANA_PLUGIN_VERSION).zip
 GRAFANA_PLUGIN_ARTIFACT_CHECKSUM := $(GRAFANA_PLUGIN_ARTIFACT).md5
-RMF_QUERY_PARSER_PATH := ./src/datasources/rmf-datasource/parser/lib
+RMF_QUERY_PARSER_PATH := ./src/datasource/parser/lib
 RMF_QUERY_PARSER_FILES := \
 	$(RMF_QUERY_PARSER_PATH)/RMFQueryLexer.ts \
 	$(RMF_QUERY_PARSER_PATH)/RMFQueryListener.ts \
@@ -34,7 +34,7 @@ watch-frontend: deps-frontend ## Auto rebuilt frontend on file changes
 	yarn run watch
 
 dev-backend: deps-backend ## Build backend data sources (development)
-	go build -race -o ./dist/datasources/redisrmf-datasource/gpx_ibm-rmf-datasource_$$(go env GOOS)_$$(go env GOARCH) -tags netgo -ldflags -w ./pkg
+	go build -race -o ./dist/datasource/gpx_ibm-rmf-datasource_$$(go env GOOS)_$$(go env GOARCH) -tags netgo -ldflags -w ./pkg
 
 restart-backend: ## Rebuild and restart backend data source (as root)
 	sudo -u "$$(stat -c '%U' .)" make dev-backend
@@ -65,14 +65,14 @@ build-frontend: deps-frontend $(RMF_QUERY_PARSER_FILES) ## Build frontend data s
 GO_LD_FLAGS := -w -s -extldflags "-static"
 build-backend: deps-backend ## Build backend data source
 	for arch in amd64 arm64 s390x ppc64le; do \
-	  CGO_ENABLED=0 GOOS=linux GOARCH=$${arch} go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_linux_$${arch} -ldflags '$(GO_LD_FLAGS)' ./pkg; \
+	  CGO_ENABLED=0 GOOS=linux GOARCH=$${arch} go build -o ./dist/datasource/gpx_ibm-rmf-datasource_linux_$${arch} -ldflags '$(GO_LD_FLAGS)' ./pkg; \
 	done
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_darwin_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg
-	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_darwin_arm64 -ldflags '$(GO_LD_FLAGS)' ./pkg
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_windows_amd64.exe -ldflags '$(GO_LD_FLAGS)' ./pkg
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_darwin_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_darwin_arm64 -ldflags '$(GO_LD_FLAGS)' ./pkg
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_windows_amd64.exe -ldflags '$(GO_LD_FLAGS)' ./pkg
 
 build-backend-amd64-linux: deps-backend ## Build backend data source
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasources/rmf-datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
 
 test: deps-backend ## Run unittests
 	go test -v ./...

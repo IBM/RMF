@@ -1,7 +1,7 @@
 {
   "author": "IBM",
   "name": "ibm-rmf",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "IBM RMF for z/OS",
   "license": "Apache-2.0",
   "scripts": {
@@ -16,8 +16,8 @@
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "format": "prettier-eslint --write '**/*.ts*'",
     "antlr": "antlr4-tool --help",
-    "generate-parser": "antlr4-tool -Dlanguage=JavaScript -o src/datasources/rmf-datasource/parser/lib -Xexact-output-dir ./grammar/RMFQuery.g4",
-    "generate-parser-java": "java -Xmx500M -cp '/usr/local/lib/antlr-4.10.1-complete.jar:$CLASSPATH' org.antlr.v4.Tool -Dlanguage=JavaScript -o src/datasources/rmf-datasource/parser/lib -Xexact-output-dir",
+    "generate-parser": "antlr4-tool -Dlanguage=JavaScript -o src/datasource/parser/lib -Xexact-output-dir ./grammar/RMFQuery.g4",
+    "generate-parser-java": "java -Xmx500M -cp '/usr/local/lib/antlr-4.10.1-complete.jar:$CLASSPATH' org.antlr.v4.Tool -Dlanguage=JavaScript -o src/datasource/parser/lib -Xexact-output-dir",
     "start": "yarn watch",
     "start-docker": "docker-compose up",
     "start-docker:dev": "docker-compose -f docker-compose/dev.yml pull && docker-compose -f docker-compose/dev.yml up",
@@ -36,7 +36,7 @@
     "@grafana/e2e-selectors": "*",
     "@grafana/eslint-config": "^8.1.0",
     "@grafana/tsconfig": "^2.0.0",
-    "@playwright/test": "^1.53.2",
+    "@playwright/test": "^1.56.1",
     "@stylistic/eslint-plugin-ts": "*",
     "@swc/core": "^1.12.11",
     "@swc/helpers": "^0.5.17",
@@ -88,9 +88,9 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@grafana/data": "^12.0.2",
-    "@grafana/runtime": "^12.0.2",
-    "@grafana/ui": "^12.0.2",
+    "@grafana/data": "^12.2.1",
+    "@grafana/runtime": "^12.2.1",
+    "@grafana/ui": "^12.2.1",
     "antlr4": "^4.13.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

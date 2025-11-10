@@ -16,7 +16,7 @@
     },
     {
       "type": "panel",
-      "id": "ibm-rmf-report",
+      "id": "ibm-rmf-panel",
       "name": "Report for IBM RMF for z/OS",
       "version": "%VERSION%"
     }
@@ -52,9 +52,8 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
-      "description": "Coupling Facility Systems View",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -95,7 +94,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "c699b2d0-fa49-4b45-bae9-913739728e44",
@@ -107,7 +106,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "CFSYS",
+      "title": "CFSYS - Coupling Facility Systems View",
       "transformations": [
         {
           "id": "organize",
@@ -286,26 +285,29 @@
           }
         }
       ],
-      "type": "ibm-rmf-report"
+      "type": "ibm-rmf-panel"
     }
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
-        "description": "Sysplex",
+        "description": "Data source",
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -313,6 +315,26 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "label": "Sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },
@@ -322,7 +344,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "CFSYS",
+  "title": "CFSYS - Coupling Facility Systems View",
   "version": 1,
   "weekStart": ""
 }

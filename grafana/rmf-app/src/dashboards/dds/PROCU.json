@@ -16,7 +16,7 @@
     },
     {
       "type": "panel",
-      "id": "ibm-rmf-report",
+      "id": "ibm-rmf-panel",
       "name": "Report for IBM RMF for z/OS",
       "version": "%VERSION%"
     }
@@ -52,9 +52,8 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
-      "description": "Processor Usage",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -93,7 +92,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "908ddeb5-eef7-4ab9-a3f0-4727805960d5",
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "PROCU",
+      "title": "PROCU - Processor Usage",
       "transformations": [
         {
           "id": "organize",
@@ -113,7 +112,7 @@
             "excludeByName": {
               "AAP EAppl %": true,
               "AAP Time on CP %": true,
-              "ASID (dec)": true,
+              "ASID (dec)": false,
               "CBP EAppl %": true,
               "CBP Time on CP %": true,
               "Channel Measurement Group": true,
@@ -145,26 +144,29 @@
           }
         }
       ],
-      "type": "ibm-rmf-report"
+      "type": "ibm-rmf-panel"
     }
   ],
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -176,15 +178,35 @@
       {
         "datasource": {
           "type": "ibm-rmf-datasource",
-          "uid": "${sysplex}"
+          "uid": "${datasource}"
         },
-        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "label": "Sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "systems",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "LPAR",
         "options": [],
-        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "query": "systems",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -199,7 +221,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "PROCU",
+  "title": "PROCU - Processor Usage",
   "version": 1,
   "weekStart": ""
 }

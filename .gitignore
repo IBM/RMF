@@ -5,4 +5,3 @@
 .antlr
 *.interp
 *.tokens
-grafana/rmf-app/**/rmf-datasource/parser/lib/RMFQuery*.ts

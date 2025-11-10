@@ -42,6 +42,12 @@
                         option with the plugin's version number to be upgraded.
                         <lines id="lines_ttk_pss_sbc">For example, if you want to install the <varname>v1.0.3</varname> version of the plugin, the value of <parmname>pluginURL</parmname> is <xref href="https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v1.0.3/ibm-rmf-grafana-1.0.3.zip" format="html" scope="external">https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v1.0.3/ibm-rmf-grafana-1.0.3.zip</xref>.</lines></note>
                 </info>
+                <info>
+                    <note id="note_tf2_5pr_fhc" type="important">When upgrading from v1.1.0 or
+                        older, the <parmname>allow_loading_unsigned_plugins</parmname> Grafana
+                        option must be updated with amended plugin names. Set the value to
+                            <varname>ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-panel</varname>. </note>
+                </info>
                 <stepresult>The CLI tool downloads the mentioned version of the plugin and replaces
                     the existing files.</stepresult>
             </step>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_grafana_plugin" xml:lang="en-us">
+    <title>Integrating DDS Dashboards with IBM Z OMEGAMON Dashboards</title>
+    <titlealts>
+        <navtitle>Integrating DDS Dashboards with OMEGAMON</navtitle>
+    </titlealts>
+    <shortdesc>To enhance visibility and provide deeper insights, the DDS dashboards can be
+        integrated with IBM Z OMEGAMON Web UI dashboards. </shortdesc>
+    <taskbody>
+        <context id="context_gnb_ds3_fhc">
+            <p>IBM Z OMEGAMON provides its own Grafana plugin with detailed dashboards. This
+                integration seamlessly allows users to navigate from DDS dashboards to OMEGAMON
+                dashboards, preserving context such as object names.</p>
+            <p>Follow the steps below to enable and configure the integration between DDS and
+                OMEGAMON dashboards:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>While  installing the DDS Sample Dashboards, on the IBM RMF page, go to
+                        <wintitle>DDS Sample Dashboards</wintitle> section and select the
+                        <uicontrol>Link with IBM Z OMEGAMON Web UI dashboards</uicontrol> button to
+                    create links to the OMEGAMON dashboards. </cmd>
+                <info><image href="images/omegamon_link.png" id="image_psr_krj_fhc"/></info>
+            </step>
+            <step>
+                <cmd>Go to <menucascade>
+                        <uicontrol>Home </uicontrol>
+                        <uicontrol>Connections</uicontrol>
+                        <uicontrol>Data sources</uicontrol>
+                        <uicontrol>IBM RMF for z/OS</uicontrol>
+                    </menucascade>. </cmd>
+            </step>
+            <step>
+                <cmd>On the IBM RMF for z/OS page, go to <wintitle>OMEGAMON (optional)</wintitle>
+                    section. Enter the OMEGAMON data source name in the <uicontrol>Data
+                        Source</uicontrol> field that reads from the same sysplex as the RMF data
+                    source.</cmd>
+                <info>This ensures consistent data visibility across both plugins.</info>
+                <info><image href="images/omegamon_section.png" id="image_uqw_srj_fhc"/></info>
+            </step>
+            <step>
+                <cmd>Once the integration is configured, the DDS dashboards will display interactive
+                    links. In <uicontrol>Address space-related</uicontrol> tables, click <b>Address
+                        space name</b> to open a new browser tab showing detailed metrics in the
+                    OMEGAMON dashboard.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>z/OS Enterprise Overview</uicontrol> button to open a new tab
+                    with all current LPAR details.</cmd>
+                <info><image href="images/address_space_tables.png" id="image_dmj_rzj_fhc"/></info>
+            </step>
+        </steps>
+        <result id="result_cfk_yxq_pyb">The integration between DDS Dashboards and IBM Z OMEGAMON
+            Web UI dashboards is successfully configured. </result>
+    </taskbody>
+</task>

@@ -44,12 +44,13 @@ type Config struct {
 		// Custom RMF settings.
 		CacheSizeRaw string `json:"cacheSize"`
 		// Legacy custom RMF settings. We should ge rid of these at some point.
-		Server    *string `json:"path"`
-		Port      string  `json:"port"`
-		SSL       bool    `json:"ssl"`
-		Username  string  `json:"userName"`
-		Password  string  `json:"password"`
-		SSLVerify bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
+		Server     *string `json:"path"`
+		Port       string  `json:"port"`
+		SSL        bool    `json:"ssl"`
+		Username   string  `json:"userName"`
+		Password   string  `json:"password"`
+		SSLVerify  bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
+		OmegamonDs string  `json:"omegamonDs"`
 	}
 }
 

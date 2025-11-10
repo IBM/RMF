@@ -20,7 +20,7 @@ import { TableCellDisplayMode } from '@grafana/ui';
 export interface ReportData {
   bannerFields: Field[];
   captionFields: Field[];
-  tableData: DataFrame[];
+  tableData: DataFrame;
 }
 
 export interface FieldProps {
@@ -53,13 +53,4 @@ export interface TableBanner {
   systems?: string;
   timeRange?: string;
   range?: string;
-}
-
-// Interfaces for Grafana v9 compatibility
-interface ArrayWithBuffer<T> extends Array<T> {
-  buffer?: T[];
-}
-
-export interface V9CompatField<T = any> extends Field<T> {
-  values: ArrayWithBuffer<T>;
 }

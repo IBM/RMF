@@ -1,21 +1,23 @@
 {
   "dependencies": {
-    "grafanaDependency": ">=10",
+    "grafanaDependency": ">=10.0",
     "plugins": []
   },
-  "id": "ibm-rmf",
+  "id": "ibm-rmf-app",
   "includes": [
     {
       "type": "datasource",
-      "name": "IBM RMF for z/OS"
+      "name": "IBM RMF for z/OS",
+      "path": "datasource/plugin.json"
     },
     {
       "type": "panel",
-      "name": "Report for IBM RMF for z/OS"
+      "name": "Report for IBM RMF for z/OS",
+      "path": "panel/plugin.json"
     },
     {
       "name": "Home",
-      "path": "/a/ibm-rmf",
+      "path": "/a/ibm-rmf-app",
       "type": "page",
       "role": "Admin",
       "addToNav": true,
@@ -51,7 +53,7 @@
       "large": "img/logo.svg",
       "small": "img/logo.svg"
     },
-    "screenshots": [],
+    "screenshots": [{ "name": "Sample dashboard", "path": "img/sample-dashboard.png" }],
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
