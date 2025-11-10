@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.1. (2025-11-10)
+
 ## 1.1.0 (2025-08-12)
 
 - Change in deployment method for sample dashboards.
