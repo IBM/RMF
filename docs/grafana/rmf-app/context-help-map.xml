@@ -10,6 +10,7 @@
    <appContext helpID="apply_visualize" path="apply_visualize.html"/>
    <appContext helpID="query_lang" path="query_lang.html"/>
    <appContext helpID="variables" path="variables.html"/>
+   <appContext helpID="install_grafana_plugin" path="integrating_dds_omegamon.html"/>
    <appContext helpID="alerts" path="alerts.html"/>
    <appContext helpID="historical_data" path="historical_data.html"/>
    <appContext helpID="error_reports" path="error_reports.html"/>

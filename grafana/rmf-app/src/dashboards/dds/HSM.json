@@ -16,7 +16,7 @@
     },
     {
       "type": "panel",
-      "id": "ibm-rmf-report",
+      "id": "ibm-rmf-panel",
       "name": "Report for IBM RMF for z/OS",
       "version": "%VERSION%"
     }
@@ -52,9 +52,8 @@
     {
       "datasource": {
         "type": "ibm-rmf-datasource",
-        "uid": "${sysplex}"
+        "uid": "${datasource}"
       },
-      "description": "Hierarchical Storage Manager Delays",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -93,7 +92,7 @@
         {
           "datasource": {
             "type": "ibm-rmf-datasource",
-            "uid": "${sysplex}"
+            "uid": "${datasource}"
           },
           "refId": "A",
           "rmfPanelGuid": "4ca5f811-7ce7-4cb5-9c8e-e82c744f7689",
@@ -105,7 +104,7 @@
           "selectedVisualisationType": "table"
         }
       ],
-      "title": "HSM",
+      "title": "HSM - Hierarchical Storage Manager Delays",
       "transformations": [
         {
           "id": "organize",
@@ -137,26 +136,29 @@
           }
         }
       ],
-      "type": "ibm-rmf-report"
+      "type": "ibm-rmf-panel"
     }
   ],
   "refresh": "1m",
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["RMF", "REPORT"],
+  "tags": [
+    "RMF",
+    "REPORT"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "${sysplex}",
-          "value": "${sysplex}"
+          "text": "${datasource}",
+          "value": "${datasource}"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "Sysplex",
+        "label": "Data source",
         "multi": false,
-        "name": "sysplex",
+        "name": "datasource",
         "options": [],
         "query": "ibm-rmf-datasource",
         "queryValue": "",
@@ -168,15 +170,35 @@
       {
         "datasource": {
           "type": "ibm-rmf-datasource",
-          "uid": "${sysplex}"
+          "uid": "${datasource}"
         },
-        "definition": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "definition": "sysplex",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "sysplex",
+        "label": "Sysplex",
+        "options": [],
+        "query": "sysplex",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "allowCustomValue": false
+      },
+      {
+        "datasource": {
+          "type": "ibm-rmf-datasource",
+          "uid": "${datasource}"
+        },
+        "definition": "systems",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "LPAR",
         "options": [],
-        "query": "select label from resource where name=\"${sysplex}\" and type=\"SYSPLEX\" and filter=\"MVS_IMAGE\"",
+        "query": "systems",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -191,7 +213,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "HSM",
+  "title": "HSM - Hierarchical Storage Manager Delays",
   "version": 1,
   "weekStart": ""
 }

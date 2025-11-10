@@ -50,45 +50,51 @@ func NoDataFrame(t time.Time) *data.Frame {
 	)
 }
 
-func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
-	logger := log.Logger.With("func", "Build")
+func validateResponse(ddsResponse *dds.Response) error {
+	logger := log.Logger.With("func", "validateResponse")
 
 	reportsNum := len(ddsResponse.Reports)
 	if reportsNum == 0 {
-		return nil, errors.New("no reports in DDS response")
+		return errors.New("no reports in DDS response")
 	} else if reportsNum > 1 {
-		return nil, fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
+		return fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
 	}
 	report := ddsResponse.Reports[0]
 	if message := report.Message; message != nil {
 		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
-			return nil, message
+			return message
 		} else {
 			logger.Debug(message.Error())
 		}
 	}
 	if report.TimeData == nil {
-		return nil, errors.New("no time data in DDS response")
+		return errors.New("no time data in DDS response")
 	}
 	if report.Metric == nil {
-		return nil, errors.New("no metric data in DDS response")
+		return errors.New("no metric data in DDS response")
 	}
 	if _, ok := dds.SupportedFormats[report.Metric.Format]; !ok {
-		return nil, fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
+		return fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
 	}
+	return nil
+}
 
+func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
+	err := validateResponse(ddsResponse)
+	if err != nil {
+		return nil, err
+	}
+	report := ddsResponse.Reports[0]
 	format := report.Metric.Format
 	frameName := strings.Trim(report.Metric.Description, " ")
-	var newFrame *data.Frame
 
 	if format == dds.ReportFormat {
-		newFrame = buildForReport(&report, headers, frameName)
+		return buildForReport(&report, headers, frameName), nil
 	} else if wide {
 		return buildWideForMetric(&report, frameName), nil
 	} else {
 		return buildLongForMetric(&report, frameName), nil
 	}
-	return newFrame, nil
 }
 
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.

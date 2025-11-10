@@ -16,7 +16,7 @@
  */
 
 import appPluginJson from './plugin.json';
-import dataSourcePluginJson from './datasources/rmf-datasource/plugin.json';
+import dataSourcePluginJson from './datasource/plugin.json';
 
 export const APP_NAME = appPluginJson.name;
 export const APP_DESC = appPluginJson.info.description;
@@ -27,3 +27,5 @@ export const DATA_SOURCE_TYPE = dataSourcePluginJson.id;
 export const DATA_SOURCE_NAME = dataSourcePluginJson.name;
 export const DDS_OPEN_METRICS_DOC_URL =
   'https://www.ibm.com/docs/en/zos/3.1.0?topic=functions-setting-up-distributed-data-server-zos';
+export const FALCON_AS_DASHBOARD = "d/ees8cbtsyfshse/job-cpu-details";
+export const FALCON_SYS_DASHBOARD = "d/eefk6eunuubk0e/z-os-enterprise-overview";

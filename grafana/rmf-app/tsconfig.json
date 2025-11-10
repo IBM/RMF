@@ -1,6 +1,6 @@
 {
   "extends": "./.config/tsconfig.json",
-  "exclude": ["./src/datasources/rmf-datasource/parser/lib"],
+  "exclude": ["./src/datasource/parser/lib"],
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react"

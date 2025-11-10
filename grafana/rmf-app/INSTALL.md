@@ -9,5 +9,5 @@
   `ibm-rmf-report-panel`) must be run as unsigned plugins.
   For this specify the below in `Grafana.ini` file’s `[plugins]` section:
   ```ini
-  allow_loading_unsigned_plugins = ibm-rmf,ibm-rmf-datasource,ibm-rmf-report-panel
+  allow_loading_unsigned_plugins = ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-report-panel
   ```
