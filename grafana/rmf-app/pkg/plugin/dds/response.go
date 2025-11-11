@@ -49,6 +49,12 @@ var AcceptableMessages = map[string]bool{
 
 type Response struct {
 	Reports []Report `json:"report"`
+	Server  Server   `json:"server"`
+}
+
+type Server struct {
+	Functionality string `json:"functionality"`
+	Version       string `json:"version"`
 }
 
 type Report struct {

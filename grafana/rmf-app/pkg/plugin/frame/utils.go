@@ -55,13 +55,17 @@ type FieldInfo struct {
 // values for the field in those frames will be discarded by frontend.
 func SyncFieldNames(seriesFields SeriesFields, frame *data.Frame, frameTime time.Time) {
 	fieldNames := map[string]bool{}
+	frameRows := 1
+	if len(frame.Fields) > 0 {
+		frameRows = frame.Fields[0].Len()
+	}
 	for _, field := range frame.Fields {
 		seriesFields[field.Name] = FieldInfo{Time: frameTime, Labels: field.Labels}
 		fieldNames[field.Name] = true
 	}
 	for key := range seriesFields {
 		if _, ok := fieldNames[key]; !ok {
-			newField := data.NewField(key, seriesFields[key].Labels, []*float64{nil})
+			newField := data.NewField(key, seriesFields[key].Labels, make([]*float64, frameRows))
 			frame.Fields = append(frame.Fields, newField)
 		}
 	}
@@ -116,4 +120,31 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 		}
 	}
 	return dst, nil
+}
+
+func GetDuration(f *data.Frame) time.Duration {
+	if f == nil {
+		return 0
+	}
+	if len(f.Fields) == 0 {
+		return 0
+	}
+	timeField := f.Fields[0]
+	if timeField.Type() != data.FieldTypeTime {
+		return 0
+	}
+	var minTime time.Time
+	var maxTime time.Time
+	for i := 0; i < timeField.Len(); i++ {
+		t, ok := timeField.At(i).(time.Time)
+		if ok {
+			if minTime.IsZero() || t.Before(minTime) {
+				minTime = t
+			}
+			if maxTime.IsZero() || t.After(maxTime) {
+				maxTime = t
+			}
+		}
+	}
+	return maxTime.Sub(minTime)
 }

@@ -79,6 +79,24 @@ func validateResponse(ddsResponse *dds.Response) error {
 	return nil
 }
 
+func validateMultiReportResponse(ddsResponse *dds.Response) error {
+	reportsNum := len(ddsResponse.Reports)
+	if reportsNum == 0 {
+		return errors.New("no reports in DDS response")
+	}
+	report := ddsResponse.Reports[0]
+	if report.TimeData == nil {
+		return errors.New("no time data in DDS response")
+	}
+	if report.Metric == nil {
+		return errors.New("no metric data in DDS response")
+	}
+	if _, ok := dds.SupportedFormats[report.Metric.Format]; !ok {
+		return fmt.Errorf("unsupported data format (%s) in DDS response", report.Metric.Format)
+	}
+	return nil
+}
+
 func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.Frame, error) {
 	err := validateResponse(ddsResponse)
 	if err != nil {
@@ -95,6 +113,20 @@ func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.
 	} else {
 		return buildLongForMetric(&report, frameName), nil
 	}
+}
+
+func BuildBatch(ddsResponse *dds.Response) (*data.Frame, error) {
+	err := validateMultiReportResponse(ddsResponse)
+	if err != nil {
+		return nil, err
+	}
+	var result *data.Frame
+	for _, report := range ddsResponse.Reports {
+		frameName := strings.Trim(report.Metric.Description, " ")
+		frame := buildWideForMetric(&report, frameName)
+		result, _ = MergeInto(result, frame)
+	}
+	return result, nil
 }
 
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.

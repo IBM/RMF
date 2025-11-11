@@ -37,7 +37,12 @@ func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) (*data.Frame, error
 			return nil, err
 		}
 		headers := ds.ddsClient.GetCachedHeaders()
-		f, err := frame.Build(ddsResponse, headers, wide)
+		var f *data.Frame
+		if r.Batched {
+			f, err = frame.BuildBatch(ddsResponse)
+		} else {
+			f, err = frame.Build(ddsResponse, headers, wide)
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -75,7 +80,7 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 	)
 	// Create a copy of the original request - don't alter it
 	cr := dds.NewRequest(r.Resource, r.TimeRange.From, r.TimeRange.To, step)
-	for r.TimeRange.To.Before(stop) {
+	for cr.TimeRange.From.Before(stop) {
 		next := ds.frameCache.Get(cr, true)
 		if next == nil {
 			break

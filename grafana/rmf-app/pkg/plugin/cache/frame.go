@@ -20,6 +20,7 @@ package cache
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
@@ -40,6 +41,12 @@ func (fc *FrameCache) Reset() {
 	fc.cache.Reset()
 }
 
+func WideFrameKey(f *data.Frame, r *dds.Request) []byte {
+	format := "wide"
+	t, _ := f.Fields[0].At(0).(time.Time)
+	return []byte(fmt.Sprintf("%s[%s]@%d-%d", r.Resource, format, t.UnixMilli(), t.UnixMilli()))
+}
+
 func FrameKey(r *dds.Request, wide bool) []byte {
 	format := "long"
 	if wide {
@@ -51,9 +58,13 @@ func FrameKey(r *dds.Request, wide bool) []byte {
 func (fc *FrameCache) Get(r *dds.Request, wide bool) *data.Frame {
 	logger := log.Logger.With("func", "FrameCache.Get")
 	defer log.LogAndRecover(logger)
-
-	var frame data.Frame
 	key := FrameKey(r, wide)
+	return fc.getByKey(key)
+}
+
+func (fc *FrameCache) getByKey(key []byte) *data.Frame {
+	logger := log.Logger.With("func", "FrameCache.getByKey")
+	var frame data.Frame
 	buf := fc.cache.GetBig(nil, key)
 	if buf != nil {
 		// FIXME
@@ -76,10 +87,34 @@ func (fc *FrameCache) Set(f *data.Frame, r *dds.Request, wide bool) error {
 	if frame != nil {
 		return nil
 	}
+	return fc.SetByKey(key, f)
+}
+
+func (fc *FrameCache) SetByKey(key []byte, f *data.Frame) error {
 	val, err := json.Marshal(&f)
 	if err != nil {
 		return err
 	}
 	fc.cache.SetBig(key, val)
+	return nil
+}
+
+func (fc *FrameCache) setFrame(f *data.Frame, r *dds.Request) error {
+	key := WideFrameKey(f, r)
+	frame := fc.getByKey(key)
+	if frame != nil {
+		return nil
+	}
+	return fc.SetByKey(key, f)
+}
+
+func (fc *FrameCache) SetMany(f []*data.Frame, r *dds.Request) error {
+	logger := log.Logger.With("func", "FrameCache.SetMany")
+	logger.Warn("### SetMany", "frames", len(f))
+	for _, frame := range f {
+		if err := fc.setFrame(frame, r); err != nil {
+			return err
+		}
+	}
 	return nil
 }
