@@ -73,6 +73,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
         omegamonDs: jsonData?.omegamonDs ?? "",
+        batchRequestInterval: jsonData?.batchRequestInterval ?? "60",
       };
     }
     onOptionsChange({ ...options });
@@ -349,6 +350,28 @@ export default class ConfigEditor extends PureComponent<Props, State> {
                 options={this.state.omegOptionsArray} 
                 onChange={(event) => {
                   this.updateSettings({ jsonData: { omegamonDs: String(event.value) } });
+                }}
+              />
+            </InlineField>
+          </div>
+        </div>
+
+        <h3 className="page-heading">Batch request (if supported by DDS server)</h3>
+        <div className="gf-form-group">
+          <div className="gf-form">
+            <InlineField label="Size" labelWidth={INLINE_LABEL_WIDTH} tooltip="Time interval to query in a single batch request">
+              <Select
+                width={DATASOURCE_COMBO_WIDTH}
+                allowCustomValue={false}	
+                value={options.jsonData?.batchRequestInterval}
+                options={[
+                   {label: "30 min", value: "30" } as SelectableValue
+                  ,{label: "1 hour", value: "60" } as SelectableValue
+                  ,{label: "1.5 hours", value: "90" } as SelectableValue
+                  ,{label: "2 hours", value: "120" } as SelectableValue
+                ]}
+                onChange={(event) => {
+                  this.updateSettings({ jsonData: { batchRequestInterval: String(event.value) } });
                 }}
               />
             </InlineField>

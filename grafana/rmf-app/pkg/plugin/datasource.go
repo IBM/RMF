@@ -59,13 +59,14 @@ const TimeSeriesType = "TimeSeries"
 const DdsBatchRequestMinFunctionality = 3651
 
 type RMFDatasource struct {
-	uid          string
-	name         string
-	channelCache *cache.ChannelCache
-	frameCache   *cache.FrameCache
-	ddsClient    *dds.Client
-	single       singleflight.Group
-	omegamonDs   string
+	uid                  string
+	name                 string
+	channelCache         *cache.ChannelCache
+	frameCache           *cache.FrameCache
+	ddsClient            *dds.Client
+	single               singleflight.Group
+	omegamonDs           string
+	batchRequestInterval int
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -83,10 +84,12 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
 	ds.omegamonDs = config.JSON.OmegamonDs
+	ds.batchRequestInterval = config.BatchRequestMinutes
 	logger.Info("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
-		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
+		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify,
+		"omegamonDs", config.JSON.OmegamonDs, "batchRequestInterval", config.BatchRequestMinutes)
 	return ds, nil
 }
 
@@ -313,8 +316,8 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					r := dds.NewRequest(params.Resource.Value, start, start, step)
 					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To.UTC(), step, fields)
 					if ds.supportsBatchRequests() {
-						step = time.Hour
-						r = dds.NewBatchRequest(params.Resource.Value, start)
+						step = time.Duration(ds.batchRequestInterval) * time.Minute
+						r = dds.NewBatchRequest(params.Resource.Value, start, step)
 						f2, _, err2 := ds.getCachedTSFrames(r, q.TimeRange.To.UTC(), step, fields)
 						if f == nil || err != nil {
 							f = f2
@@ -404,7 +407,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	logger.Debug("starting streaming", "step", step.String(), "path", req.Path)
 	var r *dds.Request
 	if ds.supportsBatchRequests() {
-		r = dds.NewBatchRequest(res, from)
+		r = dds.NewBatchRequest(res, from, step)
 	} else {
 		r = dds.NewRequest(res, from, from, step)
 	}

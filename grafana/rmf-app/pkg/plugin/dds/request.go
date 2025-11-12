@@ -38,10 +38,9 @@ func NewRequest(res string, from time.Time, to time.Time, step time.Duration) *R
 	return &q
 }
 
-func NewBatchRequest(res string, t time.Time) *Request {
-	oneHour := time.Hour
-	startHour := t.Truncate(oneHour)
-	endHour := startHour.Add(oneHour)
+func NewBatchRequest(res string, t time.Time, step time.Duration) *Request {
+	startHour := t.Truncate(step)
+	endHour := startHour.Add(step)
 	q := Request{Resource: res, TimeRange: data.TimeRange{From: startHour, To: endHour}, Batched: true}
 	return &q
 }

@@ -29,14 +29,18 @@ import (
 const DefaultHttpTimeout = 60
 const DefaultCacheSizeMB = 1024
 const MinimalCacheSizeMB = 128
+const DefaultBatchRequestMinutes = 60
+const MinBatchRequestMinutes = 30
+const MaxBatchRequestMinutes = 120
 
 type Config struct {
-	URL       string
-	Timeout   int
-	CacheSize int
-	Username  string
-	Password  string
-	JSON      struct {
+	URL                 string
+	Timeout             int
+	CacheSize           int
+	BatchRequestMinutes int
+	Username            string
+	Password            string
+	JSON                struct {
 		// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
 		TimeoutRaw         string `json:"timeout"`
 		TlsSkipVerify      bool   `json:"tlsSkipVerify"`
@@ -44,13 +48,14 @@ type Config struct {
 		// Custom RMF settings.
 		CacheSizeRaw string `json:"cacheSize"`
 		// Legacy custom RMF settings. We should ge rid of these at some point.
-		Server     *string `json:"path"`
-		Port       string  `json:"port"`
-		SSL        bool    `json:"ssl"`
-		Username   string  `json:"userName"`
-		Password   string  `json:"password"`
-		SSLVerify  bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
-		OmegamonDs string  `json:"omegamonDs"`
+		Server               *string `json:"path"`
+		Port                 string  `json:"port"`
+		SSL                  bool    `json:"ssl"`
+		Username             string  `json:"userName"`
+		Password             string  `json:"password"`
+		SSLVerify            bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
+		OmegamonDs           string  `json:"omegamonDs"`
+		BatchRequestInterval string  `json:"batchRequestInterval"`
 	}
 }
 
@@ -97,6 +102,18 @@ func (ds *RMFDatasource) getConfig(settings backend.DataSourceInstanceSettings) 
 	if config.CacheSize < MinimalCacheSizeMB {
 		logger.Warn("cache size is not small, using minimal value", "cacheSize", config.CacheSize)
 		config.CacheSize = MinimalCacheSizeMB
+	}
+	if config.BatchRequestMinutes, err = strconv.Atoi(config.JSON.BatchRequestInterval); err != nil {
+		logger.Warn("batch request interval is not valid, applying default", "batchRequestInterval", config.JSON.BatchRequestInterval)
+		config.BatchRequestMinutes = DefaultBatchRequestMinutes
+	}
+	if config.BatchRequestMinutes < MinBatchRequestMinutes {
+		logger.Warn("batch request interval is too small, using minimal value", "batchRequestInterval", config.BatchRequestMinutes)
+		config.BatchRequestMinutes = MinBatchRequestMinutes
+	}
+	if config.BatchRequestMinutes > MaxBatchRequestMinutes {
+		logger.Warn("batch request interval is too large, using maximal value", "batchRequestInterval", config.BatchRequestMinutes)
+		config.BatchRequestMinutes = MaxBatchRequestMinutes
 	}
 	return &config, nil
 }
