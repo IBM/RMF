@@ -30,7 +30,7 @@ Examples:
 grammar RMFQuery;
 
 
-query: WS* RES_TYPE (DOT REPORT)? DOT identifier WS* qualifiers? WS* EOF;
+query: WS* RES_TYPE (DOT REPORT)? (DOT REPORT_CAPTION)? (DOT REPORT_BANNER)? DOT identifier WS* qualifiers? WS* EOF;
 // A workaround: some reports are also resource TYPES (e.g. CPC).
 // In general, the problem is that we define keywords that are not distiguashable for antlr from
 // string literals which we also support.
@@ -54,7 +54,7 @@ workscopeValue: string? COMMA string? COMMA WORKSCOPE_TYPE;
 // Another workaround: it won't work on token level.
 number: INTEGER | DECIMAL;
 stringUnquoted
-  : IDENTIFIER | RES_TYPE | REPORT | WORKSCOPE | RANGE | ULQ | NAME | FILTER
+  : IDENTIFIER | RES_TYPE | REPORT | REPORT_CAPTION | REPORT_BANNER | WORKSCOPE | RANGE | ULQ | NAME | FILTER
   | PAT | LB | UB | HI | LO | ORD | ORD_OPTION | INTEGER | STRING_UNQUOTED;
 stringSpaced: stringUnquoted (WS + stringUnquoted)*;
 stringDotted: stringUnquoted (DOT stringUnquoted)*;
@@ -62,6 +62,8 @@ string: stringDotted | STRING_QUOTED;
 
 
 REPORT: R E P O R T;
+REPORT_CAPTION: R E P O R T UNDERSCORE C A P T I O N;
+REPORT_BANNER: R E P O R T UNDERSCORE B A N N E R;
 WORKSCOPE: W O R K S C O P E;
 RANGE: R A N G E;
 ULQ: U L Q;
@@ -144,9 +146,11 @@ WS: [ \n\t\r]+;
 
 fragment SINGLE_QUOTE: '\'';
 fragment DOUBLE_QOUTE: '"';
+fragment UNDERSCORE: '_';
 fragment STRING_ITEM_NO_QUOTE: ~[ .;{}=,];
 fragment STRING_ITEM_SINGLE_QUOTE: ~'\'';
 fragment STRING_ITEM_DOUBLE_QUOTE: ~'"';
+fragment STRING_ITEM_UNDERSCORE: ~'_';
 fragment A : [aA];
 fragment B : [bB];
 fragment C : [cC];

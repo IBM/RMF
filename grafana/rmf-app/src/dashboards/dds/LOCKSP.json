@@ -13,12 +13,6 @@
       "id": "ibm-rmf-datasource",
       "name": "IBM RMF for z/OS",
       "version": "%VERSION%"
-    },
-    {
-      "type": "panel",
-      "id": "ibm-rmf-panel",
-      "name": "Report for IBM RMF for z/OS",
-      "version": "%VERSION%"
     }
   ],
   "annotations": {
@@ -82,12 +76,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 14,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 7
       },
-      "id": 2,
+      "id": 1,
       "targets": [
         {
           "datasource": {
@@ -98,8 +92,8 @@
           "rmfPanelGuid": "1898c684-d2dd-4b95-a655-e1c7170ad8e8",
           "selectedQuery": "MVS_IMAGE.REPORT.LOCKSP{name=$LPAR}",
           "selectedResource": {
-            "label": "report=LOCKSP&resource=,$LPAR,MVS_IMAGE",
-            "value": "report=LOCKSP&resource=,$LPAR,MVS_IMAGE"
+            "label": "TABLE(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)",
+            "value": "TABLE(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)"
           },
           "selectedVisualisationType": "table"
         }
@@ -129,7 +123,155 @@
           }
         }
       ],
-      "type": "ibm-rmf-panel"
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
+          "selectedQuery": "MVS_IMAGE.REPORT_BANNER.LOCKSP{name=$LPAR}",
+          "selectedResource": {
+            "label": "BANNER(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)",
+            "value": "BANNER(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
+          "selectedQuery": "MVS_IMAGE.REPORT_CAPTION.LOCKSP{name=$LPAR}",
+          "selectedResource": {
+            "label": "CAPTION(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)",
+            "value": "CAPTION(report=LOCKSP&resource=,$LPAR,MVS_IMAGE)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
     }
   ],
   "refresh": "1m",
@@ -158,7 +300,8 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "type": "datasource"
+        "type": "datasource",
+        "allowCustomValue": false
       },
       {
         "datasource": {
@@ -196,7 +339,8 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },

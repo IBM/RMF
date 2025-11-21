@@ -13,12 +13,6 @@
       "id": "ibm-rmf-datasource",
       "name": "IBM RMF for z/OS",
       "version": "%VERSION%"
-    },
-    {
-      "type": "panel",
-      "id": "ibm-rmf-panel",
-      "name": "Report for IBM RMF for z/OS",
-      "version": "%VERSION%"
     }
   ],
   "annotations": {
@@ -82,12 +76,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 14,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 7
       },
-      "id": 2,
+      "id": 1,
       "interval": "1m",
       "maxDataPoints": 1,
       "targets": [
@@ -100,8 +94,8 @@
           "rmfPanelGuid": "0c882408-b619-4f60-a8a3-37be2c38af18",
           "selectedQuery": "SYSPLEX.REPORT.CFOVER",
           "selectedResource": {
-            "label": "report=CFOVER&resource=,,SYSPLEX",
-            "value": "report=CFOVER&resource=,,SYSPLEX"
+            "label": "TABLE(report=CFOVER&resource=,,SYSPLEX)",
+            "value": "TABLE(report=CFOVER&resource=,,SYSPLEX)"
           },
           "selectedVisualisationType": "table"
         }
@@ -290,7 +284,155 @@
           }
         }
       ],
-      "type": "ibm-rmf-panel"
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
+          "selectedQuery": "SYSPLEX.REPORT_BANNER.CFOVER",
+          "selectedResource": {
+            "label": "BANNER(report=CFOVER&resource=,,SYSPLEX)",
+            "value": "BANNER(report=CFOVER&resource=,,SYSPLEX)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
+          "selectedQuery": "SYSPLEX.REPORT_CAPTION.CFOVER",
+          "selectedResource": {
+            "label": "CAPTION(report=CFOVER&resource=,,SYSPLEX)",
+            "value": "CAPTION(report=CFOVER&resource=,,SYSPLEX)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
     }
   ],
   "schemaVersion": 37,
@@ -319,7 +461,8 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "type": "datasource"
+        "type": "datasource",
+        "allowCustomValue": false
       },
       {
         "datasource": {

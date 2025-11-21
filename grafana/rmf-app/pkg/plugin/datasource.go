@@ -21,7 +21,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"regexp"
 	"runtime/debug"
 	"slices"
 	"strings"
@@ -56,6 +58,7 @@ var (
 const ChannelCacheSizeMB = 64
 const SdsDelay = 5 * time.Second
 const TimeSeriesType = "TimeSeries"
+const QueryPattern = `^([A-Za-z_][A-Za-z0-9_]*)\(([^)]*)\)$` // e.g., banner(resource), table(resource), caption(resource)
 
 type RMFDatasource struct {
 	uid          string
@@ -65,6 +68,7 @@ type RMFDatasource struct {
 	ddsClient    *dds.Client
 	single       singleflight.Group
 	omegamonDs   string
+	queryMatcher *regexp.Regexp
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -86,6 +90,7 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
 		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
+	ds.queryMatcher = regexp.MustCompile(QueryPattern)
 	return ds, nil
 }
 
@@ -335,10 +340,14 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					}
 				} else {
 					// Query non-timeseries data
-					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
+					queryKind, query := ds.parseQuery(params.Resource.Value)
+					r := dds.NewRequest(query, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
-					// FIXME: doesn't it need to be cached?
-					if newFrame, err := ds.getFrame(r, false); err != nil {
+					newFrame, err := ds.getCachedReportFrames(r)
+					if newFrame == nil || err != nil {
+						newFrame, err = ds.getFrame(r, false)
+					}
+					if err != nil {
 						var msg *dds.Message
 						if errors.As(err, &msg) {
 							response.Error = err
@@ -348,6 +357,15 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							response.Status = backend.StatusInternal
 						}
 					} else if newFrame != nil {
+						ds.setCachedReportFrames(newFrame, r)
+						switch queryKind {
+						case "banner":
+							newFrame = ds.getFrameBanner(newFrame)
+						case "caption":
+							newFrame = ds.getFrameCaption(newFrame)
+						case "table":
+							newFrame = ds.getFrameTable(newFrame)
+						}
 						response.Frames = append(response.Frames, newFrame)
 					}
 				}
@@ -449,4 +467,93 @@ func (ds *RMFDatasource) SubscribeStream(_ context.Context, req *backend.Subscri
 // PublishStream is called when a client sends a message to the stream.
 func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
 	return &backend.PublishStreamResponse{Status: backend.PublishStreamStatusPermissionDenied}, nil
+}
+
+func (d *RMFDatasource) parseQuery(resource string) (string, string) {
+	matches := d.queryMatcher.FindStringSubmatch(resource)
+	if len(matches) == 3 {
+		return strings.ToLower(matches[1]), matches[2]
+	}
+	return "", resource
+}
+
+func copyReportField(field *data.Field, length int) *data.Field {
+	var newField *data.Field
+	t := field.Type()
+	switch t {
+	case data.FieldTypeNullableFloat64:
+		newField = data.NewField(field.Name, field.Labels, []*float64{})
+	case data.FieldTypeNullableString:
+		newField = data.NewField(field.Name, field.Labels, []*string{})
+	default:
+		newField = data.NewField(field.Name, field.Labels, []string{})
+	}
+	newField.SetConfig(field.Config)
+	length = slices.Min([]int{length, field.Len()})
+	for i := 0; i < length; i++ {
+		newField.Append(field.At(i))
+	}
+	return newField
+}
+
+func (ds *RMFDatasource) getFrameTable(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	for _, field := range f.Fields {
+		if !strings.HasPrefix(field.Name, frame.CaptionPrefix) &&
+			!strings.HasPrefix(field.Name, frame.BannerPrefix) {
+			var newField *data.Field = copyReportField(field, field.Len())
+			newField.Delete(0)
+			newFrame.Fields = append(newFrame.Fields, newField)
+		}
+	}
+	return &newFrame
+}
+
+func (ds *RMFDatasource) getFrameCaption(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
+	for _, field := range f.Fields {
+		if strings.HasPrefix(field.Name, frame.CaptionPrefix) {
+			key := strings.TrimPrefix(field.Name, frame.CaptionPrefix)
+			value := getStringAt(field, 0)
+			newFrame.Fields[0].Append(key)
+			newFrame.Fields[1].Append(value)
+		}
+	}
+	return &newFrame
+}
+
+func (ds *RMFDatasource) getFrameBanner(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
+	for _, field := range f.Fields {
+		if strings.HasPrefix(field.Name, frame.BannerPrefix) {
+			key := strings.TrimPrefix(field.Name, frame.BannerPrefix)
+			value := getStringAt(field, 0)
+			newFrame.Fields[0].Append(key)
+			newFrame.Fields[1].Append(value)
+		}
+	}
+	return &newFrame
+}
+
+func getStringAt(field *data.Field, index int) string {
+	value := ""
+	if field.Len() > index {
+		v := field.At(index)
+		if v != nil {
+			if s, ok := v.(string); ok {
+				value = s
+			} else if s, ok := v.(*string); ok {
+				if s != nil {
+					value = *s
+				}
+			} else if f, ok := v.(float64); ok {
+				value = fmt.Sprintf("%f", f)
+			}
+		}
+	}
+	return value
 }
