@@ -91,9 +91,8 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 	return f, jump, err
 }
 
-func (ds *RMFDatasource) getCachedReportFrames(r *dds.Request) (*data.Frame, error) {
-	f := ds.frameCache.Get(r, true)
-	return f, nil
+func (ds *RMFDatasource) getCachedReportFrames(r *dds.Request) *data.Frame {
+	return ds.frameCache.Get(r, true)
 }
 
 func (ds *RMFDatasource) setCachedReportFrames(f *data.Frame, r *dds.Request) {

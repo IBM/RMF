@@ -343,8 +343,8 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					queryKind, query := ds.parseQuery(params.Resource.Value)
 					r := dds.NewRequest(query, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
-					newFrame, err := ds.getCachedReportFrames(r)
-					if newFrame == nil || err != nil {
+					newFrame := ds.getCachedReportFrames(r)
+					if newFrame == nil {
 						newFrame, err = ds.getFrame(r, false)
 					}
 					if err != nil {
@@ -501,7 +501,7 @@ func (ds *RMFDatasource) getFrameTable(f *data.Frame) *data.Frame {
 	for _, field := range f.Fields {
 		if !strings.HasPrefix(field.Name, frame.CaptionPrefix) &&
 			!strings.HasPrefix(field.Name, frame.BannerPrefix) {
-			var newField *data.Field = copyReportField(field, field.Len())
+			var newField = copyReportField(field, field.Len())
 			newField.Delete(0)
 			newFrame.Fields = append(newFrame.Fields, newField)
 		}
