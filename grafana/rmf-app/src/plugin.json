@@ -11,11 +11,6 @@
       "path": "datasource/plugin.json"
     },
     {
-      "type": "panel",
-      "name": "Report for IBM RMF for z/OS",
-      "path": "panel/plugin.json"
-    },
-    {
       "name": "Home",
       "path": "/a/ibm-rmf-app",
       "type": "page",
