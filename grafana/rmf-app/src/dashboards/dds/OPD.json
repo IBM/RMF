@@ -54,9 +54,11 @@
             "mode": "thresholds"
           },
           "custom": {
-            "displayMode": "Auto",
-            "enablePagination": false,
-            "filterable": false
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -76,10 +78,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 14,
+        "h": 15,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 6
       },
       "id": 2,
       "targets": [
@@ -170,7 +172,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 12,
         "x": 0,
         "y": 0
@@ -244,7 +246,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 12,
         "x": 12,
         "y": 0

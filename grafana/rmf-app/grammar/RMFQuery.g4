@@ -30,7 +30,7 @@ Examples:
 grammar RMFQuery;
 
 
-query: WS* RES_TYPE (DOT REPORT)? (DOT REPORT_CAPTION)? (DOT REPORT_BANNER)? DOT identifier WS* qualifiers? WS* EOF;
+query: WS* RES_TYPE ((DOT REPORT) | (DOT REPORT_CAPTION) | (DOT REPORT_BANNER))? DOT identifier WS* qualifiers? WS* EOF;
 // A workaround: some reports are also resource TYPES (e.g. CPC).
 // In general, the problem is that we define keywords that are not distiguashable for antlr from
 // string literals which we also support.

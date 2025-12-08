@@ -21,7 +21,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"regexp"
 	"runtime/debug"
@@ -360,11 +359,15 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 						ds.setCachedReportFrames(newFrame, r)
 						switch queryKind {
 						case "banner":
-							newFrame = ds.getFrameBanner(newFrame)
+							newFrame = frame.GetFrameBanner(newFrame)
 						case "caption":
-							newFrame = ds.getFrameCaption(newFrame)
+							newFrame = frame.GetFrameCaption(newFrame)
 						case "table":
-							newFrame = ds.getFrameTable(newFrame)
+							newFrame = frame.GetFrameTable(newFrame)
+						default:
+							if strings.Contains(query, "report=") {
+								newFrame = frame.GetFrameTable(newFrame)
+							}
 						}
 						response.Frames = append(response.Frames, newFrame)
 					}
@@ -475,85 +478,4 @@ func (d *RMFDatasource) parseQuery(resource string) (string, string) {
 		return strings.ToLower(matches[1]), matches[2]
 	}
 	return "", resource
-}
-
-func copyReportField(field *data.Field, length int) *data.Field {
-	var newField *data.Field
-	t := field.Type()
-	switch t {
-	case data.FieldTypeNullableFloat64:
-		newField = data.NewField(field.Name, field.Labels, []*float64{})
-	case data.FieldTypeNullableString:
-		newField = data.NewField(field.Name, field.Labels, []*string{})
-	default:
-		newField = data.NewField(field.Name, field.Labels, []string{})
-	}
-	newField.SetConfig(field.Config)
-	length = slices.Min([]int{length, field.Len()})
-	for i := 0; i < length; i++ {
-		newField.Append(field.At(i))
-	}
-	return newField
-}
-
-func (ds *RMFDatasource) getFrameTable(f *data.Frame) *data.Frame {
-	var newFrame data.Frame
-	for _, field := range f.Fields {
-		if !strings.HasPrefix(field.Name, frame.CaptionPrefix) &&
-			!strings.HasPrefix(field.Name, frame.BannerPrefix) {
-			var newField = copyReportField(field, field.Len())
-			newField.Delete(0)
-			newFrame.Fields = append(newFrame.Fields, newField)
-		}
-	}
-	return &newFrame
-}
-
-func (ds *RMFDatasource) getFrameCaption(f *data.Frame) *data.Frame {
-	var newFrame data.Frame
-	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
-	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
-	for _, field := range f.Fields {
-		if strings.HasPrefix(field.Name, frame.CaptionPrefix) {
-			key := strings.TrimPrefix(field.Name, frame.CaptionPrefix)
-			value := getStringAt(field, 0)
-			newFrame.Fields[0].Append(key)
-			newFrame.Fields[1].Append(value)
-		}
-	}
-	return &newFrame
-}
-
-func (ds *RMFDatasource) getFrameBanner(f *data.Frame) *data.Frame {
-	var newFrame data.Frame
-	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
-	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
-	for _, field := range f.Fields {
-		if strings.HasPrefix(field.Name, frame.BannerPrefix) {
-			key := strings.TrimPrefix(field.Name, frame.BannerPrefix)
-			value := getStringAt(field, 0)
-			newFrame.Fields[0].Append(key)
-			newFrame.Fields[1].Append(value)
-		}
-	}
-	return &newFrame
-}
-
-func getStringAt(field *data.Field, index int) string {
-	value := ""
-	if field.Len() > index {
-		v := field.At(index)
-		if v != nil {
-			if s, ok := v.(string); ok {
-				value = s
-			} else if s, ok := v.(*string); ok {
-				if s != nil {
-					value = *s
-				}
-			} else if f, ok := v.(float64); ok {
-				value = fmt.Sprintf("%f", f)
-			}
-		}
-	}
-	return value
 }

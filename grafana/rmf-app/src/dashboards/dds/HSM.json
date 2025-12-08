@@ -54,9 +54,11 @@
             "mode": "thresholds"
           },
           "custom": {
-            "displayMode": "Auto",
-            "enablePagination": false,
-            "filterable": false
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
