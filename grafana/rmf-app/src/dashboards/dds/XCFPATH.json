@@ -120,7 +120,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "3282dc77-1ad7-4380-9a9a-0f846ea8af6a",
           "selectedQuery": "SYSPLEX.REPORT.XCFPATH",
           "selectedResource": {
             "label": "TABLE(report=XCFPATH&resource=,,SYSPLEX)",
@@ -354,7 +353,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.XCFPATH",
           "selectedResource": {
             "label": "BANNER(report=XCFPATH&resource=,,SYSPLEX)",

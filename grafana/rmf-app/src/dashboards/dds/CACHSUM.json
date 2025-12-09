@@ -94,7 +94,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "0a230d99-a837-4aff-b520-3b6c68d5a8e0",
           "selectedQuery": "SYSPLEX.REPORT.CACHSUM",
           "selectedResource": {
             "label": "TABLE(report=CACHSUM&resource=,,SYSPLEX)",
@@ -401,7 +400,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.CACHSUM",
           "selectedResource": {
             "label": "BANNER(report=CACHSUM&resource=,,SYSPLEX)",
@@ -475,7 +473,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "SYSPLEX.REPORT_CAPTION.CACHSUM",
           "selectedResource": {
             "label": "CAPTION(report=CACHSUM&resource=,,SYSPLEX)",

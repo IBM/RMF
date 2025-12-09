@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "346e1b6d-c49a-455f-81af-b18f52fea63a",
           "selectedQuery": "SYSPLEX.REPORT.SPACED",
           "selectedResource": {
             "label": "TABLE(report=SPACED&resource=,,SYSPLEX)",
@@ -344,7 +343,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.SPACED",
           "selectedResource": {
             "label": "BANNER(report=SPACED&resource=,,SYSPLEX)",

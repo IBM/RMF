@@ -91,7 +91,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "b91a33da-135f-44a5-cfed-b3689f07856b",
           "selectedQuery": "MVS_IMAGE.REPORT.DELAY{name=$LPAR}",
           "selectedResource": {
             "label": "TABLE(report=DELAY&resource=,$LPAR,MVS_IMAGE)",
@@ -202,7 +201,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "MVS_IMAGE.REPORT_BANNER.DELAY{name=$LPAR}",
           "selectedResource": {
             "label": "BANNER(report=DELAY&resource=,$LPAR,MVS_IMAGE)",

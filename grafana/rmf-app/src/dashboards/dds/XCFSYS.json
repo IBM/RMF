@@ -124,7 +124,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "056aa738-d1cf-46a4-aee4-2f7176b48b13",
           "selectedQuery": "SYSPLEX.REPORT.XCFSYS",
           "selectedResource": {
             "label": "TABLE(report=XCFSYS&resource=,,SYSPLEX)",
@@ -343,7 +342,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.XCFSYS",
           "selectedResource": {
             "label": "BANNER(report=XCFSYS&resource=,,SYSPLEX)",

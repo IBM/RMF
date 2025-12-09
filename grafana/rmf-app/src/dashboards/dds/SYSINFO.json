@@ -91,7 +91,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "6a55cb0b-c2bc-4586-b79d-53c103b29550",
           "selectedQuery": "MVS_IMAGE.REPORT.SYSINFO{name=$LPAR}",
           "selectedResource": {
             "label": "TABLE(report=SYSINFO&resource=,$LPAR,MVS_IMAGE)",
@@ -364,7 +363,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "MVS_IMAGE.REPORT_BANNER.SYSINFO{name=$LPAR}",
           "selectedResource": {
             "label": "BANNER(report=SYSINFO&resource=,$LPAR,MVS_IMAGE)",
@@ -438,7 +436,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "MVS_IMAGE.REPORT_CAPTION.SYSINFO{name=$LPAR}",
           "selectedResource": {
             "label": "CAPTION(report=SYSINFO&resource=,$LPAR,MVS_IMAGE)",

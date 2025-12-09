@@ -92,7 +92,6 @@
           },
           "hide": false,
           "refId": "A",
-          "rmfPanelGuid": "caaae81f-5211-4ff1-b8e2-e9350465da39",
           "selectedQuery": "MVS_IMAGE.REPORT.PCIE{name=$LPAR}",
           "selectedResource": {
             "label": "TABLE(report=PCIE&resource=,$LPAR,MVS_IMAGE)",
@@ -228,7 +227,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "MVS_IMAGE.REPORT_BANNER.PCIE{name=$LPAR}",
           "selectedResource": {
             "label": "BANNER(report=PCIE&resource=,$LPAR,MVS_IMAGE)",
@@ -302,7 +300,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "MVS_IMAGE.REPORT_CAPTION.PCIE{name=$LPAR}",
           "selectedResource": {
             "label": "CAPTION(report=PCIE&resource=,$LPAR,MVS_IMAGE)",

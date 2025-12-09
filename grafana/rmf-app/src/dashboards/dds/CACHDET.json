@@ -94,7 +94,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "a30ba0f0-e67a-44b0-bfe6-3b437603e414",
           "selectedQuery": "SYSPLEX.REPORT.CACHDET",
           "selectedResource": {
             "label": "TABLE(report=CACHDET&resource=,,SYSPLEX)",
@@ -439,7 +438,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.CACHDET",
           "selectedResource": {
             "label": "BANNER(report=CACHDET&resource=,,SYSPLEX)",
@@ -513,7 +511,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "SYSPLEX.REPORT_CAPTION.CACHDET",
           "selectedResource": {
             "label": "CAPTION(report=CACHDET&resource=,,SYSPLEX)",

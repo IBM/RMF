@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "48f2221c-2282-4937-85e0-b52a71e1d93e",
           "selectedQuery": "SYSPLEX.REPORT.SYSSUM",
           "selectedResource": {
             "label": "TABLE(report=SYSSUM&resource=,,SYSPLEX)",
@@ -344,7 +343,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.SYSSUM",
           "selectedResource": {
             "label": "BANNER(report=SYSSUM&resource=,,SYSPLEX)",
@@ -418,7 +416,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "SYSPLEX.REPORT_CAPTION.SYSSUM",
           "selectedResource": {
             "label": "CAPTION(report=SYSSUM&resource=,,SYSPLEX)",

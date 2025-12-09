@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "56006a7e-0517-4de8-80c8-29db0310d5a6",
           "selectedQuery": "SYSPLEX.REPORT.ZFSOVW",
           "selectedResource": {
             "label": "TABLE(report=ZFSOVW&resource=,,SYSPLEX)",
@@ -394,7 +393,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.ZFSOVW",
           "selectedResource": {
             "label": "BANNER(report=ZFSOVW&resource=,,SYSPLEX)",

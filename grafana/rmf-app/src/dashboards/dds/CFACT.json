@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "26f5f14b-f506-4c31-907c-9f32ccd314e4",
           "selectedQuery": "SYSPLEX.REPORT.CFACT",
           "selectedResource": {
             "label": "TABLE(report=CFACT&resource=,,SYSPLEX)",
@@ -454,7 +453,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.CFACT",
           "selectedResource": {
             "label": "BANNER(report=CFACT&resource=,,SYSPLEX)",

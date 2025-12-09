@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "aa73ed04-967c-469d-a5f8-9eb0d1c8b092",
           "selectedQuery": "SYSPLEX.REPORT.XCFOVW",
           "selectedResource": {
             "label": "TABLE(report=XCFOVW&resource=,,SYSPLEX)",
@@ -348,7 +347,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.XCFOVW",
           "selectedResource": {
             "label": "BANNER(report=XCFOVW&resource=,,SYSPLEX)",

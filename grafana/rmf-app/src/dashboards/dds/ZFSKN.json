@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "31e86a06-d0fb-46e5-970a-d86e4c098749",
           "selectedQuery": "SYSPLEX.REPORT.ZFSKN",
           "selectedResource": {
             "label": "TABLE(report=ZFSKN&resource=,,SYSPLEX)",
@@ -344,7 +343,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.ZFSKN",
           "selectedResource": {
             "label": "BANNER(report=ZFSKN&resource=,,SYSPLEX)",

@@ -22,10 +22,8 @@ import { RadioButtonGroup, Spinner, Switch } from '@grafana/ui';
 import React, { PureComponent } from 'react';
 import { AutocompleteTextField } from '../autocomplete-text/autocomplete-textfield';
 import {
-  generateUUID,
   getEnableTimeSeriesStatus,
   getResource,
-  getSelectedGuid,
   getSelectedResource,
   getVisualisationType,
   isItFirstDotPosition,
@@ -51,7 +49,6 @@ type Props = QueryEditorProps<DataSource, RMFQuery, RMFDataSourceJsonData>;
 type state = RMFQuery;
 
 let metricDict: any = {};
-let rmfPanelGuid = '';
 
 export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state> {
   editorSelectedResource = '';
@@ -78,10 +75,6 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
 
     // Load all initial default value
     this.editorSelectedResource = getSelectedResource(props);
-    rmfPanelGuid = getSelectedGuid(props);
-    if (rmfPanelGuid === '') {
-      rmfPanelGuid = generateUUID();
-    }
     this.enableTimeSeries = getEnableTimeSeriesStatus(props);
 
     this.autoComplDefProps = { ...autoCompleteDefaultProps };
@@ -102,7 +95,6 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
     this.setState({ queryText: '' });
     this.setState({ editorSelectedResource: this.editorSelectedResource });
     this.setState({ enableTimeSeries: this.enableTimeSeries });
-    this.setState({ rmfPanelGuid: rmfPanelGuid });
   }
 
   async loadDataFromService(id: number) {
@@ -221,7 +213,6 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
             selectedVisualisationType: getVisualisationType(value, this.enableTimeSeries),
             selectedQuery: value,
             selectedResource: { label: finalQueryToSave, value: finalQueryToSave },
-            rmfPanelGuid: rmfPanelGuid,
           });
         }
         this.setState({ editorSelectedResource: finalQueryToSave });

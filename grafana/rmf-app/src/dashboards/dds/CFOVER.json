@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "0c882408-b619-4f60-a8a3-37be2c38af18",
           "selectedQuery": "SYSPLEX.REPORT.CFOVER",
           "selectedResource": {
             "label": "TABLE(report=CFOVER&resource=,,SYSPLEX)",
@@ -350,7 +349,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.CFOVER",
           "selectedResource": {
             "label": "BANNER(report=CFOVER&resource=,,SYSPLEX)",
@@ -424,7 +422,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "SYSPLEX.REPORT_CAPTION.CFOVER",
           "selectedResource": {
             "label": "CAPTION(report=CFOVER&resource=,,SYSPLEX)",

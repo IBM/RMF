@@ -53,7 +53,6 @@ export interface RMFQuery extends DataQuery {
   enableTimeSeries?: boolean;
   serviceCallInprogres?: boolean;
   errorMessage?: string;
-  rmfPanelGuid?: string;
   refreshRequired?: boolean;
   absoluteTimeSelected?: boolean;
   dashboardUid?: string;

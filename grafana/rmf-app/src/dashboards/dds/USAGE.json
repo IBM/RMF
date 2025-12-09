@@ -91,7 +91,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "aa2f5d29-d19b-4e8f-b782-32468729ab3f",
           "selectedQuery": "MVS_IMAGE.REPORT.USAGE{name=$LPAR}",
           "selectedResource": {
             "label": "TABLE(report=USAGE&resource=,$LPAR,MVS_IMAGE)",
@@ -238,7 +237,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "MVS_IMAGE.REPORT_BANNER.USAGE{name=$LPAR}",
           "selectedResource": {
             "label": "BANNER(report=USAGE&resource=,$LPAR,MVS_IMAGE)",

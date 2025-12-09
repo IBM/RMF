@@ -159,7 +159,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "1c087c01-f4dd-4a84-b153-2bff47c0e212",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -277,7 +276,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "9b83d375-f07f-42d3-9498-f4dd6be6aec1",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -419,7 +417,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "052978e0-5eae-4f9f-8fd5-aa5012a7c807",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -441,7 +438,6 @@
           },
           "hide": false,
           "refId": "B",
-          "rmfPanelGuid": "052978e0-5eae-4f9f-8fd5-aa5012a7c807",
           "selectedQuery": "SYSPLEX.# frames available by coupling facility",
           "selectedResource": {
             "label": "id=8D2010&resource=,,SYSPLEX",

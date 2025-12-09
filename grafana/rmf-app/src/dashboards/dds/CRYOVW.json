@@ -93,7 +93,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "8ad04b33-d007-4e2c-866c-7f2dbeb9b6be",
           "selectedQuery": "SYSPLEX.REPORT.CRYOVW",
           "selectedResource": {
             "label": "TABLE(report=CRYOVW&resource=,,SYSPLEX)",
@@ -372,7 +371,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "SYSPLEX.REPORT_BANNER.CRYOVW",
           "selectedResource": {
             "label": "BANNER(report=CRYOVW&resource=,,SYSPLEX)",

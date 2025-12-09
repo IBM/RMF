@@ -91,7 +91,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "8003e165-ab46-4b61-94b7-a37f69adc5c8",
           "selectedQuery": "MVS_IMAGE.REPORT.LOCKSU{name=$LPAR}",
           "selectedResource": {
             "label": "TABLE(report=LOCKSU&resource=,$LPAR,MVS_IMAGE)",
@@ -189,7 +188,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "32527279-0540-461a-d0d9-fda367e5f0ec",
           "selectedQuery": "MVS_IMAGE.REPORT_BANNER.LOCKSU{name=$LPAR}",
           "selectedResource": {
             "label": "BANNER(report=LOCKSU&resource=,$LPAR,MVS_IMAGE)",
@@ -263,7 +261,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "885ff52d-c1c1-4112-951f-acdec5c20116",
           "selectedQuery": "MVS_IMAGE.REPORT_CAPTION.LOCKSU{name=$LPAR}",
           "selectedResource": {
             "label": "CAPTION(report=LOCKSU&resource=,$LPAR,MVS_IMAGE)",

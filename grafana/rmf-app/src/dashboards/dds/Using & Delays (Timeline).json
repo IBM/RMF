@@ -133,7 +133,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -156,7 +155,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -179,7 +177,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "C",
-          "rmfPanelGuid": "c18a9e56-c601-40d6-bded-4191f826fea2",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -282,7 +279,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -305,7 +301,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -328,7 +323,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "C",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -351,7 +345,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "D",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -374,7 +367,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "E",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -397,7 +389,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "F",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -420,7 +411,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "G",
-          "rmfPanelGuid": "61329563-dcdb-441e-b51a-aa993038705c",
           "selectedMetrics": [
             {
               "description": "auto",
