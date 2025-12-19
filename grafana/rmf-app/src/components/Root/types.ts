@@ -45,3 +45,8 @@ export interface FalconStatus {
   asDashboard: string;
   sysDashboard: string;
 }
+export interface PmStatus {
+  folderPath: string;
+  installed: boolean;
+  operation: Operation;
+}

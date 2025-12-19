@@ -15,24 +15,28 @@
  * limitations under the License.
  */
 import React, { PureComponent } from 'react';
-import { PanelContainer, Button, TextLink, Box, Icon, Alert, InlineSwitch, Input, InlineField } from '@grafana/ui';
+import { PanelContainer, Button, TextLink, Box, Icon, Alert, InlineSwitch, Input, InlineField, DropzoneFile } from '@grafana/ui';
 import { locationService, getBackendSrv, getDataSourceSrv, getAppEvents } from '@grafana/runtime';
 import { AppRootProps, AppEvents } from '@grafana/data';
 
-import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL, FALCON_AS_DASHBOARD, FALCON_SYS_DASHBOARD } from '../../constants';
+import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL, FALCON_AS_DASHBOARD, FALCON_SYS_DASHBOARD, PM_LOGO_URL } from '../../constants';
 import { GlobalSettings } from '../../types';
 import { DASHBOARDS as DDS_DASHBOARDS } from '../../dashboards/dds';
 import { DASHBOARDS as PROM_DASHBOARDS } from '../../dashboards/prometheus';
 import { findFolder, deleteFolder, installDashboards, findDashboard } from './utils';
-import { FolderStatus, Operation, OperCode, OperStatus, FalconStatus } from './types';
+import { FolderStatus, Operation, OperCode, OperStatus, FalconStatus, PmStatus } from './types';
 import { StatusIcon } from './StatusIcon';
 import { Space } from './Space';
 import { Header } from './Header';
+import { FileDropzone } from '@grafana/ui';
+import { parsePmDatasources, parsePmImportFileToDashboard } from './PmImport';
 
 const DDS_FOLDER_UID = 'ibm-rmf-dds';
 const DDS_FOLDER_NAME = 'IBM RMF (DDS)';
 const PROM_FOLDER_UID = 'ibm-rmf-prometheus';
 const PROM_FOLDER_NAME = 'IBM RMF (Prometheus)';
+const PM_FOLDER_UID = 'ibm-rmf-pm';
+const PM_FOLDER_NAME = 'IBM RMF (PM)';
 const DATASOURCE_API = '/api/datasources';
 
 interface Props extends AppRootProps<GlobalSettings> {}
@@ -41,6 +45,7 @@ interface State {
   dds: FolderStatus;
   prom: FolderStatus;
   falcon: FalconStatus;
+  pm: PmStatus;
 }
 
 export class Root extends PureComponent<Props, State> {
@@ -61,7 +66,12 @@ export class Root extends PureComponent<Props, State> {
         enabled: false,
         asDashboard: FALCON_AS_DASHBOARD,
         sysDashboard: FALCON_SYS_DASHBOARD,
-      }
+      },
+      pm: {
+        folderPath: PM_FOLDER_NAME,
+        installed: false,
+        operation: { code: OperCode.None, status: OperStatus.None },
+      },
     };
   }
 
@@ -73,6 +83,7 @@ export class Root extends PureComponent<Props, State> {
     try {
       const ddsFolderPath = await findFolder(DDS_FOLDER_UID);
       const promFolderPath = await findFolder(PROM_FOLDER_UID);
+      const pmFolderPath = await findFolder(PM_FOLDER_UID);
       const asDashboard = await findDashboard("Job CPU Details", ["omegamon", "zos", "lpar", "cpu"]);
       const sysDashboard = await findDashboard("z/OS Enterprise Overview", ["omegamon", "zos", "enterprise"]);
       this.setState((prevState) => ({
@@ -90,7 +101,12 @@ export class Root extends PureComponent<Props, State> {
           ...prevState.falcon,
           asDashboard: asDashboard !== undefined ? asDashboard : FALCON_AS_DASHBOARD,
           sysDashboard: sysDashboard !== undefined ? sysDashboard : FALCON_SYS_DASHBOARD,
-        }
+        },
+        pm: {
+          ...prevState.pm,
+          installed: pmFolderPath !== undefined,
+          folderPath: pmFolderPath || PM_FOLDER_NAME,
+        },
       }));
     } catch (error) {
       console.error('failed to update state', error);
@@ -165,8 +181,87 @@ export class Root extends PureComponent<Props, State> {
     }
   };
 
+  importDashboard = async (folderUid: string, operCode: OperCode, dashboards: any[]) => {
+    //const isDds = folderUid === DDS_FOLDER_UID;
+    const defaultFolderName = PM_FOLDER_NAME;
+
+    /*this.setFolderState(isDds, {
+      code: operCode,
+      status: OperStatus.InProgress,
+    });*/
+    var err;
+    try {
+      if (operCode === OperCode.Reset || operCode === OperCode.Delete) {
+        await deleteFolder(folderUid);
+      }
+      if (operCode === OperCode.Reset || operCode === OperCode.Install) {
+        await installDashboards(folderUid, defaultFolderName, dashboards, {enabled: false} as FalconStatus);
+      }
+      /*this.setFolderState(isDds, {
+        code: operCode,
+        status: OperStatus.Done,
+      });*/
+    } catch (error) {
+      /*this.setFolderState(isDds, {
+        code: operCode,
+        status: OperStatus.Error,
+      });*/
+      const appEvents = getAppEvents();
+      appEvents.publish({
+        type: AppEvents.alertError.name,
+        payload: [`Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`],
+      });
+      err = error;
+    } finally {
+      // There seems to be no way to refresh the folder tree without reloading the page.
+      // When a folder deleted or created,
+      // it won't be visible in dashboard tree until page is reloaded.
+      await this.updateFolderState();
+    }
+    if (!err) {
+      const appEvents = getAppEvents();
+      appEvents.publish({
+        type: AppEvents.alertSuccess.name,
+        payload: [`Dashboard imported: ${dashboards.length ? dashboards[0].title : 'Unknown'}`],
+      });
+    }
+  };
+
+  prepareDatasources = async (content: string | ArrayBuffer | null) : Promise<Map<string, string>> => {
+    const datasources = await getDataSourceSrv().getList({type: DATA_SOURCE_TYPE});
+    let nameUid = new Map<string, string>();
+    try {
+      const pmDatasources = parsePmDatasources(content);
+      for (const pmDs of pmDatasources) {
+        const existingDs = datasources.find(ds => ds.name === pmDs.name);
+        if (!existingDs) {
+          const { datasource } = await getBackendSrv().post(DATASOURCE_API, {
+            type: DATA_SOURCE_TYPE,
+            access: 'proxy',
+            name: pmDs.name,
+            jsonData: {
+              path: pmDs.host,
+              port: pmDs.port,
+              ssl: pmDs.https,
+            },
+          });
+          nameUid.set(pmDs.name, datasource.uid);
+        } else {
+          nameUid.set(pmDs.name, existingDs.uid);
+        }
+      }
+    } catch (error) {
+      const appEvents = getAppEvents();
+      appEvents.publish({
+        type: AppEvents.alertError.name,
+        payload: [`Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`],
+      });
+    }
+    return nameUid;
+  }
+
   render() {
-    const { dds, prom, falcon } = this.state;
+    const { dds, prom, falcon, pm } = this.state;
     const isBusy = dds.operation.status === OperStatus.InProgress || prom.operation.status === OperStatus.InProgress;
 
     return (
@@ -377,6 +472,69 @@ export class Root extends PureComponent<Props, State> {
               <Space h={1} />
               <StatusIcon code={prom.operation.code === OperCode.Delete ? prom.operation.status : OperStatus.None} />
             </Button>
+          </PanelContainer>
+        </Box>
+        <Space layout={'block'} v={3} />
+        <Box backgroundColor={'secondary'}>
+          <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
+            <h4>
+              <img style={{ width: '48px', height: '48px' }} src={PM_LOGO_URL} alt="logo for IBM RMF" />
+              <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitorint File
+            </h4>
+            <br />
+            <p>
+              You can import dashboards .po files. Drag and drop the files onto the drop zone below.
+            </p>
+            <p>
+              Destination folder: <i>Dashboards / {pm.folderPath}</i>
+              <Space layout={'inline'} h={2} />
+              <span style={{ color: 'gray' }}>[UID=&apos;{PM_FOLDER_UID}&apos;]</span>
+            </p>
+            <Button
+              disabled={isBusy || !pm.installed}
+              variant="primary"
+              fill="outline"
+              icon={'apps'}
+              onClick={
+                () =>
+                      this.goToFolder(
+                        PM_FOLDER_UID,
+                        pm.operation.code === OperCode.Install || pm.operation.code === OperCode.Reset
+                      )
+              }
+            >
+              Go to PM Dashboards
+              <Space h={1} />
+              <StatusIcon code={pm.operation.code === OperCode.Install ? pm.operation.status : OperStatus.None} />
+            </Button>
+            <Space layout={'inline'} h={2} />
+            <Button
+              disabled={isBusy || !pm.installed}
+              variant="destructive"
+              fill="outline"
+              icon={'trash-alt'}
+              onClick={async () => {
+                await this.processFolder(PM_FOLDER_UID, OperCode.Delete, falcon);
+              }}
+            >
+              Delete
+              <Space h={1} />
+              <StatusIcon code={pm.operation.code === OperCode.Delete ? pm.operation.status : OperStatus.None} />
+            </Button>
+            <Space layout={'inline'} h={2} />
+            <Space layout={'block'} v={2} />
+            <FileDropzone options={{accept:{"application/octet-stream": [".po"]}}} onLoad={async (result) => {
+                const nameUid = await this.prepareDatasources(result);
+                const dashboard = parsePmImportFileToDashboard(result, nameUid);
+                await this.importDashboard(PM_FOLDER_UID, OperCode.Install, [dashboard]);
+            }} fileListRenderer={(file: DropzoneFile, removeFile: (file: DropzoneFile) => void) => {
+              return null;
+            }} />
+            <Space layout={'block'} v={2} />
+            <p>
+              <Space layout={'inline'} h={1} />
+              Note: Ensure imported datasources have DDS Server credentials if required and fully qualified domain names or accessible IP addresses before using the dashboards.
+            </p>
           </PanelContainer>
         </Box>
       </div>
