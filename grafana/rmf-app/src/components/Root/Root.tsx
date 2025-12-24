@@ -479,7 +479,7 @@ export class Root extends PureComponent<Props, State> {
           <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
             <h4>
               <img style={{ width: '48px', height: '48px' }} src={PM_LOGO_URL} alt="logo for IBM RMF" />
-              <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitorint File
+              <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitoring File
             </h4>
             <br />
             <p>

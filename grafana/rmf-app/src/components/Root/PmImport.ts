@@ -4,6 +4,7 @@ import metrics from '../../metrics/dds/index.json';
 const metricMap = prepareMetricMap();
 
 const DATASOURCE_DEFAULT_UID = "${datasource}";
+const DATASOURCE_MIXED = "-- Mixed --";
 const emptyDashboard = {
   "annotations": {
     "list": [
@@ -249,6 +250,7 @@ export function parsePmImportFileToDashboard(content: string | ArrayBuffer | nul
             targets: dataView.SERIES?.map((series, index) => ({
                 selectedVisualisationType: getVisualizationType(series),
                 refId: String.fromCharCode(65 + index),
+                datasource: getDataSourceFromProxyInfo(series.PROXY_INFO, datasourcesNameUid),
                 selectedQuery: getSelectedQueryFromSeries(series),
                 selectedResource: {
                     label: getSelectedResourceFromSeries(series),
@@ -278,6 +280,20 @@ function addDatasourceVar(dashboard: any) {
 }
 
 function getDataSourceFromDataView(dataView: DataView | undefined, datasourcesNameUid: Map<string, string>): {type: string; uid: string} {
+    var uniqueDatasources: Map<string, string>  = new Map<string, string>();
+    if (dataView?.SERIES) {
+        for (const series of dataView.SERIES) {
+            if (series.PROXY_INFO && series.PROXY_INFO.NAME) {
+                uniqueDatasources.set(series.PROXY_INFO.NAME, '');
+            }
+        }
+    }
+    if (uniqueDatasources.size > 1) {
+        return {
+            type: 'datasource',
+            uid: DATASOURCE_MIXED
+        };
+    }
     if (dataView?.SERIES && dataView.SERIES.length > 0) {
         return getDataSourceFromProxyInfo(dataView.SERIES[0].PROXY_INFO, datasourcesNameUid);
     }
@@ -430,13 +446,23 @@ function getTransformationsFromDataView(dataView: DataView): any[] {
             transformations.push({
                 id: "joinByField",
                 options: {
-                    byField: "time",
-                    mode: "outerTabular"
+                    byField: getGroupByField(dataView),
+                    mode: "outer"
                 }
             });
         }
     }
     return transformations;
+}
+
+function getGroupByField(dataView: DataView): string {
+    if (dataView?.SERIES && dataView.SERIES.length > 0) {
+        var metricid = getMetricIdFromSeries(dataView.SERIES[0]);
+        if (!singleMetric(metricid)) {
+            return 'partition';
+        }
+    }
+    return 'time';
 }
 
 function getDeskSize(perfDesk: PerfDesk): {width: number, height: number} {
