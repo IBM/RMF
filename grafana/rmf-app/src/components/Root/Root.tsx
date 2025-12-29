@@ -239,13 +239,10 @@ export class Root extends PureComponent<Props, State> {
             type: DATA_SOURCE_TYPE,
             access: 'proxy',
             name: pmDs.name,
-            jsonData: {
-              path: pmDs.host,
-              port: pmDs.port,
-              ssl: pmDs.https,
-            },
+            url: `${pmDs.https ? 'https' : 'http'}://${pmDs.host}:${pmDs.port}`,
           });
           nameUid.set(pmDs.name, datasource.uid);
+          getDataSourceSrv().reload();
         } else {
           nameUid.set(pmDs.name, existingDs.uid);
         }
