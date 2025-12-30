@@ -438,19 +438,15 @@ function parseSeriesDescription(description: string): { ulq: string; name: strin
 }
 
 function getTransformationsFromDataView(dataView: DataView): any[] {
-    const transformations: any[] = []; 
-    if (dataView.XAXIS) {
-        if (dataView.XAXIS === 'H') {
-            
-        } else if (dataView.XAXIS === 'V') {
-            transformations.push({
-                id: "joinByField",
-                options: {
-                    byField: getGroupByField(dataView),
-                    mode: "outer"
-                }
-            });
-        }
+    const transformations: any[] = [];
+    if (dataView?.SERIES && dataView.SERIES.length > 1) {
+        transformations.push({
+            id: "joinByField",
+            options: {
+                byField: getGroupByField(dataView),
+                mode: "outer"
+            }
+        });
     }
     return transformations;
 }

@@ -493,11 +493,13 @@ export class Root extends PureComponent<Props, State> {
               fill="outline"
               icon={'apps'}
               onClick={
-                () =>
+                () => {
+                      getDataSourceSrv().reload();
                       this.goToFolder(
                         PM_FOLDER_UID,
                         pm.operation.code === OperCode.Install || pm.operation.code === OperCode.Reset
-                      )
+                      );
+                }
               }
             >
               Go to PM Dashboards
