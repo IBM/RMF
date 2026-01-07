@@ -22,6 +22,7 @@ export const APP_NAME = appPluginJson.name;
 export const APP_DESC = appPluginJson.info.description;
 export const APP_LOGO = appPluginJson.info.logos.large;
 export const APP_LOGO_URL = `public/plugins/${appPluginJson.id}/${appPluginJson.info.logos.large}`;
+export const PM_LOGO_URL = `public/plugins/${appPluginJson.id}/img/pm390.png`;
 export const APP_BASE_URL = `/a/${appPluginJson.id}`;
 export const DATA_SOURCE_TYPE = dataSourcePluginJson.id;
 export const DATA_SOURCE_NAME = dataSourcePluginJson.name;
