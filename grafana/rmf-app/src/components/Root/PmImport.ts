@@ -144,7 +144,7 @@ export function parsePmImportFile(content: string | ArrayBuffer | null): ParsedD
 
     for (let i = 0; i < lines.length; i++) {
         const lineSrc = lines[i];
-        const level = lineSrc.search(/\S|$/)/3
+        const level = lineSrc.search(/\S|$/)/3;
         const line = lineSrc.trim();
 
         if (line.startsWith('[') && line.endsWith(']')) {
@@ -496,5 +496,5 @@ function getGridPosition(deskSize: {width: number, height: number}, dataView: Da
         y: y,
         h: h,
         w: w,
-      }
+      };
 }
