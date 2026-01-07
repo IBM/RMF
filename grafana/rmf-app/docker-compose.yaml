@@ -23,4 +23,4 @@ services:
       GF_LOG_FILTERS: plugin.ibm-rmf-datasource:debug
       GF_LOG_LEVEL: info
       GF_DATAPROXY_LOGGING: 1
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-panel
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: ibm-rmf-app,ibm-rmf-datasource

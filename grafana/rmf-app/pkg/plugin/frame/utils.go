@@ -19,6 +19,8 @@ package frame
 
 import (
 	"errors"
+	"fmt"
+	"slices"
 	"strings"
 	"time"
 
@@ -116,4 +118,85 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 		}
 	}
 	return dst, nil
+}
+
+func CopyReportField(field *data.Field, length int) *data.Field {
+	var newField *data.Field
+	t := field.Type()
+	switch t {
+	case data.FieldTypeNullableFloat64:
+		newField = data.NewField(field.Name, field.Labels, []*float64{})
+	case data.FieldTypeNullableString:
+		newField = data.NewField(field.Name, field.Labels, []*string{})
+	default:
+		newField = data.NewField(field.Name, field.Labels, []string{})
+	}
+	newField.SetConfig(field.Config)
+	length = slices.Min([]int{length, field.Len()})
+	for i := 0; i < length; i++ {
+		newField.Append(field.At(i))
+	}
+	return newField
+}
+
+func GetFrameTable(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	for _, field := range f.Fields {
+		if !strings.HasPrefix(field.Name, CaptionPrefix) &&
+			!strings.HasPrefix(field.Name, BannerPrefix) {
+			var newField = CopyReportField(field, field.Len())
+			newField.Delete(0)
+			newFrame.Fields = append(newFrame.Fields, newField)
+		}
+	}
+	return &newFrame
+}
+
+func GetFrameCaption(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
+	for _, field := range f.Fields {
+		if strings.HasPrefix(field.Name, CaptionPrefix) {
+			key := strings.TrimPrefix(field.Name, CaptionPrefix)
+			value := getStringAt(field, 0)
+			newFrame.Fields[0].Append(key)
+			newFrame.Fields[1].Append(value)
+		}
+	}
+	return &newFrame
+}
+
+func GetFrameBanner(f *data.Frame) *data.Frame {
+	var newFrame data.Frame
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Key", nil, []string{}))
+	newFrame.Fields = append(newFrame.Fields, data.NewField("Value", nil, []string{}))
+	for _, field := range f.Fields {
+		if strings.HasPrefix(field.Name, BannerPrefix) {
+			key := strings.TrimPrefix(field.Name, BannerPrefix)
+			value := getStringAt(field, 0)
+			newFrame.Fields[0].Append(key)
+			newFrame.Fields[1].Append(value)
+		}
+	}
+	return &newFrame
+}
+
+func getStringAt(field *data.Field, index int) string {
+	value := ""
+	if field.Len() > index {
+		v := field.At(index)
+		if v != nil {
+			if s, ok := v.(string); ok {
+				value = s
+			} else if s, ok := v.(*string); ok {
+				if s != nil {
+					value = *s
+				}
+			} else if f, ok := v.(float64); ok {
+				value = fmt.Sprintf("%f", f)
+			}
+		}
+	}
+	return value
 }

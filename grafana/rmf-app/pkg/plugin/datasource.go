@@ -22,6 +22,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"regexp"
 	"runtime/debug"
 	"slices"
 	"strings"
@@ -56,6 +57,7 @@ var (
 const ChannelCacheSizeMB = 64
 const SdsDelay = 5 * time.Second
 const TimeSeriesType = "TimeSeries"
+const QueryPattern = `^([A-Za-z_][A-Za-z0-9_]*)\(([^)]*)\)$` // e.g., banner(resource), table(resource), caption(resource)
 
 type RMFDatasource struct {
 	uid          string
@@ -65,6 +67,7 @@ type RMFDatasource struct {
 	ddsClient    *dds.Client
 	single       singleflight.Group
 	omegamonDs   string
+	queryMatcher *regexp.Regexp
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -86,6 +89,7 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
 		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
+	ds.queryMatcher = regexp.MustCompile(QueryPattern)
 	return ds, nil
 }
 
@@ -335,10 +339,14 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					}
 				} else {
 					// Query non-timeseries data
-					r := dds.NewRequest(params.Resource.Value, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
+					queryKind, query := ds.parseQuery(params.Resource.Value)
+					r := dds.NewRequest(query, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
 					response = &backend.DataResponse{}
-					// FIXME: doesn't it need to be cached?
-					if newFrame, err := ds.getFrame(r, false); err != nil {
+					newFrame := ds.getCachedReportFrames(r)
+					if newFrame == nil {
+						newFrame, err = ds.getFrame(r, false)
+					}
+					if err != nil {
 						var msg *dds.Message
 						if errors.As(err, &msg) {
 							response.Error = err
@@ -348,6 +356,19 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							response.Status = backend.StatusInternal
 						}
 					} else if newFrame != nil {
+						ds.setCachedReportFrames(newFrame, r)
+						switch queryKind {
+						case "banner":
+							newFrame = frame.GetFrameBanner(newFrame)
+						case "caption":
+							newFrame = frame.GetFrameCaption(newFrame)
+						case "table":
+							newFrame = frame.GetFrameTable(newFrame)
+						default:
+							if strings.Contains(query, "report=") {
+								newFrame = frame.GetFrameTable(newFrame)
+							}
+						}
 						response.Frames = append(response.Frames, newFrame)
 					}
 				}
@@ -449,4 +470,12 @@ func (ds *RMFDatasource) SubscribeStream(_ context.Context, req *backend.Subscri
 // PublishStream is called when a client sends a message to the stream.
 func (d *RMFDatasource) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
 	return &backend.PublishStreamResponse{Status: backend.PublishStreamStatusPermissionDenied}, nil
+}
+
+func (d *RMFDatasource) parseQuery(resource string) (string, string) {
+	matches := d.queryMatcher.FindStringSubmatch(resource)
+	if len(matches) == 3 {
+		return strings.ToLower(matches[1]), matches[2]
+	}
+	return "", resource
 }

@@ -13,12 +13,6 @@
       "id": "ibm-rmf-datasource",
       "name": "IBM RMF for z/OS",
       "version": "%VERSION%"
-    },
-    {
-      "type": "panel",
-      "id": "ibm-rmf-panel",
-      "name": "Report for IBM RMF for z/OS",
-      "version": "%VERSION%"
     }
   ],
   "annotations": {
@@ -60,9 +54,11 @@
             "mode": "thresholds"
           },
           "custom": {
-            "displayMode": "Auto",
-            "enablePagination": false,
-            "filterable": false
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -82,12 +78,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 17,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 4
       },
-      "id": 2,
+      "id": 1,
       "targets": [
         {
           "datasource": {
@@ -95,11 +91,10 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "2e245147-c660-4f64-bcaf-326ba6d434ac",
           "selectedQuery": "MVS_IMAGE.REPORT.ENQ{name=$LPAR}",
           "selectedResource": {
-            "label": "report=ENQ&resource=,$LPAR,MVS_IMAGE",
-            "value": "report=ENQ&resource=,$LPAR,MVS_IMAGE"
+            "label": "TABLE(report=ENQ&resource=,$LPAR,MVS_IMAGE)",
+            "value": "TABLE(report=ENQ&resource=,$LPAR,MVS_IMAGE)"
           },
           "selectedVisualisationType": "table"
         }
@@ -129,7 +124,80 @@
           }
         }
       ],
-      "type": "ibm-rmf-panel"
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "selectedQuery": "MVS_IMAGE.REPORT_BANNER.ENQ{name=$LPAR}",
+          "selectedResource": {
+            "label": "BANNER(report=ENQ&resource=,$LPAR,MVS_IMAGE)",
+            "value": "BANNER(report=ENQ&resource=,$LPAR,MVS_IMAGE)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
     }
   ],
   "refresh": "1m",
@@ -158,7 +226,8 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "type": "datasource"
+        "type": "datasource",
+        "allowCustomValue": false
       },
       {
         "datasource": {
@@ -196,7 +265,8 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },
