@@ -134,7 +134,7 @@ interface ParsedData {
 
 export function parsePmImportFile(content: string | ArrayBuffer | null): ParsedData {
     if (!content) {
-        return {};
+        throw new Error("RMF PM dashboard import file is invalid");
     }
     content = content.toString();
     const lines = content.split('\n');

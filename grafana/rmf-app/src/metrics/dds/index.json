@@ -1,8 +1,4 @@
 {
-    "attributeList": [],
-    "containedResourcesList": [],
-    "filterInstancesList": [],
-    "message": [],
     "metricList": [{
             "metric": [{
                     "id": "8D4FE0",
@@ -82,14 +78,7 @@
                 }, {
                     "id": "8D5A50",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfaggre.gif",
-                "reslabel": "RS26,*,AGGREGATE",
-                "restype": "AGGREGATE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D2370",
@@ -142,14 +131,7 @@
                 }, {
                     "id": "8D05D0",
                     "listtype": "U"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfallch.gif",
-                "reslabel": "RS26,*,ALL_CHANNELS",
-                "restype": "ALL_CHANNELS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0690",
@@ -175,14 +157,7 @@
                 }, {
                     "id": "8D05C0",
                     "listtype": "U"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfalllc.gif",
-                "reslabel": "RS26,*,ALL_LCUS",
-                "restype": "ALL_LCUS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D2210",
@@ -202,14 +177,7 @@
                 }, {
                     "id": "8D2310",
                     "listtype": "I"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfallss.gif",
-                "reslabel": "RS26,*,ALL_SSIDS",
-                "restype": "ALL_SSIDS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D2A50",
@@ -280,14 +248,7 @@
                 }, {
                     "id": "8D12C0",
                     "listtype": "V"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfallvo.gif",
-                "reslabel": "RS26,*,ALL_VOLUMES",
-                "restype": "ALL_VOLUMES"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5E10",
@@ -322,14 +283,7 @@
                 }, {
                     "id": "8D6ED0",
                     "listtype": "R"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,ALL_WLM_REPORT_CLASSES",
-                "restype": "ALL_WLM_REPORT_CLASSES"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D6E30",
@@ -340,14 +294,7 @@
                 }, {
                     "id": "8D6E70",
                     "listtype": "7"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,ALL_WLM_RESOURCE_GROUPS",
-                "restype": "ALL_WLM_RESOURCE_GROUPS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5E30",
@@ -412,14 +359,7 @@
                 }, {
                     "id": "8D6F10",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,ALL_WLM_WORKLOADS",
-                "restype": "ALL_WLM_WORKLOADS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0D30",
@@ -430,14 +370,7 @@
                 }, {
                     "id": "8D0D40",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfaux.gif",
-                "reslabel": "RS26,*,AUXILIARY_STORAGE",
-                "restype": "AUXILIARY_STORAGE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0370",
@@ -490,14 +423,7 @@
                 }, {
                     "id": "8D1280",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfcentr.gif",
-                "reslabel": "RS26,*,CENTRAL_STORAGE",
-                "restype": "CENTRAL_STORAGE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D39A0",
@@ -526,14 +452,7 @@
                 }, {
                     "id": "8D2180",
                     "listtype": "M"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfcfstr.gif",
-                "reslabel": "RS26,*,CF_STRUCTURE",
-                "restype": "CF_STRUCTURE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D2360",
@@ -580,14 +499,7 @@
                 }, {
                     "id": "8D44C0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfchann.gif",
-                "reslabel": "RS26,*,CHANNEL_PATH",
-                "restype": "CHANNEL_PATH"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D4670",
@@ -661,14 +573,7 @@
                 }, {
                     "id": "8D2170",
                     "listtype": "T"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfcf.gif",
-                "reslabel": "RS26,*,COUPLING_FACILITY",
-                "restype": "COUPLING_FACILITY"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D3290",
@@ -1066,14 +971,7 @@
                 }, {
                     "id": "8D6E10",
                     "listtype": "6"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfcpc.gif",
-                "reslabel": "RS26,*,CPC",
-                "restype": "CPC"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D6470",
@@ -1309,14 +1207,7 @@
                 }, {
                     "id": "8D6E10",
                     "listtype": "6"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfpcie.gif",
-                "reslabel": "RS26,*,CRYPTO",
-                "restype": "CRYPTO"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D6460",
@@ -1552,14 +1443,7 @@
                 }, {
                     "id": "8D6E00",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfpfie.gif",
-                "reslabel": "RS26,*,CRYPTO_CARD",
-                "restype": "CRYPTO_CARD"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0050",
@@ -1588,14 +1472,7 @@
                 }, {
                     "id": "8D0CF0",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfcsa.gif",
-                "reslabel": "RS26,*,CSA",
-                "restype": "CSA"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0050",
@@ -1624,23 +1501,7 @@
                 }, {
                     "id": "8D0CF0",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfecsa.gif",
-                "reslabel": "RS26,*,ECSA",
-                "restype": "ECSA"
-            }
-        }, {
-            "metric": [],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfencla.gif",
-                "reslabel": "RS26,*,ENCLAVE",
-                "restype": "ENCLAVE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D00E0",
@@ -1666,14 +1527,7 @@
                 }, {
                     "id": "8D1840",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfenque.gif",
-                "reslabel": "RS26,*,ENQUEUE",
-                "restype": "ENQUEUE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0050",
@@ -1702,23 +1556,7 @@
                 }, {
                     "id": "8D0CF0",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfesqa.gif",
-                "reslabel": "RS26,*,ESQA",
-                "restype": "ESQA"
-            }
-        }, {
-            "metric": [],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfexpan.gif",
-                "reslabel": "RS26,*,EXPANDED_STORAGE",
-                "restype": "EXPANDED_STORAGE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D00F0",
@@ -1741,14 +1579,7 @@
                 }, {
                     "id": "8D1850",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfhsm.gif",
-                "reslabel": "RS26,*,HSM",
-                "restype": "HSM"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D00A0",
@@ -1864,14 +1695,7 @@
                 }, {
                     "id": "8D1EA0",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfiosub.gif",
-                "reslabel": "RS26,*,I/O_SUBSYSTEM",
-                "restype": "I/O_SUBSYSTEM"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0100",
@@ -1894,14 +1718,7 @@
                 }, {
                     "id": "8D1860",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfjes.gif",
-                "reslabel": "RS26,*,JES",
-                "restype": "JES"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0680",
@@ -1957,14 +1774,7 @@
                 }, {
                     "id": "8D12C0",
                     "listtype": "V"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmflcu.gif",
-                "reslabel": "RS26,*,LOGICAL_CONTROL_UNIT",
-                "restype": "LOGICAL_CONTROL_UNIT"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D2870",
@@ -2197,14 +2007,7 @@
                 }, {
                     "id": "8D4BF0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmflpar.gif",
-                "reslabel": "RS26,*,LPAR",
-                "restype": "LPAR"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0160",
@@ -2524,14 +2327,7 @@
                 }, {
                     "id": "8D3EC0",
                     "listtype": "4"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfmvsim.gif",
-                "reslabel": "RS26,*,MVS_IMAGE",
-                "restype": "MVS_IMAGE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0110",
@@ -2554,14 +2350,7 @@
                 }, {
                     "id": "8D1870",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfopera.gif",
-                "reslabel": "RS26,*,OPERATOR",
-                "restype": "OPERATOR"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D4C60",
@@ -2674,14 +2463,7 @@
                 }, {
                     "id": "8D4FD0",
                     "listtype": "H"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfpcie.gif",
-                "reslabel": "RS26,*,PCIE",
-                "restype": "PCIE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D4C50",
@@ -2794,14 +2576,7 @@
                 }, {
                     "id": "8D4FC0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfpfie.gif",
-                "reslabel": "RS26,*,PCIE_FUNCTION",
-                "restype": "PCIE_FUNCTION"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0600",
@@ -3325,14 +3100,7 @@
                 }, {
                     "id": "8D3F10",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfproc.gif",
-                "reslabel": "RS26,*,PROCESSOR",
-                "restype": "PROCESSOR"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5AC0",
@@ -3400,14 +3168,7 @@
                 }, {
                     "id": "8D5C00",
                     "listtype": "Z"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfscm.gif",
-                "reslabel": "RS26,*,SCM",
-                "restype": "SCM"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5A80",
@@ -3442,14 +3203,7 @@
                 }, {
                     "id": "8D5BF0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfscmc.gif",
-                "reslabel": "RS26,*,SCM_CARD",
-                "restype": "SCM_CARD"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0050",
@@ -3478,14 +3232,7 @@
                 }, {
                     "id": "8D0CF0",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfsqa.gif",
-                "reslabel": "RS26,*,SQA",
-                "restype": "SQA"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D21E0",
@@ -3517,14 +3264,7 @@
                 }, {
                     "id": "8D2350",
                     "listtype": "V"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfssid.gif",
-                "reslabel": "RS26,*,SSID",
-                "restype": "SSID"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0130",
@@ -4045,14 +3785,7 @@
                 }, {
                     "id": "8D1070",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfstora.gif",
-                "reslabel": "RS26,*,STORAGE",
-                "restype": "STORAGE"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0140",
@@ -4075,14 +3808,7 @@
                 }, {
                     "id": "8D18A0",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfswsub.gif",
-                "reslabel": "RS26,*,SW_SUBSYSTEMS",
-                "restype": "SW_SUBSYSTEMS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0160",
@@ -5560,23 +5286,7 @@
                 }, {
                     "id": "8D6E70",
                     "listtype": "7"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfsyspl.gif",
-                "reslabel": "RS26,RSPLEX01,SYSPLEX",
-                "restype": "SYSPLEX"
-            }
-        }, {
-            "metric": [],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfusspr.gif",
-                "reslabel": "RS26,*,USS_PROCESS",
-                "restype": "USS_PROCESS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0010",
@@ -5653,14 +5363,7 @@
                 }, {
                     "id": "8D0500",
                     "listtype": "J"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfvolum.gif",
-                "reslabel": "RS26,*,VOLUME",
-                "restype": "VOLUME"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5E10",
@@ -5767,14 +5470,7 @@
                 }, {
                     "id": "8D6E70",
                     "listtype": "7"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "YES",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_ACTIVE_POLICY",
-                "restype": "WLM_ACTIVE_POLICY"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5DF0",
@@ -5794,14 +5490,7 @@
                 }, {
                     "id": "8D6EC0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_RC_PERIOD",
-                "restype": "WLM_RC_PERIOD"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5DF0",
@@ -5836,14 +5525,7 @@
                 }, {
                     "id": "8D6EE0",
                     "listtype": "K"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_REPORT_CLASS",
-                "restype": "WLM_REPORT_CLASS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D6E20",
@@ -5854,14 +5536,7 @@
                 }, {
                     "id": "8D6E60",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_RESOURCE_GROUP",
-                "restype": "WLM_RESOURCE_GROUP"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5DF0",
@@ -5887,14 +5562,7 @@
                 }, {
                     "id": "8D6EC0",
                     "listtype": " "
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_SC_PERIOD",
-                "restype": "WLM_SC_PERIOD"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5DF0",
@@ -5944,14 +5612,7 @@
                 }, {
                     "id": "8D6F00",
                     "listtype": "P"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_SERVICE_CLASS",
-                "restype": "WLM_SERVICE_CLASS"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D5DF0",
@@ -6016,14 +5677,7 @@
                 }, {
                     "id": "8D6EF0",
                     "listtype": "S"
-                }],
-            "resource": {
-                "attributes": "YES",
-                "expandable": "NO",
-                "icon": "rmfwlm.gif",
-                "reslabel": "RS26,*,WLM_WORKLOAD",
-                "restype": "WLM_WORKLOAD"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D0150",
@@ -6046,14 +5700,7 @@
                 }, {
                     "id": "8D18B0",
                     "listtype": "W"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "NO",
-                "icon": "rmfxcf.gif",
-                "reslabel": "RS26,*,XCF",
-                "restype": "XCF"
-            }
+                }]
         }, {
             "metric": [{
                     "id": "8D53A0",
@@ -6271,22 +5918,6 @@
                 }, {
                     "id": "8D5A70",
                     "listtype": "G"
-                }],
-            "resource": {
-                "attributes": "NO",
-                "expandable": "YES",
-                "icon": "rmfzfs.gif",
-                "reslabel": "RS26,*,ZFS",
-                "restype": "ZFS"
-            }
-        }],
-    "postprocessor": [],
-    "report": [],
-    "server": {
-        "functionality": "3650",
-        "name": "RMF-DDS-Server",
-        "platform": "z/OS",
-        "version": "03.01.00"
-    },
-    "workscopeList": []
+                }]
+        }]
 }

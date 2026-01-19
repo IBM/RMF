@@ -182,13 +182,8 @@ export class Root extends PureComponent<Props, State> {
   };
 
   importDashboard = async (folderUid: string, operCode: OperCode, dashboards: any[]) => {
-    //const isDds = folderUid === DDS_FOLDER_UID;
     const defaultFolderName = PM_FOLDER_NAME;
 
-    /*this.setFolderState(isDds, {
-      code: operCode,
-      status: OperStatus.InProgress,
-    });*/
     var err;
     try {
       if (operCode === OperCode.Reset || operCode === OperCode.Delete) {
@@ -197,15 +192,7 @@ export class Root extends PureComponent<Props, State> {
       if (operCode === OperCode.Reset || operCode === OperCode.Install) {
         await installDashboards(folderUid, defaultFolderName, dashboards, {enabled: false} as FalconStatus);
       }
-      /*this.setFolderState(isDds, {
-        code: operCode,
-        status: OperStatus.Done,
-      });*/
     } catch (error) {
-      /*this.setFolderState(isDds, {
-        code: operCode,
-        status: OperStatus.Error,
-      });*/
       const appEvents = getAppEvents();
       appEvents.publish({
         type: AppEvents.alertError.name,
@@ -476,7 +463,7 @@ export class Root extends PureComponent<Props, State> {
           <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
             <h4>
               <img style={{ width: '48px', height: '48px' }} src={PM_LOGO_URL} alt="logo for IBM RMF" />
-              <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitoring File
+              <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitoring
             </h4>
             <br />
             <p>
@@ -532,7 +519,7 @@ export class Root extends PureComponent<Props, State> {
             <Space layout={'block'} v={2} />
             <p>
               <Space layout={'inline'} h={1} />
-              Note: Ensure imported datasources have DDS Server credentials if required and fully qualified domain names or accessible IP addresses before using the dashboards.
+              Note: Data sources defined in RMF PM dashboards are imported without credentials. Make sure to update the data source settings with valid credentials if corresponding DDS requires authentication.
             </p>
           </PanelContainer>
         </Box>
