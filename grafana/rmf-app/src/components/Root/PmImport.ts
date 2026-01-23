@@ -50,15 +50,15 @@ function getEmptyDashboard(): any {
     return JSON.parse(JSON.stringify(emptyDashboard));
 }
 
-function prepareMetricMap() : Map<string, {id: string; listtype: string}> {
-    const metricMap = new Map<string, {id: string; listtype: string}>();
+function prepareMetricMap() : Map<string, {id: string; listtype: string, description: string}> {
+    const metricMap = new Map<string, {id: string; listtype: string, description: string}>();
     metrics.metricList = metrics.metricList || [];
     for (let i = 0; i < metrics.metricList.length; i++) {
         let mle = metrics.metricList[i];
         mle.metric = mle.metric || [];
         for (let j = 0; j < mle.metric.length; j++) {
             let m = mle.metric[j];
-            metricMap.set(m.id.toUpperCase(), {id: m.id, listtype: m.listtype || ''});
+            metricMap.set(m.id.toUpperCase(), {id: m.id, listtype: m.listtype || '', description: m.description || ''});
         }
     }
     return metricMap;
@@ -322,18 +322,29 @@ function getXFieldName(dataView: DataView): string {
 }
 
 function getXFieldNameFromSeries(series: Series): string {
-    var metricid = getMetricIdFromSeries(series);
-    if (!singleMetric(metricid)) {
-        return 'partition';
+    var fn = getFieldNameFromSeries(series);
+    if (fn) {
+        return fn;
     }
     return 'time';
 }
 
 function singleMetric(metricid: string): boolean {
     var metricDef = findmetricById(metricid);
-    if (metricDef && metricDef.listtype && metricDef.listtype.trim() === '') {
-        return true;
-    }
+    return isSingleMetric(metricDef);
+}
+
+function isSingleMetric(metricDef: {id: string, listtype: string, description: string} | null): boolean {
+    if (metricDef && metricDef.listtype) {
+        return metricDef.listtype.trim() === '';
+    };
+    return false;
+}
+
+function isListMetric(metricDef: {id: string, listtype: string, description: string} | null): boolean {
+    if (metricDef && metricDef.listtype) {
+        return metricDef.listtype.trim() !== '';
+    };
     return false;
 }
 
@@ -345,7 +356,7 @@ function getVisualizationType(series: Series): string {
     return 'bargauge';
 }
 
-function findmetricById(metricid: string): {id: string; listtype: string} | null {
+function findmetricById(metricid: string): {id: string; listtype: string, description: string} | null {
     return metricMap.get(metricid) || null;
 }
 
@@ -453,12 +464,45 @@ function getTransformationsFromDataView(dataView: DataView): any[] {
 
 function getGroupByField(dataView: DataView): string {
     if (dataView?.SERIES && dataView.SERIES.length > 0) {
-        var metricid = getMetricIdFromSeries(dataView.SERIES[0]);
-        if (!singleMetric(metricid)) {
-            return 'partition';
+        var fn = getFieldNameFromSeries(dataView.SERIES[0]);
+        if (fn) {
+            return fn;
         }
     }
     return 'time';
+}
+
+function getFieldNameFromSeries(series: Series): string | null{
+    var metricid = getMetricIdFromSeries(series);
+    var metricInfo = findmetricById(metricid);
+    if (metricInfo && isListMetric(metricInfo)) {
+        var type = splitMetricDescription(metricInfo.description).type;
+        if (type) {
+            return type;
+        }
+        return metricInfo.description;
+    }
+    return null;
+}
+
+function splitMetricDescription(description: string | undefined): {name: string; type: string} {
+    const trimmed = (description || "").trim();
+    if (!trimmed) {
+        return { name: "", type: "" };
+    }
+
+    const match = trimmed.match(/\s+by\s+/i);
+    if (!match || match.index === undefined) {
+        return { name: trimmed, type: "" };
+    }
+
+    const idx = match.index;
+    const sepLen = match[0].length;
+
+    const name = trimmed.slice(0, idx).trim();
+    const type = trimmed.slice(idx + sepLen).trim();
+
+    return { name, type };
 }
 
 function getDeskSize(perfDesk: PerfDesk): {width: number, height: number} {
