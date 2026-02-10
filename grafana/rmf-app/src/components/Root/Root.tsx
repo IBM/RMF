@@ -509,7 +509,7 @@ export class Root extends PureComponent<Props, State> {
             </Button>
             <Space layout={'inline'} h={2} />
             <Space layout={'block'} v={2} />
-            <FileDropzone options={{accept:{"application/octet-stream": [".po"]}}} onLoad={async (result) => {
+            <FileDropzone options={{accept:{"application/octet-stream": [".po"]}, multiple: false}} onLoad={async (result) => {
                 const nameUid = await this.prepareDatasources(result);
                 const dashboard = parsePmImportFileToDashboard(result, nameUid);
                 await this.importDashboard(PM_FOLDER_UID, OperCode.Install, [dashboard]);
