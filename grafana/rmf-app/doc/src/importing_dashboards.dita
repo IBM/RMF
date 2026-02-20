@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_grafana_plugin" xml:lang="en-us">
+    <title><b>Importing Dashboards created in RMF Performance Monitoring</b></title>
+    <titlealts>
+        <navtitle>Importing dashboards</navtitle>
+    </titlealts>
+    <shortdesc>This task describes how to import dashboards and the associated data sources created
+        in RMF Performance Monitoring in the RMF application. </shortdesc>
+    <taskbody>
+        <prereq id="prereq_oxf_ywq_pyb">
+            <p>You must have completed the following task:<ul id="ul_frm_gw3_ryb">
+                    <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
+                </ul></p>
+        </prereq>
+        <steps>
+            <step>
+                <cmd>Go to <menucascade>
+                        <uicontrol>Apps </uicontrol>
+                        <uicontrol>IBM RMF</uicontrol>
+                    </menucascade> and navigate to the Import Dashboards from RMF Performance
+                    Monitoring section.</cmd>
+            </step>
+            <step>
+                <cmd>Verify the <uicontrol>Destination folder</uicontrol> path displayed under the
+                    section heading.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Go to PM Dashboards</uicontrol> to review existing RMF
+                    Performance Monitoring dashboard files before importing.</cmd>
+            </step>
+            <step>
+                <cmd>In the <uicontrol>Upload File</uicontrol> area, drag and drop
+                        <filepath>.po</filepath> dashboard file or click the upload zone to browse
+                    for the file manually.</cmd>
+                <info>
+                    <note id="note_kmy_bfs_33c">The Data sources defined in RMF Performance
+                        Monitoring dashboards are imported without credentials. After import, update
+                        each data source with valid credentials if the DDS requires authentication
+                        where required.</note>
+                </info>
+            </step>
+        </steps>
+        <result id="result_wwb_kfs_33c">
+            <p>The dashboards exported from the RMF Performance Monitoring are successfully imported
+                into the RMF application. </p>
+        </result>
+    </taskbody>
+</task>

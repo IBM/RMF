@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0 (2026-02-23)
+- A new topic Importing Dashboards created in RMF Performance Monitoring is included to provide information about importing dashboards created in RMF Performance Monitoring.
+- The new plugin names must be added to the `allow_loading_unsigned_plugins` instead of the old ones. The new value is `ibm-rmf-app,ibm-rmf-datasource`
+
 ## 1.1.1 (2025-11-10)
 - The following plugin names have been changed to meet Grafana naming conventions:
   - `ibm-rmf` to `ibm-rmf-app`
