@@ -133,7 +133,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "ceef1065-547a-4c22-bbd1-610ece245fed",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -156,7 +155,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "ceef1065-547a-4c22-bbd1-610ece245fed",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -263,7 +261,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "7e00aa47-db1b-4e96-bacd-6802c7fde5a6",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -286,7 +283,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "7e00aa47-db1b-4e96-bacd-6802c7fde5a6",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -388,7 +384,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "e0bde46f-4da8-44b3-9d7a-47a1885e9c4c",
           "selectedQuery": "SYSPLEX.% CSA utilization by job {filter=HI=10}",
           "selectedResource": {
             "label": "id=8D2420&resource=,,SYSPLEX&filter=HI=10",
@@ -483,7 +478,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "38368e80-de64-4bac-ae20-c18a53ad82e6",
           "selectedQuery": "SYSPLEX.% SQA utilization by job {filter=HI=10}",
           "selectedResource": {
             "label": "id=8D2480&resource=,,SYSPLEX&filter=HI=10",

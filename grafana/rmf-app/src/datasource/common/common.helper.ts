@@ -79,20 +79,6 @@ export const getSelectedResource = (Props: any): string => {
   return result;
 };
 
-export const getSelectedGuid = (Props: any): string => {
-  let result = '';
-  if (
-    Props !== undefined &&
-    Props.queries !== undefined &&
-    Props.queries.length > 0 &&
-    Props.queries[0].rmfPanelGuid !== undefined &&
-    Props.queries[0].rmfPanelGuid.toString().trim() !== ''
-  ) {
-    result = Props.queries[0].rmfPanelGuid;
-  }
-  return result;
-};
-
 export const isItFirstDotPosition = (str: string, selectionEnd: number): boolean => {
   if (str.toString().indexOf('.') === selectionEnd) {
     return true;

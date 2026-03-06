@@ -175,7 +175,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "c336be06-9a32-4d96-a384-3638ebdca18d",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -198,7 +197,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "c336be06-9a32-4d96-a384-3638ebdca18d",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -347,7 +345,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "efe7728a-c585-41df-a912-9d97eaa84df0",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -370,7 +367,6 @@
           "hide": false,
           "loadDataSource": "METRICS",
           "refId": "B",
-          "rmfPanelGuid": "efe7728a-c585-41df-a912-9d97eaa84df0",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -501,7 +497,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "7a94c97c-baa2-4a4f-a343-5050bfcc5706",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -625,7 +620,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "892780d9-ebee-4151-a8c5-cb7d1939c9a3",
           "selectedMetrics": [
             {
               "description": "auto",

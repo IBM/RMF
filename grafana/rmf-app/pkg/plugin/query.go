@@ -91,6 +91,17 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 	return f, jump, err
 }
 
+func (ds *RMFDatasource) getCachedReportFrames(r *dds.Request) *data.Frame {
+	return ds.frameCache.Get(r, true)
+}
+
+func (ds *RMFDatasource) setCachedReportFrames(f *data.Frame, r *dds.Request) {
+	logger := log.Logger.With("func", "setCachedReportFrames")
+	if err := ds.frameCache.Set(f, r, true); err != nil {
+		logger.Error("failed to save data in cache", "request", r.String(), "reason", err)
+	}
+}
+
 func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
 	logger := log.Logger.With("func", "serveTSFrame")
 	var f *data.Frame

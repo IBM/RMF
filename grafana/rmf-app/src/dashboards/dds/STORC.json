@@ -13,12 +13,6 @@
       "id": "ibm-rmf-datasource",
       "name": "IBM RMF for z/OS",
       "version": "%VERSION%"
-    },
-    {
-      "type": "panel",
-      "id": "ibm-rmf-panel",
-      "name": "Report for IBM RMF for z/OS",
-      "version": "%VERSION%"
     }
   ],
   "annotations": {
@@ -60,9 +54,11 @@
             "mode": "thresholds"
           },
           "custom": {
-            "displayMode": "Auto",
-            "enablePagination": false,
-            "filterable": false
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -82,12 +78,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
-        "w": 24,
+        "h": 17,
+        "w": 18,
         "x": 0,
-        "y": 0
+        "y": 4
       },
-      "id": 2,
+      "id": 1,
       "targets": [
         {
           "datasource": {
@@ -95,11 +91,10 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "b28c67d8-2f71-4e81-a797-b8b8ca413910",
           "selectedQuery": "MVS_IMAGE.REPORT.STORC{name=$LPAR}",
           "selectedResource": {
-            "label": "report=STORC&resource=,$LPAR,MVS_IMAGE",
-            "value": "report=STORC&resource=,$LPAR,MVS_IMAGE"
+            "label": "TABLE(report=STORC&resource=,$LPAR,MVS_IMAGE)",
+            "value": "TABLE(report=STORC&resource=,$LPAR,MVS_IMAGE)"
           },
           "selectedVisualisationType": "table"
         }
@@ -193,7 +188,153 @@
           }
         }
       ],
-      "type": "ibm-rmf-panel"
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 18,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "selectedQuery": "MVS_IMAGE.REPORT_BANNER.STORC{name=$LPAR}",
+          "selectedResource": {
+            "label": "BANNER(report=STORC&resource=,$LPAR,MVS_IMAGE)",
+            "value": "BANNER(report=STORC&resource=,$LPAR,MVS_IMAGE)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "ibm-rmf-datasource",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "10.3.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "ibm-rmf-datasource",
+            "uid": "${datasource}"
+          },
+          "refId": "A",
+          "selectedQuery": "MVS_IMAGE.REPORT_CAPTION.STORC{name=$LPAR}",
+          "selectedResource": {
+            "label": "CAPTION(report=STORC&resource=,$LPAR,MVS_IMAGE)",
+            "value": "CAPTION(report=STORC&resource=,$LPAR,MVS_IMAGE)"
+          },
+          "selectedVisualisationType": "bargauge"
+        }
+      ],
+      "transformations": [],
+      "type": "table"
     }
   ],
   "refresh": "1m",
@@ -222,7 +363,8 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "type": "datasource"
+        "type": "datasource",
+        "allowCustomValue": false
       },
       {
         "datasource": {
@@ -260,7 +402,8 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query"
+        "type": "query",
+        "allowCustomValue": false
       }
     ]
   },

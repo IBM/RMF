@@ -133,7 +133,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "59f4976c-8330-4c9b-bc2a-41e94abc1824",
           "selectedMetrics": [
             {
               "description": "auto",
@@ -240,7 +239,6 @@
           },
           "loadDataSource": "METRICS",
           "refId": "A",
-          "rmfPanelGuid": "ff313e06-7843-4c4f-8b96-eae2b4da3c4f",
           "selectedMetrics": [
             {
               "description": "auto",

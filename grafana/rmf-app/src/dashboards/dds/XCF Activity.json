@@ -163,7 +163,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "834a08f0-4082-498b-86fe-976e27223b27",
           "selectedQuery": "SYSPLEX.signals sent by XCF group",
           "selectedResource": {
             "label": "id=8D3E40&resource=,,SYSPLEX",
@@ -178,7 +177,6 @@
           },
           "hide": false,
           "refId": "B",
-          "rmfPanelGuid": "834a08f0-4082-498b-86fe-976e27223b27",
           "selectedQuery": "SYSPLEX.signals received by XCF group",
           "selectedResource": {
             "label": "id=8D3E00&resource=,,SYSPLEX",
@@ -313,7 +311,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "e75b194d-7adf-4104-beac-ca1a998154f8",
           "selectedQuery": "SYSPLEX.signals sent by XCF group and member",
           "selectedResource": {
             "label": "id=8D3E50&resource=,,SYSPLEX",
@@ -328,7 +325,6 @@
           },
           "hide": false,
           "refId": "B",
-          "rmfPanelGuid": "e75b194d-7adf-4104-beac-ca1a998154f8",
           "selectedQuery": "SYSPLEX.signals received by XCF group and member",
           "selectedResource": {
             "label": "id=8D3E10&resource=,,SYSPLEX",
@@ -448,7 +444,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "fc948aa9-f052-4eab-ada8-e61c33ccc362",
           "selectedQuery": "SYSPLEX.signals sent by XCF systems and transport class",
           "selectedResource": {
             "label": "id=8D3E70&resource=,,SYSPLEX",
@@ -559,7 +554,6 @@
             "uid": "${datasource}"
           },
           "refId": "A",
-          "rmfPanelGuid": "31e6a5ca-3144-4422-9d08-25e3b319a833",
           "selectedQuery": "SYSPLEX.signals received by XCF systems",
           "selectedResource": {
             "label": "id=8D3E20&resource=,,SYSPLEX",

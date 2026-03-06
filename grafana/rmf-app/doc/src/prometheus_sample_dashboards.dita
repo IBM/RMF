@@ -25,8 +25,10 @@
         <p>where <parmname>&lt;metric-groups></parmname> is a comma-separated list of metric groups
             to be expose retrieved. For more information, see RMF Distributed Data Server
             documentation.</p>
-        <p>The Prometheus sample dashboards are included in the plugin. To be able to use them,
-            follow the steps below:<ol id="ol_xwm_rp2_ggc">
+        <p>The Prometheus sample dashboards are included in the plugin.<note id="note_dgh_3k5_23c"
+                >You can use the sample dashboards provided with Prometheus-compatible platforms
+                such as Grafana Mimir and VictoriaMetrics. </note> To be able to use them, follow
+            the steps below:<ol id="ol_xwm_rp2_ggc">
                 <li>Install and deploy the <ph conref="conref.dita#conref/plugin_name"/> plugin. For
                     more information, see <xref href="install_grafana_plugin.dita">Installing the
                         RMF for z/OS plugin on Grafana</xref>.</li>

@@ -50,7 +50,9 @@ export class Parser {
     const tree = parser.query();
 
     const resType = (tree.RES_TYPE()?.getText() || '').trim().toUpperCase();
-    const isReport = tree.REPORT() !== null;
+    const isReportCaption = tree.REPORT_CAPTION() !== null;
+    const isReportBanner = tree.REPORT_BANNER() !== null;
+    const isReport = tree.REPORT() !== null || isReportCaption || isReportBanner;
     const identifier = (tree.identifier()?.getText() || '').trim();
 
     let qualifierValues = { name: '', ulq: '', workscope: '' };
@@ -82,6 +84,13 @@ export class Parser {
     }
     if (workscope) {
       query += `&workscope=${workscope}`;
+    }
+    if (isReportCaption) {
+      query = "CAPTION(" + query + ")";
+    } else if (isReportBanner) {
+      query = "BANNER(" + query + ")";
+    } else if (isReport) {
+      query = "TABLE(" + query + ")";
     }
     parserGrammarResult.query = query;
 

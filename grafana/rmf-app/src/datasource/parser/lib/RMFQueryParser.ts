@@ -18,32 +18,34 @@ type int = number;
 
 export default class RMFQueryParser extends Parser {
 	public static readonly REPORT = 1;
-	public static readonly WORKSCOPE = 2;
-	public static readonly RANGE = 3;
-	public static readonly ULQ = 4;
-	public static readonly NAME = 5;
-	public static readonly FILTER = 6;
-	public static readonly PAT = 7;
-	public static readonly LB = 8;
-	public static readonly UB = 9;
-	public static readonly HI = 10;
-	public static readonly LO = 11;
-	public static readonly ORD = 12;
-	public static readonly ORD_OPTION = 13;
-	public static readonly RES_TYPE = 14;
-	public static readonly WORKSCOPE_TYPE = 15;
-	public static readonly INTEGER = 16;
-	public static readonly DECIMAL = 17;
-	public static readonly IDENTIFIER = 18;
-	public static readonly STRING_UNQUOTED = 19;
-	public static readonly STRING_QUOTED = 20;
-	public static readonly DOT = 21;
-	public static readonly SEMI = 22;
-	public static readonly COMMA = 23;
-	public static readonly LBRACE = 24;
-	public static readonly RBRACE = 25;
-	public static readonly EQUAL = 26;
-	public static readonly WS = 27;
+	public static readonly REPORT_CAPTION = 2;
+	public static readonly REPORT_BANNER = 3;
+	public static readonly WORKSCOPE = 4;
+	public static readonly RANGE = 5;
+	public static readonly ULQ = 6;
+	public static readonly NAME = 7;
+	public static readonly FILTER = 8;
+	public static readonly PAT = 9;
+	public static readonly LB = 10;
+	public static readonly UB = 11;
+	public static readonly HI = 12;
+	public static readonly LO = 13;
+	public static readonly ORD = 14;
+	public static readonly ORD_OPTION = 15;
+	public static readonly RES_TYPE = 16;
+	public static readonly WORKSCOPE_TYPE = 17;
+	public static readonly INTEGER = 18;
+	public static readonly DECIMAL = 19;
+	public static readonly IDENTIFIER = 20;
+	public static readonly STRING_UNQUOTED = 21;
+	public static readonly STRING_QUOTED = 22;
+	public static readonly DOT = 23;
+	public static readonly SEMI = 24;
+	public static readonly COMMA = 25;
+	public static readonly LBRACE = 26;
+	public static readonly RBRACE = 27;
+	public static readonly EQUAL = 28;
+	public static readonly WS = 29;
 	public static override readonly EOF = Token.EOF;
 	public static readonly RULE_query = 0;
 	public static readonly RULE_identifier = 1;
@@ -77,11 +79,14 @@ export default class RMFQueryParser extends Parser {
                                                             null, null, 
                                                             null, null, 
                                                             null, null, 
+                                                            null, null, 
                                                             null, "'.'", 
                                                             "';'", "','", 
                                                             "'{'", "'}'", 
                                                             "'='" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, "REPORT", 
+                                                             "REPORT_CAPTION", 
+                                                             "REPORT_BANNER", 
                                                              "WORKSCOPE", 
                                                              "RANGE", "ULQ", 
                                                              "NAME", "FILTER", 
@@ -133,7 +138,7 @@ export default class RMFQueryParser extends Parser {
 			this.state = 47;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===27) {
+			while (_la===29) {
 				{
 				{
 				this.state = 44;
@@ -146,63 +151,85 @@ export default class RMFQueryParser extends Parser {
 			}
 			this.state = 50;
 			this.match(RMFQueryParser.RES_TYPE);
-			this.state = 53;
+			this.state = 57;
 			this._errHandler.sync(this);
 			switch ( this._interp.adaptivePredict(this._input, 1, this._ctx) ) {
 			case 1:
+				{
 				{
 				this.state = 51;
 				this.match(RMFQueryParser.DOT);
 				this.state = 52;
 				this.match(RMFQueryParser.REPORT);
 				}
+				}
+				break;
+			case 2:
+				{
+				{
+				this.state = 53;
+				this.match(RMFQueryParser.DOT);
+				this.state = 54;
+				this.match(RMFQueryParser.REPORT_CAPTION);
+				}
+				}
+				break;
+			case 3:
+				{
+				{
+				this.state = 55;
+				this.match(RMFQueryParser.DOT);
+				this.state = 56;
+				this.match(RMFQueryParser.REPORT_BANNER);
+				}
+				}
 				break;
 			}
-			this.state = 55;
+			this.state = 59;
 			this.match(RMFQueryParser.DOT);
-			this.state = 56;
-			this.identifier();
 			this.state = 60;
+			this.identifier();
+			this.state = 64;
 			this._errHandler.sync(this);
 			_alt = this._interp.adaptivePredict(this._input, 2, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 57;
+					this.state = 61;
 					this.match(RMFQueryParser.WS);
 					}
 					}
 				}
-				this.state = 62;
+				this.state = 66;
 				this._errHandler.sync(this);
 				_alt = this._interp.adaptivePredict(this._input, 2, this._ctx);
 			}
-			this.state = 64;
+			this.state = 68;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===24) {
+			if (_la===26) {
 				{
-				this.state = 63;
+				this.state = 67;
 				this.qualifiers();
 				}
 			}
 
-			this.state = 69;
+			this.state = 73;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===27) {
+			while (_la===29) {
 				{
 				{
-				this.state = 66;
+				this.state = 70;
 				this.match(RMFQueryParser.WS);
 				}
 				}
-				this.state = 71;
+				this.state = 75;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 72;
+			this.state = 76;
 			this.match(RMFQueryParser.EOF);
 			}
 		}
@@ -227,7 +254,7 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 74;
+			this.state = 78;
 			this.stringSpaced();
 			}
 		}
@@ -253,83 +280,83 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 76;
-			this.match(RMFQueryParser.LBRACE);
 			this.state = 80;
+			this.match(RMFQueryParser.LBRACE);
+			this.state = 84;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===27) {
+			while (_la===29) {
 				{
 				{
-				this.state = 77;
+				this.state = 81;
 				this.match(RMFQueryParser.WS);
 				}
 				}
-				this.state = 82;
+				this.state = 86;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 83;
-			this.qualifier();
 			this.state = 87;
+			this.qualifier();
+			this.state = 91;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===27) {
+			while (_la===29) {
 				{
 				{
-				this.state = 84;
+				this.state = 88;
 				this.match(RMFQueryParser.WS);
 				}
 				}
-				this.state = 89;
+				this.state = 93;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 106;
+			this.state = 110;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===23) {
+			while (_la===25) {
 				{
 				{
-				this.state = 90;
-				this.match(RMFQueryParser.COMMA);
 				this.state = 94;
+				this.match(RMFQueryParser.COMMA);
+				this.state = 98;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la===27) {
+				while (_la===29) {
 					{
 					{
-					this.state = 91;
+					this.state = 95;
 					this.match(RMFQueryParser.WS);
 					}
 					}
-					this.state = 96;
+					this.state = 100;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
-				this.state = 97;
-				this.qualifier();
 				this.state = 101;
+				this.qualifier();
+				this.state = 105;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				while (_la===27) {
+				while (_la===29) {
 					{
 					{
-					this.state = 98;
+					this.state = 102;
 					this.match(RMFQueryParser.WS);
 					}
 					}
-					this.state = 103;
+					this.state = 107;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 				}
-				this.state = 108;
+				this.state = 112;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 109;
+			this.state = 113;
 			this.match(RMFQueryParser.RBRACE);
 			}
 		}
@@ -352,34 +379,34 @@ export default class RMFQueryParser extends Parser {
 		let localctx: QualifierContext = new QualifierContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 6, RMFQueryParser.RULE_qualifier);
 		try {
-			this.state = 115;
+			this.state = 119;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case 4:
+			case 6:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 111;
+				this.state = 115;
 				this.ulq();
 				}
 				break;
-			case 5:
+			case 7:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 112;
+				this.state = 116;
 				this.name();
 				}
 				break;
-			case 6:
+			case 8:
 				this.enterOuterAlt(localctx, 3);
 				{
-				this.state = 113;
+				this.state = 117;
 				this.filter();
 				}
 				break;
-			case 2:
+			case 4:
 				this.enterOuterAlt(localctx, 4);
 				{
-				this.state = 114;
+				this.state = 118;
 				this.workscope();
 				}
 				break;
@@ -408,11 +435,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 117;
+			this.state = 121;
 			this.match(RMFQueryParser.ULQ);
-			this.state = 118;
+			this.state = 122;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 119;
+			this.state = 123;
 			this.string_();
 			}
 		}
@@ -437,11 +464,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 121;
+			this.state = 125;
 			this.match(RMFQueryParser.NAME);
-			this.state = 122;
+			this.state = 126;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 123;
+			this.state = 127;
 			this.string_();
 			}
 		}
@@ -466,11 +493,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 125;
+			this.state = 129;
 			this.match(RMFQueryParser.FILTER);
-			this.state = 126;
+			this.state = 130;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 127;
+			this.state = 131;
 			this.filterValue();
 			}
 		}
@@ -496,21 +523,21 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 129;
+			this.state = 133;
 			this.filterItem();
-			this.state = 134;
+			this.state = 138;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===22) {
+			while (_la===24) {
 				{
 				{
-				this.state = 130;
+				this.state = 134;
 				this.match(RMFQueryParser.SEMI);
-				this.state = 131;
+				this.state = 135;
 				this.filterItem();
 				}
 				}
-				this.state = 136;
+				this.state = 140;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -535,48 +562,48 @@ export default class RMFQueryParser extends Parser {
 		let localctx: FilterItemContext = new FilterItemContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 16, RMFQueryParser.RULE_filterItem);
 		try {
-			this.state = 143;
+			this.state = 147;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case 7:
+			case 9:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 137;
+				this.state = 141;
 				this.pat();
 				}
 				break;
-			case 8:
+			case 10:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 138;
+				this.state = 142;
 				this.lb();
 				}
 				break;
-			case 9:
+			case 11:
 				this.enterOuterAlt(localctx, 3);
 				{
-				this.state = 139;
+				this.state = 143;
 				this.ub();
 				}
 				break;
-			case 10:
+			case 12:
 				this.enterOuterAlt(localctx, 4);
 				{
-				this.state = 140;
+				this.state = 144;
 				this.hi();
 				}
 				break;
-			case 11:
+			case 13:
 				this.enterOuterAlt(localctx, 5);
 				{
-				this.state = 141;
+				this.state = 145;
 				this.lo();
 				}
 				break;
-			case 12:
+			case 14:
 				this.enterOuterAlt(localctx, 6);
 				{
-				this.state = 142;
+				this.state = 146;
 				this.ord();
 				}
 				break;
@@ -605,11 +632,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 145;
+			this.state = 149;
 			this.match(RMFQueryParser.PAT);
-			this.state = 146;
+			this.state = 150;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 147;
+			this.state = 151;
 			this.string_();
 			}
 		}
@@ -634,11 +661,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 149;
+			this.state = 153;
 			this.match(RMFQueryParser.LB);
-			this.state = 150;
+			this.state = 154;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 151;
+			this.state = 155;
 			this.number_();
 			}
 		}
@@ -663,11 +690,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 153;
+			this.state = 157;
 			this.match(RMFQueryParser.UB);
-			this.state = 154;
+			this.state = 158;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 155;
+			this.state = 159;
 			this.number_();
 			}
 		}
@@ -692,11 +719,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 157;
+			this.state = 161;
 			this.match(RMFQueryParser.HI);
-			this.state = 158;
+			this.state = 162;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 159;
+			this.state = 163;
 			this.match(RMFQueryParser.INTEGER);
 			}
 		}
@@ -721,11 +748,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 161;
+			this.state = 165;
 			this.match(RMFQueryParser.LO);
-			this.state = 162;
+			this.state = 166;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 163;
+			this.state = 167;
 			this.match(RMFQueryParser.INTEGER);
 			}
 		}
@@ -750,11 +777,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 165;
+			this.state = 169;
 			this.match(RMFQueryParser.ORD);
-			this.state = 166;
+			this.state = 170;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 167;
+			this.state = 171;
 			this.match(RMFQueryParser.ORD_OPTION);
 			}
 		}
@@ -779,11 +806,11 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 169;
+			this.state = 173;
 			this.match(RMFQueryParser.WORKSCOPE);
-			this.state = 170;
+			this.state = 174;
 			this.match(RMFQueryParser.EQUAL);
-			this.state = 171;
+			this.state = 175;
 			this.workscopeValue();
 			}
 		}
@@ -809,22 +836,10 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 174;
-			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 1933310) !== 0)) {
-				{
-				this.state = 173;
-				this.string_();
-				}
-			}
-
-			this.state = 176;
-			this.match(RMFQueryParser.COMMA);
 			this.state = 178;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 1933310) !== 0)) {
+			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 7733246) !== 0)) {
 				{
 				this.state = 177;
 				this.string_();
@@ -833,7 +848,19 @@ export default class RMFQueryParser extends Parser {
 
 			this.state = 180;
 			this.match(RMFQueryParser.COMMA);
-			this.state = 181;
+			this.state = 182;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 7733246) !== 0)) {
+				{
+				this.state = 181;
+				this.string_();
+				}
+			}
+
+			this.state = 184;
+			this.match(RMFQueryParser.COMMA);
+			this.state = 185;
 			this.match(RMFQueryParser.WORKSCOPE_TYPE);
 			}
 		}
@@ -859,9 +886,9 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 183;
+			this.state = 187;
 			_la = this._input.LA(1);
-			if(!(_la===16 || _la===17)) {
+			if(!(_la===18 || _la===19)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -892,9 +919,9 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 185;
+			this.state = 189;
 			_la = this._input.LA(1);
-			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 884734) !== 0))) {
+			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 3538942) !== 0))) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -926,35 +953,35 @@ export default class RMFQueryParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 187;
+			this.state = 191;
 			this.stringUnquoted();
-			this.state = 196;
+			this.state = 200;
 			this._errHandler.sync(this);
 			_alt = this._interp.adaptivePredict(this._input, 16, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 189;
+					this.state = 193;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 					do {
 						{
 						{
-						this.state = 188;
+						this.state = 192;
 						this.match(RMFQueryParser.WS);
 						}
 						}
-						this.state = 191;
+						this.state = 195;
 						this._errHandler.sync(this);
 						_la = this._input.LA(1);
-					} while (_la===27);
-					this.state = 193;
+					} while (_la===29);
+					this.state = 197;
 					this.stringUnquoted();
 					}
 					}
 				}
-				this.state = 198;
+				this.state = 202;
 				this._errHandler.sync(this);
 				_alt = this._interp.adaptivePredict(this._input, 16, this._ctx);
 			}
@@ -982,21 +1009,21 @@ export default class RMFQueryParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 199;
+			this.state = 203;
 			this.stringUnquoted();
-			this.state = 204;
+			this.state = 208;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===21) {
+			while (_la===23) {
 				{
 				{
-				this.state = 200;
+				this.state = 204;
 				this.match(RMFQueryParser.DOT);
-				this.state = 201;
+				this.state = 205;
 				this.stringUnquoted();
 				}
 				}
-				this.state = 206;
+				this.state = 210;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -1021,7 +1048,7 @@ export default class RMFQueryParser extends Parser {
 		let localctx: StringContext = new StringContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 42, RMFQueryParser.RULE_string);
 		try {
-			this.state = 209;
+			this.state = 213;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 1:
@@ -1038,19 +1065,21 @@ export default class RMFQueryParser extends Parser {
 			case 12:
 			case 13:
 			case 14:
+			case 15:
 			case 16:
 			case 18:
-			case 19:
+			case 20:
+			case 21:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 207;
+				this.state = 211;
 				this.stringDotted();
 				}
 				break;
-			case 20:
+			case 22:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 208;
+				this.state = 212;
 				this.match(RMFQueryParser.STRING_QUOTED);
 				}
 				break;
@@ -1073,71 +1102,73 @@ export default class RMFQueryParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,27,212,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,29,216,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,
 	10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,
 	7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,1,0,5,0,46,8,0,10,0,12,0,49,
-	9,0,1,0,1,0,1,0,3,0,54,8,0,1,0,1,0,1,0,5,0,59,8,0,10,0,12,0,62,9,0,1,0,
-	3,0,65,8,0,1,0,5,0,68,8,0,10,0,12,0,71,9,0,1,0,1,0,1,1,1,1,1,2,1,2,5,2,
-	79,8,2,10,2,12,2,82,9,2,1,2,1,2,5,2,86,8,2,10,2,12,2,89,9,2,1,2,1,2,5,2,
-	93,8,2,10,2,12,2,96,9,2,1,2,1,2,5,2,100,8,2,10,2,12,2,103,9,2,5,2,105,8,
-	2,10,2,12,2,108,9,2,1,2,1,2,1,3,1,3,1,3,1,3,3,3,116,8,3,1,4,1,4,1,4,1,4,
-	1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,7,1,7,1,7,5,7,133,8,7,10,7,12,7,136,9,
-	7,1,8,1,8,1,8,1,8,1,8,1,8,3,8,144,8,8,1,9,1,9,1,9,1,9,1,10,1,10,1,10,1,
-	10,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,1,13,1,13,1,13,1,13,1,14,1,14,
-	1,14,1,14,1,15,1,15,1,15,1,15,1,16,3,16,175,8,16,1,16,1,16,3,16,179,8,16,
-	1,16,1,16,1,16,1,17,1,17,1,18,1,18,1,19,1,19,4,19,190,8,19,11,19,12,19,
-	191,1,19,5,19,195,8,19,10,19,12,19,198,9,19,1,20,1,20,1,20,5,20,203,8,20,
-	10,20,12,20,206,9,20,1,21,1,21,3,21,210,8,21,1,21,0,0,22,0,2,4,6,8,10,12,
-	14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,2,1,0,16,17,3,0,1,14,16,
-	16,18,19,214,0,47,1,0,0,0,2,74,1,0,0,0,4,76,1,0,0,0,6,115,1,0,0,0,8,117,
-	1,0,0,0,10,121,1,0,0,0,12,125,1,0,0,0,14,129,1,0,0,0,16,143,1,0,0,0,18,
-	145,1,0,0,0,20,149,1,0,0,0,22,153,1,0,0,0,24,157,1,0,0,0,26,161,1,0,0,0,
-	28,165,1,0,0,0,30,169,1,0,0,0,32,174,1,0,0,0,34,183,1,0,0,0,36,185,1,0,
-	0,0,38,187,1,0,0,0,40,199,1,0,0,0,42,209,1,0,0,0,44,46,5,27,0,0,45,44,1,
-	0,0,0,46,49,1,0,0,0,47,45,1,0,0,0,47,48,1,0,0,0,48,50,1,0,0,0,49,47,1,0,
-	0,0,50,53,5,14,0,0,51,52,5,21,0,0,52,54,5,1,0,0,53,51,1,0,0,0,53,54,1,0,
-	0,0,54,55,1,0,0,0,55,56,5,21,0,0,56,60,3,2,1,0,57,59,5,27,0,0,58,57,1,0,
-	0,0,59,62,1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,64,1,0,0,0,62,60,1,0,0,
-	0,63,65,3,4,2,0,64,63,1,0,0,0,64,65,1,0,0,0,65,69,1,0,0,0,66,68,5,27,0,
-	0,67,66,1,0,0,0,68,71,1,0,0,0,69,67,1,0,0,0,69,70,1,0,0,0,70,72,1,0,0,0,
-	71,69,1,0,0,0,72,73,5,0,0,1,73,1,1,0,0,0,74,75,3,38,19,0,75,3,1,0,0,0,76,
-	80,5,24,0,0,77,79,5,27,0,0,78,77,1,0,0,0,79,82,1,0,0,0,80,78,1,0,0,0,80,
-	81,1,0,0,0,81,83,1,0,0,0,82,80,1,0,0,0,83,87,3,6,3,0,84,86,5,27,0,0,85,
-	84,1,0,0,0,86,89,1,0,0,0,87,85,1,0,0,0,87,88,1,0,0,0,88,106,1,0,0,0,89,
-	87,1,0,0,0,90,94,5,23,0,0,91,93,5,27,0,0,92,91,1,0,0,0,93,96,1,0,0,0,94,
-	92,1,0,0,0,94,95,1,0,0,0,95,97,1,0,0,0,96,94,1,0,0,0,97,101,3,6,3,0,98,
-	100,5,27,0,0,99,98,1,0,0,0,100,103,1,0,0,0,101,99,1,0,0,0,101,102,1,0,0,
-	0,102,105,1,0,0,0,103,101,1,0,0,0,104,90,1,0,0,0,105,108,1,0,0,0,106,104,
-	1,0,0,0,106,107,1,0,0,0,107,109,1,0,0,0,108,106,1,0,0,0,109,110,5,25,0,
-	0,110,5,1,0,0,0,111,116,3,8,4,0,112,116,3,10,5,0,113,116,3,12,6,0,114,116,
-	3,30,15,0,115,111,1,0,0,0,115,112,1,0,0,0,115,113,1,0,0,0,115,114,1,0,0,
-	0,116,7,1,0,0,0,117,118,5,4,0,0,118,119,5,26,0,0,119,120,3,42,21,0,120,
-	9,1,0,0,0,121,122,5,5,0,0,122,123,5,26,0,0,123,124,3,42,21,0,124,11,1,0,
-	0,0,125,126,5,6,0,0,126,127,5,26,0,0,127,128,3,14,7,0,128,13,1,0,0,0,129,
-	134,3,16,8,0,130,131,5,22,0,0,131,133,3,16,8,0,132,130,1,0,0,0,133,136,
-	1,0,0,0,134,132,1,0,0,0,134,135,1,0,0,0,135,15,1,0,0,0,136,134,1,0,0,0,
-	137,144,3,18,9,0,138,144,3,20,10,0,139,144,3,22,11,0,140,144,3,24,12,0,
-	141,144,3,26,13,0,142,144,3,28,14,0,143,137,1,0,0,0,143,138,1,0,0,0,143,
-	139,1,0,0,0,143,140,1,0,0,0,143,141,1,0,0,0,143,142,1,0,0,0,144,17,1,0,
-	0,0,145,146,5,7,0,0,146,147,5,26,0,0,147,148,3,42,21,0,148,19,1,0,0,0,149,
-	150,5,8,0,0,150,151,5,26,0,0,151,152,3,34,17,0,152,21,1,0,0,0,153,154,5,
-	9,0,0,154,155,5,26,0,0,155,156,3,34,17,0,156,23,1,0,0,0,157,158,5,10,0,
-	0,158,159,5,26,0,0,159,160,5,16,0,0,160,25,1,0,0,0,161,162,5,11,0,0,162,
-	163,5,26,0,0,163,164,5,16,0,0,164,27,1,0,0,0,165,166,5,12,0,0,166,167,5,
-	26,0,0,167,168,5,13,0,0,168,29,1,0,0,0,169,170,5,2,0,0,170,171,5,26,0,0,
-	171,172,3,32,16,0,172,31,1,0,0,0,173,175,3,42,21,0,174,173,1,0,0,0,174,
-	175,1,0,0,0,175,176,1,0,0,0,176,178,5,23,0,0,177,179,3,42,21,0,178,177,
-	1,0,0,0,178,179,1,0,0,0,179,180,1,0,0,0,180,181,5,23,0,0,181,182,5,15,0,
-	0,182,33,1,0,0,0,183,184,7,0,0,0,184,35,1,0,0,0,185,186,7,1,0,0,186,37,
-	1,0,0,0,187,196,3,36,18,0,188,190,5,27,0,0,189,188,1,0,0,0,190,191,1,0,
-	0,0,191,189,1,0,0,0,191,192,1,0,0,0,192,193,1,0,0,0,193,195,3,36,18,0,194,
-	189,1,0,0,0,195,198,1,0,0,0,196,194,1,0,0,0,196,197,1,0,0,0,197,39,1,0,
-	0,0,198,196,1,0,0,0,199,204,3,36,18,0,200,201,5,21,0,0,201,203,3,36,18,
-	0,202,200,1,0,0,0,203,206,1,0,0,0,204,202,1,0,0,0,204,205,1,0,0,0,205,41,
-	1,0,0,0,206,204,1,0,0,0,207,210,3,40,20,0,208,210,5,20,0,0,209,207,1,0,
-	0,0,209,208,1,0,0,0,210,43,1,0,0,0,19,47,53,60,64,69,80,87,94,101,106,115,
-	134,143,174,178,191,196,204,209];
+	9,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0,58,8,0,1,0,1,0,1,0,5,0,63,8,0,10,0,
+	12,0,66,9,0,1,0,3,0,69,8,0,1,0,5,0,72,8,0,10,0,12,0,75,9,0,1,0,1,0,1,1,
+	1,1,1,2,1,2,5,2,83,8,2,10,2,12,2,86,9,2,1,2,1,2,5,2,90,8,2,10,2,12,2,93,
+	9,2,1,2,1,2,5,2,97,8,2,10,2,12,2,100,9,2,1,2,1,2,5,2,104,8,2,10,2,12,2,
+	107,9,2,5,2,109,8,2,10,2,12,2,112,9,2,1,2,1,2,1,3,1,3,1,3,1,3,3,3,120,8,
+	3,1,4,1,4,1,4,1,4,1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,7,1,7,1,7,5,7,137,8,
+	7,10,7,12,7,140,9,7,1,8,1,8,1,8,1,8,1,8,1,8,3,8,148,8,8,1,9,1,9,1,9,1,9,
+	1,10,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,1,13,1,13,1,
+	13,1,13,1,14,1,14,1,14,1,14,1,15,1,15,1,15,1,15,1,16,3,16,179,8,16,1,16,
+	1,16,3,16,183,8,16,1,16,1,16,1,16,1,17,1,17,1,18,1,18,1,19,1,19,4,19,194,
+	8,19,11,19,12,19,195,1,19,5,19,199,8,19,10,19,12,19,202,9,19,1,20,1,20,
+	1,20,5,20,207,8,20,10,20,12,20,210,9,20,1,21,1,21,3,21,214,8,21,1,21,0,
+	0,22,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,2,1,
+	0,18,19,3,0,1,16,18,18,20,21,220,0,47,1,0,0,0,2,78,1,0,0,0,4,80,1,0,0,0,
+	6,119,1,0,0,0,8,121,1,0,0,0,10,125,1,0,0,0,12,129,1,0,0,0,14,133,1,0,0,
+	0,16,147,1,0,0,0,18,149,1,0,0,0,20,153,1,0,0,0,22,157,1,0,0,0,24,161,1,
+	0,0,0,26,165,1,0,0,0,28,169,1,0,0,0,30,173,1,0,0,0,32,178,1,0,0,0,34,187,
+	1,0,0,0,36,189,1,0,0,0,38,191,1,0,0,0,40,203,1,0,0,0,42,213,1,0,0,0,44,
+	46,5,29,0,0,45,44,1,0,0,0,46,49,1,0,0,0,47,45,1,0,0,0,47,48,1,0,0,0,48,
+	50,1,0,0,0,49,47,1,0,0,0,50,57,5,16,0,0,51,52,5,23,0,0,52,58,5,1,0,0,53,
+	54,5,23,0,0,54,58,5,2,0,0,55,56,5,23,0,0,56,58,5,3,0,0,57,51,1,0,0,0,57,
+	53,1,0,0,0,57,55,1,0,0,0,57,58,1,0,0,0,58,59,1,0,0,0,59,60,5,23,0,0,60,
+	64,3,2,1,0,61,63,5,29,0,0,62,61,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,
+	65,1,0,0,0,65,68,1,0,0,0,66,64,1,0,0,0,67,69,3,4,2,0,68,67,1,0,0,0,68,69,
+	1,0,0,0,69,73,1,0,0,0,70,72,5,29,0,0,71,70,1,0,0,0,72,75,1,0,0,0,73,71,
+	1,0,0,0,73,74,1,0,0,0,74,76,1,0,0,0,75,73,1,0,0,0,76,77,5,0,0,1,77,1,1,
+	0,0,0,78,79,3,38,19,0,79,3,1,0,0,0,80,84,5,26,0,0,81,83,5,29,0,0,82,81,
+	1,0,0,0,83,86,1,0,0,0,84,82,1,0,0,0,84,85,1,0,0,0,85,87,1,0,0,0,86,84,1,
+	0,0,0,87,91,3,6,3,0,88,90,5,29,0,0,89,88,1,0,0,0,90,93,1,0,0,0,91,89,1,
+	0,0,0,91,92,1,0,0,0,92,110,1,0,0,0,93,91,1,0,0,0,94,98,5,25,0,0,95,97,5,
+	29,0,0,96,95,1,0,0,0,97,100,1,0,0,0,98,96,1,0,0,0,98,99,1,0,0,0,99,101,
+	1,0,0,0,100,98,1,0,0,0,101,105,3,6,3,0,102,104,5,29,0,0,103,102,1,0,0,0,
+	104,107,1,0,0,0,105,103,1,0,0,0,105,106,1,0,0,0,106,109,1,0,0,0,107,105,
+	1,0,0,0,108,94,1,0,0,0,109,112,1,0,0,0,110,108,1,0,0,0,110,111,1,0,0,0,
+	111,113,1,0,0,0,112,110,1,0,0,0,113,114,5,27,0,0,114,5,1,0,0,0,115,120,
+	3,8,4,0,116,120,3,10,5,0,117,120,3,12,6,0,118,120,3,30,15,0,119,115,1,0,
+	0,0,119,116,1,0,0,0,119,117,1,0,0,0,119,118,1,0,0,0,120,7,1,0,0,0,121,122,
+	5,6,0,0,122,123,5,28,0,0,123,124,3,42,21,0,124,9,1,0,0,0,125,126,5,7,0,
+	0,126,127,5,28,0,0,127,128,3,42,21,0,128,11,1,0,0,0,129,130,5,8,0,0,130,
+	131,5,28,0,0,131,132,3,14,7,0,132,13,1,0,0,0,133,138,3,16,8,0,134,135,5,
+	24,0,0,135,137,3,16,8,0,136,134,1,0,0,0,137,140,1,0,0,0,138,136,1,0,0,0,
+	138,139,1,0,0,0,139,15,1,0,0,0,140,138,1,0,0,0,141,148,3,18,9,0,142,148,
+	3,20,10,0,143,148,3,22,11,0,144,148,3,24,12,0,145,148,3,26,13,0,146,148,
+	3,28,14,0,147,141,1,0,0,0,147,142,1,0,0,0,147,143,1,0,0,0,147,144,1,0,0,
+	0,147,145,1,0,0,0,147,146,1,0,0,0,148,17,1,0,0,0,149,150,5,9,0,0,150,151,
+	5,28,0,0,151,152,3,42,21,0,152,19,1,0,0,0,153,154,5,10,0,0,154,155,5,28,
+	0,0,155,156,3,34,17,0,156,21,1,0,0,0,157,158,5,11,0,0,158,159,5,28,0,0,
+	159,160,3,34,17,0,160,23,1,0,0,0,161,162,5,12,0,0,162,163,5,28,0,0,163,
+	164,5,18,0,0,164,25,1,0,0,0,165,166,5,13,0,0,166,167,5,28,0,0,167,168,5,
+	18,0,0,168,27,1,0,0,0,169,170,5,14,0,0,170,171,5,28,0,0,171,172,5,15,0,
+	0,172,29,1,0,0,0,173,174,5,4,0,0,174,175,5,28,0,0,175,176,3,32,16,0,176,
+	31,1,0,0,0,177,179,3,42,21,0,178,177,1,0,0,0,178,179,1,0,0,0,179,180,1,
+	0,0,0,180,182,5,25,0,0,181,183,3,42,21,0,182,181,1,0,0,0,182,183,1,0,0,
+	0,183,184,1,0,0,0,184,185,5,25,0,0,185,186,5,17,0,0,186,33,1,0,0,0,187,
+	188,7,0,0,0,188,35,1,0,0,0,189,190,7,1,0,0,190,37,1,0,0,0,191,200,3,36,
+	18,0,192,194,5,29,0,0,193,192,1,0,0,0,194,195,1,0,0,0,195,193,1,0,0,0,195,
+	196,1,0,0,0,196,197,1,0,0,0,197,199,3,36,18,0,198,193,1,0,0,0,199,202,1,
+	0,0,0,200,198,1,0,0,0,200,201,1,0,0,0,201,39,1,0,0,0,202,200,1,0,0,0,203,
+	208,3,36,18,0,204,205,5,23,0,0,205,207,3,36,18,0,206,204,1,0,0,0,207,210,
+	1,0,0,0,208,206,1,0,0,0,208,209,1,0,0,0,209,41,1,0,0,0,210,208,1,0,0,0,
+	211,214,3,40,20,0,212,214,5,22,0,0,213,211,1,0,0,0,213,212,1,0,0,0,214,
+	43,1,0,0,0,19,47,57,64,68,73,84,91,98,105,110,119,138,147,178,182,195,200,
+	208,213];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -1179,11 +1210,17 @@ export class QueryContext extends ParserRuleContext {
 	public WS(i: number): TerminalNode {
 		return this.getToken(RMFQueryParser.WS, i);
 	}
+	public qualifiers(): QualifiersContext {
+		return this.getTypedRuleContext(QualifiersContext, 0) as QualifiersContext;
+	}
 	public REPORT(): TerminalNode {
 		return this.getToken(RMFQueryParser.REPORT, 0);
 	}
-	public qualifiers(): QualifiersContext {
-		return this.getTypedRuleContext(QualifiersContext, 0) as QualifiersContext;
+	public REPORT_CAPTION(): TerminalNode {
+		return this.getToken(RMFQueryParser.REPORT_CAPTION, 0);
+	}
+	public REPORT_BANNER(): TerminalNode {
+		return this.getToken(RMFQueryParser.REPORT_BANNER, 0);
 	}
     public get ruleIndex(): number {
     	return RMFQueryParser.RULE_query;
@@ -1751,6 +1788,12 @@ export class StringUnquotedContext extends ParserRuleContext {
 	}
 	public REPORT(): TerminalNode {
 		return this.getToken(RMFQueryParser.REPORT, 0);
+	}
+	public REPORT_CAPTION(): TerminalNode {
+		return this.getToken(RMFQueryParser.REPORT_CAPTION, 0);
+	}
+	public REPORT_BANNER(): TerminalNode {
+		return this.getToken(RMFQueryParser.REPORT_BANNER, 0);
 	}
 	public WORKSCOPE(): TerminalNode {
 		return this.getToken(RMFQueryParser.WORKSCOPE, 0);
