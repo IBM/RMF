@@ -5,7 +5,6 @@
     <shortdesc/>
     <conbody>
         <p><ph id="plugin_name">IBM RMF for z/OS Grafana</ph></p>
-        <p><ph id="plugin_name_short">RMF for z/OS Grafana</ph></p>
         <p><ph id="rmf_short">RMF for z/OS</ph></p>
         <p><ph id="rmf_full">Resource Measurement Facility for z/OS</ph></p>
         <p><ph id="dds_full">Distributed Data Server</ph></p>
@@ -16,7 +15,6 @@
         <p><ph id="zosmf_short">z/OSMF</ph></p>
         <p><cite id="zos_prgm_guide">z/OS Resource Measurement Facility Programmer's
             Guide</cite></p>
-        <p><cite id="zos_rpt_anls">z/OS Resource Measurement Facility Report Analysis</cite></p>
         <p><cite id="zosmf_config">z/OS Management Facility Configuration Guide</cite></p>
         <p><cite id="zos_msgs">z/OS Resource Measurement Facility Messages and Codes</cite></p>
         <section>
@@ -28,10 +26,9 @@
                     <li id="li_qbm_nw3_ryb">Installed the <ph
                             conref="conref.dita#conref/plugin_name"/> plugin. See <xref
                             href="install_grafana_plugin.dita"/>.</li>
-                    <li id="li_kwb_lm3_ryb"><ph id="ph_ukr_nbs_lzb"
-                                    ><codeph><varname>resource_type</varname></codeph> is the type
-                            of resource for which information is requested. You must enter the
-                            appropriate value in the
+                    <li id="li_kwb_lm3_ryb"><ph><codeph><varname>resource_type</varname></codeph> is
+                            the type of resource for which information is requested. You must enter
+                            the appropriate value in the
                                 <codeph><varname>resource_type</varname></codeph> field.</ph><p>The
                             available resource types are documented in the <xref
                                 href="https://www.ibm.com/docs/en/zos/3.1.0?topic=models-zos-rmf-monitor-iii-resource-model#zosm3"
@@ -50,12 +47,6 @@
                     you are not already logged in.</ph></p>
             <note id="note_rr3_txq_pyb">The navigation of the user interface can differ based on the
                 Grafana version that is currently installed.</note>
-            <p>
-                <note type="remember" id="note_odf_zy5_4bc">When you enable SSL, the
-                        <uicontrol>Verify the server’s certificate chain/hostname</uicontrol> option
-                    is also enabled.</note>
-            </p>
-            <p id="p_lxj_4jw_hfc">Fixed internally found defects.</p>
         </section>
     </conbody>
 </concept>
