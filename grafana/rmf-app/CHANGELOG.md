@@ -1,6 +1,7 @@
 # Change Log
 
 ## 2.0.0 (2026-03-06)
+- You can now import RMF Performance Monitoring dashboards and their associated data sources directly into Grafana for visualization.
 - The custom RMF full report panel (ibm-rmf-panel) has been deprecated and removed. Full RMF reports now rely on standard Grafana visualizations.
 - New query keywords have been introduced to support building complete RMF full reports using standard Grafana table panels.
 - The DDS-based dashboard samples provided with the RMF for z/OS Grafana plugin must be re-deployed using the Update/Reset option.
