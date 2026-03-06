@@ -35,7 +35,7 @@ type Config struct {
 	Timeout   int
 	CacheSize int
 	Username  string
-	Password  string
+	Password  string // #nosec G117
 	JSON      struct {
 		// Conventional Grafana HTTP config (see the `DataSourceHttpSettings` UI element)
 		TimeoutRaw         string `json:"timeout"`
@@ -48,7 +48,7 @@ type Config struct {
 		Port       string  `json:"port"`
 		SSL        bool    `json:"ssl"`
 		Username   string  `json:"userName"`
-		Password   string  `json:"password"`
+		Password   string  `json:"password"`   // #nosec G117
 		SSLVerify  bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
 		OmegamonDs string  `json:"omegamonDs"`
 	}

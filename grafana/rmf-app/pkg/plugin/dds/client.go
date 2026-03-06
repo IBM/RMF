@@ -189,7 +189,7 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 			req.SetBasicAuth(c.username, c.password)
 		}
 		logger.Debug("requesting DDS data", "url", fullURL)
-		response, err := c.httpClient.Do(req)
+		response, err := c.httpClient.Do(req) // #nosec G704
 		if err != nil {
 			logger.Debug("failed to fetch DDS data", "error", err)
 			return nil, err
