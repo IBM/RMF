@@ -106,23 +106,45 @@
         </section>
         <section id="section_l5k_fm3_ryb">
             <title>Report query syntax</title>
-            <p>The syntax of the Report query is as follows:</p>
-            <p><codeph><varname>resource_type</varname>.<parmname>REPORT</parmname>.<varname>report_name</varname></codeph></p>
-            <p>Where:<ul id="ul_r3t_gm3_ryb">
-                    <li><ph conref="conref.dita#conref/ph_ukr_nbs_lzb"/></li>
-                    <li><codeph><varname>report_name</varname></codeph> is the name of the
-                            report.<p>You can find the report names in the <xref
-                                href="https://www.ibm.com/docs/en/zos/3.1.0?topic=analysis-interactive-performance-monitor-iii"
-                                format="html" scope="external">Interactive performance analysis with
-                                Monitor III</xref>, which is documented in the <cite
-                                conref="conref.dita#conref/zos_rpt_anls"/>.</p><note
-                            id="note_b4r_5m3_ryb">You can view reports on the Grafana dashboard only
-                            for the resource types <codeph>SYSPLEX</codeph> and
-                                <codeph>MVS_IMAGE</codeph>.</note></li>
-                </ul></p>
-            <p><b>Examples</b>:</p>
-            <codeblock id="codeblock_int_pbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CACHSUM</varname></codeblock>
-            <codeblock id="codeblock_l5g_rbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CPC</varname></codeblock>
+            <p>In RMF for z/OS Grafana plugin v1.1.1 and earlier, the Report query syntax used a
+                single keyword: <codeph>REPORT</codeph>. For example:
+                    <codeph>SYSPLEX.REPORT.CFOVER</codeph> or
+                    <codeph>MVS_IMAGE.REPORT.STORM{name=SYS1}</codeph> for MVS Image SYS1.</p>
+            <p>This query returned the entire report, including the interval banner and all
+                captions, in a single panel.</p>
+            <p>Starting with v2.0.0, the <codeph>REPORT</codeph> keyword has been enhanced and split
+                into three distinct query types. These provide more granular control over how each
+                part of a report is displayed when creating dedicated panels in Grafana.</p>
+            <dl id="dl_zjz_gjc_m3c">
+                <dlentry>
+                    <dt><codeph>REPORT_BANNER</codeph></dt>
+                    <dd>Returns only the interval banner section of the report. Use this when you
+                        want the time‐interval or header metadata displayed
+                            separately.<p>Examples:<codeblock id="codeblock_l3y_jjc_m3c">SYSPLEX.REPORT_BANNER.CFOVER</codeblock><codeblock id="codeblock_ip2_1vs_m3c">MVS_IMAGE.REPORT_BANNER.STORM{name=SYS1}</codeblock></p></dd>
+                </dlentry>
+                <dlentry>
+                    <dt><codeph>REPORT_CAPTION</codeph></dt>
+                    <dd>Returns only the non-table caption portion of the report. This is useful for
+                        displaying descriptive or contextual information independently from the
+                        report
+                            tables.<p>Examples:<codeblock>SYSPLEX.REPORT_CAPTION.CFOVER</codeblock><codeblock id="codeblock_u2h_bvs_m3c">MVS_IMAGE.REPORT_CAPTION.STORM{name=SYS1}</codeblock></p></dd>
+                </dlentry>
+                <dlentry>
+                    <dt><codeph>REPORT</codeph></dt>
+                    <dd>Returns only the table data from the report, excluding banner and caption
+                        information. This is the core, tabular portion of the
+                            report.<p>Examples:<codeblock id="codeblock_r1z_pjc_m3c">SYSPLEX.REPORT.CFOVER</codeblock><codeblock id="codeblock_gyg_cvs_m3c">MVS_IMAGE.REPORT.STORM{name=SYS1}</codeblock></p></dd>
+                </dlentry>
+            </dl>
+            <note id="note_jvq_rjc_m3c">You can configure a built-in Table panel in Grafana and
+                specify any of the query types above to display the corresponding part of the
+                    report.<p>For example, setting the query to
+                        <codeph>SYSPLEX.REPORT.CFOVER</codeph> will display only the table portion
+                    of the <systemoutput>CFOVER</systemoutput> report, while separate panels can be
+                    created for the banner and caption if desired.</p></note>
+            <p>This enhanced syntax provides greater flexibility, allowing you to create cleaner,
+                more modular dashboards.</p>
+            <!--<p>The syntax of the Report query is as follows:</p><p><codeph><varname>resource_type</varname>.<parmname>REPORT</parmname>.<varname>report_name</varname></codeph></p><p>Where:<ul id="ul_r3t_gm3_ryb"><li><ph conref="conref.dita#conref/ph_ukr_nbs_lzb"/></li><li><codeph><varname>report_name</varname></codeph> is the name of the report.<p>You can find the report names in the <xref href="https://www.ibm.com/docs/en/zos/3.1.0?topic=analysis-interactive-performance-monitor-iii" format="html" scope="external">Interactive performance analysis with Monitor III</xref>, which is documented in the <cite conref="conref.dita#conref/zos_rpt_anls"/>.</p><note id="note_b4r_5m3_ryb">You can view reports on the Grafana dashboard only for the resource types <codeph>SYSPLEX</codeph> and <codeph>MVS_IMAGE</codeph>.</note></li></ul></p><p><b>Examples</b>:</p><codeblock id="codeblock_int_pbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CACHSUM</varname></codeblock><codeblock id="codeblock_l5g_rbv_ryb"><varname>SYSPLEX</varname>.<parmname>REPORT</parmname>.<varname>CPC</varname></codeblock>-->
         </section>
     </conbody>
 </concept>

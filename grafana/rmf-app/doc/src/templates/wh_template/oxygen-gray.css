@@ -523,3 +523,57 @@ html[dir='rtl'] .wh_top_menu:not(.activated-on-click) ul li:hover > ul,
 html[dir='rtl'] .wh_top_menu.activated-on-click ul li.active > ul {
     max-width: 270px;
 }
+/* --------------------------------------------------------------
+   Force external header links/buttons to always show (no hover)
+   -------------------------------------------------------------- */
+
+.wh_header .external-link a,
+.wh_header .external-actions a,
+#navbarExternal a {
+  color: #ffffff !important;        /* Always visible, white font */
+  background-color: #0f62fe !important; /* IBM Blue (optional) */
+  border: 1px solid #ffffff !important;
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* If your buttons use <input type="button"> inside <a> */
+.wh_header .external-link input[type="button"],
+.wh_header .external-actions input[type="button"] {
+  color: #ffffff !important;        /* Button text white */
+  background-color: #0f62fe !important; /* IBM Blue (optional) */
+  border: 1px solid #ffffff !important;
+  padding: 4px 10px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+/* Prevent hover styles from hiding colors */
+.wh_header .external-link a:hover,
+.wh_header .external-actions a:hover,
+#navbarExternal a:hover {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Ensure the container itself never dims */
+.wh_header .external-link,
+.wh_header .external-actions,
+#navbarExternal {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+/* --------------------------------------------------------------
+   Spacing between header buttons
+   -------------------------------------------------------------- */
+.wh_header .external-link a,
+.wh_header .external-actions a,
+#navbarExternal a {
+    margin-right: 8px !important;   /* Space between buttons */
+}
+
+.wh_header .external-link li,
+.wh_header .external-actions li {
+    margin-right: 8px !important;   /* Backup spacing for <li> wrappers */
+}

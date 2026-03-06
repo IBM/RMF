@@ -134,9 +134,5 @@
             </step>
         </steps>
         <result id="result_ywl_ypd_qyb">You have added the RMF data source.</result>
-        <postreq id="postreq_bcb_zpd_qyb">
-            <p>You can refer to the <xref href="db_ovw.dita"/> topic for information about RMF
-                master dashboard and its features.</p>
-        </postreq>
     </taskbody>
 </task>

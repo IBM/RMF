@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.0 (2026-03-06)
+- The custom RMF full report panel (ibm-rmf-panel) has been deprecated and removed. Full RMF reports now rely on standard Grafana visualizations.
+- New query keywords have been introduced to support building complete RMF full reports using standard Grafana table panels.
+- The DDS-based dashboard samples provided with the RMF for z/OS Grafana plugin must be re-deployed using the Update/Reset option.
+- If you have custom DDS-based dashboards that use RMF full reports, you must upgrade them to align with the new approach based on standard Grafana tables. You can perform these updates manually or through your existing automation scripts, using the latest shipped dashboard samples as reference implementations.
+
 ## 1.1.1 (2025-11-10)
 - The following plugin names have been changed to meet Grafana naming conventions:
   - `ibm-rmf` to `ibm-rmf-app`

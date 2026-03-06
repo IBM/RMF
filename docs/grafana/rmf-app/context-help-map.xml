@@ -1,24 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map>
-   <appContext helpID="visual_grafana" path="visual_grafana.html"/>
-   <appContext helpID="rn" path="rn.html"/>
-   <appContext helpID="install_grafana_plugin" path="install_grafana_plugin.html"/>
-   <appContext helpID="update_plugin" path="update_plugin.html"/>
-   <appContext helpID="prometheus_sample_dashboards_1"
-               path="prometheus_sample_dashboards.html"/>
-   <appContext helpID="create_datasources" path="create_datasources.html"/>
-   <appContext helpID="apply_visualize" path="apply_visualize.html"/>
-   <appContext helpID="query_lang" path="query_lang.html"/>
-   <appContext helpID="variables" path="variables.html"/>
-   <appContext helpID="install_grafana_plugin" path="integrating_dds_omegamon.html"/>
-   <appContext helpID="alerts" path="alerts.html"/>
-   <appContext helpID="historical_data" path="historical_data.html"/>
-   <appContext helpID="error_reports" path="error_reports.html"/>
-   <appContext helpID="ts_issues" path="ts_issues.html"/>
-   <appContext helpID="grafana_via_zosmf" path="grafana_via_zosmf.html"/>
-   <appContext helpID="prereq_zosmf" path="prereq_zosmf.html"/>
-   <appContext helpID="grafana_config_parms" path="grafana_config_parms.html"/>
-   <appContext helpID="define_grafana_zosmf" path="define_grafana_zosmf.html"/>
-   <appContext helpID="access_grafana_zosmf" path="access_grafana_zosmf.html"/>
-   <appContext helpID="pdf_guide" path="pdf_guide.html"/>
-</map>
+<map/>

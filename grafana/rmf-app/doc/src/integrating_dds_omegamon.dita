@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="install_grafana_plugin" xml:lang="en-us">
+<task id="integrating_dds_omegamo" xml:lang="en-us">
     <title>Integrating DDS Dashboards with IBM Z OMEGAMON Dashboards</title>
     <titlealts>
         <navtitle>Integrating DDS Dashboards with OMEGAMON</navtitle>
@@ -17,7 +17,7 @@
         </context>
         <steps>
             <step>
-                <cmd>While  installing the DDS Sample Dashboards, on the IBM RMF page, go to
+                <cmd>While installing the DDS Sample Dashboards, on the IBM RMF page, go to
                         <wintitle>DDS Sample Dashboards</wintitle> section and select the
                         <uicontrol>Link with IBM Z OMEGAMON Web UI dashboards</uicontrol> button to
                     create links to the OMEGAMON dashboards. </cmd>
