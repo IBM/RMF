@@ -20,21 +20,11 @@
       "name": "IBM",
       "url": "http://www.ibm.com"
     },
-    "keywords": ["rmf"],
+    "keywords": ["ibm", "rmf"],
     "logos": {
-      "small": "img/logo.svg",
-      "large": "img/logo.svg"
+      "small": "img/../../img/logo.svg",
+      "large": "img/../../img/logo.svg"
     },
-    "links": [
-      {
-        "name": "Website",
-        "url": "https://github.com/grafana/rmf-datasource"
-      },
-      {
-        "name": "License",
-        "url": "https://github.com/grafana/rmf-datasource/blob/master/LICENSE"
-      }
-    ],
     "screenshots": [],
     "version": "%VERSION%",
     "updated": "%TODAY%"
