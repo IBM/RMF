@@ -40,11 +40,6 @@ jobs:
           go-version-file: grafana/rmf-app/go.mod
           cache-dependency-path: grafana/rmf-app/go.sum
 
-      - name: Setup Mage
-        uses: magefile/mage-action@v4
-        with:
-          install-only: true
-
       - name: Test
         run: make test
 

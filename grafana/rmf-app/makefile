@@ -62,14 +62,23 @@ $(RMF_QUERY_PARSER_FILES): .antlr/$(ANTLR_JAR) ./grammar/RMFQuery.g4 ## Generate
 build-frontend: deps-frontend $(RMF_QUERY_PARSER_FILES) ## Build frontend data sources
 	yarn build
 
+GO_LD_FLAGS := -w -s -extldflags "-static"
 build-backend: deps-backend ## Build backend data source
-	mage buildAllPlatforms
+	for arch in amd64 arm64 s390x ppc64le; do \
+	  CGO_ENABLED=0 GOOS=linux GOARCH=$${arch} go build -o ./dist/datasource/gpx_ibm-rmf-datasource_linux_$${arch} -ldflags '$(GO_LD_FLAGS)' ./pkg; \
+	done
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_darwin_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_darwin_arm64 -ldflags '$(GO_LD_FLAGS)' ./pkg
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_windows_amd64.exe -ldflags '$(GO_LD_FLAGS)' ./pkg
 
-test: ## Run unittests
-	mage test
+build-backend-amd64-linux: deps-backend ## Build backend data source
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./dist/datasource/gpx_ibm-rmf-datasource_linux_amd64 -ldflags '$(GO_LD_FLAGS)' ./pkg; \
 
-lint: ## Run linters
-	mage lint
+test: deps-backend ## Run unittests
+	go test -v ./...
+
+lint:  ## Run linters
+	golangci-lint run
 
 build: build-frontend build-backend ## Build everything
 
