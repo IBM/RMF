@@ -22,8 +22,8 @@
     },
     "keywords": ["ibm", "rmf"],
     "logos": {
-      "small": "img/../../img/logo.svg",
-      "large": "img/../../img/logo.svg"
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
     },
     "screenshots": [],
     "version": "%VERSION%",
