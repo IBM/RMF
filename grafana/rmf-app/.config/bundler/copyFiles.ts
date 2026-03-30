@@ -21,4 +21,5 @@ export const copyFilePatterns = [
     from: screenshotPath,
     to: screenshotPath,
   })),
+  { from: 'img/pm390.png', to: 'img/pm390.png' },
 ];
