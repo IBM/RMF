@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.5.11 (2026-04-24)
+
+ - Help updated about RepIntStr, RepIntAct and RepTrdStr intradependency
+
 ## 5.5.10 (2025-09-12)
 
  - Power Consumption charts added to Lpar Trend Report
