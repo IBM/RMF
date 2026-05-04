@@ -1,24 +1,8 @@
 {
-  "dependencies": {
-    "grafanaDependency": ">=10.0",
-    "plugins": []
-  },
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "app",
+  "name": "IBM RMF",
   "id": "ibm-rmf-app",
-  "includes": [
-    {
-      "type": "datasource",
-      "name": "IBM RMF for z/OS",
-      "path": "datasource/plugin.json"
-    },
-    {
-      "name": "Home",
-      "path": "/a/ibm-rmf-app",
-      "type": "page",
-      "role": "Admin",
-      "addToNav": true,
-      "defaultNav": true
-    }
-  ],
   "info": {
     "author": {
       "name": "IBM",
@@ -52,6 +36,23 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "IBM RMF",
-  "type": "app"
+  "includes": [
+    {
+      "type": "datasource",
+      "name": "IBM RMF for z/OS",
+      "path": "datasource/plugin.json"
+    },
+    {
+      "name": "Home",
+      "path": "/a/ibm-rmf-app",
+      "type": "page",
+      "role": "Admin",
+      "addToNav": true,
+      "defaultNav": true
+    }
+  ],
+  "dependencies": {
+    "grafanaDependency": ">=10.0",
+    "plugins": []
+  }
 }
