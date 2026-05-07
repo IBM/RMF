@@ -3,13 +3,13 @@ name: ibm-rmf-grafana
 on:
   push:
     branches:
-      - "staging/v*"
+      - "main"
       - "release/v*"
     tags:
       - "ibm-rmf-grafana/v*"
   pull_request:
     branches:
-      - "staging/v*"
+      - "main"
       - "release/v*"
 
 jobs:
