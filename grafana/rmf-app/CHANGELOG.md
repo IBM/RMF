@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0.1
+
+-Added support for Grafana .
+
 ## 2.0.1
 
 - Updated dependencies to address known vulnerabilities.
