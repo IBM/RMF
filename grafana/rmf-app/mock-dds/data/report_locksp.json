@@ -1,0 +1,111 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "columnHeaders": {
+        "col": [
+          {
+            "type": "T",
+            "value": "LSPPRES"
+          },
+          {
+            "type": "N",
+            "value": "LSPPJT"
+          },
+          {
+            "type": "N",
+            "value": "LSPPJID"
+          },
+          {
+            "type": "T",
+            "value": "LSPPTYPE"
+          },
+          {
+            "type": "N",
+            "value": "LSPPAC"
+          },
+          {
+            "type": "N",
+            "value": "LSPPCPID"
+          },
+          {
+            "type": "N",
+            "value": "LSPPRAD"
+          },
+          {
+            "type": "N",
+            "value": "LSPPHELD"
+          },
+          {
+            "type": "N",
+            "value": "LSPPSPIN"
+          }
+        ]
+      },
+      "metric": {
+        "description": "LOCKSP   (Spin Lock Report)",
+        "format": "report",
+        "id": "LOCKSP",
+        "numcols": 9
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "SRM",
+            "",
+            "",
+            "EXCL",
+            "",
+            "02",
+            "",
+            "3.33",
+            ""
+          ],
+          "refno": 1
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "numSamples": 60,
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

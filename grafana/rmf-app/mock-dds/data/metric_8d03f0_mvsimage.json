@@ -1,0 +1,260 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "% idle by job",
+        "filter": "HI=20;ORD=VD",
+        "format": "list",
+        "id": "8D03F0",
+        "listtype": "J",
+        "numcols": 4,
+        "unit": "percent",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "JOB074",
+            "100",
+            "004A",
+            "T0464444"
+          ],
+          "percent": "100",
+          "refno": 1
+        },
+        {
+          "col": [
+            "JOB078",
+            "100",
+            "004B",
+            "T0464816"
+          ],
+          "percent": "100",
+          "refno": 2
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "004F",
+            "S0346008"
+          ],
+          "percent": "100",
+          "refno": 3
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0052",
+            "S0346011"
+          ],
+          "percent": "100",
+          "refno": 4
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0053",
+            "S0346012"
+          ],
+          "percent": "100",
+          "refno": 5
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0054",
+            "S0346014"
+          ],
+          "percent": "100",
+          "refno": 6
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0056",
+            "S0346017"
+          ],
+          "percent": "100",
+          "refno": 7
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0057",
+            "S0346019"
+          ],
+          "percent": "100",
+          "refno": 8
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0059",
+            "S0346021"
+          ],
+          "percent": "100",
+          "refno": 9
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "005A",
+            "S0346020"
+          ],
+          "percent": "100",
+          "refno": 10
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "005B",
+            "S0346026"
+          ],
+          "percent": "100",
+          "refno": 11
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "005C",
+            "S0346023"
+          ],
+          "percent": "100",
+          "refno": 12
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "005D",
+            "S0346022"
+          ],
+          "percent": "100",
+          "refno": 13
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "005F",
+            "S0346024"
+          ],
+          "percent": "100",
+          "refno": 14
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0060",
+            "S0346028"
+          ],
+          "percent": "100",
+          "refno": 15
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0061",
+            "S0346027"
+          ],
+          "percent": "100",
+          "refno": 16
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0062",
+            "S0346031"
+          ],
+          "percent": "100",
+          "refno": 17
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0063",
+            "S0346029"
+          ],
+          "percent": "100",
+          "refno": 18
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0064",
+            "S0346032"
+          ],
+          "percent": "100",
+          "refno": 19
+        },
+        {
+          "col": [
+            "JB43",
+            "100",
+            "0065",
+            "S0346030"
+          ],
+          "percent": "100",
+          "refno": 20
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

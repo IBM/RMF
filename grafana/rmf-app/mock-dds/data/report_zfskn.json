@@ -1,0 +1,174 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "columnHeaders": {
+        "col": [
+          {
+            "type": "T",
+            "value": "ZFKPSYS"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPRQRL"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPRQRR"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPXFRL"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPXFRR"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPRPTL"
+          },
+          {
+            "type": "N",
+            "value": "ZFKPRPTR"
+          }
+        ]
+      },
+      "metric": {
+        "description": "ZFSKN    (zFS Kernel)",
+        "format": "report",
+        "id": "ZFSKN",
+        "numcols": 7
+      },
+      "resource": {
+        "reslabel": ",SYPLEX01,SYSPLEX",
+        "reslabelurl": ",SYPLEX01,SYSPLEX",
+        "restype": "SYSPLEX"
+      },
+      "row": [
+        {
+          "col": [
+            "SY21",
+            "119.9",
+            "0.000",
+            "0.000",
+            "0.000",
+            "0.008",
+            "0.000"
+          ],
+          "refno": 1
+        },
+        {
+          "col": [
+            "SY22",
+            "6794",
+            "18487",
+            "0.000",
+            "107.4",
+            "0.007",
+            "0.010"
+          ],
+          "refno": 2
+        },
+        {
+          "col": [
+            "SY23",
+            "254.4",
+            "284.4",
+            "0.000",
+            "0.017",
+            "0.003",
+            "0.009"
+          ],
+          "refno": 3
+        },
+        {
+          "col": [
+            "SY25",
+            "664000",
+            "45469",
+            "0.000",
+            "0.000",
+            "0.001",
+            "0.001"
+          ],
+          "refno": 4
+        },
+        {
+          "col": [
+            "SY26",
+            "1.033",
+            "107.3",
+            "0.000",
+            "0.000",
+            "0.011",
+            "0.005"
+          ],
+          "refno": 5
+        },
+        {
+          "col": [
+            "SY27",
+            "32710",
+            "67170",
+            "0.000",
+            "0.050",
+            "0.003",
+            "0.002"
+          ],
+          "refno": 6
+        },
+        {
+          "col": [
+            "SY28",
+            "2604",
+            "624.3",
+            "0.000",
+            "0.000",
+            "0.004",
+            "0.005"
+          ],
+          "refno": 7
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "numSamples": 60,
+        "numSystems": 7,
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

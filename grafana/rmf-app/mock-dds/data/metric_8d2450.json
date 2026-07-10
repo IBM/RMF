@@ -1,0 +1,123 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "% ESQA utilization by MVS image",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D2450",
+                "listtype": "M",
+                "numcols": 2,
+                "unit": "percent",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY28",
+                        "83"
+                    ],
+                    "percent": "83",
+                    "refno": 1
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY22",
+                        "68"
+                    ],
+                    "percent": "68",
+                    "refno": 2
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY25",
+                        "68"
+                    ],
+                    "percent": "68",
+                    "refno": 3
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY27",
+                        "39"
+                    ],
+                    "percent": "39",
+                    "refno": 4
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY23",
+                        "34"
+                    ],
+                    "percent": "34",
+                    "refno": 5
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY21",
+                        "22"
+                    ],
+                    "percent": "22",
+                    "refno": 6
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY26",
+                        "22"
+                    ],
+                    "percent": "22",
+                    "refno": 7
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

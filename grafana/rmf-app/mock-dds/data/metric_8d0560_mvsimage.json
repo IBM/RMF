@@ -1,0 +1,260 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "% workflow by job",
+        "filter": "HI=20;ORD=VD",
+        "format": "list",
+        "id": "8D0560",
+        "listtype": "J",
+        "numcols": 4,
+        "unit": "percent",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "JOB28",
+            "100",
+            "0006",
+            ""
+          ],
+          "percent": "100",
+          "refno": 1
+        },
+        {
+          "col": [
+            "JB47",
+            "100",
+            "0012",
+            ""
+          ],
+          "percent": "100",
+          "refno": 2
+        },
+        {
+          "col": [
+            "JOB0008",
+            "100",
+            "0015",
+            ""
+          ],
+          "percent": "100",
+          "refno": 3
+        },
+        {
+          "col": [
+            "J08",
+            "100",
+            "008B",
+            "S0346147"
+          ],
+          "percent": "100",
+          "refno": 4
+        },
+        {
+          "col": [
+            "JOB00182",
+            "100",
+            "00A6",
+            "S0346301"
+          ],
+          "percent": "100",
+          "refno": 5
+        },
+        {
+          "col": [
+            "JOB00173",
+            "100",
+            "00A7",
+            "S0346336"
+          ],
+          "percent": "100",
+          "refno": 6
+        },
+        {
+          "col": [
+            "JOB00122",
+            "100",
+            "00CA",
+            "S0346378"
+          ],
+          "percent": "100",
+          "refno": 7
+        },
+        {
+          "col": [
+            "JOB00250",
+            "100",
+            "00FF",
+            "S0346439"
+          ],
+          "percent": "100",
+          "refno": 8
+        },
+        {
+          "col": [
+            "JOB0192",
+            "100",
+            "010F",
+            "S0346456"
+          ],
+          "percent": "100",
+          "refno": 9
+        },
+        {
+          "col": [
+            "JOB00115",
+            "100",
+            "0115",
+            "S0346463"
+          ],
+          "percent": "100",
+          "refno": 10
+        },
+        {
+          "col": [
+            "JB17",
+            "100",
+            "01EE",
+            "S0348617"
+          ],
+          "percent": "100",
+          "refno": 11
+        },
+        {
+          "col": [
+            "JB01",
+            "100",
+            "01F0",
+            "S0387645"
+          ],
+          "percent": "100",
+          "refno": 12
+        },
+        {
+          "col": [
+            "JB12",
+            "100",
+            "01F1",
+            "S0348699"
+          ],
+          "percent": "100",
+          "refno": 13
+        },
+        {
+          "col": [
+            "JB10",
+            "100",
+            "0210",
+            "S0351381"
+          ],
+          "percent": "100",
+          "refno": 14
+        },
+        {
+          "col": [
+            "JB52",
+            "100",
+            "0235",
+            "S0351223"
+          ],
+          "percent": "100",
+          "refno": 15
+        },
+        {
+          "col": [
+            "JOB00298",
+            "100",
+            "0241",
+            "S0420127"
+          ],
+          "percent": "100",
+          "refno": 16
+        },
+        {
+          "col": [
+            "JOB00442",
+            "100",
+            "0271",
+            "S0369186"
+          ],
+          "percent": "100",
+          "refno": 17
+        },
+        {
+          "col": [
+            "JOB0186",
+            "100",
+            "0281",
+            "S0434495"
+          ],
+          "percent": "100",
+          "refno": 18
+        },
+        {
+          "col": [
+            "JB57",
+            "100",
+            "0290",
+            "S0413361"
+          ],
+          "percent": "100",
+          "refno": 19
+        },
+        {
+          "col": [
+            "JB21",
+            "100",
+            "0299",
+            "S0415152"
+          ],
+          "percent": "100",
+          "refno": 20
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

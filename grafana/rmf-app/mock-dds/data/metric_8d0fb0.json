@@ -1,0 +1,220 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "execution velocity goal by WLM service class period",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D0FB0",
+                "listtype": "P",
+                "numcols": 2,
+                "unit": "percent",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "STCHI.1",
+                        "90"
+                    ],
+                    "percent": "90",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "DB2IRLM.1",
+                        "85"
+                    ],
+                    "percent": "85",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "IMSIRLM.1",
+                        "85"
+                    ],
+                    "percent": "85",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "DB2.1",
+                        "80"
+                    ],
+                    "percent": "80",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "IMSCTL.1",
+                        "75"
+                    ],
+                    "percent": "75",
+                    "refno": 5
+                },
+                {
+                    "col": [
+                        "MQSPLEX.1",
+                        "75"
+                    ],
+                    "percent": "75",
+                    "refno": 6
+                },
+                {
+                    "col": [
+                        "CICSRGNS.1",
+                        "70"
+                    ],
+                    "percent": "70",
+                    "refno": 7
+                },
+                {
+                    "col": [
+                        "IMSPLEX.1",
+                        "70"
+                    ],
+                    "percent": "70",
+                    "refno": 8
+                },
+                {
+                    "col": [
+                        "MONITORS.1",
+                        "65"
+                    ],
+                    "percent": "65",
+                    "refno": 9
+                },
+                {
+                    "col": [
+                        "STCMD.1",
+                        "60"
+                    ],
+                    "percent": "60",
+                    "refno": 10
+                },
+                {
+                    "col": [
+                        "DDFHI.1",
+                        "55"
+                    ],
+                    "percent": "55",
+                    "refno": 11
+                },
+                {
+                    "col": [
+                        "IMSRGNS.1",
+                        "55"
+                    ],
+                    "percent": "55",
+                    "refno": 12
+                },
+                {
+                    "col": [
+                        "ASCH.1",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 13
+                },
+                {
+                    "col": [
+                        "BATCONS.1",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 14
+                },
+                {
+                    "col": [
+                        "TSO.2",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 15
+                },
+                {
+                    "col": [
+                        "USS.1",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 16
+                },
+                {
+                    "col": [
+                        "USSCONS.1",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 17
+                },
+                {
+                    "col": [
+                        "USSDSYS.1",
+                        "50"
+                    ],
+                    "percent": "50",
+                    "refno": 18
+                },
+                {
+                    "col": [
+                        "STCLO.1",
+                        "40"
+                    ],
+                    "percent": "40",
+                    "refno": 19
+                },
+                {
+                    "col": [
+                        "USSDUSR.1",
+                        "40"
+                    ],
+                    "percent": "40",
+                    "refno": 20
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

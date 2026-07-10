@@ -1,0 +1,184 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "caption": {
+        "var": [
+          {
+            "name": "SCMHSCR",
+            "value": "0.08"
+          },
+          {
+            "name": "SCMHSCH",
+            "value": "5"
+          },
+          {
+            "name": "SCMHFPT",
+            "value": "0.000"
+          },
+          {
+            "name": "SCMHIQT",
+            "value": "0.000"
+          },
+          {
+            "name": "SCMHCRT",
+            "value": "0.000"
+          },
+          {
+            "name": "SCMHRRC",
+            "value": "0.08"
+          },
+          {
+            "name": "SCMHTPC",
+            "value": "0"
+          },
+          {
+            "name": "SCMHRCC",
+            "value": ""
+          },
+          {
+            "name": "SCMHRRD",
+            "value": "0.00"
+          },
+          {
+            "name": "SCMHTPD",
+            "value": "0"
+          },
+          {
+            "name": "SCMHRCD",
+            "value": ""
+          }
+        ]
+      },
+      "columnHeaders": {
+        "col": [
+          {
+            "type": "T",
+            "value": "SCMRPID"
+          },
+          {
+            "type": "N",
+            "value": "SCMUTL"
+          },
+          {
+            "type": "N",
+            "value": "SCMUTLC"
+          },
+          {
+            "type": "N",
+            "value": "SCMDRD"
+          },
+          {
+            "type": "N",
+            "value": "SCMDRDC"
+          },
+          {
+            "type": "N",
+            "value": "SCMDWR"
+          },
+          {
+            "type": "N",
+            "value": "SCMDWRC"
+          },
+          {
+            "type": "N",
+            "value": "SCMRQR"
+          },
+          {
+            "type": "N",
+            "value": "SCMRQRC"
+          },
+          {
+            "type": "N",
+            "value": "SCMART"
+          },
+          {
+            "type": "N",
+            "value": "SCMARTC"
+          },
+          {
+            "type": "N",
+            "value": "SCMAQTC"
+          },
+          {
+            "type": "N",
+            "value": "SCMTRQ"
+          },
+          {
+            "type": "N",
+            "value": "SCMTRQC"
+          }
+        ]
+      },
+      "metric": {
+        "description": "EADM     (Extended Asynchronous Data Mover)",
+        "format": "report",
+        "id": "EADM",
+        "numcols": 14
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "VFM",
+            "100.0",
+            "100.0",
+            "0.00",
+            "0.00",
+            "0.00",
+            "1092",
+            "0.00",
+            "0.27",
+            "0.000",
+            "0.000",
+            "0.000",
+            "0",
+            "16"
+          ],
+          "refno": 1
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "numSamples": 60,
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

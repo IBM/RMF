@@ -1,0 +1,35 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [
+    {
+      "contained": {
+        "resource": [
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfsyspl.gif",
+            "reslabel": ",SYPLEX01,SYSPLEX",
+            "reslabelurl": ",SYPLEX01,SYSPLEX",
+            "restype": "SYSPLEX"
+          }
+        ]
+      },
+      "resource": {
+        "reslabel": ",,root",
+        "restype": "root"
+      }
+    }
+  ],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

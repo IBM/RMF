@@ -1,0 +1,220 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "response time by WLM report class period",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D31B0",
+                "listtype": "K",
+                "numcols": 2,
+                "unit": "seconds",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "RDB2SPAS.1",
+                        "3636"
+                    ],
+                    "percent": "100",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "RSDBSCHI.1",
+                        "490.2"
+                    ],
+                    "percent": "13.4818",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "RDVSCHI.1",
+                        "352.2"
+                    ],
+                    "percent": "9.68647",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "RHLVSCHI.1",
+                        "303"
+                    ],
+                    "percent": "8.33333",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "RAVZSCHI.1",
+                        "252"
+                    ],
+                    "percent": "6.93069",
+                    "refno": 5
+                },
+                {
+                    "col": [
+                        "RSTCDFLT.1",
+                        "189"
+                    ],
+                    "percent": "5.19802",
+                    "refno": 6
+                },
+                {
+                    "col": [
+                        "RUSSDIZP.1",
+                        "5.345"
+                    ],
+                    "percent": "0.147002",
+                    "refno": 7
+                },
+                {
+                    "col": [
+                        "RUSSBLW.1",
+                        "4.178"
+                    ],
+                    "percent": "0.114906",
+                    "refno": 8
+                },
+                {
+                    "col": [
+                        "RUSSWTEP.1",
+                        "3.375"
+                    ],
+                    "percent": "0.0928218",
+                    "refno": 9
+                },
+                {
+                    "col": [
+                        "RUSSTSOU.2",
+                        "1.194"
+                    ],
+                    "percent": "0.0328383",
+                    "refno": 10
+                },
+                {
+                    "col": [
+                        "RDDF.1",
+                        "0.934"
+                    ],
+                    "percent": "0.0256876",
+                    "refno": 11
+                },
+                {
+                    "col": [
+                        "RUSSDSYS.1",
+                        "0.761"
+                    ],
+                    "percent": "0.0209296",
+                    "refno": 12
+                },
+                {
+                    "col": [
+                        "RTSO.2",
+                        "0.67"
+                    ],
+                    "percent": "0.0184268",
+                    "refno": 13
+                },
+                {
+                    "col": [
+                        "RUSSTSOU.1",
+                        "0.54"
+                    ],
+                    "percent": "0.0148515",
+                    "refno": 14
+                },
+                {
+                    "col": [
+                        "RTSO.1",
+                        "0.294"
+                    ],
+                    "percent": "0.00808581",
+                    "refno": 15
+                },
+                {
+                    "col": [
+                        "RCTSTX2.1",
+                        "0.262"
+                    ],
+                    "percent": "0.00720572",
+                    "refno": 16
+                },
+                {
+                    "col": [
+                        "RUSSOTHR.1",
+                        "0.218"
+                    ],
+                    "percent": "0.0059956",
+                    "refno": 17
+                },
+                {
+                    "col": [
+                        "RDDFALA.1",
+                        "0.008"
+                    ],
+                    "percent": "0.000220022",
+                    "refno": 18
+                },
+                {
+                    "col": [
+                        "RIMSTX2.1",
+                        "0.006"
+                    ],
+                    "percent": "0.000165017",
+                    "refno": 19
+                },
+                {
+                    "col": [
+                        "MXIPROD.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 20
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

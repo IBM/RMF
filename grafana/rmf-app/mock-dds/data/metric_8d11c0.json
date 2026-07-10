@@ -1,0 +1,100 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "response time goal by WLM service class period",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D11C0",
+                "listtype": "P",
+                "numcols": 2,
+                "unit": "seconds",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "CTSTX2.1",
+                        "0.2"
+                    ],
+                    "percent": "100",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "CTSTX1.1",
+                        "0.1"
+                    ],
+                    "percent": "50",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "IMSTX1.1",
+                        "0.1"
+                    ],
+                    "percent": "50",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "IMSTX2.1",
+                        "0.1"
+                    ],
+                    "percent": "50",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "IMSTXWFI.1",
+                        "0.05"
+                    ],
+                    "percent": "25",
+                    "refno": 5
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

@@ -1,0 +1,123 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "# users by MVS image",
+        "filter": "HI=20;ORD=VD",
+        "format": "list",
+        "id": "8D0D60",
+        "listtype": "M",
+        "numcols": 2,
+        "unit": "count",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",PLXMD01,SYSPLEX",
+        "reslabelurl": ",PLXMD01,SYSPLEX",
+        "restype": "SYSPLEX"
+      },
+      "row": [
+        {
+          "attributes": "YES",
+          "col": [
+            "SY28",
+            "843"
+          ],
+          "percent": "100",
+          "refno": 1
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY27",
+            "691"
+          ],
+          "percent": "81.9692",
+          "refno": 2
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY22",
+            "686"
+          ],
+          "percent": "81.376",
+          "refno": 3
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY25",
+            "655"
+          ],
+          "percent": "77.6987",
+          "refno": 4
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY23",
+            "539"
+          ],
+          "percent": "63.9383",
+          "refno": 5
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY21",
+            "245"
+          ],
+          "percent": "29.0629",
+          "refno": 6
+        },
+        {
+          "attributes": "YES",
+          "col": [
+            "SY26",
+            "195"
+          ],
+          "percent": "23.1317",
+          "refno": 7
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 04:39:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 04:38:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710043900",
+        "localNext": "20260710043930",
+        "localPrev": "20260710043730",
+        "localStart": "20260710043800",
+        "utcEnd": "20260710083900",
+        "utcStart": "20260710083800"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

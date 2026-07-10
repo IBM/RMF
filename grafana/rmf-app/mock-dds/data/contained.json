@@ -1,0 +1,115 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [
+    {
+      "contained": {
+        "resource": [
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY21,MVS_IMAGE",
+            "reslabelurl": ",SY21,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY22,MVS_IMAGE",
+            "reslabelurl": ",SY22,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY23,MVS_IMAGE",
+            "reslabelurl": ",SY23,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY25,MVS_IMAGE",
+            "reslabelurl": ",SY25,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY26,MVS_IMAGE",
+            "reslabelurl": ",SY26,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY27,MVS_IMAGE",
+            "reslabelurl": ",SY27,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfmvsim.gif",
+            "reslabel": ",SY28,MVS_IMAGE",
+            "reslabelurl": ",SY28,MVS_IMAGE",
+            "restype": "MVS_IMAGE"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfcf.gif",
+            "reslabel": ",CF01,COUPLING_FACILITY",
+            "reslabelurl": ",CF01,COUPLING_FACILITY",
+            "restype": "COUPLING_FACILITY"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfcf.gif",
+            "reslabel": ",CF02,COUPLING_FACILITY",
+            "reslabelurl": ",CF02,COUPLING_FACILITY",
+            "restype": "COUPLING_FACILITY"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfwlm.gif",
+            "reslabel": ",POLICY01,WLM_ACTIVE_POLICY",
+            "reslabelurl": ",POLICY01,WLM_ACTIVE_POLICY",
+            "restype": "WLM_ACTIVE_POLICY"
+          },
+          {
+            "attributes": "YES",
+            "expandable": "YES",
+            "icon": "rmfcpc.gif",
+            "reslabel": ",C9B78,CPC",
+            "reslabelurl": ",C9B78,CPC",
+            "restype": "CPC"
+          }
+        ]
+      },
+      "resource": {
+        "reslabel": ",SYPLEX01,SYSPLEX",
+        "restype": "SYSPLEX"
+      }
+    }
+  ],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

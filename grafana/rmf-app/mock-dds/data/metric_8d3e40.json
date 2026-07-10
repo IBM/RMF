@@ -1,0 +1,220 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "signals sent by XCF group",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D3E40",
+                "listtype": "1",
+                "numcols": 2,
+                "unit": "count",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "SYSBPX",
+                        "24324"
+                    ],
+                    "percent": "100",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "SYSRMF",
+                        "4435"
+                    ],
+                    "percent": "18.233",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "SYSMCS",
+                        "4241"
+                    ],
+                    "percent": "17.4355",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "SYPLEX01",
+                        "2570"
+                    ],
+                    "percent": "10.5657",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "IOEZFS",
+                        "2364"
+                    ],
+                    "percent": "9.7188",
+                    "refno": 5
+                },
+                {
+                    "col": [
+                        "SYSXCF",
+                        "2359"
+                    ],
+                    "percent": "9.69824",
+                    "refno": 6
+                },
+                {
+                    "col": [
+                        "IXCLO002",
+                        "1763"
+                    ],
+                    "percent": "7.24799",
+                    "refno": 7
+                },
+                {
+                    "col": [
+                        "SYSGRS",
+                        "1501"
+                    ],
+                    "percent": "6.17086",
+                    "refno": 8
+                },
+                {
+                    "col": [
+                        "DXRQDS2",
+                        "768"
+                    ],
+                    "percent": "3.15738",
+                    "refno": 9
+                },
+                {
+                    "col": [
+                        "DXRODS5",
+                        "632"
+                    ],
+                    "percent": "2.59826",
+                    "refno": 10
+                },
+                {
+                    "col": [
+                        "DXRQDS1",
+                        "560"
+                    ],
+                    "percent": "2.30225",
+                    "refno": 11
+                },
+                {
+                    "col": [
+                        "SYSWLM",
+                        "514"
+                    ],
+                    "percent": "2.11314",
+                    "refno": 12
+                },
+                {
+                    "col": [
+                        "DXRDDS1",
+                        "512"
+                    ],
+                    "percent": "2.10492",
+                    "refno": 13
+                },
+                {
+                    "col": [
+                        "DXREDS2",
+                        "512"
+                    ],
+                    "percent": "2.10492",
+                    "refno": 14
+                },
+                {
+                    "col": [
+                        "DXREDS1",
+                        "496"
+                    ],
+                    "percent": "2.03914",
+                    "refno": 15
+                },
+                {
+                    "col": [
+                        "DXRODS4",
+                        "496"
+                    ],
+                    "percent": "2.03914",
+                    "refno": 16
+                },
+                {
+                    "col": [
+                        "DXRLDS8",
+                        "480"
+                    ],
+                    "percent": "1.97336",
+                    "refno": 17
+                },
+                {
+                    "col": [
+                        "ISTXCF",
+                        "387"
+                    ],
+                    "percent": "1.59102",
+                    "refno": 18
+                },
+                {
+                    "col": [
+                        "IXCLO007",
+                        "365"
+                    ],
+                    "percent": "1.50058",
+                    "refno": 19
+                },
+                {
+                    "col": [
+                        "SYSENF",
+                        "354"
+                    ],
+                    "percent": "1.45535",
+                    "refno": 20
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

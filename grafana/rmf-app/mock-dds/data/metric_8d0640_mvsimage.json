@@ -1,0 +1,220 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "# active users by WLM report class",
+        "filter": "HI=20;ORD=VD",
+        "format": "list",
+        "id": "8D0640",
+        "listtype": "R",
+        "numcols": 2,
+        "unit": "count",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "WLCLS023",
+            "1"
+          ],
+          "percent": "100",
+          "refno": 1
+        },
+        {
+          "col": [
+            "WLCLS025",
+            "1"
+          ],
+          "percent": "100",
+          "refno": 2
+        },
+        {
+          "col": [
+            "WL01",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 3
+        },
+        {
+          "col": [
+            "WLCLS003",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 4
+        },
+        {
+          "col": [
+            "WLCLS004",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 5
+        },
+        {
+          "col": [
+            "WLCLS005",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 6
+        },
+        {
+          "col": [
+            "WLCLS006",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 7
+        },
+        {
+          "col": [
+            "WLCLS007",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 8
+        },
+        {
+          "col": [
+            "WL02",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 9
+        },
+        {
+          "col": [
+            "WL03",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 10
+        },
+        {
+          "col": [
+            "WLCLS008",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 11
+        },
+        {
+          "col": [
+            "WLCLS009",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 12
+        },
+        {
+          "col": [
+            "WL04",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 13
+        },
+        {
+          "col": [
+            "WLCLS010",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 14
+        },
+        {
+          "col": [
+            "W03",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 15
+        },
+        {
+          "col": [
+            "WLCL016",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 16
+        },
+        {
+          "col": [
+            "WLCL017",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 17
+        },
+        {
+          "col": [
+            "WLCL018",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 18
+        },
+        {
+          "col": [
+            "WL05",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 19
+        },
+        {
+          "col": [
+            "WL06",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 20
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

@@ -1,0 +1,68 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "i/o activity rate",
+        "filter": "HI=20;ORD=VD",
+        "format": "single",
+        "id": "8D0E90",
+        "listtype": " ",
+        "numcols": 2,
+        "unit": "rate per second",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",SYPLEX01,SYSPLEX",
+        "reslabelurl": ",SYPLEX01,SYSPLEX",
+        "restype": "SYSPLEX"
+      },
+      "row": [
+        {
+          "col": [
+            "",
+            "2896"
+          ],
+          "percent": "0",
+          "refno": 1
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

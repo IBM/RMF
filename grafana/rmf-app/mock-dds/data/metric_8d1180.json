@@ -1,0 +1,188 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "response time by WLM service class period",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D1180",
+                "listtype": "P",
+                "numcols": 2,
+                "unit": "seconds",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "DV_SCHI.1",
+                        "346.8"
+                    ],
+                    "percent": "100",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "DDF.1",
+                        "0.934"
+                    ],
+                    "percent": "0.269319",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "TSO.1",
+                        "0.294"
+                    ],
+                    "percent": "0.0847751",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "CTSTX2.1",
+                        "0.262"
+                    ],
+                    "percent": "0.0755479",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "IMSTX2.1",
+                        "0.006"
+                    ],
+                    "percent": "0.0017301",
+                    "refno": 5
+                },
+                {
+                    "col": [
+                        "AVZ_SCHI.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 6
+                },
+                {
+                    "col": [
+                        "AVZ_SCNM.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 7
+                },
+                {
+                    "col": [
+                        "AVZ_SCTX.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 8
+                },
+                {
+                    "col": [
+                        "CTSTX1.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 9
+                },
+                {
+                    "col": [
+                        "DV_SCNM.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 10
+                },
+                {
+                    "col": [
+                        "DV_SCTX.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 11
+                },
+                {
+                    "col": [
+                        "IMSTXWFI.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 12
+                },
+                {
+                    "col": [
+                        "IMSTX1.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 13
+                },
+                {
+                    "col": [
+                        "SDB_SCHI.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 14
+                },
+                {
+                    "col": [
+                        "SDB_SCNM.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 15
+                },
+                {
+                    "col": [
+                        "SDB_SCTX.1",
+                        "0"
+                    ],
+                    "percent": "0",
+                    "refno": 16
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

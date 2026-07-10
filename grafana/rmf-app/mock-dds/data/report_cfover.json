@@ -1,0 +1,290 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "caption": {
+        "var": [
+          {
+            "name": "CFOHPNAM",
+            "value": "CFRMPOL"
+          },
+          {
+            "name": "CFOHPACD",
+            "value": "07/06/26"
+          },
+          {
+            "name": "CFOHPACT",
+            "value": "17.36.34"
+          },
+          {
+            "name": "CFOHPREF",
+            "value": "NO"
+          }
+        ]
+      },
+      "columnHeaders": {
+        "col": [
+          {
+            "type": "T",
+            "value": "CFOPNAM"
+          },
+          {
+            "type": "N",
+            "value": "CFOPMOD"
+          },
+          {
+            "type": "T",
+            "value": "CFOPVER"
+          },
+          {
+            "type": "N",
+            "value": "CFOPLVL"
+          },
+          {
+            "type": "T",
+            "value": "CFOPDYND"
+          },
+          {
+            "type": "T",
+            "value": "CFOPSTAT"
+          },
+          {
+            "type": "T",
+            "value": "CFOPVOL"
+          },
+          {
+            "type": "N",
+            "value": "CFOPUTIP"
+          },
+          {
+            "type": "N",
+            "value": "CFOPDEF"
+          },
+          {
+            "type": "N",
+            "value": "CFOPPDED"
+          },
+          {
+            "type": "N",
+            "value": "CFOPPSHR"
+          },
+          {
+            "type": "N",
+            "value": "CFOPPWGT"
+          },
+          {
+            "type": "N",
+            "value": "CFOPEFF"
+          },
+          {
+            "type": "N",
+            "value": "CFOPREQR"
+          },
+          {
+            "type": "N",
+            "value": "CFOPTSD"
+          },
+          {
+            "type": "N",
+            "value": "CFOPTSF"
+          },
+          {
+            "type": "N",
+            "value": "CFOPUTIS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPTCS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPFCS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPDTS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPDTUS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSYSC"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSTCI"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSTCO"
+          },
+          {
+            "type": "T",
+            "value": "CFOPMNT"
+          },
+          {
+            "type": "T",
+            "value": "CFOPRCV"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSCMS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSCMA"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSCMU"
+          },
+          {
+            "type": "N",
+            "value": "CFOPAUGS"
+          },
+          {
+            "type": "N",
+            "value": "CFOPAUGA"
+          },
+          {
+            "type": "N",
+            "value": "CFOPAUGU"
+          },
+          {
+            "type": "N",
+            "value": "CFOPSMSC"
+          }
+        ]
+      },
+      "metric": {
+        "description": "CFOVER (Coupling Facility Overview)",
+        "format": "report",
+        "id": "CFOVER",
+        "numcols": 33
+      },
+      "resource": {
+        "reslabel": ",SYPLEX01,SYSPLEX",
+        "reslabelurl": ",SYPLEX01,SYSPLEX",
+        "restype": "SYSPLEX"
+      },
+      "row": [
+        {
+          "col": [
+            "CF01",
+            "9175",
+            "ME1",
+            "26",
+            "OFF",
+            "Okay",
+            "NO",
+            "0.8",
+            "1",
+            "1",
+            "0",
+            "",
+            "1.0",
+            "1955",
+            "16106127360",
+            "9601810432",
+            "41.0",
+            "16106127360",
+            "9601810432",
+            "6291456",
+            "0",
+            "7",
+            "137",
+            "0",
+            "OFF",
+            "OFF",
+            "0",
+            "0",
+            "0.0",
+            "0",
+            "0",
+            "0.0",
+            "0"
+          ],
+          "refno": 1
+        },
+        {
+          "col": [
+            "CF02",
+            "9175",
+            "ME1",
+            "26",
+            "OFF",
+            "Okay",
+            "NO",
+            "0.6",
+            "1",
+            "1",
+            "0",
+            "",
+            "1.0",
+            "832.3",
+            "16106127360",
+            "10737418240",
+            "32.7",
+            "16106127360",
+            "10737418240",
+            "6291456",
+            "0",
+            "7",
+            "177",
+            "0",
+            "OFF",
+            "OFF",
+            "0",
+            "0",
+            "0.0",
+            "0",
+            "0",
+            "0.0",
+            "0"
+          ],
+          "refno": 2
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "numSamples": 60,
+        "numSystems": 7,
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

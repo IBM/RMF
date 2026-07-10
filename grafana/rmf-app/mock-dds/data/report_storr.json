@@ -1,0 +1,457 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "caption": {
+        "var": [
+          {
+            "name": "SRHRHUIC",
+            "value": "65535"
+          },
+          {
+            "name": "SRHRSTOR",
+            "value": "117441000"
+          },
+          {
+            "name": "SRHRNUC",
+            "value": "0"
+          },
+          {
+            "name": "SRHRSQA",
+            "value": "0"
+          },
+          {
+            "name": "SRHRCSA",
+            "value": "0"
+          },
+          {
+            "name": "SRHRLPA",
+            "value": "0"
+          },
+          {
+            "name": "SRHRACTV",
+            "value": "39"
+          },
+          {
+            "name": "SRHRIDLE",
+            "value": "0"
+          },
+          {
+            "name": "SRHRAVAL",
+            "value": "55"
+          },
+          {
+            "name": "SRHRSHR",
+            "value": "2"
+          },
+          {
+            "name": "SRHEMAGE",
+            "value": "N/A"
+          },
+          {
+            "name": "SRHESTOR",
+            "value": "N/A"
+          },
+          {
+            "name": "SRHESQA",
+            "value": ""
+          },
+          {
+            "name": "SRHECSA",
+            "value": ""
+          },
+          {
+            "name": "SRHELPA",
+            "value": ""
+          },
+          {
+            "name": "SRHEACTV",
+            "value": ""
+          },
+          {
+            "name": "SRHEIDLE",
+            "value": ""
+          },
+          {
+            "name": "SRHEAVAL",
+            "value": ""
+          },
+          {
+            "name": "SRHSQAOV",
+            "value": ""
+          },
+          {
+            "name": "SRHLOAL",
+            "value": "1488"
+          },
+          {
+            "name": "SRHHIAL",
+            "value": "256"
+          },
+          {
+            "name": "SRHELOAL",
+            "value": "580"
+          },
+          {
+            "name": "SRHEHIAL",
+            "value": "6336"
+          },
+          {
+            "name": "SRHPGINR",
+            "value": "0"
+          },
+          {
+            "name": "SRHFREEF",
+            "value": "64128703"
+          },
+          {
+            "name": "SRHFREES",
+            "value": "32632196"
+          },
+          {
+            "name": "SRHFREEV",
+            "value": "96760899"
+          },
+          {
+            "name": "SRHLMO",
+            "value": "42"
+          },
+          {
+            "name": "SRHLPR",
+            "value": "7404"
+          },
+          {
+            "name": "SRHRTFIX",
+            "value": "3527000"
+          },
+          {
+            "name": "SRHRBFIX",
+            "value": "427"
+          },
+          {
+            "name": "SRHRFREM",
+            "value": "0"
+          },
+          {
+            "name": "SRHGMO",
+            "value": "0"
+          },
+          {
+            "name": "SRHGPR",
+            "value": "0"
+          }
+        ]
+      },
+      "columnHeaders": {
+        "col": [
+          {
+            "type": "T",
+            "value": "SRRVOLVC"
+          },
+          {
+            "type": "N",
+            "value": "SRRDEVTY"
+          },
+          {
+            "type": "N",
+            "value": "SRRCUTY"
+          },
+          {
+            "type": "T",
+            "value": "SRREXPCT"
+          },
+          {
+            "type": "N",
+            "value": "SRRUSVC"
+          },
+          {
+            "type": "N",
+            "value": "SRRA1VC"
+          },
+          {
+            "type": "N",
+            "value": "SRRA2VC"
+          },
+          {
+            "type": "N",
+            "value": "SRRA3VC"
+          },
+          {
+            "type": "N",
+            "value": "SRRA4VC"
+          },
+          {
+            "type": "T",
+            "value": "SRRPDLYR"
+          },
+          {
+            "type": "N",
+            "value": "SRRPDLYP"
+          },
+          {
+            "type": "N",
+            "value": "SRRA5VC"
+          },
+          {
+            "type": "N",
+            "value": "SRRA8VC"
+          },
+          {
+            "type": "T",
+            "value": "SRRSPTVC"
+          },
+          {
+            "type": "N",
+            "value": "SRRAUTOT"
+          },
+          {
+            "type": "N",
+            "value": "SRRAULOC"
+          },
+          {
+            "type": "N",
+            "value": "SRRAUSWP"
+          },
+          {
+            "type": "N",
+            "value": "SRRAUCOM"
+          }
+        ]
+      },
+      "metric": {
+        "description": "STORR    (Storage Resource Delays)",
+        "format": "report",
+        "id": "STORR",
+        "numcols": 18
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "PG2801",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 1
+        },
+        {
+          "col": [
+            "PG2802",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 2
+        },
+        {
+          "col": [
+            "PG2803",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 3
+        },
+        {
+          "col": [
+            "PG2804",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 4
+        },
+        {
+          "col": [
+            "PG2805",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 5
+        },
+        {
+          "col": [
+            "PG2806",
+            "33909",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "LOCL",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 6
+        },
+        {
+          "col": [
+            "PG2800",
+            "33903",
+            "2107",
+            "1.0H",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "None",
+            "",
+            "0",
+            "0",
+            "COMM",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 7
+        },
+        {
+          "col": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "PLPA",
+            "0.0",
+            "0.0",
+            "0.0",
+            "0.0"
+          ],
+          "refno": 8
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "numSamples": 60,
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

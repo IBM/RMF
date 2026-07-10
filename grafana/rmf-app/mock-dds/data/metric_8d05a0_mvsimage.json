@@ -1,0 +1,148 @@
+{
+  "attributeList": [],
+  "containedResourcesList": [],
+  "filterInstancesList": [],
+  "message": [],
+  "metricList": [],
+  "postprocessor": [],
+  "report": [
+    {
+      "metric": {
+        "description": "% workflow by WLM service class period",
+        "filter": "HI=20;ORD=VD",
+        "format": "list",
+        "id": "8D05A0",
+        "listtype": "P",
+        "numcols": 2,
+        "unit": "percent",
+        "workscope": ",,G"
+      },
+      "resource": {
+        "reslabel": ",SY28,MVS_IMAGE",
+        "reslabelurl": ",SY28,MVS_IMAGE",
+        "restype": "MVS_IMAGE"
+      },
+      "row": [
+        {
+          "col": [
+            "DB2.1",
+            "100"
+          ],
+          "percent": "100",
+          "refno": 1
+        },
+        {
+          "col": [
+            "STCHI.1",
+            "100"
+          ],
+          "percent": "100",
+          "refno": 2
+        },
+        {
+          "col": [
+            "SYSSTC.1",
+            "100"
+          ],
+          "percent": "100",
+          "refno": 3
+        },
+        {
+          "col": [
+            "SYSTEM.1",
+            "100"
+          ],
+          "percent": "100",
+          "refno": 4
+        },
+        {
+          "col": [
+            "MONITORS.1",
+            "90"
+          ],
+          "percent": "90",
+          "refno": 5
+        },
+        {
+          "col": [
+            "STCMD.1",
+            "89"
+          ],
+          "percent": "89",
+          "refno": 6
+        },
+        {
+          "col": [
+            "STCLO.1",
+            "83"
+          ],
+          "percent": "83",
+          "refno": 7
+        },
+        {
+          "col": [
+            "USS.2",
+            "75"
+          ],
+          "percent": "75",
+          "refno": 8
+        },
+        {
+          "col": [
+            "USSDUSR.1",
+            "61"
+          ],
+          "percent": "61",
+          "refno": 9
+        },
+        {
+          "col": [
+            "BATCH.3",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 10
+        },
+        {
+          "col": [
+            "USSDSYS.1",
+            "0"
+          ],
+          "percent": "0",
+          "refno": 11
+        }
+      ],
+      "timeData": {
+        "dataRange": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "displayEnd": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:07:00"
+        },
+        "displayStart": {
+          "locale": "en-us",
+          "value": "07/10/2026 05:06:00"
+        },
+        "gathererInterval": {
+          "unit": "SECONDS",
+          "value": 60
+        },
+        "localEnd": "20260710050700",
+        "localNext": "20260710050730",
+        "localPrev": "20260710050530",
+        "localStart": "20260710050600",
+        "utcEnd": "20260710090700",
+        "utcStart": "20260710090600"
+      }
+    }
+  ],
+  "server": {
+    "functionality": "3650",
+    "name": "RMF-DDS-Server",
+    "platform": "z/OS",
+    "version": "03.02.00"
+  },
+  "workscopeList": []
+}

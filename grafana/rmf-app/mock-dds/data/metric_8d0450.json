@@ -1,0 +1,123 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "% CPU utilization (CP) by MVS image",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D0450",
+                "listtype": "M",
+                "numcols": 2,
+                "unit": "percent",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY22",
+                        "16"
+                    ],
+                    "percent": "16",
+                    "refno": 1
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY28",
+                        "13"
+                    ],
+                    "percent": "13",
+                    "refno": 2
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY25",
+                        "9"
+                    ],
+                    "percent": "9",
+                    "refno": 3
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY27",
+                        "5"
+                    ],
+                    "percent": "5",
+                    "refno": 4
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY23",
+                        "4"
+                    ],
+                    "percent": "4",
+                    "refno": 5
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY26",
+                        "2"
+                    ],
+                    "percent": "2",
+                    "refno": 6
+                },
+                {
+                    "attributes": "YES",
+                    "col": [
+                        "SY21",
+                        "1"
+                    ],
+                    "percent": "1",
+                    "refno": 7
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}

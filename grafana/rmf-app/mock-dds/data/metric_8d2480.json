@@ -1,0 +1,260 @@
+{
+    "attributeList": [],
+    "containedResourcesList": [],
+    "filterInstancesList": [],
+    "message": [],
+    "metricList": [],
+    "postprocessor": [],
+    "report": [
+        {
+            "metric": {
+                "description": "% SQA utilization by job",
+                "filter": "HI=20;ORD=VD",
+                "format": "list",
+                "id": "8D2480",
+                "listtype": "B",
+                "numcols": 4,
+                "unit": "percent",
+                "workscope": ",,G"
+            },
+            "resource": {
+                "reslabel": ",SYPLEX01,SYSPLEX",
+                "reslabelurl": ",SYPLEX01,SYSPLEX",
+                "restype": "SYSPLEX"
+            },
+            "row": [
+                {
+                    "col": [
+                        "SY25.*MASTER*",
+                        "5",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "5",
+                    "refno": 1
+                },
+                {
+                    "col": [
+                        "SY27.*MASTER*",
+                        "5",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "5",
+                    "refno": 2
+                },
+                {
+                    "col": [
+                        "SY28.*MASTER*",
+                        "5",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "5",
+                    "refno": 3
+                },
+                {
+                    "col": [
+                        "SY22.*MASTER*",
+                        "4",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "4",
+                    "refno": 4
+                },
+                {
+                    "col": [
+                        "SY23.*MASTER*",
+                        "4",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "4",
+                    "refno": 5
+                },
+                {
+                    "col": [
+                        "SY21.*MASTER*",
+                        "3",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "3",
+                    "refno": 6
+                },
+                {
+                    "col": [
+                        "SY26.*MASTER*",
+                        "3",
+                        "0001",
+                        ""
+                    ],
+                    "percent": "3",
+                    "refno": 7
+                },
+                {
+                    "col": [
+                        "SY21.CATALOG",
+                        "1",
+                        "0015",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 8
+                },
+                {
+                    "col": [
+                        "SY21.CONSOLE",
+                        "1",
+                        "000C",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 9
+                },
+                {
+                    "col": [
+                        "SY22.OU22DS",
+                        "1",
+                        "02C5",
+                        "S0417067"
+                    ],
+                    "percent": "1",
+                    "refno": 10
+                },
+                {
+                    "col": [
+                        "SY22.CATALOG",
+                        "1",
+                        "0015",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 11
+                },
+                {
+                    "col": [
+                        "SY22.CONSOLE",
+                        "1",
+                        "000C",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 12
+                },
+                {
+                    "col": [
+                        "SY23.CONSOLE",
+                        "1",
+                        "000C",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 13
+                },
+                {
+                    "col": [
+                        "SY25.OU25DS",
+                        "1",
+                        "02A9",
+                        "S0417054"
+                    ],
+                    "percent": "1",
+                    "refno": 14
+                },
+                {
+                    "col": [
+                        "SY25.CATALOG",
+                        "1",
+                        "0015",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 15
+                },
+                {
+                    "col": [
+                        "SY25.CONSOLE",
+                        "1",
+                        "000C",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 16
+                },
+                {
+                    "col": [
+                        "SY26.CONSOLE",
+                        "1",
+                        "000C",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 17
+                },
+                {
+                    "col": [
+                        "SY27.C5QMDS",
+                        "1",
+                        "0368",
+                        "S0450265"
+                    ],
+                    "percent": "1",
+                    "refno": 18
+                },
+                {
+                    "col": [
+                        "SY27.C5QNDS",
+                        "1",
+                        "01D3",
+                        "S0452173"
+                    ],
+                    "percent": "1",
+                    "refno": 19
+                },
+                {
+                    "col": [
+                        "SY27.CATALOG",
+                        "1",
+                        "0015",
+                        ""
+                    ],
+                    "percent": "1",
+                    "refno": 20
+                }
+            ],
+            "timeData": {
+                "dataRange": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "displayEnd": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:13:00"
+                },
+                "displayStart": {
+                    "locale": "en-us",
+                    "value": "07/10/2026 05:12:00"
+                },
+                "gathererInterval": {
+                    "unit": "SECONDS",
+                    "value": 60
+                },
+                "localEnd": "20260710051300",
+                "localNext": "20260710051330",
+                "localPrev": "20260710051130",
+                "localStart": "20260710051200",
+                "utcEnd": "20260710091300",
+                "utcStart": "20260710091200"
+            }
+        }
+    ],
+    "server": {
+        "functionality": "3650",
+        "name": "RMF-DDS-Server",
+        "platform": "z/OS",
+        "version": "03.02.00"
+    },
+    "workscopeList": []
+}
