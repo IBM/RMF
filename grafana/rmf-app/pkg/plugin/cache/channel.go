@@ -35,6 +35,8 @@ type Channel struct {
 	TimeRange backend.TimeRange
 	Absolute  bool
 	Step      time.Duration
+	Interval  time.Duration
+	Span      time.Duration
 	Fields    frame.SeriesFields
 }
 
