@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_plugin_ui" xml:lang="en-us">
+    <title>Installing the <keyword conref="conref.dita#conref/plugin_name_short"/> plugin by using
+        the Grafana UI</title>
+    <titlealts>
+        <navtitle>Installing the plugin by using Grafana UI</navtitle>
+    </titlealts>
+    <shortdesc>This is the easiest and recommended method to install the <keyword
+            conref="conref.dita#conref/plugin_name_short"/> plugin. You can install the plugin
+        directly from the Grafana plugin catalog by using the Grafana web interface without requiring
+        command-line access.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_ui_install">
+            <p conref="conref.dita#conref/p_dps_vjx_xjc"/>
+        </prereq>
+        <steps>
+            <step>
+                <cmd>Enter the URL of Grafana in your web browser.</cmd>
+            </step>
+            <step>
+                <cmd>Enter the username and password of Grafana on the <wintitle>Sign-in</wintitle>
+                    page.</cmd>
+            </step>
+            <step>
+                <cmd>Go to <menucascade>
+                        <uicontrol>Administration</uicontrol>
+                        <uicontrol>Plugins and data</uicontrol>
+                    </menucascade>.</cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_ui_nav"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Plugins</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Enter <keyword>RMF</keyword> in the <uicontrol>Search</uicontrol> bar on the
+                        <wintitle>Plugins</wintitle> page.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol conref="conref.dita#conref/plugin_name_grafana"/> in the
+                    search results.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Install</uicontrol>.</cmd>
+            </step>
+            <step>
+                <cmd>Verify that the <uicontrol conref="conref.dita#conref/plugin_name_grafana"/>
+                    option is listed under the <uicontrol>Apps</uicontrol> section.</cmd>
+            </step>
+        </steps>
+        <result id="result_ui_install">
+            <p conref="conref.dita#conref/p_uyx_dkx_xjc"/>
+        </result>
+        <postreq id="postreq_ui_install">
+            <ul conref="conref.dita#conref/ul_nnn_hpw_xjc" id="ul_ui_postreq">
+                <li/>
+            </ul>
+        </postreq>
+    </taskbody>
+</task>

@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.6.8 (2026-06-18)
+- Stop sampling attempts after unauthorized response from DDS to avoid user revocation
+- New Java version
+
 ## 2.6.7 (2026-01-07)
 - The Performance Monitoring has been updated to include the latest Java version 17.
 

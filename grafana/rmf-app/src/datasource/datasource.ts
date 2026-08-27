@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { DataSourceInstanceSettings, MetricFindValue, ScopedVars } from '@grafana/data';
-import { DataSourceWithBackend, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { getResourceName, queryValidation } from './common/common.helper';
 import { RMFDataSourceJsonData, RMFQuery, resourceBaseData } from './common/types';
 
@@ -71,74 +71,46 @@ export class DataSource extends DataSourceWithBackend<RMFQuery, RMFDataSourceJso
 
     // FIXME: options.scopedVars may contain Grafana datasource id which doesn't make sense at all!
     let resourceString = getTemplateSrv().replace(queryResult.resourceCommand, options.scopedVars);
-    let id = this.id;
 
-    return new Promise((resolve) => {
-      const metricFindValue = this.loadDataFromService(resourceString, id, options)
-        .then((resp: any) => {
-          const result = JSON.parse(resp.data);
-          let resNames = getResourceName(result);
-          const retResult: MetricFindValue[] = [];
-          resNames.map((row: any, index: number) => {
-            let itemName = '';
-            try {
-              // itemName = row[queryResult.columnName.toLowerCase()][0].trim();
-              itemName = row[queryResult.columnName.toLowerCase()].trim();
-              let itemNameParts = itemName.split(',');
-              if (itemNameParts[1].trim() === '*') {
-                itemName = itemNameParts[2].trim(); // Ex: ULQ01,*,ALL_WLM_RESOURCE_GROUPS
-              } else {
-                itemName = itemNameParts[1].trim(); // Ex: ULQ01,BATCHLOW,WLM_RESOURCE_GROUP
-              }
-              if (
-                queryResult.filterTypes.trim() !== '' &&
-                queryResult.filterTypes.indexOf(row.restype.toUpperCase().trim()) !== -1
-              ) {
-                retResult.push({ text: itemName });
-              } else if (queryResult.filterTypes.trim() === '') {
-                retResult.push({ text: itemName });
-              }
-            } catch (errorObj) {}
-          });
-          return retResult;
-        })
-        .catch((err) => {
-          throw new Error(err.message + ', [resource=' + queryResult.resourceCommand + ']');
-        });
-      return resolve(metricFindValue);
-    });
-  }
+    try {
+      const data = await this.postResource<string>('variablequery', JSON.stringify({ query: resourceString }), {
+        headers: {
+          Accept: 'application/text',
+          'Content-Type': 'application/text',
+        },
+        responseType: 'text',
+      });
 
-  async loadDataFromService(urlPath: string, id?: number, options?: any) {
-    return new Promise((resolve, reject) =>
-      getBackendSrv()
-        .fetch({
-          method: 'post',
-          headers: {
-            Accept: 'application/text',
-            'Content-Type': 'application/text',
-          },
-          url: `/api/datasources/${id}/resources/variablequery`,
-          responseType: 'text',
-          data: JSON.stringify({ query: urlPath }),
-        })
-        .subscribe(
-          (resp) => {
-            if (resp.data) {
-              if (options !== undefined && options === 'headres') {
-              } else {
-                resolve({
-                  data: resp.data,
-                });
-              }
-            } else {
-              reject({ status: 'failure', message: 'Test connection failed.' });
-            }
-          },
-          (err) => {
-            reject({ status: 'failure', message: err.data.message });
+      if (!data) {
+        throw new Error('Test connection failed.');
+      }
+
+      const result = JSON.parse(data as string);
+      let resNames = getResourceName(result);
+      const retResult: MetricFindValue[] = [];
+      resNames.map((row: any, index: number) => {
+        let itemName = '';
+        try {
+          itemName = row[queryResult.columnName.toLowerCase()].trim();
+          let itemNameParts = itemName.split(',');
+          if (itemNameParts[1].trim() === '*') {
+            itemName = itemNameParts[2].trim(); // Ex: ULQ01,*,ALL_WLM_RESOURCE_GROUPS
+          } else {
+            itemName = itemNameParts[1].trim(); // Ex: ULQ01,BATCHLOW,WLM_RESOURCE_GROUP
           }
-        )
-    );
+          if (
+            queryResult.filterTypes.trim() !== '' &&
+            queryResult.filterTypes.indexOf(row.restype.toUpperCase().trim()) !== -1
+          ) {
+            retResult.push({ text: itemName });
+          } else if (queryResult.filterTypes.trim() === '') {
+            retResult.push({ text: itemName });
+          }
+        } catch (errorObj) {}
+      });
+      return retResult;
+    } catch (err: any) {
+      throw new Error((err.message || err.data?.message) + ', [resource=' + queryResult.resourceCommand + ']');
+    }
   }
 }

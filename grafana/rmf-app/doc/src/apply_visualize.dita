@@ -6,12 +6,13 @@
         format. Each panel must require at least one query to display a significant
         visualization.</shortdesc>
     <taskbody>
-        <prereq id="prereq_wbs_fw3_ryb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
-                id="ul_frm_gw3_ryb">
+        <prereq id="prereq_wbs_fw3_ryb">
+            <ul id="ul_frm_gw3_ryb">
                 <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
                 <li conref="conref.dita#conref/li_af4_1q3_tyb"/>
                 <li conref="conref.dita#conref/li_icp_cq3_tyb"/>
-            </ul></prereq>
+            </ul>
+        </prereq>
         <steps>
             <step>
                 <cmd>Identify the dashboard for which you want to add visualization.</cmd>

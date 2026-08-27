@@ -51,7 +51,16 @@ jobs:
           working-directory: grafana/rmf-app
 
       - name: Build
-        run: make all
+        run: make build
+
+      - name: Sign
+        run: yarn sign
+        if: github.event_name != 'pull_request'
+        env:
+          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+
+      - name: Package
+        run: make zip
 
       - name: Fetch Release Notes
         id: changelog

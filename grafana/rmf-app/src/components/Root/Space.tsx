@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import React from 'react';
+import { config } from '@grafana/runtime';
 
 interface SpaceProps {
   layout?: string;
@@ -24,10 +25,11 @@ interface SpaceProps {
 
 // `Space` from @grafana/ui is available only in Grafana v11+
 export const Space: React.FC<SpaceProps> = ({ layout = 'block', h = 0, v = 0 }) => {
-  let style = {
-    display: layout == 'inline' ? 'inline-block' : 'block',
-    paddingRight: `${h * 8}px`,
-    paddingBottom: `${v * 8}px`,
+  const theme = config.theme2;
+  const style = {
+    display: layout === 'inline' ? 'inline-block' : 'block',
+    paddingRight: theme.spacing(h),
+    paddingBottom: theme.spacing(v),
   };
   return <div style={style} />;
 };

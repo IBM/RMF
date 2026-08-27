@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_sample_dashboards" xml:lang="en-us">
+    <title>Installing sample dashboards</title>
+    <titlealts>
+        <navtitle>Installing sample dashboards</navtitle>
+    </titlealts>
+    <shortdesc>After you install and enable the <ph conref="conref.dita#conref/plugin_name"/>
+        plugin, you can install the DDS sample dashboards and Prometheus sample dashboards to
+        visualize RMF metrics.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_install_dashboards">
+            <p>You must have completed the following tasks:<ul id="ul_prereq_dashboards">
+                    <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
+                    <li>
+                        <p>Created at least one RMF data source. See <xref
+                                href="create_datasources.dita"/>.</p>
+                    </li>
+                </ul></p>
+        </prereq>
+        <context id="context_install_dashboards">
+            <p>The <keyword conref="conref.dita#conref/plugin_name_short"/> plugin provides sample
+                dashboards that demonstrate how to visualize RMF Monitor III metrics. When you
+                install the sample dashboards, the plugin creates a folder with a reserved UID and
+                adds the dashboards to that folder. The folder and the dashboards are not owned by
+                the plugin and can be managed by users.</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Go to <menucascade>
+                        <uicontrol>More apps</uicontrol>
+                        <uicontrol>IBM RMF</uicontrol>
+                    </menucascade>.</cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_ick_hmx_xjc"/>
+                </info>
+            </step>
+            <step>
+                <cmd>On the <wintitle>IBM RMF</wintitle> page, locate the <wintitle>DDS Sample
+                        Dashboards</wintitle> section.</cmd>
+                <info>
+                    <p>The destination folder path is displayed under the section heading. The DDS
+                        sample dashboards are installed into the <uicontrol>IBM RMF
+                            (DDS)</uicontrol> folder.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Install DDS Dashboards</uicontrol>.</cmd>
+                <stepresult>The plugin creates the <uicontrol>IBM RMF (DDS)</uicontrol> folder and
+                    installs all DDS sample dashboards into it.</stepresult>
+            </step>
+            <step importance="optional">
+                <cmd>To install Prometheus sample dashboards, locate the <wintitle>Prometheus Sample
+                        Dashboards</wintitle> section and click <uicontrol>Install Prometheus
+                        Dashboards</uicontrol>.</cmd>
+                <info>
+                    <p>The Prometheus sample dashboards are installed into the <uicontrol>IBM RMF
+                            (Prometheus)</uicontrol> folder. For information about configuring
+                        Prometheus to scrape RMF metrics, see <xref href="prometheus_sample_db.dita"
+                        />.</p>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>To update or reset the dashboards to their default state, click
+                        <uicontrol>Update / Reset</uicontrol>.</cmd>
+                <info>
+                    <note conref="conref.dita#conref/note_update_reset" id="note_gvf_rmx_xjc"/>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>To remove installed sample dashboards, click
+                    <uicontrol>Delete</uicontrol>.</cmd>
+                <info>
+                    <p>This removes the destination folder and all dashboards within it.</p>
+                </info>
+            </step>
+        </steps>
+        <result id="result_install_dashboards">
+            <p>The sample dashboards are installed successfully. After the installation is complete,
+                the option changes to <uicontrol>Go to DDS Dashboards</uicontrol> (or <uicontrol>Go
+                    to Prometheus Dashboards</uicontrol>), which navigates to the dashboard
+                folder.</p>
+            <note id="note_reload_page" type="important">After the installation is complete, you may
+                need to reload the page to see the folders under the Dashboards section.</note>
+        </result>
+    </taskbody>
+</task>

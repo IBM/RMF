@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="prometheus_sample_db" xml:lang="en-us">
+    <title>Prometheus sample dashboards</title>
+    <shortdesc>The RMF <ph conref="conref.dita#conref/dds_full"/> exposes Monitor III data to
+        third-party tools using the OpenMetrics exposition format.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_mvk_kpx_xjc">
+            <p>You must apply <xref href="https://www.ibm.com/support/pages/apar/OA67701"
+                    format="html" scope="external">OA67701</xref> to use the Prometheus sample
+                dashboards.</p>
+        </prereq>
+        <context>
+            <p>The Prometheus sample dashboards are included in the <keyword
+                    conref="conref.dita#conref/plugin_name_short"/> plugin.<note
+                    id="note_dgh_3k5_23c">You can use the sample dashboards provided with
+                    Prometheus-compatible platforms such as Grafana Mimir and
+                    VictoriaMetrics.</note></p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Install and deploy the <keyword conref="conref.dita#conref/plugin_name_short"/>
+                    plugin. See <xref href="install_grafana_plugin.dita">Installing the RMF for z/OS
+                        plugin on Grafana</xref>.</cmd>
+            </step>
+            <step>
+                <cmd>Configure Prometheus to scrape the metrics exposed by RMF Distributed Data
+                    Server. For more information, refer to the <xref
+                        href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config"
+                        format="html" scope="external">Prometheus</xref> documentation.</cmd>
+                <info>Some of the scrape target definition examples for Prometheus are as
+                        follows:<ul id="ul_ojv_4qx_xjc">
+                        <li>
+                            <p>To scrape all the configured metrics as defined in DDS
+                                GPMOMC:<codeblock id="codeblock_byw_sq2_ggc">- job_name: "m3@plex00"
+ scrape_interval: 100s # Should be equal to the Monitor III mintime
+ scrape_timeout: 50s
+ metrics_path: /metrics/m3
+ static_configs:
+ - targets: [ "ddshostname:8803" ]</codeblock></p>
+                        </li>
+                        <li>
+                            <p>To scrape all the CPC and LPAR related metrics as defined in DDS
+                                GPMOMC:<codeblock id="codeblock_nf1_cr2_ggc">- job_name: "m3@plex00"
+    scrape_interval: 100s  # Should be equal to the Monitor III mintime
+    scrape_timeout: 50s
+    metrics_path: /metrics/m3
+    params:
+        groups: cpcs,lpars   
+    static_configs:
+      - targets: [ "ddshostname:8803" ]
+</codeblock></p>
+                        </li>
+                    </ul></info>
+            </step>
+            <step>
+                <cmd>Create a Prometheus data source in Grafana pointing to the Prometheus server.
+                    For more information, refer to the <xref
+                        href="https://grafana.com/docs/grafana/latest/datasources/prometheus/"
+                        format="html" scope="external">Grafana</xref> documentation.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>

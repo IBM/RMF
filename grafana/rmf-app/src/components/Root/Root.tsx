@@ -15,11 +15,31 @@
  * limitations under the License.
  */
 import React, { PureComponent } from 'react';
-import { PanelContainer, Button, TextLink, Box, Icon, Alert, InlineSwitch, Input, InlineField, DropzoneFile } from '@grafana/ui';
-import { locationService, getBackendSrv, getDataSourceSrv, getAppEvents } from '@grafana/runtime';
+import {
+  PanelContainer,
+  Button,
+  TextLink,
+  Box,
+  Icon,
+  Alert,
+  InlineSwitch,
+  Input,
+  InlineField,
+  DropzoneFile,
+  FileDropzone,
+} from '@grafana/ui';
+import { locationService, getBackendSrv, getDataSourceSrv, getAppEvents, config } from '@grafana/runtime';
 import { AppRootProps, AppEvents } from '@grafana/data';
+import { css } from '@emotion/css';
 
-import { DDS_OPEN_METRICS_DOC_URL, DATA_SOURCE_TYPE, APP_LOGO_URL, FALCON_AS_DASHBOARD, FALCON_SYS_DASHBOARD, PM_LOGO_URL } from '../../constants';
+import {
+  DDS_OPEN_METRICS_DOC_URL,
+  DATA_SOURCE_TYPE,
+  APP_LOGO_URL,
+  FALCON_AS_DASHBOARD,
+  FALCON_SYS_DASHBOARD,
+  PM_LOGO_URL,
+} from '../../constants';
 import { GlobalSettings } from '../../types';
 import { DASHBOARDS as DDS_DASHBOARDS } from '../../dashboards/dds';
 import { DASHBOARDS as PROM_DASHBOARDS } from '../../dashboards/prometheus';
@@ -28,7 +48,7 @@ import { FolderStatus, Operation, OperCode, OperStatus, FalconStatus, PmStatus }
 import { StatusIcon } from './StatusIcon';
 import { Space } from './Space';
 import { Header } from './Header';
-import { FileDropzone } from '@grafana/ui';
+
 import { parsePmDatasources, parsePmImportFileToDashboard } from './PmImport';
 
 const DDS_FOLDER_UID = 'ibm-rmf-dds';
@@ -38,6 +58,29 @@ const PROM_FOLDER_NAME = 'IBM RMF (Prometheus)';
 const PM_FOLDER_UID = 'ibm-rmf-pm';
 const PM_FOLDER_NAME = 'IBM RMF (PM)';
 const DATASOURCE_API = '/api/datasources';
+
+const getStyles = () => {
+  const theme = config.theme2;
+  return {
+    root: css({
+      overflow: 'auto',
+      height: '100%',
+      margin: theme.spacing(4),
+    }),
+    sectionPanel: css({
+      backgroundColor: 'transparent',
+      width: '100%',
+      padding: theme.spacing(4),
+    }),
+    sectionLogo: css({
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    }),
+    mutedText: css({
+      color: theme.colors.text.secondary,
+    }),
+  };
+};
 
 interface Props extends AppRootProps<GlobalSettings> {}
 
@@ -84,8 +127,8 @@ export class Root extends PureComponent<Props, State> {
       const ddsFolderPath = await findFolder(DDS_FOLDER_UID);
       const promFolderPath = await findFolder(PROM_FOLDER_UID);
       const pmFolderPath = await findFolder(PM_FOLDER_UID);
-      const asDashboard = await findDashboard("Job CPU Details", ["omegamon", "zos", "lpar", "cpu"]);
-      const sysDashboard = await findDashboard("z/OS Enterprise Overview", ["omegamon", "zos", "enterprise"]);
+      const asDashboard = await findDashboard('Job CPU Details', ['omegamon', 'zos', 'lpar', 'cpu']);
+      const sysDashboard = await findDashboard('z/OS Enterprise Overview', ['omegamon', 'zos', 'enterprise']);
       this.setState((prevState) => ({
         dds: {
           ...prevState.dds,
@@ -190,7 +233,7 @@ export class Root extends PureComponent<Props, State> {
         await deleteFolder(folderUid);
       }
       if (operCode === OperCode.Reset || operCode === OperCode.Install) {
-        await installDashboards(folderUid, defaultFolderName, dashboards, {enabled: false} as FalconStatus);
+        await installDashboards(folderUid, defaultFolderName, dashboards, { enabled: false } as FalconStatus);
       }
     } catch (error) {
       const appEvents = getAppEvents();
@@ -214,13 +257,13 @@ export class Root extends PureComponent<Props, State> {
     }
   };
 
-  prepareDatasources = async (content: string | ArrayBuffer | null) : Promise<Map<string, string>> => {
-    const datasources = await getDataSourceSrv().getList({type: DATA_SOURCE_TYPE});
+  prepareDatasources = async (content: string | ArrayBuffer | null): Promise<Map<string, string>> => {
+    const datasources = await getDataSourceSrv().getList({ type: DATA_SOURCE_TYPE });
     let nameUid = new Map<string, string>();
     try {
       const pmDatasources = parsePmDatasources(content);
       for (const pmDs of pmDatasources) {
-        const existingDs = datasources.find(ds => ds.name === pmDs.name);
+        const existingDs = datasources.find((ds) => ds.name === pmDs.name);
         if (!existingDs) {
           const { datasource } = await getBackendSrv().post(DATASOURCE_API, {
             type: DATA_SOURCE_TYPE,
@@ -242,15 +285,16 @@ export class Root extends PureComponent<Props, State> {
       });
     }
     return nameUid;
-  }
+  };
 
   render() {
     const { dds, prom, falcon, pm } = this.state;
     const isBusy = dds.operation.status === OperStatus.InProgress || prom.operation.status === OperStatus.InProgress;
+    const styles = getStyles();
 
     return (
       // It's ScrollContainer, but it's available only in Grafana v12+
-      <div style={{ overflow: 'auto', height: '100%', margin: '32px' }}>
+      <div className={styles.root}>
         <Header />
         <Space layout={'block'} v={2} />
         {/* Use PanelContainer for Alert to avoid extra gaps on bigger screens */}
@@ -274,9 +318,9 @@ export class Root extends PureComponent<Props, State> {
         </PanelContainer>
         <Space layout={'block'} v={3} />
         <Box backgroundColor={'secondary'}>
-          <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
+          <PanelContainer className={styles.sectionPanel}>
             <h4>
-              <img style={{ width: '48px', height: '48px' }} src={APP_LOGO_URL} alt="logo for IBM RMF" />
+              <img className={styles.sectionLogo} src={APP_LOGO_URL} alt="logo for IBM RMF" />
               <Space layout={'inline'} h={2} />
               DDS Sample Dashboards
             </h4>
@@ -286,25 +330,30 @@ export class Root extends PureComponent<Props, State> {
             <p>
               Destination folder: <i>Dashboards / {dds.folderPath}</i>
               <Space layout={'inline'} h={2} />
-              <span style={{ color: 'gray' }}>[UID=&apos;{DDS_FOLDER_UID}&apos;]</span>
+              <span className={styles.mutedText}>[UID=&apos;{DDS_FOLDER_UID}&apos;]</span>
             </p>
             <p>
               <p>
                 Link with IBM Z OMEGAMON Web UI dashboards:
                 <Space layout={'inline'} h={2} />
-                <InlineSwitch transparent={true} defaultChecked={falcon.enabled} 
-                  onChange={e => {
+                <InlineSwitch
+                  transparent={true}
+                  defaultChecked={falcon.enabled}
+                  onChange={(e) => {
                     falcon.enabled = e.currentTarget.checked;
                     this.updateFolderState();
-                  }} 
+                  }}
                 />
               </p>
               {falcon.enabled && (
                 <>
                   <p>
                     <InlineField label="Address Space Details Dashboard:" labelWidth={30}>
-                      <Input type="url" width={61} defaultValue={falcon.asDashboard} 
-                        onChange={e => {
+                      <Input
+                        type="url"
+                        width={61}
+                        defaultValue={falcon.asDashboard}
+                        onChange={(e) => {
                           falcon.asDashboard = e.target.value;
                         }}
                       />
@@ -312,8 +361,11 @@ export class Root extends PureComponent<Props, State> {
                   </p>
                   <p>
                     <InlineField label="LPAR Details Dashboard:" labelWidth={30}>
-                      <Input type="url" width={61} defaultValue={falcon.sysDashboard} 
-                        onChange={e => {
+                      <Input
+                        type="url"
+                        width={61}
+                        defaultValue={falcon.sysDashboard}
+                        onChange={(e) => {
                           falcon.sysDashboard = e.target.value;
                         }}
                       />
@@ -384,8 +436,9 @@ export class Root extends PureComponent<Props, State> {
         </Box>
         <Space layout={'block'} v={3} />
         <Box backgroundColor={'secondary'}>
-          <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
+          <PanelContainer className={styles.sectionPanel}>
             <h4>
+              {/* Canonical Prometheus brand color */}
               <Icon style={{ color: '#e6522c' }} size={'xxxl'} name={'gf-prometheus'} />
               <Space layout={'inline'} h={2} /> Prometheus Sample Dashboards
             </h4>
@@ -404,7 +457,7 @@ export class Root extends PureComponent<Props, State> {
             <p>
               Destination folder: <i>Dashboards / {prom.folderPath}</i>
               <Space layout={'inline'} h={2} />
-              <span style={{ color: 'gray' }}>[UID=&apos;{PROM_FOLDER_UID}&apos;]</span>
+              <span className={styles.mutedText}>[UID=&apos;{PROM_FOLDER_UID}&apos;]</span>
             </p>
             <Button
               disabled={isBusy}
@@ -460,34 +513,30 @@ export class Root extends PureComponent<Props, State> {
         </Box>
         <Space layout={'block'} v={3} />
         <Box backgroundColor={'secondary'}>
-          <PanelContainer style={{ backgroundColor: 'rgba(255, 255, 255, 0)', width: '100%', padding: '2rem' }}>
+          <PanelContainer className={styles.sectionPanel}>
             <h4>
-              <img style={{ width: '48px', height: '48px' }} src={PM_LOGO_URL} alt="logo for IBM RMF" />
+              <img className={styles.sectionLogo} src={PM_LOGO_URL} alt="logo for IBM RMF" />
               <Space layout={'inline'} h={2} /> Import Dashboards from RMF Performance Monitoring
             </h4>
             <br />
-            <p>
-              You can import dashboards .po files. Drag and drop the files onto the drop zone below.
-            </p>
+            <p>You can import dashboards .po files. Drag and drop the files onto the drop zone below.</p>
             <p>
               Destination folder: <i>Dashboards / {pm.folderPath}</i>
               <Space layout={'inline'} h={2} />
-              <span style={{ color: 'gray' }}>[UID=&apos;{PM_FOLDER_UID}&apos;]</span>
+              <span className={styles.mutedText}>[UID=&apos;{PM_FOLDER_UID}&apos;]</span>
             </p>
             <Button
               disabled={isBusy || !pm.installed}
               variant="primary"
               fill="outline"
               icon={'apps'}
-              onClick={
-                () => {
-                      getDataSourceSrv().reload();
-                      this.goToFolder(
-                        PM_FOLDER_UID,
-                        pm.operation.code === OperCode.Install || pm.operation.code === OperCode.Reset
-                      );
-                }
-              }
+              onClick={() => {
+                getDataSourceSrv().reload();
+                this.goToFolder(
+                  PM_FOLDER_UID,
+                  pm.operation.code === OperCode.Install || pm.operation.code === OperCode.Reset
+                );
+              }}
             >
               Go to PM Dashboards
               <Space h={1} />
@@ -509,17 +558,22 @@ export class Root extends PureComponent<Props, State> {
             </Button>
             <Space layout={'inline'} h={2} />
             <Space layout={'block'} v={2} />
-            <FileDropzone options={{accept:{"application/octet-stream": [".po"]}, multiple: false}} onLoad={async (result) => {
+            <FileDropzone
+              options={{ accept: { 'application/octet-stream': ['.po'] }, multiple: false }}
+              onLoad={async (result) => {
                 const nameUid = await this.prepareDatasources(result);
                 const dashboard = parsePmImportFileToDashboard(result, nameUid);
                 await this.importDashboard(PM_FOLDER_UID, OperCode.Install, [dashboard]);
-            }} fileListRenderer={(file: DropzoneFile, removeFile: (file: DropzoneFile) => void) => {
-              return null;
-            }} />
+              }}
+              fileListRenderer={(file: DropzoneFile, removeFile: (file: DropzoneFile) => void) => {
+                return null;
+              }}
+            />
             <Space layout={'block'} v={2} />
             <p>
               <Space layout={'inline'} h={1} />
-              Note: Data sources defined in RMF PM dashboards are imported without credentials. Make sure to update the data source settings with valid credentials if corresponding DDS requires authentication.
+              Note: Data sources defined in RMF PM dashboards are imported without credentials. Make sure to update the
+              data source settings with valid credentials if corresponding DDS requires authentication.
             </p>
           </PanelContainer>
         </Box>

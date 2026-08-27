@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="integrating_dds_omegamo" xml:lang="en-us">
-    <title>Integrating DDS Dashboards with IBM Z OMEGAMON Dashboards</title>
+    <title>Integrating DDS dashboards with IBM Z OMEGAMON dashboards</title>
     <titlealts>
-        <navtitle>Integrating DDS Dashboards with OMEGAMON</navtitle>
+        <navtitle>Integrating DDS dashboards with OMEGAMON Web UI</navtitle>
     </titlealts>
     <shortdesc>To enhance visibility and provide deeper insights, the DDS dashboards can be
         integrated with IBM Z OMEGAMON Web UI dashboards. </shortdesc>

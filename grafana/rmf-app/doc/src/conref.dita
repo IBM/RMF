@@ -5,12 +5,15 @@
     <shortdesc/>
     <conbody>
         <p><ph id="plugin_name">IBM RMF for z/OS Grafana</ph></p>
+        <p><keyword id="plugin_name_short">RMF for z/OS Grafana</keyword></p>
         <p><ph id="rmf_short">RMF for z/OS</ph></p>
         <p><ph id="rmf_full">Resource Measurement Facility for z/OS</ph></p>
         <p><ph id="dds_full">Distributed Data Server</ph></p>
         <p><ph id="dds_short">DDS</ph></p>
         <p><ph id="v31">3.1</ph></p>
         <p><uicontrol id="plugin_name_grafana">IBM RMF</uicontrol></p>
+        <p><keyword id="omui_full">IBM Z OMEGAMON Web UI</keyword></p>
+        <p><keyword id="omui_short">OMEGAMON Web UI</keyword></p>
         <p><ph id="zosmf_full">IBM  z/OS Management Facility</ph></p>
         <p><ph id="zosmf_short">z/OSMF</ph></p>
         <p><cite id="zos_prgm_guide">z/OS Resource Measurement Facility Programmer's
@@ -19,24 +22,20 @@
         <p><cite id="zos_msgs">z/OS Resource Measurement Facility Messages and Codes</cite></p>
         <section>
             <title>Reused content</title>
-            <p><ph id="ph_n3w_bbm_syb">You must have completed the following tasks:</ph></p>
-            <p><ph id="ph_cyy_4bm_syb">You can perform the following tasks:</ph></p>
             <p>
                 <ul>
-                    <li id="li_qbm_nw3_ryb">Installed the <ph
-                            conref="conref.dita#conref/plugin_name"/> plugin. See <xref
-                            href="install_grafana_plugin.dita"/>.</li>
-                    <li id="li_kwb_lm3_ryb"><ph><codeph><varname>resource_type</varname></codeph> is
-                            the type of resource for which information is requested. You must enter
-                            the appropriate value in the
-                                <codeph><varname>resource_type</varname></codeph> field.</ph><p>The
-                            available resource types are documented in the <xref
+                    <li id="li_kwb_lm3_ryb">
+                        <p><ph><codeph><varname>resource_type</varname></codeph> is the type of
+                                resource for which information is requested. You must enter the
+                                appropriate value in the
+                                    <codeph><varname>resource_type</varname></codeph>
+                            field.</ph></p>
+                        <p>The available resource types are documented in the <xref
                                 href="https://www.ibm.com/docs/en/zos/3.1.0?topic=models-zos-rmf-monitor-iii-resource-model#zosm3"
                                 format="html" scope="external">z/OS RMF Monitor III resource
                                 model</xref> topic in the <cite
-                                conref="conref.dita#conref/zos_prgm_guide"/>.</p></li>
-                    <li id="li_af4_1q3_tyb">Added a RMF data source in Grafana. See <xref
-                            href="create_datasources.dita"/>.</li>
+                                conref="conref.dita#conref/zos_prgm_guide"/>.</p>
+                    </li>
                     <li id="li_icp_cq3_tyb">Understood query languages of the RMF. See <xref
                             href="query_lang.dita"/>.</li>
                 </ul>
@@ -45,8 +44,47 @@
                     /> in a web browser.</ph></p>
             <p><ph id="ph_pfq_bcm_syb">Log in to <ph conref="conref.dita#conref/zosmf_short"/> if
                     you are not already logged in.</ph></p>
-            <note id="note_rr3_txq_pyb">The navigation of the user interface can differ based on the
-                Grafana version that is currently installed.</note>
+        </section>
+        <section id="section_oxf_tjx_xjc">
+            <title>Install reuse</title>
+            <!--Prereq-->
+            <p id="p_dps_vjx_xjc">Before installing the <keyword
+                    conref="conref.dita#conref/plugin_name_short"/> plugin, ensure that all required
+                software is available. See <xref href="prereq_plugin.dita"/>.</p>
+            <ul>
+                <li id="li_qbm_nw3_ryb">
+                    <p>Installed the <ph conref="conref.dita#conref/plugin_name"/> plugin. See <xref
+                            href="install_grafana_plugin.dita"/>.</p>
+                </li>
+                <li id="li_af4_1q3_tyb">
+                    <p>Added a RMF data source in Grafana. See <xref href="create_datasources.dita"
+                        />.</p>
+                </li>
+            </ul>
+            <!--Steps-->
+            <note id="note_rr3_txq_pyb">The navigation of the Grafana user interface can differ
+                based on the Grafana version that is currently installed.</note>
+            <note id="note_update_reset">Clicking <uicontrol>Update / Reset</uicontrol> deletes the
+                destination folder with the reserved UID and re-installs all sample dashboards. Any
+                customizations made to the sample dashboards will be lost.</note>
+            <!--Results-->
+            <p id="p_uyx_dkx_xjc">You have installed the <keyword
+                    conref="conref.dita#conref/plugin_name_short"/> plugin.</p>
+            <!--Postreq-->
+            <p>
+                <ul id="ul_nnn_hpw_xjc">
+                    <li>
+                        <p>You can add an RMF data source to fetch data from <ph
+                                conref="conref.dita#conref/dds_full"/>s (<ph
+                                conref="conref.dita#conref/dds_short"/>). See <xref
+                                href="create_datasources.dita"/>.</p>
+                    </li>
+                    <li>
+                        <p>To install sample dashboards, see <xref
+                                href="install_sample_dashboards.dita"/>.</p>
+                    </li>
+                </ul>
+            </p>
         </section>
     </conbody>
 </concept>

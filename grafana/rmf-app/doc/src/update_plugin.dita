@@ -5,28 +5,29 @@
     <titlealts>
         <navtitle>Upgrading the plugin</navtitle>
     </titlealts>
-    <shortdesc>You must ensure that the <ph conref="conref.dita#conref/plugin_name"/> plugin is up
-        to date to leverage its enhanced functionalities. You can do so by either installing or
-        upgrading to the latest version of the plugin.</shortdesc>
+    <shortdesc>You must ensure that the <keyword conref="conref.dita#conref/plugin_name_short"/>
+        plugin is up to date to leverage its enhanced functionalities. You can do so by either
+        installing or upgrading to the latest version of the <keyword
+            conref="conref.dita#conref/plugin_name_short"/> plugin.</shortdesc>
     <taskbody>
         <context>The upgrade procedures differ based on the environment you used to install the
             Grafana server.<simpletable frame="all" id="simpletable_xt5_mcs_sbc"
-                relcolwidth="1* .4*">
+                relcolwidth="1.0* 0.5*">
                 <sthead>
                     <stentry>Methods</stentry>
                     <stentry>Step #</stentry>
                 </sthead>
                 <strow>
-                    <stentry>Upgrading the plugin in the Grafana stand-alone application.</stentry>
-                    <stentry>Perform steps <xref href="#update_plugin/step_zkc_zrs_sbc"/> to <xref
-                            href="#update_plugin/step_l11_1ss_sbc"/>.</stentry>
+                    <stentry>Upgrading the <keyword conref="conref.dita#conref/plugin_name_short"/>
+                        plugin in the Grafana stand-alone application.</stentry>
+                    <stentry>Perform from step <xref href="#update_plugin/step_zkc_zrs_sbc"
+                        />.</stentry>
                 </strow>
                 <strow>
-                    <stentry>Upgrading the plugin in the Grafana within the Docker
-                        environment.</stentry>
-                    <stentry>Perform steps <xref href="#update_plugin/step_wzb_bss_sbc"/> to <xref
-                            href="#update_plugin/substeps_drl_gry_g1c" format="dita"
-                        >7</xref>.</stentry>
+                    <stentry>Upgrading the <keyword conref="conref.dita#conref/plugin_name_short"/>
+                        plugin in the Grafana within the Docker environment.</stentry>
+                    <stentry>Perform from step <xref href="#update_plugin/step_wzb_bss_sbc"
+                        />.</stentry>
                 </strow>
             </simpletable></context>
         <steps>
@@ -36,27 +37,15 @@
             <step>
                 <cmd>Run the following command to upgrade the plugin by using Grafana CLI:</cmd>
                 <info>
-                    <codeblock id="codeblock_frs_byj_lzb">grafana cli --pluginUrl <varname>https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v&lt;version>/ibm-rmf-grafana-&lt;version>.zip</varname> plugins install <varname>ibm-rmf</varname></codeblock>
-                    <note id="note_wf5_cqs_sbc">You must replace the value of
-                            &lt;<varname>version</varname>> for the <parmname>pluginURL</parmname>
-                        option with the plugin's version number to be upgraded.
-                        <lines id="lines_ttk_pss_sbc">For example, if you want to install the <varname>v2.0.0</varname> version of the plugin, the value of <parmname>pluginURL</parmname> is <xref href="https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana%2Fv2.0.0/ibm-rmf-grafana-2.0.0.zip" format="html" scope="external">https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana%2Fv2.0.0/ibm-rmf-grafana-2.0.0.zip</xref>.</lines></note>
+                    <codeblock id="codeblock_frs_byj_lzb">grafana cli plugins install <varname>ibm-rmf-app</varname></codeblock>
+                    <p>To upgrade to a specific version, use:</p>
+                    <codeblock id="codeblock_version_upgrade_cli">grafana cli plugins install <varname>ibm-rmf-app</varname> <varname>&lt;version></varname></codeblock>
+                    <note id="note_upgrade_catalog">This command installs the plugin from the
+                        Grafana plugin catalog, which hosts versions 2.0.1 and later. To install a
+                        version earlier than 2.0.1, see <xref
+                            href="install_grafana_plugin_legacy.dita"/>.</note>
                 </info>
-                <info>
-                    <note id="note_tf2_5pr_fhc" type="important">
-                        <ul id="ul_rl2_4vm_g3c">
-                            <li>When upgrading to v1.1.0 or v1.1.1, the
-                                    <parmname>allow_loading_unsigned_plugins</parmname> Grafana
-                                option must be updated with amended plugin names. Set the value to
-                                    <varname>ibm-rmf-app,ibm-rmf-datasource,ibm-rmf-panel</varname>. </li>
-                            <li>When upgrading to v2.0.0 or later, the
-                                    <parmname>allow_loading_unsigned_plugins</parmname> Grafana
-                                option must be updated with amended plugin names. Set the value to
-                                    <varname>ibm-rmf-app,ibm-rmf-datasource</varname>. </li>
-                        </ul>
-                    </note>
-                </info>
-                <stepresult>The CLI tool downloads the mentioned version of the plugin and replaces
+                <stepresult>The CLI tool downloads the specified version of the plugin and replaces
                     the existing files.</stepresult>
             </step>
             <step id="step_l11_1ss_sbc">
@@ -66,54 +55,97 @@
             <step id="step_wzb_bss_sbc">
                 <cmd>Run the following command to stop the docker container:</cmd>
                 <info>
-                    <codeblock id="codeblock_rwq_mqs_sbc">docker stop <varname>rmf-grafana</varname></codeblock>
-                    <p>Where <varname>rmf-grafana</varname> is the name of the container.</p>
+                    <codeblock id="codeblock_rwq_mqs_sbc">docker stop rmf-grafana</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Run the following command to remove the docker container:</cmd>
                 <info>
-                    <codeblock id="codeblock_b1m_pqs_sbc">docker rm <varname>rmf-grafana</varname></codeblock>
+                    <codeblock id="codeblock_b1m_pqs_sbc">docker rm rmf-grafana</codeblock>
+                </info>
+                <info>
+                    <p>Where <codeph>rmf-grafana</codeph> is the name of the container.</p>
                 </info>
             </step>
             <step>
                 <cmd>Run the following command to upgrade the plugin by creating and running a
                     container:</cmd>
                 <info>
-                    <codeblock id="codeblock_v2k_5yj_lzb">docker run --name <varname>rmf-grafana</varname> --hostname <varname>rmf-grafana</varname> --detach --restart unless-stopped --volume <varname>rmf-grafana-data</varname>:<varname>/var/lib/grafana</varname> --publish <varname>3000</varname>:<varname>3000</varname> --env "<varname>GF_INSTALL_PLUGINS=https://github.com/IBM/RMF/releases/download/ibm-rmf-grafana/v&lt;version>/ibm-rmf-grafana-&lt;version>.zip</varname>;<varname>ibm-rmf</varname>" --env "<varname>GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS</varname>=<varname>ibm-rmf,ibm-rmf-datasource,ibm-rmf-report</varname>" &lt;<varname>image</varname>></codeblock>
-                    <note type="remember" id="note_d1p_h1k_lzb">You must replace the values of the
-                        following options in the command:<ul id="ul_qrd_gbk_lzb">
-                            <li>&lt;<varname>version</varname>> for the <parmname>env</parmname>
-                                option to the version number of the plugin to be upgraded.</li>
-                            <li>&lt;<varname>image</varname>> to the version of the Grafana image
-                                used.</li>
-                        </ul></note>
+                    <codeblock id="codeblock_hvn_kdw_xjc">docker run --name &lt;container_name> \
+--hostname &lt;hostname> \
+--detach \
+--restart &lt;restart_policy> \
+--volume &lt;volume_name>:&lt;container_data_path> \
+--publish &lt;host_port>:&lt;container_port> \
+--env "GF_INSTALL_PLUGINS=&lt;plugin_id>" \
+&lt;image_name></codeblock>
+                    <note id="note_docker_upgrade_version" type="other" othertype="Notes">
+                        <ul id="ul_bkg_vjw_xjc">
+                            <li>
+                                <p>You must replace the value of <codeph>&lt;image_name></codeph> to
+                                    the version of the Grafana image used.</p>
+                            </li>
+                            <li>
+                                <p>The <codeph>GF_INSTALL_PLUGINS</codeph> environment variable
+                                    installs the latest version from the Grafana plugin catalog. To
+                                    install a specific version, append the version number (for
+                                    example, <codeph>ibm-rmf-app 2.0.1</codeph>).</p>
+                            </li>
+                        </ul>
+                    </note>
+                    <p>For
+                        example,<codeblock id="codeblock_v2k_5yj_lzb">docker run --name rmf-grafana \
+--hostname rmf-grafana \ 
+--detach --restart unless-stopped \
+--volume rmf-grafana-data:/var/lib/grafana \
+--publish 3000:3000 \
+--env "GF_INSTALL_PLUGINS=ibm-rmf-app" \
+11.0.1</codeblock></p>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>To update or reset the dashboards to their default state, click
+                        <uicontrol>Update / Reset</uicontrol>.</cmd>
+                <info>
+                    <note id="note_update_reset">Clicking <uicontrol>Update / Reset</uicontrol>
+                        deletes the destination folder with the reserved UID and re-installs all
+                        sample dashboards. Any customizations made to the sample dashboards will be
+                        lost.</note>
                 </info>
             </step>
             <step importance="optional">
                 <cmd>To update the sample dashboards, perform the following sub-steps:</cmd>
                 <substeps id="substeps_drl_gry_g1c">
                     <substep>
-                        <cmd> Go to <uicontrol>IBM RMF App</uicontrol> by selecting the
-                                <uicontrol>Go to IBM RMF App</uicontrol> option on the plugin
-                            configuration or the  <uicontrol>More Apps</uicontrol> option from the
-                            sidebar menu. </cmd>
+                        <cmd> Go to <menucascade>
+                                <uicontrol>More apps</uicontrol>
+                                <uicontrol>IBM RMF</uicontrol>
+                            </menucascade>.</cmd>
+                        <info>
+                            <note conref="conref.dita#conref/note_rr3_txq_pyb" id="note_ick_hmx_xjc"
+                            />
+                        </info>
                     </substep>
                     <substep>
                         <cmd>On the <wintitle>IBM RMF App</wintitle> page, follow the instructions
                             provided to manage the sample dashboard deployment.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>To update or reset the dashboards to their default state, click
+                                <uicontrol>Update / Reset</uicontrol>.</cmd>
                         <info>
-                            <note id="note_as5_xlz_fgc">After clicking the <uicontrol>Update/
-                                    Reset</uicontrol> or <uicontrol>Delete</uicontrol> option, the
-                                destination folder with the reserved UID is deleted.</note>
-                            <note id="note_tyq_1s2_ggc" type="important">If you rename or move the
-                                reserved folder, it retains the same UID and will be reset. </note>
+                            <note conref="conref.dita#conref/note_update_reset"
+                                id="note_xns_rmx_xjc"/>
                         </info>
+                    </substep>
+                    <substep>
+                        <cmd>To remove installed sample dashboards, click
+                                <uicontrol>Delete</uicontrol>.</cmd>
                     </substep>
                 </substeps>
             </step>
         </steps>
-        <result id="result_pvc_ftt_4bc">You have updated the <ph
-                conref="conref.dita#conref/plugin_name"/> plugin.</result>
+        <result id="result_pvc_ftt_4bc">You have updated the <keyword
+                conref="conref.dita#conref/plugin_name_short"/> plugin.</result>
     </taskbody>
 </task>

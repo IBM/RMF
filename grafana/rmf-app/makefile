@@ -4,7 +4,8 @@ default: help
 GRAFANA_PLUGIN_ID := $(shell jq -r '.id' src/plugin.json)
 GRAFANA_PLUGIN_VERSION := $(shell jq -r '.version' package.json)
 GRAFANA_PLUGIN_ARTIFACT := ibm-rmf-grafana-$(GRAFANA_PLUGIN_VERSION).zip
-GRAFANA_PLUGIN_ARTIFACT_CHECKSUM := $(GRAFANA_PLUGIN_ARTIFACT).md5
+GRAFANA_PLUGIN_ARTIFACT_MD5 := $(GRAFANA_PLUGIN_ARTIFACT).md5
+GRAFANA_PLUGIN_ARTIFACT_SHA1 := $(GRAFANA_PLUGIN_ARTIFACT).sha1
 RMF_QUERY_PARSER_PATH := ./src/datasource/parser/lib
 RMF_QUERY_PARSER_FILES := \
 	$(RMF_QUERY_PARSER_PATH)/RMFQueryLexer.ts \
@@ -86,7 +87,8 @@ zip: ## Zip the plugin
 	rm -rf build && mkdir build
 	cp -a dist "build/$(GRAFANA_PLUGIN_ID)"
 	cd build && zip -r "$(GRAFANA_PLUGIN_ARTIFACT)" "$(GRAFANA_PLUGIN_ID)"
-	cd build && md5sum "$(GRAFANA_PLUGIN_ARTIFACT)" > "$(GRAFANA_PLUGIN_ARTIFACT_CHECKSUM)"
+	cd build && md5sum "$(GRAFANA_PLUGIN_ARTIFACT)" > "$(GRAFANA_PLUGIN_ARTIFACT_MD5)"
+	cd build && sha1sum "$(GRAFANA_PLUGIN_ARTIFACT)" > "$(GRAFANA_PLUGIN_ARTIFACT_SHA1)"
 	rm -r "build/$(GRAFANA_PLUGIN_ID)"
 
 ##@ Helpers

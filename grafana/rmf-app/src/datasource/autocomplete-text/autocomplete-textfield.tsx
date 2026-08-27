@@ -14,11 +14,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { css } from '@emotion/css';
+import { config } from '@grafana/runtime';
 import { PropTypes } from '../common/types';
 import React, { createRef, PureComponent } from 'react';
 // import getCaretCoordinates from 'textarea-caret';
-import './autocomplete-textfield.css';
 import { getCaretCoordinates, isItFirstDotPosition } from './autocomplete-textfield.helper';
+
+const getStyles = () => {
+  const theme = config.theme2;
+  return {
+    autocompleteInputList: css({
+      backgroundClip: 'padding-box',
+      border: `1px solid ${theme.colors.border.weak}`,
+      bottom: 'auto',
+      boxShadow: theme.shadows.z3,
+      display: 'block',
+      fontSize: theme.typography.body.fontSize,
+      listStyle: 'none',
+      padding: theme.spacing(0.125),
+      position: 'absolute' as const,
+      textAlign: 'left' as const,
+      zIndex: theme.zIndex.dropdown,
+      overflow: 'auto',
+      maxHeight: '50%',
+      backgroundColor: theme.colors.background.primary,
+      color: theme.colors.text.primary,
+      '& > li': {
+        cursor: 'pointer',
+        padding: theme.spacing(1.25),
+        minWidth: '100px',
+      },
+      '& > li.active': {
+        backgroundColor: theme.colors.primary.main,
+        color: theme.colors.primary.contrastText,
+      },
+    }),
+    componentAutocomplete: css({
+      width: '97%',
+      fontWeight: theme.typography.fontWeightBold,
+      height: theme.spacing(6.875),
+      borderRadius: theme.shape.radius.default,
+      borderColor: theme.colors.border.medium,
+      borderWidth: 'unset',
+      backgroundColor: 'inherit !important' as any,
+      color: 'inherit !important' as any,
+    }),
+  };
+};
 
 const KEY_UP = 38;
 const KEY_DOWN = 40;
@@ -331,7 +374,7 @@ export class AutocompleteTextField extends PureComponent<Props, state> {
   onBlur(event: any) {
     if (this !== undefined && this.props !== undefined) {
       const { onBlur } = this.props;
-      if (onBlur && (document.getElementsByClassName("autocomplete-input-list").length === 0)) {
+      if (onBlur && document.querySelectorAll('[data-autocomplete-list]').length === 0) {
         onBlur(event);
       }
     }
@@ -484,7 +527,8 @@ export class AutocompleteTextField extends PureComponent<Props, state> {
     return (
       <>
         <ul
-          className="autocomplete-input-list"
+          data-autocomplete-list
+          className={getStyles().autocompleteInputList}
           style={{ left: (left as any) + offsetx, top: (top as any) + offsety + 20 }}
         >
           {/* TBD: Need to Remove all popup search related code */}
@@ -507,7 +551,7 @@ export class AutocompleteTextField extends PureComponent<Props, state> {
     input = document.getElementsByClassName('search-autocomplete-input');
     if (input !== null && input !== undefined) {
       filter = (input[0] as any).value.toUpperCase();
-      ul = document.getElementsByClassName('autocomplete-input-list');
+      ul = document.querySelectorAll('[data-autocomplete-list]');
       li = (ul[0] as any).getElementsByTagName('li');
 
       // Loop through all list items, and hide those who don't match the search query
@@ -544,7 +588,7 @@ export class AutocompleteTextField extends PureComponent<Props, state> {
     return (
       <>
         <Component
-          className="component-autocomplete"
+          className={getStyles().componentAutocomplete}
           disabled={disabled}
           ref={this.refInput}
           onChange={this.handleChange}

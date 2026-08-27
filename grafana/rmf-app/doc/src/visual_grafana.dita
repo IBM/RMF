@@ -13,8 +13,8 @@
         Grafana platform. Thereby, you can monitor and analyze the health and performance of
         applications.</shortdesc>
     <conbody>
-        <p>The <ph conref="conref.dita#conref/plugin_name"/> plugin provides the following
-                features:<ul id="ul_g42_chq_pyb">
+        <p>The <keyword conref="conref.dita#conref/plugin_name_short"/> plugin provides the
+            following features:<ul id="ul_g42_chq_pyb">
                 <li>You can choose various visualization options, such as graphs, charts, panels,
                     and reports, to help you understand your data's trends, patterns, and
                     variances.</li>

@@ -29,18 +29,23 @@
         </steps>
         <result id="result_d3m_qcm_syb">You have accessed Grafana from <ph
                 conref="conref.dita#conref/zosmf_short"/>.</result>
-        <postreq id="postreq_dzr_rcm_syb"><ph conref="conref.dita#conref/ph_cyy_4bm_syb"/><ul
-                id="ul_uhg_tcm_syb">
-                <li>View the dashboards by navigating to <menucascade>
-                        <uicontrol>Apps</uicontrol>
-                        <uicontrol>IBM RMF</uicontrol>
-                        <uicontrol>Dashboards</uicontrol>
-                    </menucascade>.</li>
-                <li>Add a RMF data source to fetch data from <ph
-                        conref="conref.dita#conref/dds_full"/>s (<ph
-                        conref="conref.dita#conref/dds_short"/>). See <xref
-                        href="create_datasources.dita" format="dita">Creating RMF data
-                        sources</xref>.</li>
-            </ul></postreq>
+        <postreq id="postreq_dzr_rcm_syb">
+            <ul id="ul_uhg_tcm_syb">
+                <li>
+                    <p>View the dashboards by navigating to <menucascade>
+                            <uicontrol>Apps</uicontrol>
+                            <uicontrol>IBM RMF</uicontrol>
+                            <uicontrol>Dashboards</uicontrol>
+                        </menucascade>.</p>
+                </li>
+                <li>
+                    <p>Add a RMF data source to fetch data from <ph
+                            conref="conref.dita#conref/dds_full"/>s (<ph
+                            conref="conref.dita#conref/dds_short"/>). See <xref
+                            href="create_datasources.dita" format="dita">Creating RMF data
+                            sources</xref>.</p>
+                </li>
+            </ul>
+        </postreq>
     </taskbody>
 </task>

@@ -1,0 +1,271 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us" data-whc_version="26.1">
+    <head><link rel="shortcut icon" href="oxygen-webhelp\template\images/ResourceMeasurementFacility.svg"/><link rel="icon" href="oxygen-webhelp\template\images/ResourceMeasurementFacility.svg"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="DC.rights.owner" content="(C) Copyright 2026"/><meta name="copyright" content="(C) Copyright 2026"/><meta name="generator" content="DITA-OT"/><meta name="DC.type" content="task"/><meta name="description" content="You can install the RMF for z/OS Grafana plugin along with Grafana within a Docker container. Use this method if you are running Grafana in a containerized environment."/><meta name="DC.relation" content="install_grafana_plugin.html"/><meta name="DC.relation" content="https://docs.docker.com/engine/reference/commandline/run/"/><meta name="DC.relation" content="https://docs.docker.com/engine/reference/commandline/volume_create/"/><meta name="DC.format" content="HTML5"/><meta name="DC.identifier" content="install_plugin_docker"/><meta name="DC.language" content="en-us"/>        
+      <title>Installing the RMF for z/OS Grafana plugin in a Docker environment</title><!--  Generated with Oxygen version 26.1, build number 2025053100.  --><meta name="wh-path2root" content=""/><meta name="wh-toc-id" content="install_plugin_docker-d526e102"/><meta name="wh-source-relpath" content="install_plugin_docker.dita"/><meta name="wh-out-relpath" content="install_plugin_docker.html"/>
+
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/app/commons.css?buildId=2025053100"/>
+    <link rel="stylesheet" type="text/css" href="./oxygen-webhelp/app/topic.css?buildId=2025053100"/>
+
+    <script src="./oxygen-webhelp/app/options/properties.js?buildId=20260717164226"></script>
+    <script src="./oxygen-webhelp/app/localization/strings.js?buildId=2025053100"></script>
+    <script src="./oxygen-webhelp/app/search/index/keywords.js?buildId=20260717164226"></script>
+    <script defer="defer" src="./oxygen-webhelp/app/commons.js?buildId=2025053100"></script>
+    <script defer="defer" src="./oxygen-webhelp/app/topic.js?buildId=2025053100"></script>
+<link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/oxygen-gray.css?buildId=2025053100"/><link rel="stylesheet" type="text/css" href="oxygen-webhelp/template/notes.css?buildId=2025053100"/></head>
+
+    <body id="install_plugin_docker" class="wh_topic_page frmBody">
+        <a href="#wh_topic_body" class="sr-only sr-only-focusable">
+            Jump to main content
+        </a>
+        
+        
+        
+        
+        <header class="navbar navbar-default wh_header">
+
+  <div class="container-fluid">
+    <div class="wh_header_flex_container navbar-expand-md">
+
+      <!-- Left: Logo + Publication Title -->
+      <div class="wh_logo_and_publication_title_container d-flex align-items-start">
+        <div class="wh_logo_and_publication_title d-flex align-items-start">
+          
+          
+          <div class=" wh_publication_title "><a href="index.html"><span class="title">IBM RMF for z/OS Grafana Plugin </span></a></div>
+          
+        </div>
+
+        <!-- Mobile toggle -->
+        
+      </div>
+
+      <!-- Middle: Oxygen Top Menu + Index Terms -->
+      <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse" id="wh_top_menu_and_indexterms_link">
+        
+        
+        
+        
+      </div>
+
+      <!-- Right: Your external action buttons -->
+      <nav class="external-actions navbar-nav ms-auto ml-auto d-flex align-items-start" id="navbarExternal">
+        <a class="btn btn-link px-2 nav-link" target="_blank" rel="noopener" href="https://www.ibm.com/docs/en/zos/3.2.0?topic=zos-rmf">RMF for z/OS</a>
+
+        <a class="btn btn-link px-2 nav-link" target="_blank" rel="noopener" href="https://github.com/IBM/RMF">GitHub Repository</a>
+
+        <a class="btn btn-primary btn-sm px-3 nav-link" target="_blank" rel="noopener" href="https://github.com/IBM/RMF/releases">Releases</a>
+      </nav>
+
+    </div>
+  </div>
+</header>
+        
+        
+         
+        
+        <div class=" wh_search_input navbar-form wh_topic_page_search search " role="form">
+            
+            
+            
+            <form id="searchForm" method="get" role="search" action="search.html"><div><input type="search" placeholder="Search " class="wh_search_textfield" id="textToSearch" name="searchQuery" aria-label="Search query" required="required"/><button type="submit" class="wh_search_button" aria-label="Search"><span class="search_input_text">Search</span></button></div></form>
+            
+            
+            
+        </div>
+        
+        <div class="container-fluid" id="wh_topic_container">
+            <div class="row">
+
+                <nav class="wh_tools d-print-none navbar-expand-md" aria-label="Tools">
+                    
+                    <div data-tooltip-position="bottom" class=" wh_breadcrumb "><ol class="d-print-none"><li><span class="home"><a href="index.html"><span>Home</span></a></span></li><li><div class="topicref" data-id="install_grafana_plugin"><div class="title"><a href="install_grafana_plugin.html">Installation</a><div class="wh-tooltip"><p class="shortdesc">You must install the <span class="keyword">RMF for z/OS Grafana</span> plugin         to analyze and visualize RMF Monitor III metrics and reports.</p></div></div></div></li><li class="active"><div class="topicref" data-id="install_plugin_docker"><div class="title"><a href="install_plugin_docker.html">Installing the plugin by using Docker</a><div class="wh-tooltip"><p class="shortdesc">You can install the <span class="keyword">RMF for z/OS Grafana</span> plugin         along with Grafana within a Docker container. Use this method if you are running Grafana in a         containerized environment.</p></div></div></div></li></ol></div>
+                    
+                    
+                    
+                    <div class="wh_right_tools">
+                        <button class="wh_hide_highlight" aria-label="Toggle search highlights" title="Toggle search highlights"></button>
+                        <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" aria-label="Collapse sections" title="Collapse sections"></button>
+                        
+                        
+                        
+                        
+                        <div class=" wh_print_link print d-none d-md-inline-block "><button onClick="window.print()" title="Print this page" aria-label="Print this page"></button></div>
+                        
+                        <button type="button" id="wh_toc_button" class="custom-toggler navbar-toggler collapsed wh_toggle_button navbar-light" aria-expanded="false" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    
+                </nav>
+            </div>
+            
+            
+            
+            
+            <div class="wh_content_area">
+                <div class="row">
+                    
+                        <nav id="wh_publication_toc" class="col-lg-3 col-md-3 col-sm-12 d-md-block d-none d-print-none" aria-label="Table of Contents Container">
+                            <div id="wh_publication_toc_content">
+		                        
+                            	<div class=" wh_publication_toc " data-tooltip-position="right"><span class="expand-button-action-labels"><span id="button-expand-action" role="button" aria-label="Expand"></span><span id="button-collapse-action" role="button" aria-label="Collapse"></span><span id="button-pending-action" role="button" aria-label="Pending"></span></span><ul role="tree" aria-label="Table of Contents"><li role="treeitem"><div data-tocid="visual_grafana-d526e12" class="topicref" data-id="visual_grafana" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="visual_grafana.html" id="visual_grafana-d526e12-link">Overview</a><div class="wh-tooltip"><p class="shortdesc">Grafana is a platform for monitoring and visualizing data. It enables users to         create, explore, and share dashboards that are interactive and customizable. The IBM® RMF for z/OS Grafana plugin provides effortless analysis and         visualization of <span class="ph">Resource Measurement Facility for z/OS</span> (<span class="ph">RMF for z/OS</span>) Monitor III metrics and reports within the         Grafana platform. Thereby, you can monitor and analyze the health and performance of         applications.</p></div></div></div></li><li role="treeitem"><div data-tocid="rn-d526e32" class="topicref" data-id="rn" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="rn.html" id="rn-d526e32-link">Release notes</a><div class="wh-tooltip"><p class="shortdesc">This article covers the new features and enhancements in the <span class="ph">IBM RMF for z/OS Grafana</span> plugin.</p></div></div></div></li><li role="treeitem"><div data-tocid="prereq_plugin-d526e46" class="topicref" data-id="prereq_plugin" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="prereq_plugin.html" id="prereq_plugin-d526e46-link">Prerequisites</a><div class="wh-tooltip"><p class="shortdesc">Before you install the <span class="keyword">RMF for z/OS Grafana</span>         plugin, ensure that the following software requirements are met.</p></div></div></div></li><li role="treeitem" aria-expanded="true"><div data-tocid="install_grafana_plugin-d526e60" class="topicref" data-id="install_grafana_plugin" data-state="expanded"><span role="button" tabindex="0" aria-labelledby="button-collapse-action install_grafana_plugin-d526e60-link" class="wh-expand-btn"></span><div class="title"><a href="install_grafana_plugin.html" id="install_grafana_plugin-d526e60-link">Installation</a><div class="wh-tooltip"><p class="shortdesc">You must install the <span class="keyword">RMF for z/OS Grafana</span> plugin         to analyze and visualize RMF Monitor III metrics and reports.</p></div></div></div><ul role="group" class="navbar-nav nav-list"><li role="treeitem"><div data-tocid="install_plugin_ui-d526e74" class="topicref" data-id="install_plugin_ui" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_plugin_ui.html" id="install_plugin_ui-d526e74-link">Installing the plugin by using Grafana UI</a><div class="wh-tooltip"><p class="shortdesc">This is the easiest and recommended method to install the <span class="keyword">RMF for z/OS Grafana</span> plugin. You can install the plugin         directly from the Grafana plugin catalog by using the Grafana web interface without requiring         command-line access.</p></div></div></div></li><li role="treeitem"><div data-tocid="install_plugin_cli-d526e88" class="topicref" data-id="install_plugin_cli" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_plugin_cli.html" id="install_plugin_cli-d526e88-link">Installing the plugin by using Grafana CLI</a><div class="wh-tooltip"><p class="shortdesc">You can install the <span class="keyword">RMF for z/OS Grafana</span> plugin by         using the Grafana command-line interface. Use this method if you need to install a specific         version or automate the installation.</p></div></div></div></li><li role="treeitem" class="active"><div data-tocid="install_plugin_docker-d526e102" class="topicref" data-id="install_plugin_docker" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_plugin_docker.html" id="install_plugin_docker-d526e102-link">Installing the plugin by using Docker</a><div class="wh-tooltip"><p class="shortdesc">You can install the <span class="keyword">RMF for z/OS Grafana</span> plugin         along with Grafana within a Docker container. Use this method if you are running Grafana in a         containerized environment.</p></div></div></div></li><li role="treeitem"><div data-tocid="install_grafana_plugin_legacy-d526e116" class="topicref" data-id="install_grafana_plugin_legacy" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="install_grafana_plugin_legacy.html" id="install_grafana_plugin_legacy-d526e116-link">Installing the plugin v2.0.0 or earlier</a><div class="wh-tooltip"><p class="shortdesc">If you are installing a version of the <span class="keyword">RMF for z/OS Grafana</span> plugin earlier than 2.0.1, you must         configure Grafana to allow loading unsigned plugins.</p></div></div></div></li></ul></li><li role="treeitem"><div data-tocid="update_plugin-d526e130" class="topicref" data-id="update_plugin" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="update_plugin.html" id="update_plugin-d526e130-link">Upgrading the plugin</a><div class="wh-tooltip"><p class="shortdesc">You must ensure that the <span class="keyword">RMF for z/OS Grafana</span>         plugin is up to date to leverage its enhanced functionalities. You can do so by either         installing or upgrading to the latest version of the <span class="keyword">RMF for z/OS Grafana</span> plugin.</p></div></div></div></li><li role="treeitem"><div data-tocid="create_datasources-d526e147" class="topicref" data-id="create_datasources" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="create_datasources.html" id="create_datasources-d526e147-link">Creating RMF data sources</a><div class="wh-tooltip"><p class="shortdesc">To access RMF Monitor III metrics in Grafana, you need to connect to the <span class="ph">Distributed Data Server</span> (<span class="ph">DDS</span>) by         adding an RMF data source.</p></div></div></div></li><li role="treeitem" aria-expanded="false"><div data-tocid="dashboards_overview-d526e164" class="topicref" data-id="dashboards_overview" data-state="not-ready"><span role="button" tabindex="0" aria-labelledby="button-expand-action dashboards_overview-d526e164-link" class="wh-expand-btn"></span><div class="title"><a href="dashboards_overview.html" id="dashboards_overview-d526e164-link">Dashboards</a><div class="wh-tooltip"><p class="shortdesc">The <span class="ph">IBM RMF for z/OS Grafana</span> plugin provides pre-built sample         dashboards that you can install, as well as the ability to import dashboards from other         sources and integrate with IBM Z OMEGAMON dashboards.</p></div></div></div></li><li role="treeitem"><div data-tocid="apply_visualize-d526e234" class="topicref" data-id="apply_visualize" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="apply_visualize.html" id="apply_visualize-d526e234-link">Applying visualization to RMF data</a><div class="wh-tooltip"><p class="shortdesc">By adding panels to dashboards, you can effectively present your RMF data in a visual         format. Each panel must require at least one query to display a significant         visualization.</p></div></div></div></li><li role="treeitem"><div data-tocid="query_lang-d526e245" class="topicref" data-id="query_lang" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="query_lang.html" id="query_lang-d526e245-link">IBM RMF query languages</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, queries are essential for fetching and transforming data from RMF data         sources.</p></div></div></div></li><li role="treeitem"><div data-tocid="variables-d526e256" class="topicref" data-id="variables" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="variables.html" id="variables-d526e256-link">RMF Variable Query syntax</a><div class="wh-tooltip"><p class="shortdesc">Variables are a powerful tool to create more interactive and dynamic dashboards. They         offer a way to replace hard-coded values in metric queries and panel titles with         placeholders for values.</p></div></div></div></li><li role="treeitem"><div data-tocid="alerts-d526e267" class="topicref" data-id="alerts" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="alerts.html" id="alerts-d526e267-link">Alerts</a><div class="wh-tooltip"><p class="shortdesc">Grafana Alerting feature provides a reliable solution to detect and respond to system         issues in real time.</p></div></div></div></li><li role="treeitem"><div data-tocid="historical_data-d526e279" class="topicref" data-id="historical_data" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="historical_data.html" id="historical_data-d526e279-link">Historical data</a><div class="wh-tooltip"><p class="shortdesc">In Grafana, you can view historical data using absolute and relative time         ranges.</p></div></div></div></li><li role="treeitem"><div data-tocid="error_reports-d526e290" class="topicref" data-id="error_reports" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="error_reports.html" id="error_reports-d526e290-link">Error types</a><div class="wh-tooltip"><p class="shortdesc">Whenever you encounter issues while using the <span class="ph">IBM RMF for z/OS Grafana</span> plugin, you can view detailed error messages         that contain sufficient information to help you identify and troubleshoot the         problem.</p></div></div></div></li><li role="treeitem"><div data-tocid="ts_issues-d526e304" class="topicref" data-id="ts_issues" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="ts_issues.html" id="ts_issues-d526e304-link">Troubleshooting issues</a><div class="wh-tooltip"><p class="shortdesc">This section guides how to analyze and address typical issues that may arise when         using the IBM® RMF for z/OS Grafana plugin.</p></div></div></div></li><li role="treeitem" aria-expanded="false"><div data-tocid="grafana_via_zosmf-d526e318" class="topicref" data-id="grafana_via_zosmf" data-state="not-ready"><span role="button" tabindex="0" aria-labelledby="button-expand-action grafana_via_zosmf-d526e318-link" class="wh-expand-btn"></span><div class="title"><a href="grafana_via_zosmf.html" id="grafana_via_zosmf-d526e318-link">Grafana through <span class="ph">z/OSMF</span></a><div class="wh-tooltip"><p class="shortdesc">When you use IBM® z/OS Management Facility to monitor the         performance of the z/OS sysplexes in your environment, you can also access Grafana         dashboards from <span class="ph">z/OSMF</span>.</p></div></div></div></li><li role="treeitem"><div data-tocid="pdf_guide-d526e399" class="topicref" data-id="pdf_guide" data-state="leaf"><span role="button" class="wh-expand-btn"></span><div class="title"><a href="pdf_guide.html" id="pdf_guide-d526e399-link">PDF Guide</a><div class="wh-tooltip"><p class="shortdesc">You can find the link to view or download <span class="ph">IBM RMF for z/OS Grafana</span> plugin user guide as a PDF file.</p></div></div></div></li></ul></div>
+		                        
+                            </div>
+                        </nav>
+                    
+                    
+                    <div class="col-lg-9 col-md-9 col-sm-12" id="wh_topic_body">
+                        <button id="wh_close_publication_toc_button" class="close-toc-button d-none" aria-label="Toggle publishing table of content" aria-controls="wh_publication_toc" aria-expanded="true">
+                            <span class="close-toc-icon-container">
+                                <span class="close-toc-icon"></span>     
+                            </span>
+                        </button>
+                        
+                        
+                        <div class=" wh_topic_content body "><main role="main"><article class="- topic/topic task/task topic task" role="article" aria-labelledby="ariaid-title1">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1">Installing the <span class="- topic/keyword keyword">RMF for z/OS Grafana</span> plugin in a
+        Docker environment</h1>
+    
+    
+    <div class="- topic/body task/taskbody body taskbody"><p class="- topic/shortdesc shortdesc">You can install the <span class="- topic/keyword keyword">RMF for z/OS Grafana</span> plugin
+        along with Grafana within a Docker container. Use this method if you are running Grafana in a
+        containerized environment.</p>
+        <section class="- topic/section task/prereq section prereq" id="install_plugin_docker__prereq_docker_install" data-ofbid="install_plugin_docker__prereq_docker_install"><div class="tasklabel"><h2 class="sectiontitle tasklabel">Before you begin</h2></div>
+            <p class="- topic/p p">Before installing the <span class="- topic/keyword keyword">RMF for z/OS Grafana</span> plugin, ensure that all required
+                software is available. See <a class="- topic/xref xref" href="prereq_plugin.html" title="Before you install the RMF for z/OS Grafana plugin, ensure that the following software requirements are met.">Prerequisites</a>.</p>
+        </section>
+        <section class="- topic/ol task/steps ol steps"><div class="tasklabel"><h2 class="sectiontitle tasklabel">Procedure</h2></div><ol class="- topic/ol task/steps ol steps"><li class="- topic/li task/step li step">
+                <span class="- topic/ph task/cmd ph cmd">Run the following command to create a volume for storing the Grafana
+                    state:</span>
+                <div class="- topic/itemgroup task/info itemgroup info">
+                    <pre class="+ topic/pre pr-d/codeblock pre codeblock" id="install_plugin_docker__codeblock_docker_volume" data-ofbid="install_plugin_docker__codeblock_docker_volume"><code>docker volume create <var class="+ topic/keyword sw-d/varname keyword varname">rmf-grafana-data</var></code></pre>
+                </div>
+            </li><li class="- topic/li task/step li step">
+                <span class="- topic/ph task/cmd ph cmd">Run the following command to create and run a container:</span>
+                <div class="- topic/itemgroup task/info itemgroup info">
+                    <pre class="+ topic/pre pr-d/codeblock pre codeblock" id="install_plugin_docker__codeblock_docker_run" data-ofbid="install_plugin_docker__codeblock_docker_run"><code>docker run --name &lt;container_name&gt; \
+--hostname &lt;hostname&gt; \
+--detach \
+--restart &lt;restart_policy&gt; \
+--volume &lt;volume_name&gt;:&lt;container_data_path&gt; \
+--publish &lt;host_port&gt;:&lt;container_port&gt; \
+--env "GF_INSTALL_PLUGINS=&lt;plugin_id&gt;" \
+&lt;image_name&gt;</code></pre>
+                    <div class="simpletable-container"><table class="- topic/simpletable simpletable frame-all" id="install_plugin_docker__simpletable_docker_vars" data-ofbid="install_plugin_docker__simpletable_docker_vars"><colgroup><col style="width:33.33333333333333%"/><col style="width:66.66666666666666%"/></colgroup><thead><tr class="- topic/sthead sthead">
+                            <th class="- topic/stentry stentry" scope="col" id="install_plugin_docker__simpletable_docker_vars__stentry__1">Variables</th>
+                            <th class="- topic/stentry stentry" scope="col" id="install_plugin_docker__simpletable_docker_vars__stentry__2">Description</th>
+                        </tr></thead><tbody><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;container_name&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Name for the container (user-defined).</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;hostname&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Hostname assigned to the container.</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;restart_policy&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Restart behavior (for example, <code class="+ topic/ph pr-d/codeph ph codeph">no</code>,
+                                        <code class="+ topic/ph pr-d/codeph ph codeph">on-failure</code>, <code class="+ topic/ph pr-d/codeph ph codeph">always</code>,
+                                        <code class="+ topic/ph pr-d/codeph ph codeph">unless-stopped</code>).</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;volume_name&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Name of the Docker volume for persistent storage.</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;container_data_path&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Path inside the container where data is stored (for example,
+                                        <span class="+ topic/ph sw-d/filepath ph filepath">/var/lib/grafana</span>).</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;host_port&gt;</code>,
+                                    <code class="+ topic/ph pr-d/codeph ph codeph">&lt;container_port&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Port mapping between the host and the container.</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;plugin_id&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Identifier of the <span class="- topic/keyword keyword">RMF for z/OS Grafana</span> plugin to
+                                    install (for example, <code class="+ topic/ph pr-d/codeph ph codeph">ibm-rmf-app</code>).</p>
+                                <p class="- topic/p p">You can optionally append a version number to install a specific
+                                    version (for example, <code class="+ topic/ph pr-d/codeph ph codeph">ibm-rmf-app 2.0.1</code>). If no
+                                    version is specified, the latest version from the Grafana plugin
+                                    catalog is installed.</p>
+                            </td>
+                        </tr><tr class="- topic/strow strow">
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__1"><code class="+ topic/ph pr-d/codeph ph codeph">&lt;image_name&gt;</code></td>
+                            <td class="- topic/stentry stentry" headers="install_plugin_docker__simpletable_docker_vars__stentry__2">
+                                <p class="- topic/p p">Version of the Grafana image to be used.</p>
+                            </td>
+                        </tr></tbody></table></div>
+                    <div class="- topic/p p">For
+                        example,<pre class="+ topic/pre pr-d/codeblock pre codeblock" id="install_plugin_docker__codeblock_docker_example" data-ofbid="install_plugin_docker__codeblock_docker_example"><code>docker run --name rmf-grafana \
+--hostname rmf-grafana \
+--detach --restart unless-stopped \
+--volume rmf-grafana-data:/var/lib/grafana \
+--publish 3000:3000 \
+--env "GF_INSTALL_PLUGINS=ibm-rmf-app" \
+11.0.1</code></pre></div>
+                    <div class="- topic/note note note note_note" id="install_plugin_docker__note_docker_images" data-ofbid="install_plugin_docker__note_docker_images"><span class="note__title">Note:</span> zCX/zLinux images are available at <a class="- topic/xref xref" href="https://ibm.github.io/ibm-z-oss-hub/main/main.html" target="_blank" rel="external noopener">Container Images for IBM Z and LinuxONE</a>.
+                        Similarly, images of other required platforms are available at <a class="- topic/xref xref" href="https://hub.docker.com/" target="_blank" rel="external noopener">Docker
+                            Hub</a>.</div>
+                </div>
+            </li><li class="- topic/li task/step li step">
+                <span class="- topic/ph task/cmd ph cmd">Verify that the <span class="+ topic/ph ui-d/uicontrol ph uicontrol">IBM RMF</span>
+                    option is listed under the <span class="+ topic/ph ui-d/uicontrol ph uicontrol">Apps</span> section.</span>
+            </li></ol></section>
+        <section class="- topic/section task/result section result" id="install_plugin_docker__result_docker_install" data-ofbid="install_plugin_docker__result_docker_install"><div class="tasklabel"><h2 class="sectiontitle tasklabel">Results</h2></div>
+            <p class="- topic/p p">You have installed the <span class="- topic/keyword keyword">RMF for z/OS Grafana</span> plugin.</p>
+        </section>
+        <section class="- topic/section task/postreq section postreq" id="install_plugin_docker__postreq_docker_install" data-ofbid="install_plugin_docker__postreq_docker_install"><div class="tasklabel"><h2 class="sectiontitle tasklabel">What to do next</h2></div>
+            <ul class="- topic/ul ul" id="install_plugin_docker__ul_docker_postreq" data-ofbid="install_plugin_docker__ul_docker_postreq">
+                    <li class="- topic/li li">
+                        <p class="- topic/p p">You can add an RMF data source to fetch data from <span class="- topic/ph ph">Distributed Data Server</span>s (<span class="- topic/ph ph">DDS</span>). See <a class="- topic/xref xref" href="create_datasources.html" title="To access RMF Monitor III metrics in Grafana, you need to connect to the Distributed Data Server (DDS) by adding an RMF data source.">Creating RMF data sources</a>.</p>
+                    </li>
+                    <li class="- topic/li li">
+                        <p class="- topic/p p">To install sample dashboards, see <a class="- topic/xref xref" href="install_sample_dashboards.html" title="After you install and enable the IBM RMF for z/OS Grafana plugin, you can install the DDS sample dashboards and Prometheus sample dashboards to visualize RMF metrics.">Installing sample dashboards</a>.</p>
+                    </li>
+                </ul>
+        </section>
+    </div>
+    
+</article></main></div>
+                        
+                        
+                        <div class=" wh_related_links d-print-none "><nav aria-label="Related Links" role="navigation" class="- topic/related-links related-links"><div class="- topic/linklist linklist relinfo" xml:lang="en-us" lang="en-us"><strong>Related information</strong><ul class="linklist related_link"><li class="linklist"><a class="- topic/link link navheader_parent_path" href="https://docs.docker.com/engine/reference/commandline/run/" target="_blank" rel="external noopener" title="docker run command">docker run command</a></li><li class="linklist"><a class="- topic/link link navheader_parent_path" href="https://docs.docker.com/engine/reference/commandline/volume_create/" target="_blank" rel="external noopener" title="docker volume create command">docker volume create command</a></li></ul></div></nav></div>
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+        </div> 
+        <footer class="navbar navbar-default wh_footer">
+  <div class=" footer-container mx-auto ">
+    
+  </div>
+</footer>
+        
+        <div id="go2top" class="d-print-none">
+            <span class="oxy-icon oxy-icon-up"></span>
+        </div>
+        
+        <div id="modal_img_large" class="modal">
+            <span class="close oxy-icon oxy-icon-remove"></span>
+            <div id="modal_img_container"></div>
+            <div id="caption"></div>
+        </div>
+        
+        
+        
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="prereq_plugin" xml:lang="en-us">
+    <title>Prerequisites</title>
+    <shortdesc>Before you install the <keyword conref="conref.dita#conref/plugin_name_short"/>
+        plugin, ensure that the following software requirements are met.</shortdesc>
+    <conbody>
+        <p>You must have the following software to install and use the <keyword
+                conref="conref.dita#conref/plugin_name_short"/> plugin:</p>
+        <ul id="ul_prereq_list">
+            <li>
+                <p><ph conref="conref.dita#conref/rmf_short"/>
+                    <ph conref="conref.dita#conref/v31"/> or later.</p>
+            </li>
+            <li>
+                <p>Grafana 11.0 or later.</p>
+            </li>
+            <li>
+                <p>Docker (required only if you plan to run Grafana in a Docker container). For more
+                    information, refer to the  <xref href="https://docs.docker.com/get-docker/"
+                        format="html" scope="external">Docker</xref> documentation.</p>
+            </li>
+        </ul>
+    </conbody>
+</concept>

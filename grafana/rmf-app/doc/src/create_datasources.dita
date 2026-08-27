@@ -8,8 +8,8 @@
     <taskbody>
         <prereq id="prereq_ck1_wmd_qyb">
             <ul id="ul_ngw_hkk_lzb">
-                <li>You must have installed the RMF for z/OS Grafana plugin. See <xref
-                        href="install_grafana_plugin.dita"/>.</li>
+                <li>You must have installed the <keyword
+                        conref="conref.dita#conref/plugin_name_short"/> plugin.</li>
                 <li>You must know the hostname and port number of <ph
                         conref="conref.dita#conref/dds_short"/>.</li>
             </ul>

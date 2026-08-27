@@ -8,15 +8,24 @@
         </topicmeta>
         <topicref href="visual_grafana.dita"/>
         <topicref href="rn.dita"/>
-        <topicref href="install_grafana_plugin.dita"/>
+        <topicref href="prereq_plugin.dita"/>
+        <topicref href="install_grafana_plugin.dita">
+            <topicref href="install_plugin_ui.dita"/>
+            <topicref href="install_plugin_cli.dita"/>
+            <topicref href="install_plugin_docker.dita"/>
+            <topicref href="install_grafana_plugin_legacy.dita"/>
+        </topicref>
         <topicref href="update_plugin.dita"/>
-        <topicref href="prometheus_sample_dashboards.dita"/>
         <topicref href="create_datasources.dita"/>
+        <topicref href="dashboards_overview.dita" collection-type="sequence">
+            <topicref href="install_sample_dashboards.dita"/>
+            <topicref href="prometheus_sample_db.dita"/>
+            <topicref href="integrating_dds_omegamon.dita"/>
+            <topicref href="importing_dashboards.dita"/>
+        </topicref>
         <topicref href="apply_visualize.dita"/>
         <topicref href="query_lang.dita"/>
         <topicref href="variables.dita"/>
-        <topicref href="integrating_dds_omegamon.dita"/>
-        <topicref href="importing_dashboards.dita"/>
         <!--<topicref href="plugin_config.dita"/>-->
         <topicref href="alerts.dita"/>
         <topicref href="historical_data.dita"/>

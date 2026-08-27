@@ -19,7 +19,6 @@ package dds
 
 import (
 	"context"
-	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -34,6 +33,7 @@ import (
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"golang.org/x/sync/singleflight"
 )
 
@@ -60,15 +60,13 @@ var ErrParse = errors.New("unable to parse DDS response")
 var ErrUnauthorized = errors.New("not authorized to access DDS")
 
 type Client struct {
-	baseUrl       string
-	username      string
-	password      string
-	httpClient    *http.Client
-	headerMap     *HeaderMap
-	timeData      *TimeData
-	resource      *Resource
-	systems       []string
-	useXmlExt     atomic.Bool
+	baseUrl    string
+	httpClient *http.Client
+	headerMap  *HeaderMap
+	timeData   *TimeData
+	resource   *Resource
+	systems    []string
+	useXmlExt  atomic.Bool
 	functionality atomic.Int32
 
 	stopChan  chan struct{}
@@ -78,25 +76,19 @@ type Client struct {
 	single    singleflight.Group
 }
 
-func NewClient(baseUrl string, username string, password string, timeout int, tlsSkipVerify bool, disableCompression bool) *Client {
+func NewClient(baseURL string, opts httpclient.Options) (*Client, error) {
+	httpClient, err := httpclient.New(opts)
+	if err != nil {
+		return nil, fmt.Errorf("httpclient new: %w", err)
+	}
 	client := &Client{
-		baseUrl:  strings.TrimRight(baseUrl, "/"),
-		username: username,
-		password: password,
-		httpClient: &http.Client{
-			Timeout: time.Duration(timeout) * time.Second,
-			Transport: &http.Transport{
-				DisableCompression: disableCompression,
-				TLSClientConfig: &tls.Config{
-					InsecureSkipVerify: tlsSkipVerify, // #nosec G402
-				},
-			},
-		},
-		stopChan: make(chan struct{}),
+		baseUrl:    baseURL,
+		httpClient: httpClient,
+		stopChan:   make(chan struct{}),
 	}
 	client.waitGroup.Add(1)
 	go client.sync()
-	return client
+	return client, nil
 }
 
 func (c *Client) sync() {
@@ -188,9 +180,6 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 			return nil, err
 		}
 		req.Header.Add("Accept", "application/json")
-		if strings.TrimSpace(c.username) != "" {
-			req.SetBasicAuth(c.username, c.password)
-		}
 		logger.Debug("requesting DDS data", "url", fullURL)
 		response, err := c.httpClient.Do(req) // #nosec G704
 		if err != nil {
@@ -200,6 +189,7 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 		logger.Debug("fetched DDS data", "url", fullURL, "status", response.Status)
 		mediaType, _, err := mime.ParseMediaType(response.Header.Get("Content-Type"))
 		if response.StatusCode == http.StatusUnauthorized {
+			response.Body.Close()
 			return nil, ErrUnauthorized
 		} else if mayHaveExt && i == 0 &&
 			( // DDS v2 version without JSON only endpoints (no extention)
@@ -208,9 +198,11 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 				response.StatusCode == http.StatusNotAcceptable ||
 				// DDS v1 compatible mode
 				err != nil || mediaType != "application/json") {
+			response.Body.Close()
 			c.useXmlExt.Store(!useXmlExt)
 			continue
 		} else if response.StatusCode != http.StatusOK {
+			response.Body.Close()
 			return nil, fmt.Errorf("unexpected HTTP status (%s)", response.Status)
 		}
 		defer response.Body.Close()

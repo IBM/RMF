@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_plugin_docker" xml:lang="en-us">
+    <title>Installing the <keyword conref="conref.dita#conref/plugin_name_short"/> plugin in a
+        Docker environment</title>
+    <titlealts>
+        <navtitle>Installing the plugin by using Docker</navtitle>
+    </titlealts>
+    <shortdesc>You can install the <keyword conref="conref.dita#conref/plugin_name_short"/> plugin
+        along with Grafana within a Docker container. Use this method if you are running Grafana in a
+        containerized environment.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_docker_install">
+            <p conref="conref.dita#conref/p_dps_vjx_xjc"/>
+        </prereq>
+        <steps>
+            <step>
+                <cmd>Run the following command to create a volume for storing the Grafana
+                    state:</cmd>
+                <info>
+                    <codeblock id="codeblock_docker_volume">docker volume create <varname>rmf-grafana-data</varname></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Run the following command to create and run a container:</cmd>
+                <info>
+                    <codeblock id="codeblock_docker_run">docker run --name &lt;container_name> \
+--hostname &lt;hostname> \
+--detach \
+--restart &lt;restart_policy> \
+--volume &lt;volume_name>:&lt;container_data_path> \
+--publish &lt;host_port>:&lt;container_port> \
+--env "GF_INSTALL_PLUGINS=&lt;plugin_id>" \
+&lt;image_name></codeblock>
+                    <simpletable frame="all" id="simpletable_docker_vars" relcolwidth="0.5* 1*">
+                        <sthead>
+                            <stentry>Variables</stentry>
+                            <stentry>Description</stentry>
+                        </sthead>
+                        <strow>
+                            <stentry><codeph>&lt;container_name></codeph></stentry>
+                            <stentry>
+                                <p>Name for the container (user-defined).</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;hostname></codeph></stentry>
+                            <stentry>
+                                <p>Hostname assigned to the container.</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;restart_policy></codeph></stentry>
+                            <stentry>
+                                <p>Restart behavior (for example, <codeph>no</codeph>,
+                                        <codeph>on-failure</codeph>, <codeph>always</codeph>,
+                                        <codeph>unless-stopped</codeph>).</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;volume_name></codeph></stentry>
+                            <stentry>
+                                <p>Name of the Docker volume for persistent storage.</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;container_data_path></codeph></stentry>
+                            <stentry>
+                                <p>Path inside the container where data is stored (for example,
+                                        <filepath>/var/lib/grafana</filepath>).</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;host_port></codeph>,
+                                    <codeph>&lt;container_port></codeph></stentry>
+                            <stentry>
+                                <p>Port mapping between the host and the container.</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;plugin_id></codeph></stentry>
+                            <stentry>
+                                <p>Identifier of the <keyword
+                                        conref="conref.dita#conref/plugin_name_short"/> plugin to
+                                    install (for example, <codeph>ibm-rmf-app</codeph>).</p>
+                                <p>You can optionally append a version number to install a specific
+                                    version (for example, <codeph>ibm-rmf-app 2.0.1</codeph>). If no
+                                    version is specified, the latest version from the Grafana plugin
+                                    catalog is installed.</p>
+                            </stentry>
+                        </strow>
+                        <strow>
+                            <stentry><codeph>&lt;image_name></codeph></stentry>
+                            <stentry>
+                                <p>Version of the Grafana image to be used.</p>
+                            </stentry>
+                        </strow>
+                    </simpletable>
+                    <p>For
+                        example,<codeblock id="codeblock_docker_example">docker run --name rmf-grafana \
+--hostname rmf-grafana \
+--detach --restart unless-stopped \
+--volume rmf-grafana-data:/var/lib/grafana \
+--publish 3000:3000 \
+--env "GF_INSTALL_PLUGINS=ibm-rmf-app" \
+11.0.1</codeblock></p>
+                    <note id="note_docker_images">zCX/zLinux images are available at <xref
+                            href="https://ibm.github.io/ibm-z-oss-hub/main/main.html" format="html"
+                            scope="external">Container Images for IBM Z and LinuxONE</xref>.
+                        Similarly, images of other required platforms are available at <xref
+                            href="https://hub.docker.com/" format="html" scope="external">Docker
+                            Hub</xref>.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify that the <uicontrol conref="conref.dita#conref/plugin_name_grafana"/>
+                    option is listed under the <uicontrol>Apps</uicontrol> section.</cmd>
+            </step>
+        </steps>
+        <result id="result_docker_install">
+            <p conref="conref.dita#conref/p_uyx_dkx_xjc"/>
+        </result>
+        <postreq id="postreq_docker_install">
+            <ul conref="conref.dita#conref/ul_nnn_hpw_xjc" id="ul_docker_postreq">
+                <li/>
+            </ul>
+        </postreq>
+    </taskbody>
+    <related-links>
+        <link href="https://docs.docker.com/engine/reference/commandline/run/" format="html"
+            scope="external">
+            <linktext>docker run command</linktext>
+        </link>
+        <link href="https://docs.docker.com/engine/reference/commandline/volume_create/"
+            format="html" scope="external">
+            <linktext>docker volume create command</linktext>
+        </link>
+    </related-links>
+</task>

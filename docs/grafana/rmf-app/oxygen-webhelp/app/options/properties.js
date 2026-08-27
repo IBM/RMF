@@ -17,7 +17,6 @@ var properties =
   "webhelp.search.page.numberOfItems" : "10",
   "webhelp.search.ranking" : "true",
   "webhelp.show.child.links" : "no",
-  "webhelp.show.expand.collapse.sections" : "yes",
   "webhelp.show.full.size.image" : "true",
   "webhelp.show.indexterms.link" : "yes",
   "webhelp.show.main.page.tiles" : "no",

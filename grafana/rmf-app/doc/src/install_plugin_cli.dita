@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="install_plugin_cli" xml:lang="en-us">
+    <title>Installing the <keyword conref="conref.dita#conref/plugin_name_short"/> plugin by using
+        Grafana CLI</title>
+    <titlealts>
+        <navtitle>Installing the plugin by using Grafana CLI</navtitle>
+    </titlealts>
+    <shortdesc>You can install the <keyword conref="conref.dita#conref/plugin_name_short"/> plugin by
+        using the Grafana command-line interface. Use this method if you need to install a specific
+        version or automate the installation.</shortdesc>
+    <taskbody>
+        <prereq id="prereq_cli_install">
+            <p conref="conref.dita#conref/p_dps_vjx_xjc"/>
+        </prereq>
+        <steps>
+            <step>
+                <cmd>Run the following command to install the latest version of the <keyword
+                        conref="conref.dita#conref/plugin_name_short"/> plugin:</cmd>
+                <info>
+                    <codeblock id="codeblock_cli_install">grafana cli plugins install ibm-rmf-app</codeblock>
+                    <p>To install a specific version, use:</p>
+                    <codeblock id="codeblock_cli_version">grafana cli plugins install ibm-rmf-app &lt;version></codeblock>
+                    <note id="note_cli_catalog">This command installs the plugin from the Grafana
+                        plugin catalog, which hosts versions 2.0.1 and later. To install a version
+                        earlier than 2.0.1, see <xref href="install_grafana_plugin_legacy.dita"
+                        />.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Restart the Grafana server.</cmd>
+            </step>
+            <step>
+                <cmd>Verify that the <uicontrol conref="conref.dita#conref/plugin_name_grafana"/>
+                    option is listed under the <uicontrol>Apps</uicontrol> section.</cmd>
+            </step>
+        </steps>
+        <result id="result_cli_install">
+            <p conref="conref.dita#conref/p_uyx_dkx_xjc"/>
+        </result>
+        <postreq id="postreq_cli_install">
+            <ul conref="conref.dita#conref/ul_nnn_hpw_xjc" id="ul_cli_postreq">
+                <li/>
+            </ul>
+        </postreq>
+    </taskbody>
+    <related-links>
+        <link href="https://grafana.com/docs/grafana/latest/cli/" format="html" scope="external">
+            <linktext>Grafana CLI documentation</linktext>
+        </link>
+    </related-links>
+</task>

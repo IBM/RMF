@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="dashboards_overview" xml:lang="en-us">
+    <title>Dashboards</title>
+    <titlealts>
+        <navtitle>Dashboards</navtitle>
+    </titlealts>
+    <shortdesc>The <ph conref="conref.dita#conref/plugin_name"/> plugin provides pre-built sample
+        dashboards that you can install, as well as the ability to import dashboards from other
+        sources and integrate with IBM Z OMEGAMON dashboards.</shortdesc>
+    <conbody>
+        <p>After you install the plugin, you can deploy sample dashboards to visualize <ph
+                conref="conref.dita#conref/rmf_short"/> metrics. The plugin offers the following
+            dashboard categories:</p>
+        <ul id="ul_dashboard_categories">
+            <li>
+                <p><uicontrol>DDS Sample Dashboards</uicontrol> - A comprehensive set of dashboards
+                    for visualizing RMF Monitor III metrics collected through the <ph
+                        conref="conref.dita#conref/dds_full"/>. These dashboards are installed into
+                    a dedicated folder named <uicontrol>IBM RMF (DDS)</uicontrol>.</p>
+            </li>
+            <li><uicontrol>Prometheus Sample Dashboards</uicontrol> - Dashboards designed to work
+                with Prometheus-compatible platforms that scrape metrics from the RMF <ph
+                    conref="conref.dita#conref/dds_short"/>
+                <filepath>/metrics/m3</filepath> endpoint. These are installed into a folder named
+                    <uicontrol>IBM RMF (Prometheus)</uicontrol>.</li>
+            <li><uicontrol>Imported Dashboards from RMF Performance Monitoring</uicontrol> -
+                Dashboards exported from RMF Performance Monitoring can be imported into the plugin.
+                These are placed in a folder named <uicontrol>IBM RMF (PM)</uicontrol>.</li>
+        </ul>
+        <p>You can also integrate DDS dashboards with <keyword conref="conref.dita#conref/omui_full"
+            /> dashboards for enhanced visibility across both tools.</p>
+    </conbody>
+</concept>

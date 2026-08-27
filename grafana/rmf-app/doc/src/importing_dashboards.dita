@@ -1,49 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="importing_dashboards" xml:lang="en-us">
-    <title>Importing Dashboards created in RMF Performance Monitoring</title>
+    <title>Importing dashboards created in RMF Performance Monitoring</title>
     <titlealts>
-        <navtitle>Importing dashboards</navtitle>
+        <navtitle>Importing Performance Monitoring dashboards</navtitle>
     </titlealts>
-    <shortdesc>This task describes how to import dashboards and the associated data sources created
-        in RMF Performance Monitoring in the RMF application. </shortdesc>
+    <shortdesc>You can import dashboards exported from RMF Performance Monitoring
+            (<filepath>.po</filepath> files) into the <ph
+            conref="conref.dita#conref/plugin_name"/> plugin. The import process automatically
+        creates the associated data sources and converts the dashboards to Grafana format.</shortdesc>
     <taskbody>
         <prereq id="prereq_oxf_ywq_pyb">
-            <p>You must have completed the following task:<ul id="ul_frm_gw3_ryb">
+            <p>You must have completed the following tasks:<ul id="ul_frm_gw3_ryb">
                     <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
+                    <li>Exported a dashboard from RMF Performance Monitoring in
+                            <filepath>.po</filepath> format.</li>
                 </ul></p>
         </prereq>
+        <context id="context_pm_import">
+            <p>When you import a <filepath>.po</filepath> file, the plugin performs the following
+                actions:</p>
+            <ul id="ul_pm_import_actions">
+                <li>Parses the data source definitions from the file and creates the corresponding
+                    IBM RMF data sources in Grafana if they do not already exist.</li>
+                <li>Converts the Performance Monitoring dashboard panels into Grafana bar chart
+                    panels with appropriate queries and transformations.</li>
+                <li>Installs the converted dashboard into the <uicontrol>IBM RMF
+                        (PM)</uicontrol> folder.</li>
+            </ul>
+        </context>
         <steps>
             <step>
                 <cmd>Go to <menucascade>
-                        <uicontrol>Apps </uicontrol>
+                        <uicontrol>Apps</uicontrol>
                         <uicontrol>IBM RMF</uicontrol>
-                    </menucascade> and navigate to the Import Dashboards from RMF Performance
-                    Monitoring section.</cmd>
+                    </menucascade> and navigate to the <wintitle>Import Dashboards from RMF
+                        Performance Monitoring</wintitle> section.</cmd>
             </step>
             <step>
                 <cmd>Verify the <uicontrol>Destination folder</uicontrol> path displayed under the
                     section heading.</cmd>
-            </step>
-            <step>
-                <cmd>Click <uicontrol>Go to PM Dashboards</uicontrol> to review existing RMF
-                    Performance Monitoring dashboard files before importing.</cmd>
-            </step>
-            <step>
-                <cmd>In the <uicontrol>Upload File</uicontrol> area, drag and drop
-                        <filepath>.po</filepath> dashboard file or click the upload zone to browse
-                    for the file manually.</cmd>
                 <info>
-                    <note id="note_kmy_bfs_33c">The Data sources defined in RMF Performance
-                        Monitoring dashboards are imported without credentials. After import, update
-                        each data source with valid credentials if the DDS requires authentication
-                        where required.</note>
+                    <p>The imported dashboards are placed in the <uicontrol>IBM RMF
+                            (PM)</uicontrol> folder.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Drag and drop a <filepath>.po</filepath> dashboard file onto the drop zone, or
+                    click the drop zone to browse for the file manually.</cmd>
+                <info>
+                    <p>Only files with the <filepath>.po</filepath> extension are accepted. You can
+                        import one file at a time.</p>
+                </info>
+                <stepresult>The plugin automatically creates any required data sources and imports
+                    the dashboard into the destination folder. A success notification confirms the
+                    import with the dashboard name.</stepresult>
+            </step>
+            <step importance="optional">
+                <cmd>Click <uicontrol>Go to PM Dashboards</uicontrol> to navigate to the
+                    destination folder and review the imported dashboards.</cmd>
+                <info>
+                    <p>This button is available only after at least one dashboard has been
+                        imported.</p>
+                </info>
+            </step>
+            <step importance="optional">
+                <cmd>To remove all imported dashboards, click
+                    <uicontrol>Delete</uicontrol>.</cmd>
+                <info>
+                    <p>This removes the <uicontrol>IBM RMF (PM)</uicontrol> folder and all
+                        dashboards within it. The data sources created during import are not
+                        removed.</p>
                 </info>
             </step>
         </steps>
         <result id="result_wwb_kfs_33c">
-            <p>The dashboards exported from the RMF Performance Monitoring are successfully imported
-                into the RMF application. </p>
+            <p>The dashboard exported from RMF Performance Monitoring is successfully imported into
+                the <ph conref="conref.dita#conref/plugin_name"/> plugin and is available in the
+                    <uicontrol>IBM RMF (PM)</uicontrol> folder.</p>
+            <note id="note_kmy_bfs_33c" type="important">Data sources defined in RMF Performance
+                Monitoring dashboards are imported without credentials. After import, update each
+                data source with valid credentials if the corresponding <ph
+                    conref="conref.dita#conref/dds_short"/> requires
+                authentication.</note>
         </result>
     </taskbody>
 </task>

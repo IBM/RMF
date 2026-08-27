@@ -1,8 +1,4 @@
 var localization = new Array();
-localization["label.see"]="See";
-localization["label.see_also"]="See also";
-localization["ask.me.anything"]="Ask me anything";
-localization["go.to.top"]="Go to top";
 localization["advanced_search_tooltip_title"]="Search Syntax Help";
 localization["reset_search_filters"]="Reset";
 localization["search_filters"]="Filters";

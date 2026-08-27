@@ -17,7 +17,8 @@
 // import defaults from 'lodash/defaults';
 
 import { QueryEditorProps } from '@grafana/data';
-import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { css, cx } from '@emotion/css';
+import { getTemplateSrv, config } from '@grafana/runtime';
 import { RadioButtonGroup, Spinner, Switch } from '@grafana/ui';
 import React, { PureComponent } from 'react';
 import { AutocompleteTextField } from '../autocomplete-text/autocomplete-textfield';
@@ -43,7 +44,40 @@ import { DataSource } from '../datasource';
 import { Parser } from '../parser/core/parser';
 import { GrammarResult } from '../parser/core/type';
 
-require('./queryeditor.parser.component.css');
+const getStyles = () => {
+  const theme = config.theme2;
+  return {
+    autotextSpinner: css({
+      display: 'inherit',
+      paddingLeft: theme.spacing(1.25),
+    }),
+    autotextError: css({
+      display: 'flex',
+      padding: `${theme.spacing(1.25)} 0`,
+      color: theme.colors.error.text,
+    }),
+    hideDisplay: css({
+      display: 'none',
+    }),
+    filltext: css({
+      width: '100%',
+    }),
+    rmfSwitch: css({
+      width: '100%',
+      paddingTop: theme.spacing(0.625),
+      paddingRight: theme.spacing(1.25),
+    }),
+    rmfForm: css({
+      display: 'inline-flex',
+      paddingTop: theme.spacing(0.625),
+    }),
+    rmfFormResource: css({
+      display: 'inline-flex',
+      paddingTop: theme.spacing(0.625),
+      width: '81%',
+    }),
+  };
+};
 
 type Props = QueryEditorProps<DataSource, RMFQuery, RMFDataSourceJsonData>;
 type state = RMFQuery;
@@ -80,13 +114,6 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
     this.autoComplDefProps = { ...autoCompleteDefaultProps };
     this.autoComplDefProps.value = props.query?.selectedQuery ? props.query.selectedQuery : '';
     this.refInput = React.createRef();
-    if (Object.keys(metricDict).length === 0) {
-      this.loadDataFromService(props.datasource.id)
-        .then((resp1: any) => {})
-        .catch((err: any) => {
-          this.setServiceCallInprogresState(false);
-        });
-    }
   }
 
   componentDidMount() {
@@ -95,37 +122,37 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
     this.setState({ queryText: '' });
     this.setState({ editorSelectedResource: this.editorSelectedResource });
     this.setState({ enableTimeSeries: this.enableTimeSeries });
+    if (Object.keys(metricDict).length === 0) {
+      this.loadMetricsIndex()
+        .then((resp1: any) => {})
+        .catch((err: any) => {
+          this.setServiceCallInprogresState(false);
+        });
+    }
   }
 
-  async loadDataFromService(id: number) {
-    return await new Promise((resolve, reject) =>
-      getBackendSrv()
-        .fetch({
-          method: 'post',
-          headers: {
-            Accept: 'application/text',
-            'Content-Type': 'application/text',
-          },
-          url: `/api/datasources/${id}/resources/autopopulate`,
-          responseType: 'text',
-        })
-        .subscribe(
-          (resp) => {
-            if (resp.data) {
-              let result = JSON.parse(resp.data as string);
-              let resourceList: any[] = getResource(result);
-              metricDict = loadDataToDictionary(resourceList);
-              resolve(true);
-            } else {
-              reject(false);
-            }
-          },
-          (err) => {
-            this.setServiceCallInprogresState(false);
-            reject(false);
-          }
-        )
-    );
+  async loadMetricsIndex() {
+    try {
+      const data = await this.props.datasource.postResource<string>('autopopulate', undefined, {
+        headers: {
+          Accept: 'application/text',
+          'Content-Type': 'application/text',
+        },
+        responseType: 'text',
+      });
+
+      if (data) {
+        let result = JSON.parse(data as string);
+        let resourceList: any[] = getResource(result);
+        metricDict = loadDataToDictionary(resourceList);
+        return true;
+      } else {
+        return Promise.reject(false);
+      }
+    } catch (err) {
+      this.setServiceCallInprogresState(false);
+      return Promise.reject(false);
+    }
   }
 
   onTextChange = (val: string, e: any) => {
@@ -281,8 +308,8 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
     this.refInput.current.refInput.current.focus();
   };
 
-  // Grfana templete will refresh only if state items are updated
   render() {
+    const styles = getStyles();
     return (
       <div id={'main+' + (this.props.query as any).refId}>
         <div>
@@ -294,24 +321,22 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
               value={'resource'}
             />
             <Spinner
-              className={
-                this.state && this.state.serviceCallInprogres ? 'autotext-spinner' : 'autotext-spinner hide-display'
-              }
+              className={cx(styles.autotextSpinner, {
+                [styles.hideDisplay]: !(this.state && this.state.serviceCallInprogres),
+              })}
               size={20}
             />
             <label
-              className={
-                this.state && this.state.serviceCallInprogres ? 'autotext-spinner' : 'autotext-spinner hide-display'
-              }
+              className={cx(styles.autotextSpinner, {
+                [styles.hideDisplay]: !(this.state && this.state.serviceCallInprogres),
+              })}
             >
               Loading...
             </label>
             <label
-              className={
-                this.state && this.state.errorMessage && this.state.errorMessage.trim() !== ''
-                  ? 'autotext-error'
-                  : 'autotext-error hide-display'
-              }
+              className={cx(styles.autotextError, {
+                [styles.hideDisplay]: !(this.state && this.state.errorMessage && this.state.errorMessage.trim() !== ''),
+              })}
             >
               Error: {this.state.errorMessage}
             </label>
@@ -332,20 +357,20 @@ export class QueryEditorAutoCompleteComponent extends PureComponent<Props, state
               {...this.autoComplDefProps}
             />
             <span>
-              <div className="rmf-form">
+              <div className={styles.rmfForm}>
                 <label className="gf-form-label">Time series</label>
-                <div className="css-lohq6k-input-wrapper width-22 filltext">
-                  <div className="css-1w5c5dq-input-inputWrapper rmf-switch">
+                <div className={styles.filltext}>
+                  <div className={styles.rmfSwitch}>
                     <Switch label={'Time Series'} value={this.state.enableTimeSeries} onChange={this.onSwitchChange} />
                   </div>
                 </div>
               </div>
-              <div className="rmf-form-resource">
+              <div className={styles.rmfFormResource}>
                 <label className="gf-form-label width-9">Selected Resource</label>
-                <div className="css-lohq6k-input-wrapper width-22 filltext">
-                  <div className="css-1w5c5dq-input-inputWrapper filltext">
+                <div className={styles.filltext}>
+                  <div className={styles.filltext}>
                     <input
-                      className="css-nwgrif-input-input filltext"
+                      className={styles.filltext}
                       type="text"
                       value={this.state && this.state.editorSelectedResource ? this.state.editorSelectedResource : ''}
                       disabled={true}

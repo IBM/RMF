@@ -39,7 +39,7 @@
   "includes": [
     {
       "type": "datasource",
-      "name": "IBM RMF for z/OS",
+      "name": "IBM RMF Data Source",
       "path": "datasource/plugin.json"
     },
     {
@@ -52,7 +52,7 @@
     }
   ],
   "dependencies": {
-    "grafanaDependency": ">=10.0",
+    "grafanaDependency": ">=11.0",
     "plugins": []
   }
 }

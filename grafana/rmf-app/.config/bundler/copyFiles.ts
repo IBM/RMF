@@ -10,6 +10,7 @@ export const copyFilePatterns = [
   // If src/README.md exists use it; otherwise the root README
   // To `compiler.options.output`
   { from: hasReadme() ? 'README.md' : '../README.md', to: '.', force: true },
+  { from: 'datasource/README.md', to: 'datasource', noErrorOnMissing: true },
   { from: 'plugin.json', to: '.' },
   { from: '../LICENSE', to: '.' },
   { from: '../CHANGELOG.md', to: '.', force: true },

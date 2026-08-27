@@ -6,12 +6,15 @@
             conref="conref.dita#conref/zosmf_short"/> to access Grafana from the <wintitle>Resource
             Monitoring</wintitle> page of <ph conref="conref.dita#conref/zosmf_short"/>.</shortdesc>
     <taskbody>
-        <prereq id="prereq_ovt_dyl_syb"><ph conref="conref.dita#conref/ph_n3w_bbm_syb"/><ul
-                id="ul_ntr_2yl_syb">
-                <li>Completed the tasks provided in the Prerequisites section. See <xref
-                        href="prereq_zosmf.dita"/>.</li>
+        <prereq id="prereq_ovt_dyl_syb">
+            <ul id="ul_ntr_2yl_syb">
+                <li>
+                    <p>Completed the tasks provided in the Prerequisites section. See <xref
+                            href="prereq_zosmf.dita"/>.</p>
+                </li>
                 <li conref="conref.dita#conref/li_qbm_nw3_ryb"/>
-            </ul></prereq>
+            </ul>
+        </prereq>
         <steps>
             <step>
                 <cmd><ph conref="conref.dita#conref/ph_i51_xbm_syb"/></cmd>
@@ -79,12 +82,17 @@
         </steps>
         <result id="result_crs_p1m_syb">You have defined the Grafana server as the target
             system.</result>
-        <postreq id="postreq_yvm_r1m_syb"><ph conref="conref.dita#conref/ph_cyy_4bm_syb"/><ul
-                id="ul_l4d_s1m_syb">
-                <li>Modify or Remove the Grafana server by clicking the
-                        <uicontrol>Action</uicontrol> drop-down menu from the <wintitle>System
-                        Status</wintitle> page.</li>
-                <li>Access Grafana dashboards. See <xref href="access_grafana_zosmf.dita"/>.</li>
-            </ul></postreq>
+        <postreq id="postreq_yvm_r1m_syb">
+            <ul id="ul_l4d_s1m_syb">
+                <li>
+                    <p>Modify or Remove the Grafana server by clicking the
+                            <uicontrol>Action</uicontrol> drop-down menu from the <wintitle>System
+                            Status</wintitle> page.</p>
+                </li>
+                <li>
+                    <p>Access Grafana dashboards. See <xref href="access_grafana_zosmf.dita"/>.</p>
+                </li>
+            </ul>
+        </postreq>
     </taskbody>
 </task>

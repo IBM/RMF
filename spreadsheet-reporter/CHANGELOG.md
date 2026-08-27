@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.5.12 (2026-07-20)
+
+ - Fix performance degradation of report listing parser
+ 
 ## 5.5.11 (2026-04-24)
 
  - Help updated about RepIntStr, RepIntAct and RepTrdStr intradependency

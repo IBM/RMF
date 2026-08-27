@@ -16,12 +16,18 @@
  */
 import React, { PureComponent } from 'react';
 import { DataSourcePluginOptionsEditorProps, SelectableValue } from '@grafana/data';
-import { FieldValidationMessage, InlineField, InlineSwitch, LegacyForms, SecretInput, Select, ComboboxOption } from '@grafana/ui';
+import {
+  FieldValidationMessage,
+  InlineField,
+  InlineSwitch,
+  LegacyForms,
+  SecretInput,
+  Select,
+  ComboboxOption,
+} from '@grafana/ui';
 import { RMFDataSourceSettings, RMFDataSourceJsonData, RMFDataSourceSecureJsonData } from '../common/types';
 import { OMEGAMON_DS_TYPE_NAME } from '../common/configSettings';
 import { getBackendSrv } from '@grafana/runtime';
-
-require('./config-editor.component.css');
 
 const { FormField } = LegacyForms;
 const FIELD_LABEL_WIDTH = 10;
@@ -72,7 +78,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         cacheSize: jsonData?.cacheSize || DEFAULT_CACHE_SIZE,
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
-        omegamonDs: jsonData?.omegamonDs ?? "",
+        omegamonDs: jsonData?.omegamonDs ?? '',
       };
     }
     onOptionsChange({ ...options });
@@ -141,18 +147,19 @@ export default class ConfigEditor extends PureComponent<Props, State> {
     });
   };
 
+  // TODO: remove this
   loadDatasourceList = async (inputValue: string) => {
-    var items: Set<string> =  new Set();
-    var optionsArray: Array<ComboboxOption<string | number>> = new Array;
+    var items: Set<string> = new Set();
+    var optionsArray: Array<ComboboxOption<string | number>> = new Array();
     if (this.props.options.jsonData?.omegamonDs) {
       items.add(this.props.options.jsonData?.omegamonDs);
-      optionsArray.push({value: this.props.options.jsonData?.omegamonDs} as ComboboxOption<string>);
+      optionsArray.push({ value: this.props.options.jsonData?.omegamonDs } as ComboboxOption<string>);
     }
-    var datasources: any = await getBackendSrv().get("/api/datasources")
+    var datasources: any = await getBackendSrv().get('/api/datasources');
     datasources.forEach((ds: any) => {
       if (ds.type === OMEGAMON_DS_TYPE_NAME && !items.has(ds.name)) {
         items.add(ds.name);
-        optionsArray.push({value: ds.name} as ComboboxOption<string>);
+        optionsArray.push({ value: ds.name } as ComboboxOption<string>);
       }
     });
     return optionsArray;
@@ -164,25 +171,28 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
   updateDatasourceList = async (type: string) => {
     var items: Set<string> = new Set();
-    var optionsArray: Array<SelectableValue<string>> = new Array;
-    items.add("");
-    optionsArray.push({label: "", value: "" } as SelectableValue);
+    var optionsArray: Array<SelectableValue<string>> = new Array();
+    items.add('');
+    optionsArray.push({ label: '', value: '' } as SelectableValue);
     if (this.props.options.jsonData?.omegamonDs && !items.has(this.props.options.jsonData?.omegamonDs)) {
       items.add(this.props.options.jsonData?.omegamonDs);
-      optionsArray.push({label: this.props.options.jsonData?.omegamonDs, value: this.props.options.jsonData?.omegamonDs } as SelectableValue);
+      optionsArray.push({
+        label: this.props.options.jsonData?.omegamonDs,
+        value: this.props.options.jsonData?.omegamonDs,
+      } as SelectableValue);
     }
-    var datasources: any = await getBackendSrv().get("/api/datasources");
+    var datasources: any = await getBackendSrv().get('/api/datasources');
     datasources.forEach((ds: any) => {
       if (ds.type === type && !items.has(ds.name)) {
         items.add(ds.name);
-        optionsArray.push({label: ds.name, value: ds.name } as SelectableValue);
+        optionsArray.push({ label: ds.name, value: ds.name } as SelectableValue);
       }
     });
     this.setState((prevState) => ({
       ...prevState,
-      omegOptionsArray: optionsArray
+      omegOptionsArray: optionsArray,
     }));
-  }
+  };
 
   render() {
     const { options } = this.props;
@@ -344,9 +354,9 @@ export default class ConfigEditor extends PureComponent<Props, State> {
             <InlineField label="Data Source" labelWidth={INLINE_LABEL_WIDTH} tooltip="Linked OMEGAMON data source">
               <Select
                 width={DATASOURCE_COMBO_WIDTH}
-                allowCustomValue={true}	
+                allowCustomValue={true}
                 value={options.jsonData?.omegamonDs}
-                options={this.state.omegOptionsArray} 
+                options={this.state.omegOptionsArray}
                 onChange={(event) => {
                   this.updateSettings({ jsonData: { omegamonDs: String(event.value) } });
                 }}

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
-  "name": "IBM RMF for z/OS",
+  "name": "IBM RMF Data Source",
   "id": "ibm-rmf-datasource",
   "metrics": true,
   "backend": true,
@@ -30,7 +30,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=10.0",
+    "grafanaDependency": ">=11.0",
     "plugins": []
   }
 }

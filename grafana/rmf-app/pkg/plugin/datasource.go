@@ -76,19 +76,21 @@ type RMFDatasource struct {
 func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	logger := log.Logger.With("func", "NewRMFDatasource")
 	ds := &RMFDatasource{uid: settings.UID, name: settings.Name}
-	config, err := ds.getConfig(settings)
+	config, httpOpts, err := ds.getConfig(ctx, settings)
 	if err != nil {
 		logger.Error("failed to get config", "error", err)
 		return nil, err
 	}
-	// nolint:contextcheck
-	ds.ddsClient = dds.NewClient(config.URL, config.Username, config.Password, config.Timeout,
-		config.JSON.TlsSkipVerify, config.JSON.DisableCompression)
+	ds.ddsClient, err = dds.NewClient(config.URL, *httpOpts)
+	if err != nil {
+		logger.Error("failed to create DDS client", "error", err)
+		return nil, err
+	}
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
 	ds.omegamonDs = config.JSON.OmegamonDs
 	ds.batchRequestInterval = config.BatchRequestMinutes
-	logger.Info("initialized a datasource",
+	logger.Debug("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
 		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify,
@@ -107,7 +109,7 @@ func (ds *RMFDatasource) Dispose() {
 	ds.channelCache.Reset()
 	ds.frameCache.Reset()
 	ds.ddsClient.Close()
-	logger.Info("disposed datasource", "uid", ds.uid, "name", ds.name)
+	logger.Debug("disposed datasource", "uid", ds.uid, "name", ds.name)
 }
 
 // CheckHealth handles health checks sent from Grafana to the plugin.
@@ -449,12 +451,12 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		}
 		f, _, err := ds.getCachedTSFrames(r, stop, step, fields)
 		if err != nil {
-			logger.Info("streaming stopped", "reason", err, "path", req.Path)
+			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
 		if f != nil {
 			if err := sender.SendFrame(f, data.IncludeAll); err != nil {
-				logger.Info("streaming stopped", "reason", err, "path", req.Path)
+				logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 				return nil
 			}
 			r.Add(frame.GetDuration(f))
@@ -471,7 +473,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 				r = dds.NewBatchRequest(res, r.TimeRange.From, step, span)
 				continue
 			}
-			logger.Info("streaming stopped", "reason", err, "path", req.Path)
+			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
 		r.Add(step)
@@ -485,7 +487,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		}
 		for {
 			if err := ds.serveTSFrame(ctx, sender, fields, r, false); err != nil {
-				logger.Info("streaming stopped", "reason", err, "path", req.Path)
+				logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 				return nil
 			}
 			r.Add(step)
@@ -494,11 +496,11 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		// There is no data at all, send a dummy frame without fields to reflect it in UI
 		f := data.NewFrame("")
 		if err := sender.SendFrame(f, data.IncludeAll); err != nil {
-			logger.Info("streaming stopped", "reason", err, "path", req.Path)
+			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
 	}
-	logger.Info("streaming stopped", "reason", "all the data sent", "path", req.Path)
+	logger.Debug("streaming stopped", "reason", "all the data sent", "path", req.Path)
 	return nil
 }
 

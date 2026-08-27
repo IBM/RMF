@@ -15,24 +15,43 @@
  * limitations under the License.
  */
 import React from 'react';
+import { css } from '@emotion/css';
+import { config } from '@grafana/runtime';
 import { APP_NAME, APP_DESC, APP_LOGO_URL } from '../../constants';
+
+const getStyles = () => {
+  const theme = config.theme2;
+  return {
+    headerContainer: css({
+      display: 'flex',
+      alignItems: 'center',
+    }),
+    headerLogo: css({
+      width: theme.spacing(4),
+      height: theme.spacing(4),
+      marginRight: theme.spacing(2),
+    }),
+    headerTitle: css({
+      display: 'inline-block',
+    }),
+    headerDescription: css({
+      position: 'relative' as const,
+      color: theme.colors.text.secondary,
+    }),
+  };
+};
 
 interface Props {}
 
-// It's an ugly replacement of the implementation based on @grafana/scenes
-// for the sake of compatibility with Grafana v10+
 export const Header: React.FC<Props> = ({}) => {
+  const styles = getStyles();
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'row' }}>
-        <img
-          src={APP_LOGO_URL}
-          style={{ width: '32px', height: '32px', marginRight: '16px' }}
-          alt={`logo for ${APP_NAME}`}
-        />
-        <h1 style={{ display: 'inline-block' }}>{APP_NAME}</h1>
+      <div className={styles.headerContainer}>
+        <img src={APP_LOGO_URL} className={styles.headerLogo} alt={`logo for ${APP_NAME}`} />
+        <h1 className={styles.headerTitle}>{APP_NAME}</h1>
       </div>
-      <div style={{ position: 'relative', color: 'gray' }}>{APP_DESC}</div>
+      <div className={styles.headerDescription}>{APP_DESC}</div>
     </>
   );
 };

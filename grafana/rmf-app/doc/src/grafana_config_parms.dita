@@ -5,17 +5,16 @@
     <shortdesc>You can find the information about parameters you can use during the configuration of
         JWT authentication on Grafana.</shortdesc>
     <body>
-        <p>The following table lists the minimum parameters that you must configure to enable JWT
+        <p>The following tables lists the minimum parameters that you must configure to enable JWT
             authentication on Grafana:</p>
-        <table frame="all" id="table_d22_hfh_h1c" colsep="1" rowsep="1">
-            <tgroup cols="4" align="left">
+        <table frame="all" rowsep="1" colsep="1" id="table_cv2_qdd_yjc">
+            <title><codeph>[auth.jwt] </codeph> Parameters</title>
+            <tgroup cols="3" align="left">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c2" colnum="2"/>
                 <colspec colname="c3" colnum="3"/>
-                <colspec colname="c4" colnum="4"/>
                 <thead>
                     <row>
-                        <entry>Section</entry>
                         <entry>Parameters</entry>
                         <entry>Description</entry>
                         <entry>Values to be configured for <ph
@@ -24,7 +23,6 @@
                 </thead>
                 <tbody>
                     <row>
-                        <entry morerows="8"><codeph>[auth.jwt]</codeph></entry>
                         <entry><parmname>enabled</parmname></entry>
                         <entry>Use this parameter to allow JWT to authenticate on the Grafana
                             server.<lines id="lines_qlg_jnh_h1c">The default value is set to <systemoutput>true</systemoutput>.</lines></entry>
@@ -84,8 +82,25 @@
                             <lines id="lines_lgz_znh_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
                         <entry><systemoutput>true</systemoutput></entry>
                     </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <table frame="all" rowsep="1" colsep="1" id="table_qcw_32d_yjc">
+            <title><codeph>[server]</codeph> Parameters</title>
+            <tgroup cols="3" align="left">
+                <colspec colname="c1" colnum="1"/>
+                <colspec colname="c2" colnum="2"/>
+                <colspec colname="c3" colnum="3"/>
+                <thead>
                     <row>
-                        <entry morerows="2"><codeph>[server]</codeph></entry>
+                        <entry>Parameters</entry>
+                        <entry>Description</entry>
+                        <entry>Values to be configured for <ph
+                                conref="conref.dita#conref/zosmf_short"/></entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
                         <entry><parmname>protocol</parmname></entry>
                         <entry>Use this parameter to configure <ph
                                 conref="conref.dita#conref/zosmf_short"/> to work over
@@ -106,8 +121,25 @@
                             or <systemoutput>h2</systemoutput>.</entry>
                         <entry><systemoutput>/PATH/TO/privateKey.key</systemoutput></entry>
                     </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <table frame="all" rowsep="1" colsep="1" id="table_gtp_p2d_yjc">
+            <title><codeph>[Security]</codeph> Parameters</title>
+            <tgroup cols="3" align="left">
+                <colspec colname="c1" colnum="1"/>
+                <colspec colname="c2" colnum="2"/>
+                <colspec colname="c3" colnum="3"/>
+                <thead>
                     <row>
-                        <entry morerows="2"><codeph>[Security]</codeph></entry>
+                        <entry>Parameters</entry>
+                        <entry>Description</entry>
+                        <entry>Values to be configured for <ph
+                                conref="conref.dita#conref/zosmf_short"/></entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
                         <entry><parmname>cookie_secure</parmname></entry>
                         <entry>Use this parameter if you hosted the Grafana instance over
                             HTTPS.<lines id="lines_gpn_b4h_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
@@ -125,7 +157,7 @@
                         <entry>Use this parameter to enable web browsers to display Grafana within
                                 <ph conref="conref.dita#conref/zosmf_short"/> HTML &lt;frame>,
                             &lt;iframe>, &lt;embed>, or &lt;object> element.
-                            <lines id="lines_i5p_c4h_h1c">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
+                            <lines id="lines_uyr_t2d_yjc">The default value is set to <systemoutput>false</systemoutput>.</lines></entry>
                         <entry><systemoutput>true</systemoutput></entry>
                     </row>
                 </tbody>
