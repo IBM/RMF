@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.2 (2026-09-01)
+
+- Updated dependencies to address known vulnerabilities.
+
 ## 2.0.1 (2026-07-20)
 
 - Updated dependencies to address known vulnerabilities.

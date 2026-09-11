@@ -1,0 +1,7 @@
+[[IgnoredVulns]]
+id = "GHSA-337j-9hxr-rhxg"
+reason = "react-router is not bundled; runtime version provided by host Grafana"
+
+[[IgnoredVulns]]
+id = "GHSA-wrjc-x8rr-h8h6"
+reason = "react-router is not bundled; runtime version provided by host Grafana"

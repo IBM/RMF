@@ -21,7 +21,7 @@ For instructions about installing the plugin, you can refer to [Installing the p
 
 For more information about the usage of the plugin, refer to the [IBM® RMF Grafana plugin](https://ibm.github.io/RMF/grafana/rmf-app) documentation.
 
-For more information about IBM® RMF for z/OS refer to the [IBM® RMF for z/OS](https://www.ibm.com/docs/en/zos/3.1.0?topic=zos-rmf) documentation.
+For more information about IBM® RMF for z/OS refer to the [IBM® RMF for z/OS](https://www.ibm.com/docs/en/zos/latest?topic=zos-rmf) documentation.
 
 ## Feedback
 

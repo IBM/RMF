@@ -13,7 +13,7 @@ import ReplaceInFileWebpackPlugin from 'replace-in-file-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import { SubresourceIntegrityPlugin } from 'webpack-subresource-integrity';
 import webpack, { type Configuration } from 'webpack';
-import LiveReloadPlugin from 'webpack-livereload-plugin';
+import LiveReloadPlugin from './liveReloadPlugin.ts';
 import VirtualModulesPlugin from 'webpack-virtual-modules';
 
 import { BuildModeWebpackPlugin } from './BuildModeWebpackPlugin.ts';
