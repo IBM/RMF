@@ -91,21 +91,60 @@ func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.
 	if format == dds.ReportFormat {
 		return buildForReport(&report, headers, frameName), nil
 	} else if wide {
-		return buildWideForMetric(&report, frameName), nil
+		return buildWideForMetric(report.Metric, &report.TimeData.TimeDataShort, &report.Rows, frameName), nil
 	} else {
 		return buildLongForMetric(&report, frameName), nil
 	}
 }
 
+func validateTimeSeriesResponse(ddsResponse *dds.Response) error {
+	if ddsResponse.TimeSeries == nil {
+		return errors.New("no time series data in DDS response")
+	}
+	if ddsResponse.TimeSeries.Message != nil && ddsResponse.TimeSeries.Message.Severity > 2 {
+		return &dds.GpmError{
+			Id:          ddsResponse.TimeSeries.Message.Id,
+			Severity:    ddsResponse.TimeSeries.Message.Severity,
+			Description: ddsResponse.TimeSeries.Message.Description,
+		}
+	}
+	seriesNum := len(ddsResponse.TimeSeries.Series)
+	if seriesNum == 0 {
+		return errors.New("no series in DDS response")
+	}
+	timeSeries := ddsResponse.TimeSeries
+	if timeSeries.Metric == nil {
+		return errors.New("no metric data in DDS response")
+	}
+	if _, ok := dds.SupportedFormats[timeSeries.Metric.Format]; !ok {
+		return fmt.Errorf("unsupported data format (%s) in DDS response", timeSeries.Metric.Format)
+	}
+	return nil
+}
+
+func BuildBatch(ddsResponse *dds.Response) (*data.Frame, error) {
+	err := validateTimeSeriesResponse(ddsResponse)
+	if err != nil {
+		return nil, err
+	}
+	var result *data.Frame
+	for _, series := range ddsResponse.TimeSeries.Series {
+		frameName := strings.Trim(ddsResponse.TimeSeries.Metric.Description, " ")
+		frame := buildWideForMetric(ddsResponse.TimeSeries.Metric, series.TimeData, &series.Rows, frameName)
+		result, _ = MergeInto(result, frame)
+	}
+	return result, nil
+}
+
 // buildWideForMetric creates a time series data frame for a metric from pre-parsed DDS response.
 // Grafana frame format: wide.
-func buildWideForMetric(report *dds.Report, frameName string) *data.Frame {
-	timestamp := report.TimeData.UTCEnd.Time
-	metricFormat := report.Metric.Format
+func buildWideForMetric(metric *dds.Metric, timeData *dds.TimeDataShort, rows *[]dds.Row, frameName string) *data.Frame {
+	timestamp := timeData.UTCEnd.Time
+	metricFormat := metric.Format
 	labels := getFrameLabels(metricFormat, frameName)
 	resultFrame := data.NewFrame(frameName, data.NewField("time", nil, []time.Time{timestamp}))
 
-	iterateMetricRows(report, frameName,
+	iterateMetricRows(rows, frameName,
 		func(name string, value *float64) {
 			newField := data.NewField(name, labels, []*float64{value})
 			resultFrame.Fields = append(resultFrame.Fields, newField)
@@ -144,7 +183,7 @@ func buildLongForMetric(report *dds.Report, frameName string) *data.Frame {
 		data.NewField(valField, nil, []*float64{}),
 	)
 
-	iterateMetricRows(report, frameName,
+	iterateMetricRows(&report.Rows, frameName,
 		func(name string, value *float64) {
 			resultFrame.Fields[0].Append(timestamp)
 			resultFrame.Fields[1].Append(name)
@@ -155,10 +194,10 @@ func buildLongForMetric(report *dds.Report, frameName string) *data.Frame {
 }
 
 // iterateMetricRows parses metric key-value pairs and passes them to `process` while iterating over rows.
-func iterateMetricRows(report *dds.Report, defaultName string, process func(name string, value *float64)) {
+func iterateMetricRows(rows *[]dds.Row, defaultName string, process func(name string, value *float64)) {
 	colMap := map[string]bool{}
 	var sb strings.Builder
-	for _, jsonRow := range report.Rows {
+	for _, jsonRow := range *rows {
 		cols := jsonRow.Cols
 		name, rawValue := cols[0], cols[1]
 		if name == "*NoData*" {
