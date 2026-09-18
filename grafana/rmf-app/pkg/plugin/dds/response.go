@@ -47,8 +47,41 @@ var AcceptableMessages = map[string]bool{
 	"GPM0709I": true, // Filter has caused no data to be returned
 }
 
+const MESSAGE_ID_NOT_ENOUGTH_MEMORY = "GPM0555I"
+const MESSAGE_SEVERITY_WARNING = 2
+
 type Response struct {
-	Reports []Report `json:"report"`
+	Reports    []Report    `json:"report"`
+	Server     Server      `json:"server"`
+	TimeSeries *TimeSeries `json:"timeSeries"`
+}
+
+type Server struct {
+	Functionality string `json:"functionality"`
+	Version       string `json:"version"`
+}
+
+type TimeSeries struct {
+	Metric   *Metric
+	Message  *Message
+	Resource *Resource `json:"resource"`
+	Series   []Series  `json:"series"`
+}
+
+type Series struct {
+	TimeData *TimeDataShort `json:"timeData"`
+	Message  *Message
+	Rows     []Row `json:"row"`
+}
+
+type GpmError struct {
+	Id          string
+	Severity    int
+	Description string
+}
+
+func (e *GpmError) Error() string {
+	return fmt.Sprintf("DDS error: %s (severity %d). %s", e.Id, e.Severity, e.Description)
 }
 
 type Report struct {
@@ -73,14 +106,18 @@ func (r Report) GetRowNames() []string {
 	return names
 }
 
-type TimeData struct {
-	// FIXME: don't use these in report headers: they are in DDS timezone. Remove from the mapping.
+type TimeDataShort struct {
 	LocalStart DateTime `json:"localStart"`
 	LocalEnd   DateTime `json:"localEnd"`
-	LocalPrev  DateTime `json:"localPrev"`
-	LocalNext  DateTime `json:"localNext"`
 	UTCStart   DateTime `json:"utcStart"`
 	UTCEnd     DateTime `json:"utcEnd"`
+}
+
+type TimeData struct {
+	// FIXME: don't use these in report headers: they are in DDS timezone. Remove from the mapping.
+	TimeDataShort
+	LocalPrev  DateTime `json:"localPrev"`
+	LocalNext  DateTime `json:"localNext"`
 	NumSamples int      `json:"numSamples"`
 	NumSystems *int     `json:"numSystems,omitempty"`
 	MinTime    struct {

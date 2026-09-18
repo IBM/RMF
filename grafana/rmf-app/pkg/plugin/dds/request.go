@@ -20,6 +20,7 @@ package dds
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -29,20 +30,23 @@ import (
 type Request struct {
 	Resource  string
 	TimeRange data.TimeRange
+	Batched   bool
+	Span      time.Duration
 }
 
-func NewRequest(res string, from time.Time, to time.Time, step time.Duration) *Request {
-	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}}
-	q.Align(step)
+func (r *Request) Copy() *Request {
+	q := *r
 	return &q
 }
 
-func (r *Request) Align(d time.Duration) {
-	r.TimeRange.From = r.TimeRange.From.Truncate(d)
-	t := r.TimeRange.To.Truncate(d)
-	if t.Equal(r.TimeRange.From) || t.Before(r.TimeRange.To) {
-		r.TimeRange.To = t.Add(d)
-	}
+func NewRequest(res string, from time.Time, to time.Time) *Request {
+	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}, Batched: false}
+	return &q
+}
+
+func NewBatchRequest(res string, from time.Time, to time.Time, span time.Duration) *Request {
+	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}, Batched: true, Span: span}
+	return &q
 }
 
 func (r *Request) Add(d time.Duration) {
@@ -76,6 +80,13 @@ func (r *Request) pathWithParams(timeOfs time.Duration) (string, []string, error
 	if path == "" {
 		path = PerformPath
 	}
-	params = append(params, "range", r.formatRange(timeOfs))
+	var rangeParam = "range"
+	if r.Batched {
+		params = append(params, "batchSpan", strconv.Itoa(int(r.Span.Seconds())))
+		path = TimeSeriesPath
+		timeOfs = 0
+		rangeParam = "rangeUtc"
+	}
+	params = append(params, rangeParam, r.formatRange(timeOfs))
 	return path, params, nil
 }

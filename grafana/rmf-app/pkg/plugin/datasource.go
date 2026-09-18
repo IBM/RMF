@@ -58,16 +58,19 @@ const ChannelCacheSizeMB = 64
 const SdsDelay = 5 * time.Second
 const TimeSeriesType = "TimeSeries"
 const QueryPattern = `^([A-Za-z_][A-Za-z0-9_]*)\(([^)]*)\)$` // e.g., banner(resource), table(resource), caption(resource)
+const DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK = 0x1000
 
 type RMFDatasource struct {
-	uid          string
-	name         string
-	channelCache *cache.ChannelCache
-	frameCache   *cache.FrameCache
-	ddsClient    *dds.Client
-	single       singleflight.Group
-	omegamonDs   string
-	queryMatcher *regexp.Regexp
+	uid                  string
+	name                 string
+	channelCache         *cache.ChannelCache
+	frameCache           *cache.FrameCache
+	ddsClient            *dds.Client
+	single               singleflight.Group
+	omegamonDs           string
+	queryMatcher         *regexp.Regexp
+	batchRequestInterval int
+	ddsSync              time.Duration
 }
 
 // NewRMFDatasource creates a new instance of the RMF datasource.
@@ -87,10 +90,15 @@ func NewRMFDatasource(ctx context.Context, settings backend.DataSourceInstanceSe
 	ds.channelCache = cache.NewChannelCache(ChannelCacheSizeMB)
 	ds.frameCache = cache.NewFrameCache(config.CacheSize)
 	ds.omegamonDs = config.JSON.OmegamonDs
+	ds.batchRequestInterval = config.BatchRequestMinutes
+	ds.ddsSync = time.Duration(config.SyncMinute) * time.Minute
 	logger.Debug("initialized a datasource",
 		"uid", settings.UID, "name", settings.Name,
 		"url", config.URL, "timeout", config.Timeout, "cacheSize", config.CacheSize,
-		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify)
+		"username", config.Username, "tlsSkipVerify", config.JSON.TlsSkipVerify,
+		"batchRequestInterval", ds.batchRequestInterval,
+		"syncMinute", config.SyncMinute,
+	)
 	ds.queryMatcher = regexp.MustCompile(QueryPattern)
 	return ds, nil
 }
@@ -144,6 +152,52 @@ func (ds *RMFDatasource) CheckHealth(ctx context.Context, req *backend.CheckHeal
 		message = "Data source is working."
 	}
 	return &backend.CheckHealthResult{Status: status, Message: message}, nil
+}
+
+func (ds *RMFDatasource) Align(step time.Duration, t time.Time) time.Time {
+	periodMillis := step.Milliseconds()
+	anchorMillis := ds.ddsSync.Milliseconds()
+	tMillis := t.UnixMilli()
+	steps := floorDiv(tMillis-anchorMillis, periodMillis)
+	result := time.UnixMilli(anchorMillis + steps*periodMillis)
+	log.Logger.Debug("Aligning time", "step", step, "t", t, "result", result)
+	return result
+}
+
+func (ds *RMFDatasource) AlignRange(step time.Duration, s time.Time, e time.Time) (time.Time, time.Time) {
+	sa := ds.Align(step, s)
+	ea := ds.Align(step, e)
+	if ea.Equal(sa) || ea.Before(sa) {
+		ea = sa.Add(step)
+	}
+	log.Logger.Debug("Aligning range", "step", step, "s", s, "e", e, "sa", sa, "ea", ea)
+	return sa, ea
+}
+
+func (ds *RMFDatasource) AlignBatch(start time.Time, end time.Time) (time.Time, time.Time) {
+	step := time.Duration(ds.batchRequestInterval) * time.Minute
+	return ds.AlignBatchStep(start, end, step)
+}
+
+func (ds *RMFDatasource) AlignBatchStep(start time.Time, end time.Time, step time.Duration) (time.Time, time.Time) {
+	truncate := min(step, time.Hour)
+	s := start.Truncate(truncate)
+	e := s.Add(step)
+	if e.After(end) {
+		e = end
+	}
+	log.Logger.Debug("Aligning batch", "step", step, "start", start, "end", end, "s", s, "e", e)
+	return s, e
+}
+
+// floorDiv is integer division that rounds toward negative infinity,
+// matching Java's Math.floorDiv (Go's / truncates toward zero).
+func floorDiv(a, b int64) int64 {
+	q := a / b
+	if (a%b != 0) && ((a < 0) != (b < 0)) {
+		q--
+	}
+	return q
 }
 
 type VariableQueryRequest struct {
@@ -315,8 +369,22 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					step := getStep(mintime, q.Interval)
 					fields := frame.SeriesFields{}
 					start := q.TimeRange.From.UTC()
-					r := dds.NewRequest(params.Resource.Value, start, start, step)
+					start = ds.Align(step, start)
+					r := dds.NewRequest(params.Resource.Value, start, start)
 					f, jump, err := ds.getCachedTSFrames(r, q.TimeRange.To.UTC(), step, fields)
+					if ds.supportsBatchRequests() {
+						span := step
+						step = time.Duration(ds.batchRequestInterval) * time.Minute
+						s, e := ds.AlignBatch(q.TimeRange.From.UTC(), q.TimeRange.To.UTC())
+						r = dds.NewBatchRequest(params.Resource.Value, s, e, span)
+						f2, _, err2 := ds.getCachedTSFrames(r, q.TimeRange.To.UTC(), step, fields)
+						if f == nil || err != nil {
+							f = f2
+						} else if f2 != nil && err2 == nil {
+							step = frame.GetDuration(f2)
+							f, err = frame.MergeInto(f, f2)
+						}
+					}
 					if f == nil || err != nil {
 						f = frame.TaggedFrame(start, "No data yet...")
 					}
@@ -330,6 +398,9 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 						TimeRange: backend.TimeRange{From: start.Add(jump), To: q.TimeRange.To.UTC()},
 						Absolute:  params.AbsoluteTime,
 						Step:      step,
+						Interval:  q.Interval,
+						Span:      r.Span,
+						Mintime:   mintime,
 						Fields:    fields,
 					}
 					err = ds.channelCache.Set(channel.Path, &cachedChannel)
@@ -342,7 +413,8 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 				} else {
 					// Query non-timeseries data
 					queryKind, query := ds.parseQuery(params.Resource.Value)
-					r := dds.NewRequest(query, q.TimeRange.From.UTC(), q.TimeRange.To.UTC(), mintime)
+					from, to := ds.AlignRange(mintime, q.TimeRange.From.UTC(), q.TimeRange.To.UTC())
+					r := dds.NewRequest(query, from, to)
 					response = &backend.DataResponse{}
 					newFrame := ds.getCachedReportFrames(r)
 					if newFrame == nil {
@@ -405,13 +477,23 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	}
 	res := c.Resource
 	step := c.Step
+	span := c.Span
+	mintime := c.Mintime
+	interval := c.Interval
 	absolute := c.Absolute
 	from := c.TimeRange.From
 	to := c.TimeRange.To
 	fields := c.Fields
 
 	logger.Debug("starting streaming", "step", step.String(), "path", req.Path)
-	r := dds.NewRequest(res, from, from, step)
+	var r *dds.Request
+	if ds.supportsBatchRequests() {
+		s, e := ds.AlignBatch(from, to)
+		r = dds.NewBatchRequest(res, s, e, span)
+	} else {
+		from, to = ds.AlignRange(mintime, from, from)
+		r = dds.NewRequest(res, from, to)
+	}
 
 	// Stream historical part of time series
 	stop := to
@@ -419,11 +501,18 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		if !absolute {
 			stop = time.Now().Add(-SdsDelay)
 		}
-		if r.TimeRange.To.After(stop) {
-			logger.Debug("finished with historical data", "request", r.String(), "path", req.Path)
-			break
+		if r.Batched {
+			if r.TimeRange.From.After(stop) {
+				logger.Debug("batch finished with historical data", "request", r.String(), "path", req.Path)
+				break
+			}
+		} else {
+			if r.TimeRange.To.After(stop) {
+				logger.Debug("finished with historical data", "request", r.String(), "path", req.Path)
+				break
+			}
 		}
-		f, jump, err := ds.getCachedTSFrames(r, stop, step, fields)
+		f, _, err := ds.getCachedTSFrames(r, stop, step, fields)
 		if err != nil {
 			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 			return nil
@@ -433,10 +522,21 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 				logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 				return nil
 			}
-			r.Add(jump)
+			r.Add(frame.GetDuration(f))
 			continue
 		}
 		if err := ds.serveTSFrame(ctx, sender, fields, r, true); err != nil {
+			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Id == dds.MESSAGE_ID_NOT_ENOUGTH_MEMORY {
+				logger.Debug("GPM0555I: reduce step", "step", step.Minutes())
+				step = step / 2
+				if step < MinBatchRequestMinutes*time.Minute {
+					logger.Info("streaming stopped", "reason", "step is too small", "path", req.Path, "step", step.Minutes(), "error", err)
+					return nil
+				}
+				s, e := ds.AlignBatchStep(r.TimeRange.From, r.TimeRange.To, step)
+				r = dds.NewBatchRequest(res, s, e, span)
+				continue
+			}
 			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
@@ -444,6 +544,11 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	}
 	if !absolute {
 		// Stream live data as it's being collected
+		if r.Batched {
+			step = getStep(interval, mintime)
+			start, end := ds.AlignRange(mintime, stop, stop)
+			r = dds.NewRequest(res, start, end)
+		}
 		for {
 			if err := ds.serveTSFrame(ctx, sender, fields, r, false); err != nil {
 				logger.Debug("streaming stopped", "reason", err, "path", req.Path)
@@ -480,4 +585,9 @@ func (d *RMFDatasource) parseQuery(resource string) (string, string) {
 		return strings.ToLower(matches[1]), matches[2]
 	}
 	return "", resource
+}
+
+func (ds *RMFDatasource) supportsBatchRequests() bool {
+	fl := ds.ddsClient.GetFunctionality()
+	return fl&DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK == DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK
 }
