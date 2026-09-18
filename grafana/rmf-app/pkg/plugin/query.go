@@ -80,7 +80,7 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 		err  error
 	)
 	// Create a copy of the original request - don't alter it
-	cr := dds.NewRequest(r.Resource, r.TimeRange.From, r.TimeRange.To, step)
+	cr := r.Copy()
 	for cr.TimeRange.From.Before(stop) {
 		next := ds.frameCache.Get(cr, true)
 		if next == nil {

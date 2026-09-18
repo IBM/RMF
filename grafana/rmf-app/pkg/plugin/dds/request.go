@@ -34,25 +34,19 @@ type Request struct {
 	Span      time.Duration
 }
 
-func NewRequest(res string, from time.Time, to time.Time, step time.Duration) *Request {
+func (r *Request) Copy() *Request {
+	q := *r
+	return &q
+}
+
+func NewRequest(res string, from time.Time, to time.Time) *Request {
 	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}, Batched: false}
-	q.Align(step)
 	return &q
 }
 
-func NewBatchRequest(res string, t time.Time, step time.Duration, span time.Duration) *Request {
-	startHour := t.Truncate(step)
-	endHour := startHour.Add(step)
-	q := Request{Resource: res, TimeRange: data.TimeRange{From: startHour, To: endHour}, Batched: true, Span: span}
+func NewBatchRequest(res string, from time.Time, to time.Time, span time.Duration) *Request {
+	q := Request{Resource: res, TimeRange: data.TimeRange{From: from, To: to}, Batched: true, Span: span}
 	return &q
-}
-
-func (r *Request) Align(d time.Duration) {
-	r.TimeRange.From = r.TimeRange.From.Truncate(d)
-	t := r.TimeRange.To.Truncate(d)
-	if t.Equal(r.TimeRange.From) || t.Before(r.TimeRange.To) {
-		r.TimeRange.To = t.Add(d)
-	}
 }
 
 func (r *Request) Add(d time.Duration) {

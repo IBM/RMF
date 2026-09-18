@@ -98,14 +98,19 @@ func Build(ddsResponse *dds.Response, headers *dds.HeaderMap, wide bool) (*data.
 }
 
 func validateTimeSeriesResponse(ddsResponse *dds.Response) error {
+	logger := log.Logger.With("func", "validateTimeSeriesResponse")
 	if ddsResponse.TimeSeries == nil {
 		return errors.New("no time series data in DDS response")
 	}
 	if ddsResponse.TimeSeries.Message != nil && ddsResponse.TimeSeries.Message.Severity > 2 {
-		return &dds.GpmError{
-			Id:          ddsResponse.TimeSeries.Message.Id,
-			Severity:    ddsResponse.TimeSeries.Message.Severity,
-			Description: ddsResponse.TimeSeries.Message.Description,
+		if _, ok := dds.AcceptableMessages[ddsResponse.TimeSeries.Message.Id]; !ok {
+			return &dds.GpmError{
+				Id:          ddsResponse.TimeSeries.Message.Id,
+				Severity:    ddsResponse.TimeSeries.Message.Severity,
+				Description: ddsResponse.TimeSeries.Message.Description,
+			}
+		} else {
+			logger.Debug(ddsResponse.TimeSeries.Message.Error())
 		}
 	}
 	seriesNum := len(ddsResponse.TimeSeries.Series)

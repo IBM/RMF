@@ -43,6 +43,7 @@ type Config struct {
 	Timeout             int
 	CacheSize           int
 	BatchRequestMinutes int
+	SyncMinute          int
 	Username            string
 	Password            string // #nosec G117
 	JSON                struct {
@@ -61,6 +62,7 @@ type Config struct {
 		SSLVerify            bool    `json:"skipVerify"` // NB: the meaning of JSON field is inverted.
 		OmegamonDs           string  `json:"omegamonDs"`
 		BatchRequestInterval string  `json:"batchRequestInterval"`
+		SyncMinute           string  `json:"syncMinute"`
 	}
 }
 
@@ -149,6 +151,13 @@ func (ds *RMFDatasource) getConfig(ctx context.Context, settings backend.DataSou
 		logger.Warn("batch request interval is too large, using maximal value", "batchRequestInterval", config.BatchRequestMinutes)
 		config.BatchRequestMinutes = MaxBatchRequestMinutes
 	}
-
+	if config.SyncMinute, err = strconv.Atoi(config.JSON.SyncMinute); err != nil {
+		logger.Warn("syncMinute is not valid, applying default", "syncMinute", config.JSON.SyncMinute)
+		config.SyncMinute = 0
+	}
+	if config.SyncMinute < 0 || config.SyncMinute > 59 {
+		logger.Warn("syncMinute is out of range, applying default", "syncMinute", config.SyncMinute)
+		config.SyncMinute = 0
+	}
 	return &config, &httpOpts, nil
 }

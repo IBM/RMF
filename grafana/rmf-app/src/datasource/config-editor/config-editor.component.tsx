@@ -47,6 +47,7 @@ interface State {
   httpTimeoutError?: string;
   basicAuthUserError?: string;
   cacheSizeError?: string;
+  syncMinuteError?: string;
   omegOptionsArray?: SelectableValue<string>[];
 }
 // TODO: somehow prometheus can validate fields from "run and test" in v11
@@ -79,6 +80,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
         tlsSkipVerify: jsonData?.tlsSkipVerify || false,
         disableCompression: jsonData?.disableCompression ?? false,
         omegamonDs: jsonData?.omegamonDs ?? '',
+        syncMinute: jsonData?.syncMinute ?? '0'
       };
     }
     onOptionsChange({ ...options });
@@ -117,6 +119,15 @@ export default class ConfigEditor extends PureComponent<Props, State> {
       this.setState({ cacheSizeError: undefined });
     } else {
       this.setState({ cacheSizeError: 'Cache size must be ≥ ' + MINIMAL_CACHE_SIZE });
+    }
+  };
+
+  validateSyncMinute = (value: string) => {
+    let numValue = Number(value);
+    if (numValue >= 0 && numValue < 60 && Number.isInteger(numValue)) {
+      this.setState({ syncMinuteError: undefined });
+    } else {
+      this.setState({ syncMinuteError: 'SYNC minute must be an integer between 0 and 59' });
     }
   };
 
@@ -196,7 +207,7 @@ export default class ConfigEditor extends PureComponent<Props, State> {
 
   render() {
     const { options } = this.props;
-    const { urlError, httpTimeoutError, basicAuthUserError, cacheSizeError } = this.state;
+    const { urlError, httpTimeoutError, basicAuthUserError, cacheSizeError, syncMinuteError } = this.state;
     const isPasswordSet = options.secureJsonFields?.basicAuthPassword || options.secureJsonFields?.password || false;
 
     return (
@@ -345,6 +356,27 @@ export default class ConfigEditor extends PureComponent<Props, State> {
               }}
             />
             {cacheSizeError && <FieldValidationMessage horizontal={true}>{cacheSizeError}</FieldValidationMessage>}
+          </div>
+        </div>
+
+        <h3 className="page-heading">SYNC</h3>
+        <div className="gf-form-group">
+          <div className="gf-form">
+            <FormField
+              label="SYNC minute"
+              labelWidth={FIELD_LABEL_WIDTH}
+              tooltip="RMF SYNC(N) in minutes for the data source"
+              placeholder="0"
+              inputWidth={FIELD_INPUT_WIDTH}
+              value={options.jsonData?.syncMinute}
+              onChange={(event) => {
+                this.updateSettings({ jsonData: { syncMinute: event.currentTarget.value } });
+              }}
+              onBlur={(event) => {
+                this.validateSyncMinute(event.currentTarget.value);
+              }}
+            />
+            {syncMinuteError && <FieldValidationMessage horizontal={true}>{syncMinuteError}</FieldValidationMessage>}
           </div>
         </div>
 

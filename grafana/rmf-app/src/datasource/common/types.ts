@@ -126,6 +126,7 @@ export interface RMFDataSourceJsonData extends DataSourceJsonData {
   // NB: the meaning of that is inverted. If set, we do verify certificates.
   skipVerify?: boolean;
   omegamonDs?: string;
+  syncMinute?: string;
 }
 
 /**

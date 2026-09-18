@@ -38,6 +38,7 @@ type Channel struct {
 	Interval  time.Duration
 	Span      time.Duration
 	Fields    frame.SeriesFields
+	Mintime   time.Duration
 }
 
 func NewChannelCache(size int) *ChannelCache {
