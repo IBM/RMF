@@ -526,7 +526,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 			continue
 		}
 		if err := ds.serveTSFrame(ctx, sender, fields, r, true); err != nil {
-			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Id == dds.MESSAGE_ID_NOT_ENOUGTH_MEMORY {
+			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Id == dds.MESSAGE_ID_NOT_ENOUGTH_MEMORY && r.Batched {
 				logger.Debug("GPM0555I: reduce step", "step", step.Minutes())
 				step = step / 2
 				if step < MinBatchRequestMinutes*time.Minute {
@@ -535,6 +535,16 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 				}
 				s, e := ds.AlignBatchStep(r.TimeRange.From, r.TimeRange.To, step)
 				r = dds.NewBatchRequest(res, s, e, span)
+				continue
+			}
+			if httpe, ok := errors.AsType[*dds.HTTPStatusError](err); ok && r.Batched &&
+				(httpe.StatusCode == http.StatusNotImplemented ||
+					httpe.StatusCode == http.StatusBadRequest ||
+					httpe.StatusCode == http.StatusNotFound) {
+				logger.Debug("Batch requests support is off, fallback to non-batch request", "httpe", httpe)
+				step = getStep(mintime, interval)
+				start := ds.Align(step, from)
+				r = dds.NewRequest(res, start, start)
 				continue
 			}
 			logger.Debug("streaming stopped", "reason", err, "path", req.Path)
@@ -588,6 +598,7 @@ func (d *RMFDatasource) parseQuery(resource string) (string, string) {
 }
 
 func (ds *RMFDatasource) supportsBatchRequests() bool {
-	fl := ds.ddsClient.GetFunctionality()
-	return fl&DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK == DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK
+	//fl := ds.ddsClient.GetFunctionality()
+	//return fl&DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK == DDS_BATCH_REQUESTS_FUNCTIONALITY_MASK
+	return true
 }

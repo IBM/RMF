@@ -20,6 +20,7 @@ package plugin
 import (
 	"context"
 	"errors"
+	"net/http"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache"
@@ -126,6 +127,12 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 		f, err = ds.getFrame(r, true)
 		if err != nil {
 			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Severity > dds.MESSAGE_SEVERITY_WARNING {
+				return err
+			}
+			if httpe, ok := errors.AsType[*dds.HTTPStatusError](err); ok &&
+				(httpe.StatusCode == http.StatusNotImplemented ||
+					httpe.StatusCode == http.StatusBadRequest ||
+					httpe.StatusCode == http.StatusNotFound) {
 				return err
 			}
 			logger.Error("failed to get data", "request", r.String(), "reason", err)
