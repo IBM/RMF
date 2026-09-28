@@ -136,7 +136,10 @@ func BuildBatch(ddsResponse *dds.Response) (*data.Frame, error) {
 	for _, series := range ddsResponse.TimeSeries.Series {
 		frameName := strings.Trim(ddsResponse.TimeSeries.Metric.Description, " ")
 		frame := buildWideForMetric(ddsResponse.TimeSeries.Metric, series.TimeData, &series.Rows, frameName)
-		result, _ = MergeInto(result, frame)
+		result, err = MergeInto(result, frame)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return result, nil
 }

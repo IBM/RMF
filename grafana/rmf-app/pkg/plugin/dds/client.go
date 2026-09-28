@@ -26,7 +26,6 @@ import (
 	"mime"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -69,14 +68,13 @@ func (e *HTTPStatusError) Error() string {
 }
 
 type Client struct {
-	baseUrl       string
-	httpClient    *http.Client
-	headerMap     *HeaderMap
-	timeData      *TimeData
-	resource      *Resource
-	systems       []string
-	useXmlExt     atomic.Bool
-	functionality atomic.Int32
+	baseUrl    string
+	httpClient *http.Client
+	headerMap  *HeaderMap
+	timeData   *TimeData
+	resource   *Resource
+	systems    []string
+	useXmlExt  atomic.Bool
 
 	stopChan  chan struct{}
 	closeOnce sync.Once
@@ -275,12 +273,6 @@ func (c *Client) updateMetadata() *TimeData {
 		c.timeData = timeData
 		c.resource = resource
 		c.systems = systems
-		fl, parseErr := strconv.ParseInt(response.Server.Functionality, 10, 32)
-		if parseErr != nil {
-			logger.Warn("unable to parse DDS functionality", "value", response.Server.Functionality, "error", parseErr)
-		} else {
-			c.functionality.Store(int32(fl))
-		}
 		c.rwMutex.Unlock()
 		logger.Debug("DDS time data updated")
 		return timeData, nil
@@ -311,9 +303,4 @@ func (c *Client) GetSysplex() string {
 func (c *Client) GetSystems() []string {
 	c.ensureTimeData()
 	return c.systems
-}
-
-func (c *Client) GetFunctionality() int32 {
-	c.ensureTimeData()
-	return c.functionality.Load()
 }

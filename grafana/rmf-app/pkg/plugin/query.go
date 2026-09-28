@@ -79,21 +79,26 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 		f    *data.Frame
 		jump time.Duration
 		err  error
+		gap  bool
 	)
 	// Create a copy of the original request - don't alter it
 	cr := r.Copy()
 	for cr.TimeRange.From.Before(stop) {
+		log.Logger.Debug("fetching cached frame", "request", cr.String())
 		next := ds.frameCache.Get(cr, true)
+		cr.Add(step)
 		if next == nil {
-			break
+			gap = true
+			continue
 		}
 		frame.SyncFieldNames(fields, next, r.TimeRange.To)
 		f, err = frame.MergeInto(f, next)
 		if err != nil {
 			return nil, jump, err
 		}
-		cr.Add(step)
-		jump += step
+		if !gap {
+			jump += step
+		}
 	}
 	return f, jump, err
 }
@@ -141,7 +146,7 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 			if !hist {
 				t, ok := f.Fields[0].At(0).(time.Time)
 				if !ok || t.Before(r.TimeRange.To) {
-					logger.Debug("mintime is not ready yet")
+					logger.Debug("mintime is not ready yet", "to", r.TimeRange.To, "t", t)
 					time.Sleep(SdsDelay)
 					continue
 				}
