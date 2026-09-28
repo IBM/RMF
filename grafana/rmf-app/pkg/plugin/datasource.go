@@ -384,7 +384,10 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 						sf, smallJump, err := ds.getCachedTSFrames(sr, q.TimeRange.To.UTC(), smallStep, fields)
 						if sf != nil && err == nil {
 							if f != nil {
-								f, err = frame.MergeTimeSeries(f, sf)
+								mergedFrame, mergeErr := frame.MergeTimeSeries(f, sf)
+								if mergeErr == nil {
+									f = mergedFrame
+								}
 							} else {
 								f = sf
 							}
