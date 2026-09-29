@@ -19,7 +19,7 @@ package cache
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
@@ -53,7 +53,7 @@ func (c *Channel) SetSender(sender *backend.StreamSender) {
 
 func (c *Channel) Send(dataFrame *data.Frame) error {
 	if c.sender == nil {
-		return fmt.Errorf("sender is not set")
+		return errors.New("sender is not set")
 	}
 	err := c.sender.SendFrame(dataFrame, data.IncludeAll)
 	if err == nil {
