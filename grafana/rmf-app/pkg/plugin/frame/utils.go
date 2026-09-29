@@ -380,3 +380,28 @@ func GetMaxTime(f *data.Frame) time.Time {
 	}
 	return maxTime
 }
+
+// ForEachTime iterates over all values of the time field in the frame and
+// passes each index and value into the callback. Returning false from the
+// callback stops the iteration.
+func ForEachTime(f *data.Frame, callback func(index int, t time.Time) bool) {
+	if f == nil || callback == nil {
+		return
+	}
+	if len(f.Fields) == 0 {
+		return
+	}
+	timeField := f.Fields[0]
+	if timeField.Type() != data.FieldTypeTime {
+		return
+	}
+	for i := 0; i < timeField.Len(); i++ {
+		t, ok := timeField.At(i).(time.Time)
+		if !ok {
+			continue
+		}
+		if !callback(i, t) {
+			return
+		}
+	}
+}

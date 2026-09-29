@@ -27,7 +27,6 @@ import (
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -79,26 +78,21 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 		f    *data.Frame
 		jump time.Duration
 		err  error
-		gap  bool
 	)
 	// Create a copy of the original request - don't alter it
 	cr := r.Copy()
 	for cr.TimeRange.From.Before(stop) {
-		log.Logger.Debug("fetching cached frame", "request", cr.String())
 		next := ds.frameCache.Get(cr, true)
-		cr.Add(step)
 		if next == nil {
-			gap = true
-			continue
+			break
 		}
 		frame.SyncFieldNames(fields, next, r.TimeRange.To)
 		f, err = frame.MergeInto(f, next)
 		if err != nil {
 			return nil, jump, err
 		}
-		if !gap {
-			jump += step
-		}
+		cr.Add(step)
+		jump += step
 	}
 	return f, jump, err
 }
@@ -114,7 +108,7 @@ func (ds *RMFDatasource) setCachedReportFrames(f *data.Frame, r *dds.Request) {
 	}
 }
 
-func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
+func (ds *RMFDatasource) serveTSFrame(ctx context.Context, c *cache.Channel, fields frame.SeriesFields, r *dds.Request, hist bool) error {
 	logger := log.Logger.With("func", "serveTSFrame")
 	var f *data.Frame
 	var err error
@@ -162,7 +156,7 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 		return nil
 	}
 	frame.SyncFieldNames(fields, f, r.TimeRange.To)
-	if err := sender.SendFrame(f, data.IncludeAll); err != nil {
+	if err := c.Send(f); err != nil {
 		return err
 	}
 	return nil

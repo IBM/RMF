@@ -19,11 +19,13 @@ package cache
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/VictoriaMetrics/fastcache"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 type ChannelCache struct {
@@ -39,6 +41,43 @@ type Channel struct {
 	Span      time.Duration
 	Fields    frame.SeriesFields
 	Mintime   time.Duration
+	sentTimes map[int64]struct{}
+
+	//do not serialize it
+	sender *backend.StreamSender `json:"-"`
+}
+
+func (c *Channel) SetSender(sender *backend.StreamSender) {
+	c.sender = sender
+}
+
+func (c *Channel) Send(dataFrame *data.Frame) error {
+	if c.sender == nil {
+		return fmt.Errorf("sender is not set")
+	}
+	err := c.sender.SendFrame(dataFrame, data.IncludeAll)
+	if err == nil {
+		frame.ForEachTime(dataFrame, func(index int, t time.Time) bool {
+			c.MarkSent(t)
+			return true
+		})
+	}
+	return err
+}
+
+func (c *Channel) MarkSent(t time.Time) {
+	if c.sentTimes == nil {
+		c.sentTimes = make(map[int64]struct{})
+	}
+	c.sentTimes[t.UnixMilli()] = struct{}{}
+}
+
+func (c *Channel) HasSent(t time.Time) bool {
+	if c.sentTimes == nil {
+		return false
+	}
+	_, exists := c.sentTimes[t.UnixMilli()]
+	return exists
 }
 
 func NewChannelCache(size int) *ChannelCache {

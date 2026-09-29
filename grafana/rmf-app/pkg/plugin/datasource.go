@@ -365,23 +365,21 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 					fields := frame.SeriesFields{}
 					var f *data.Frame
 					var br *dds.Request
-					var jump time.Duration
 					var bigStep time.Duration
 					{ //large steps
 						bigStep = time.Duration(ds.batchRequestInterval) * time.Minute
 						s, e := ds.AlignBatch(q.TimeRange.From.UTC(), q.TimeRange.To.UTC())
 						br = dds.NewBatchRequest(params.Resource.Value, s, e, getStep(mintime, q.Interval))
-						bf, bigJump, err := ds.getCachedTSFrames(br, q.TimeRange.To.UTC(), bigStep, fields)
+						bf, _, err := ds.getCachedTSFrames(br, q.TimeRange.To.UTC(), bigStep, fields)
 						if bf != nil && err == nil {
 							f = bf
-							jump = bigJump
 						}
 					}
 					{ //small steps
 						smallStep := getStep(mintime, q.Interval)
 						s, e := ds.AlignRange(smallStep, q.TimeRange.From.UTC(), q.TimeRange.From.UTC())
 						sr := dds.NewRequest(params.Resource.Value, s, e)
-						sf, smallJump, err := ds.getCachedTSFrames(sr, q.TimeRange.To.UTC(), smallStep, fields)
+						sf, _, err := ds.getCachedTSFrames(sr, q.TimeRange.To.UTC(), smallStep, fields)
 						if sf != nil && err == nil {
 							if f != nil {
 								mergedFrame, mergeErr := frame.MergeTimeSeries(f, sf)
@@ -391,17 +389,19 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 							} else {
 								f = sf
 							}
-							if smallJump < jump {
-								jump = smallJump
-							}
 						}
 					}
 					step := bigStep
 					start := q.TimeRange.From.UTC()
 
-					if f == nil || err != nil {
+					var jump time.Duration
+					if f == nil {
 						f = frame.TaggedFrame(start, "No data yet...")
+						jump = 0
+					} else {
+						jump = frame.GetDuration(f) + mintime
 					}
+
 					channel := live.Channel{
 						Scope:     live.ScopeDatasource,
 						Namespace: ds.uid,
@@ -417,6 +417,10 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 						Mintime:   mintime,
 						Fields:    fields,
 					}
+					frame.ForEachTime(f, func(index int, t time.Time) bool {
+						cachedChannel.MarkSent(t)
+						return true
+					})
 					err = ds.channelCache.Set(channel.Path, &cachedChannel)
 					if err != nil {
 						response = &backend.DataResponse{Status: backend.StatusInternal, Error: err}
@@ -489,6 +493,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		logger.Error("unable to find channel", "err", err)
 		return nil
 	}
+	c.SetSender(sender)
 	res := c.Resource
 	step := c.Step
 	span := c.Span
@@ -511,31 +516,46 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 		if !absolute {
 			stop = time.Now().Add(-SdsDelay)
 		}
+		var breakLoop bool
 		if r.Batched {
 			if r.TimeRange.From.After(stop) {
 				logger.Debug("batch finished with historical data", "request", r.String(), "path", req.Path)
-				break
+				breakLoop = true
 			}
 		} else {
 			if r.TimeRange.To.After(stop) {
 				logger.Debug("finished with historical data", "request", r.String(), "path", req.Path)
-				break
+				breakLoop = true
 			}
 		}
-		f, _, err := ds.getCachedTSFrames(r, r.TimeRange.To, step, fields) //TODO to
+		if breakLoop {
+			if r.Batched {
+				step = getStep(mintime, interval)
+				start, end := ds.AlignRange(mintime, s, s)
+				r = dds.NewRequest(res, start, end)
+				breakLoop = false
+				continue
+			}
+			break
+		}
+		if c.HasSent(r.TimeRange.To) {
+			r.Add(step)
+			continue
+		}
+		f, _, err := ds.getCachedTSFrames(r, r.TimeRange.To, step, fields)
 		if err != nil {
 			logger.Debug("1. streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}
 		if f != nil {
-			if err := sender.SendFrame(f, data.IncludeAll); err != nil {
+			if err := c.Send(f); err != nil {
 				logger.Debug("2. streaming stopped", "reason", err, "path", req.Path, "f", f)
 				return nil
 			}
 			r.Add(frame.GetDuration(f) + mintime)
 			continue
 		}
-		if err := ds.serveTSFrame(ctx, sender, fields, r, true); err != nil {
+		if err := ds.serveTSFrame(ctx, c, fields, r, true); err != nil {
 			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Id == dds.MESSAGE_ID_NOT_ENOUGTH_MEMORY && r.Batched {
 				logger.Debug("GPM0555I: reduce step", "step", step.Minutes())
 				step = step / 2
@@ -570,7 +590,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 			r = dds.NewRequest(res, start, end)
 		}
 		for {
-			if err := ds.serveTSFrame(ctx, sender, fields, r, false); err != nil {
+			if err := ds.serveTSFrame(ctx, c, fields, r, false); err != nil {
 				logger.Debug("5. streaming stopped", "reason", err, "path", req.Path)
 				return nil
 			}
@@ -579,7 +599,7 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 	} else if len(fields) == 0 {
 		// There is no data at all, send a dummy frame without fields to reflect it in UI
 		f := data.NewFrame("")
-		if err := sender.SendFrame(f, data.IncludeAll); err != nil {
+		if err := c.Send(f); err != nil {
 			logger.Debug("6. streaming stopped", "reason", err, "path", req.Path)
 			return nil
 		}

@@ -35,7 +35,7 @@ const DefaultHttpTimeout = 60
 const DefaultCacheSizeMB = 1024
 const MinimalCacheSizeMB = 128
 const MinBatchRequestMinutes = 10
-const MaxBatchRequestMinutes = 120
+const MaxBatchRequestMinutes = 60
 const DefaultBatchRequestMinutes = MaxBatchRequestMinutes
 
 type Config struct {

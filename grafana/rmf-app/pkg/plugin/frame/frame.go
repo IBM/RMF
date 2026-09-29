@@ -60,7 +60,7 @@ func validateResponse(ddsResponse *dds.Response) error {
 		return fmt.Errorf("too many reports (%d) in DDS response", reportsNum)
 	}
 	report := ddsResponse.Reports[0]
-	if message := report.Message; message != nil {
+	if message := report.Message; message != nil && message.Severity > 2 {
 		if _, ok := dds.AcceptableMessages[message.Id]; !ok {
 			return message
 		} else {
