@@ -9,6 +9,10 @@
             <title>What's new</title>
             <dl id="dl_rsr_h3s_33c">
                 <dlentry>
+                    <dt>September 2026 v2.0.2</dt>
+                    <dd>Updated dependencies to address security vulnerabilities.</dd>
+                </dlentry>
+                <dlentry>
                     <dt>July 2026 v2.0.1</dt>
                     <dd>
                         <ul id="ul_as3_lzv_xjc">
