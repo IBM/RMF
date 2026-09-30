@@ -399,7 +399,7 @@ func (ds *RMFDatasource) QueryData(ctx context.Context, req *backend.QueryDataRe
 						f = frame.TaggedFrame(start, "No data yet...")
 						jump = 0
 					} else {
-						jump = frame.GetDuration(f) + mintime
+						jump = frame.GetDuration(f)
 					}
 
 					channel := live.Channel{
@@ -560,8 +560,11 @@ func (ds *RMFDatasource) RunStream(ctx context.Context, req *backend.RunStreamRe
 				logger.Debug("GPM0555I: reduce step", "step", step.Minutes())
 				step = step / 2
 				if step < MinBatchRequestMinutes*time.Minute {
-					logger.Info("3. streaming stopped", "reason", "step is too small", "path", req.Path, "step", step.Minutes(), "error", err)
-					return nil
+					logger.Debug("step is too small, fallback to non-batch request", "path", req.Path, "step", step.Minutes(), "error", err)
+					step = getStep(mintime, interval)
+					start, end := ds.AlignRange(mintime, r.TimeRange.From, r.TimeRange.From)
+					r = dds.NewRequest(res, start, end)
+					continue
 				}
 				s, e := ds.AlignBatchStep(r.TimeRange.From, r.TimeRange.To, step)
 				r = dds.NewBatchRequest(res, s, e, span)

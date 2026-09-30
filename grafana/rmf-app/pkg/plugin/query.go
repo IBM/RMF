@@ -120,7 +120,9 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, c *cache.Channel, fie
 		if !hist {
 			d := time.Until(r.TimeRange.To.Add(SdsDelay))
 			logger.Debug("sleeping", "request", r.String(), "duration", d.String())
-			time.Sleep(d)
+			if !sleepComplete(ctx, d) {
+				return ctx.Err()
+			}
 		}
 		logger.Debug("executing query", "request", r.String())
 		f, err = ds.getFrame(r, true)
@@ -160,4 +162,13 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, c *cache.Channel, fie
 		return err
 	}
 	return nil
+}
+
+func sleepComplete(ctx context.Context, d time.Duration) bool {
+	select {
+	case <-ctx.Done():
+		return false
+	case <-time.After(d):
+		return true
+	}
 }
