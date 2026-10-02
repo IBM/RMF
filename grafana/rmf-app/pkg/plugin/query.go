@@ -143,7 +143,9 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, c *cache.Channel, fie
 				t, ok := f.Fields[0].At(0).(time.Time)
 				if !ok || t.Before(r.TimeRange.To) {
 					logger.Debug("mintime is not ready yet", "to", r.TimeRange.To, "t", t)
-					time.Sleep(SdsDelay)
+					if !sleepComplete(ctx, SdsDelay) {
+						return ctx.Err()
+					}
 					continue
 				}
 			}
