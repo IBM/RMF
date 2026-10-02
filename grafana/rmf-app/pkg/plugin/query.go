@@ -19,13 +19,14 @@ package plugin
 
 import (
 	"context"
+	"errors"
+	"net/http"
 	"time"
 
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/cache"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/dds"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/frame"
 	"github.com/IBM/RMF/grafana/rmf-app/pkg/plugin/log"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -37,7 +38,12 @@ func (ds *RMFDatasource) getFrame(r *dds.Request, wide bool) (*data.Frame, error
 			return nil, err
 		}
 		headers := ds.ddsClient.GetCachedHeaders()
-		f, err := frame.Build(ddsResponse, headers, wide)
+		var f *data.Frame
+		if r.Batched {
+			f, err = frame.BuildBatch(ddsResponse)
+		} else {
+			f, err = frame.Build(ddsResponse, headers, wide)
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -74,8 +80,8 @@ func (ds *RMFDatasource) getCachedTSFrames(r *dds.Request, stop time.Time, step 
 		err  error
 	)
 	// Create a copy of the original request - don't alter it
-	cr := dds.NewRequest(r.Resource, r.TimeRange.From, r.TimeRange.To, step)
-	for r.TimeRange.To.Before(stop) {
+	cr := r.Copy()
+	for cr.TimeRange.From.Before(stop) {
 		next := ds.frameCache.Get(cr, true)
 		if next == nil {
 			break
@@ -102,7 +108,7 @@ func (ds *RMFDatasource) setCachedReportFrames(f *data.Frame, r *dds.Request) {
 	}
 }
 
-func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.StreamSender, fields frame.SeriesFields, r *dds.Request, hist bool) error {
+func (ds *RMFDatasource) serveTSFrame(ctx context.Context, c *cache.Channel, fields frame.SeriesFields, r *dds.Request, hist bool) error {
 	logger := log.Logger.With("func", "serveTSFrame")
 	var f *data.Frame
 	var err error
@@ -114,19 +120,32 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 		if !hist {
 			d := time.Until(r.TimeRange.To.Add(SdsDelay))
 			logger.Debug("sleeping", "request", r.String(), "duration", d.String())
-			time.Sleep(d)
+			if !sleepComplete(ctx, d) {
+				return ctx.Err()
+			}
 		}
 		logger.Debug("executing query", "request", r.String())
 		f, err = ds.getFrame(r, true)
 		if err != nil {
+			if gpme, ok := errors.AsType[*dds.GpmError](err); ok && gpme.Severity > dds.MESSAGE_SEVERITY_WARNING {
+				return err
+			}
+			if httpe, ok := errors.AsType[*dds.HTTPStatusError](err); ok &&
+				(httpe.StatusCode == http.StatusNotImplemented ||
+					httpe.StatusCode == http.StatusBadRequest ||
+					httpe.StatusCode == http.StatusNotFound) {
+				return err
+			}
 			logger.Error("failed to get data", "request", r.String(), "reason", err)
 			f = frame.NoDataFrame(r.TimeRange.To)
 		} else {
 			if !hist {
 				t, ok := f.Fields[0].At(0).(time.Time)
 				if !ok || t.Before(r.TimeRange.To) {
-					logger.Debug("mintime is not ready yet")
-					time.Sleep(SdsDelay)
+					logger.Debug("mintime is not ready yet", "to", r.TimeRange.To, "t", t)
+					if !sleepComplete(ctx, SdsDelay) {
+						return ctx.Err()
+					}
 					continue
 				}
 			}
@@ -141,8 +160,17 @@ func (ds *RMFDatasource) serveTSFrame(ctx context.Context, sender *backend.Strea
 		return nil
 	}
 	frame.SyncFieldNames(fields, f, r.TimeRange.To)
-	if err := sender.SendFrame(f, data.IncludeAll); err != nil {
+	if err := c.Send(f); err != nil {
 		return err
 	}
 	return nil
+}
+
+func sleepComplete(ctx context.Context, d time.Duration) bool {
+	select {
+	case <-ctx.Done():
+		return false
+	case <-time.After(d):
+		return true
+	}
 }
