@@ -46,6 +46,7 @@ const ContainedPath = "/gpm/contained"
 const PerformPath = "/gpm/perform"
 const XslHeadersPath = "/gpm/include/reptrans.xsl"
 const FullReportPath = "/gpm/rmfm3"
+const TimeSeriesPath = "/gpm/performTimeSeries"
 
 var MayHaveExt = map[string]bool{
 	IndexPath:      true,
@@ -56,6 +57,15 @@ var MayHaveExt = map[string]bool{
 }
 var ErrParse = errors.New("unable to parse DDS response")
 var ErrUnauthorized = errors.New("not authorized to access DDS")
+
+type HTTPStatusError struct {
+	StatusCode int
+	Status     string
+}
+
+func (e *HTTPStatusError) Error() string {
+	return fmt.Sprintf("unexpected HTTP status (%s)", e.Status)
+}
 
 type Client struct {
 	baseUrl    string
@@ -200,7 +210,10 @@ func (c *Client) GetRaw(path string, params ...string) ([]byte, error) {
 			continue
 		} else if response.StatusCode != http.StatusOK {
 			response.Body.Close()
-			return nil, fmt.Errorf("unexpected HTTP status (%s)", response.Status)
+			return nil, &HTTPStatusError{
+				StatusCode: response.StatusCode,
+				Status:     response.Status,
+			}
 		}
 		defer response.Body.Close()
 		return io.ReadAll(response.Body)

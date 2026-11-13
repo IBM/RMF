@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"slices"
+	"sort"
 	"strings"
 	"time"
 
@@ -57,13 +58,17 @@ type FieldInfo struct {
 // values for the field in those frames will be discarded by frontend.
 func SyncFieldNames(seriesFields SeriesFields, frame *data.Frame, frameTime time.Time) {
 	fieldNames := map[string]bool{}
+	frameRows := 1
+	if len(frame.Fields) > 0 {
+		frameRows = frame.Fields[0].Len()
+	}
 	for _, field := range frame.Fields {
 		seriesFields[field.Name] = FieldInfo{Time: frameTime, Labels: field.Labels}
 		fieldNames[field.Name] = true
 	}
 	for key := range seriesFields {
 		if _, ok := fieldNames[key]; !ok {
-			newField := data.NewField(key, seriesFields[key].Labels, []*float64{nil})
+			newField := data.NewField(key, seriesFields[key].Labels, make([]*float64, frameRows))
 			frame.Fields = append(frame.Fields, newField)
 		}
 	}
@@ -101,6 +106,8 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 				field1 = data.NewField(field2.Name, field2.Labels, make([]time.Time, dstLen))
 			case data.FieldTypeNullableFloat64:
 				field1 = data.NewField(field2.Name, field2.Labels, make([]*float64, dstLen))
+			case data.FieldTypeNullableString:
+				field1 = data.NewField(field2.Name, field2.Labels, make([]*string, dstLen))
 			default:
 				return nil, errors.New("unsupported field type")
 			}
@@ -118,6 +125,129 @@ func MergeInto(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
 		}
 	}
 	return dst, nil
+}
+
+// MergeTimeSeries merges two time-series frames using timestamps as unique keys.
+// When both frames contain the same timestamp, non-nil values from src replace
+// corresponding values from dst.
+func MergeTimeSeries(dst *data.Frame, src *data.Frame) (*data.Frame, error) {
+	if dst == nil && src == nil {
+		return nil, nil
+	}
+
+	frames := []*data.Frame{dst, src}
+	fieldTemplates := make(map[string]*data.Field)
+	rows := make(map[time.Time]map[string]any)
+	var fieldOrder []string
+	var timeFieldName string
+	frameName := ""
+
+	for _, frame := range frames {
+		if frame == nil {
+			continue
+		}
+		if frameName == "" {
+			frameName = frame.Name
+		}
+
+		rowCount, err := frame.RowLen()
+		if err != nil {
+			return nil, err
+		}
+
+		var timeField *data.Field
+		for _, field := range frame.Fields {
+			if field.Type() == data.FieldTypeTime {
+				if timeField != nil {
+					return nil, errors.New("frame contains multiple time fields")
+				}
+				timeField = field
+			}
+
+			existing, found := fieldTemplates[field.Name]
+			if found {
+				if existing.Type() != field.Type() {
+					return nil, fmt.Errorf("field %q has conflicting types", field.Name)
+				}
+			} else {
+				fieldTemplates[field.Name] = field
+				fieldOrder = append(fieldOrder, field.Name)
+			}
+		}
+
+		if timeField == nil {
+			return nil, errors.New("frame does not contain a time field")
+		}
+		if timeFieldName != "" && timeFieldName != timeField.Name {
+			return nil, errors.New("frames have different time field names")
+		}
+		timeFieldName = timeField.Name
+
+		for rowIndex := range rowCount {
+			timestamp, ok := timeField.At(rowIndex).(time.Time)
+			if !ok {
+				return nil, fmt.Errorf(
+					"invalid timestamp in field %q at row %d",
+					timeField.Name,
+					rowIndex,
+				)
+			}
+
+			if rows[timestamp] == nil {
+				rows[timestamp] = make(map[string]any)
+			}
+
+			for _, field := range frame.Fields {
+				if field.Name == timeFieldName {
+					continue
+				}
+				value := field.At(rowIndex)
+				if value != nil {
+					rows[timestamp][field.Name] = value
+				}
+			}
+		}
+	}
+
+	timestamps := make([]time.Time, 0, len(rows))
+	for timestamp := range rows {
+		timestamps = append(timestamps, timestamp)
+	}
+	sort.Slice(timestamps, func(i, j int) bool {
+		return timestamps[i].Before(timestamps[j])
+	})
+
+	result := data.NewFrame(frameName)
+	for _, fieldName := range fieldOrder {
+		template := fieldTemplates[fieldName]
+
+		var field *data.Field
+		switch template.Type() {
+		case data.FieldTypeTime:
+			field = data.NewField(fieldName, template.Labels, make([]time.Time, 0, len(timestamps)))
+		case data.FieldTypeNullableFloat64:
+			field = data.NewField(fieldName, template.Labels, make([]*float64, 0, len(timestamps)))
+		case data.FieldTypeNullableString:
+			field = data.NewField(fieldName, template.Labels, make([]*string, 0, len(timestamps)))
+		default:
+			return nil, fmt.Errorf("unsupported field type %s", template.Type())
+		}
+
+		field.SetConfig(template.Config)
+		result.Fields = append(result.Fields, field)
+	}
+
+	for _, timestamp := range timestamps {
+		for _, field := range result.Fields {
+			if field.Name == timeFieldName {
+				field.Append(timestamp)
+			} else {
+				field.Append(rows[timestamp][field.Name])
+			}
+		}
+	}
+
+	return result, nil
 }
 
 func CopyReportField(field *data.Field, length int) *data.Field {
@@ -199,4 +329,79 @@ func getStringAt(field *data.Field, index int) string {
 		}
 	}
 	return value
+}
+
+func GetDuration(f *data.Frame) time.Duration {
+	if f == nil {
+		return 0
+	}
+	if len(f.Fields) == 0 {
+		return 0
+	}
+	timeField := f.Fields[0]
+	if timeField.Type() != data.FieldTypeTime {
+		return 0
+	}
+	var minTime time.Time
+	var maxTime time.Time
+	for i := 0; i < timeField.Len(); i++ {
+		t, ok := timeField.At(i).(time.Time)
+		if ok {
+			if minTime.IsZero() || t.Before(minTime) {
+				minTime = t
+			}
+			if maxTime.IsZero() || t.After(maxTime) {
+				maxTime = t
+			}
+		}
+	}
+	return maxTime.Sub(minTime)
+}
+
+func GetMaxTime(f *data.Frame) time.Time {
+	if f == nil {
+		return time.Time{}
+	}
+	if len(f.Fields) == 0 {
+		return time.Time{}
+	}
+	timeField := f.Fields[0]
+	if timeField.Type() != data.FieldTypeTime {
+		return time.Time{}
+	}
+	var maxTime time.Time
+	for i := 0; i < timeField.Len(); i++ {
+		t, ok := timeField.At(i).(time.Time)
+		if ok {
+			if maxTime.IsZero() || t.After(maxTime) {
+				maxTime = t
+			}
+		}
+	}
+	return maxTime
+}
+
+// ForEachTime iterates over all values of the time field in the frame and
+// passes each index and value into the callback. Returning false from the
+// callback stops the iteration.
+func ForEachTime(f *data.Frame, callback func(index int, t time.Time) bool) {
+	if f == nil || callback == nil {
+		return
+	}
+	if len(f.Fields) == 0 {
+		return
+	}
+	timeField := f.Fields[0]
+	if timeField.Type() != data.FieldTypeTime {
+		return
+	}
+	for i := 0; i < timeField.Len(); i++ {
+		t, ok := timeField.At(i).(time.Time)
+		if !ok {
+			continue
+		}
+		if !callback(i, t) {
+			return
+		}
+	}
 }
